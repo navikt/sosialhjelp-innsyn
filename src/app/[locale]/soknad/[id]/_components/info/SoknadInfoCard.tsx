@@ -23,7 +23,7 @@ const SoknadInfoCard = ({ state }: Props) => {
     switch (state.type) {
         case "sendt":
             return (
-                <Info variant="success" title={t("sendt.title")}>
+                <Info variant="success" title={t("sendt.title")} titleId="sendt-info-card-title">
                     <Behandlingstid>
                         <Behandlingstid.Description navKontor={state.navKontor ?? t("defaultNavKontor")} />
                     </Behandlingstid>
@@ -31,7 +31,7 @@ const SoknadInfoCard = ({ state }: Props) => {
             );
         case "forelopigSvar":
             return (
-                <Info variant="warning" title={t("forelopigSvar.title")}>
+                <Info variant="warning" title={t("forelopigSvar.title")} titleId="forelopig-svar-info-card-title">
                     <Behandlingstid>
                         <Behandlingstid.ForlengetDescription
                             navKontor={state.navKontor ?? t("defaultNavKontor")}
@@ -42,7 +42,7 @@ const SoknadInfoCard = ({ state }: Props) => {
             );
         case "saksbehandlingstid":
             return (
-                <Info variant="info" title={t("mottatt.title")}>
+                <Info variant="info" title={t("mottatt.title")} titleId="mottattt-info-card-title">
                     <Behandlingstid>
                         <Behandlingstid.Description navKontor={state.navKontor ?? t("defaultNavKontor")} />
                     </Behandlingstid>
@@ -50,7 +50,7 @@ const SoknadInfoCard = ({ state }: Props) => {
             );
         case "oppgaver":
             return (
-                <Info variant="warning" title={t("oppgaver.title")}>
+                <Info variant="warning" title={t("oppgaver.title")} titleId="oppgaver-info-card-title">
                     <VStack gap="space-16">
                         <VStack gap="space-4">
                             <BodyLong>
@@ -89,7 +89,7 @@ const SoknadInfoCard = ({ state }: Props) => {
             );
         case "nyttVedtak":
             return (
-                <Info title={t("nyttVedtak.title")} variant="warning">
+                <Info title={t("nyttVedtak.title")} variant="warning" titleId="nytt-vedtak-info-card-title">
                     {t("nyttVedtak.description")}
                 </Info>
             );

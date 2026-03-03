@@ -24,7 +24,7 @@ interface IconProps {
     icon: JSX.Element;
 }
 
-export const Icon = ({ icon }: IconProps) => (
+const Icon = ({ icon }: IconProps) => (
     <VStack
         justify="center"
         align="center"

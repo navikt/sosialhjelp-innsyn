@@ -1,18 +1,15 @@
 "use client";
 
-import { Alert, BodyShort, Box, Button, Heading, HStack, Loader, Skeleton, VStack } from "@navikt/ds-react";
+import { Alert, BodyShort, Box, Heading, HStack, Loader, Skeleton, Tag, VStack } from "@navikt/ds-react";
 import { NavigationGuardProvider } from "next-navigation-guard";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { ChevronDownIcon, FaceSmileIcon } from "@navikt/aksel-icons";
 import React, { use } from "react";
-import { LinkCard } from "@navikt/ds-react/LinkCard";
 import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
 import OpplastingsboksTus from "@components/filopplasting/new/OpplastingsboksTus";
 import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
 import { useFlag } from "@featuretoggles/context";
 import { Metadata } from "@components/filopplasting/new/types";
-import { Icon } from "@components/statusCard/DigisosLinkCard";
 import {
     useGetOppgaverBetaSuspense,
     useGetDokumentasjonkravBetaSuspense,
@@ -24,6 +21,8 @@ import Dokumentasjonkrav from "../saker/dokumentasjonkrav/Dokumentasjonkrav";
 
 import OppgaveTag from "./OppgaveTag";
 import OppgaverReadMore from "./readmore/OppgaverReadMore";
+import ExpandableList from "@components/showmore/ExpandableList";
+import { TasklistIcon } from "@navikt/aksel-icons";
 
 interface Props {
     vilkarPromise?: Promise<VilkarResponse[]>;
@@ -37,118 +36,117 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
     const { data: oppgaver, isFetching } = useGetOppgaverBetaSuspense(id);
     const { data: alleDokumentasjonkrav } = useGetDokumentasjonkravBetaSuspense(id);
     const vilkar = vilkarPromise ? use(vilkarPromise) : [];
-    const [showCompletedOppgaver, setShowCompletedOppgaver] = React.useState(false);
-
-    const fullforteOppgaver = oppgaver.filter((oppgave) => oppgave.erLastetOpp);
-    const hasUncompletedOppgaver = oppgaver.some((oppgave) => !oppgave.erLastetOpp);
 
     if (oppgaver.length === 0) {
         return null;
     }
 
+    const fullforteOppgaver = oppgaver.filter((oppgave) => oppgave.erLastetOpp);
+    const hasUncompletedOppgaver = oppgaver.length - fullforteOppgaver.length > 0;
+    const sortedOppgaver = oppgaver.toSorted((a, b) => {
+        if (a.erLastetOpp === b.erLastetOpp) {
+            return 0;
+        }
+        return a.erLastetOpp ? 1 : -1;
+    });
+
     return (
-        <>
-            <VStack gap="space-16">
-                <HStack justify="space-between" align="center">
-                    <Heading size="medium" level="2">
-                        {t("tittel")}
-                    </Heading>
-                    {isFetching && <Loader />}
-                </HStack>
-                {hasUncompletedOppgaver && <OppgaverReadMore />}
-                {!showCompletedOppgaver && !hasUncompletedOppgaver && (
-                    <LinkCard arrow={false} className="pointer-events-none">
-                        <Icon icon={<FaceSmileIcon aria-hidden />} />
-                        <LinkCard.Title as="h3">{t("ingenOppgaver.tittel")}</LinkCard.Title>
-                        <LinkCard.Description>{t("ingenOppgaver.beskrivelse")}</LinkCard.Description>
-                    </LinkCard>
-                )}
-                <NavigationGuardProvider>
-                    {oppgaver
-                        .filter((oppgave) => showCompletedOppgaver || !oppgave.erLastetOpp)
-                        .map((oppgave) => {
-                            const { typeTekst, tilleggsinfoTekst } = getVisningstekster(
-                                oppgave.dokumenttype,
-                                oppgave.tilleggsinformasjon
-                            );
-                            const metadata: Metadata = {
-                                dokumentKontekst: "dokumentasjonetterspurt",
-                                innsendelsesfrist: oppgave.innsendelsesfrist,
-                                hendelsereferanse: oppgave.hendelsereferanse,
-                                type: oppgave.dokumenttype,
-                                tilleggsinfo: oppgave.tilleggsinformasjon,
-                                hendelsetype: oppgave.hendelsetype,
-                            };
-                            return (
-                                <Box
-                                    key={`${oppgave.oppgaveId}-${oppgave.dokumenttype}-${oppgave.tilleggsinformasjon}`}
-                                    background={oppgave.erLastetOpp ? "neutral-soft" : "warning-soft"}
-                                    padding="space-24"
-                                    borderRadius="12"
-                                    borderColor={oppgave.erLastetOpp ? "warning-subtle" : undefined}
-                                >
-                                    {newUploadEnabled ? (
-                                        <OpplastingsboksTus
-                                            id={oppgave.oppgaveId}
-                                            completed={oppgave.erLastetOpp}
-                                            label={typeTekst}
-                                            description={
-                                                oppgave.erLastetOpp ? (
-                                                    t("lastetOpp", { dato: new Date(oppgave.opplastetDato!) })
-                                                ) : (
-                                                    <BodyShort as="span" lang="no">
-                                                        {tilleggsinfoTekst}
-                                                    </BodyShort>
-                                                )
-                                            }
-                                            tag={
-                                                <OppgaveTag
-                                                    frist={oppgave.innsendelsesfrist}
-                                                    completed={oppgave.erLastetOpp}
-                                                />
-                                            }
-                                            metadata={metadata}
-                                        />
-                                    ) : (
-                                        <Opplastingsboks
-                                            metadata={metadata}
-                                            completed={oppgave.erLastetOpp}
-                                            label={typeTekst}
-                                            description={
-                                                oppgave.erLastetOpp ? (
-                                                    t("lastetOpp", { dato: new Date(oppgave.opplastetDato!) })
-                                                ) : (
-                                                    <BodyShort as="span" lang="no">
-                                                        {tilleggsinfoTekst}
-                                                    </BodyShort>
-                                                )
-                                            }
-                                            tag={
-                                                <OppgaveTag
-                                                    frist={oppgave.innsendelsesfrist}
-                                                    completed={oppgave.erLastetOpp}
-                                                />
-                                            }
-                                        />
-                                    )}
-                                </Box>
-                            );
-                        })}
-                </NavigationGuardProvider>
-                {!showCompletedOppgaver && fullforteOppgaver.length > 0 && (
-                    <Button
-                        onClick={() => setShowCompletedOppgaver(true)}
-                        variant="tertiary"
-                        icon={<ChevronDownIcon aria-hidden />}
-                        className="self-center"
-                    >
-                        {t("visFullforte")} ({fullforteOppgaver.length})
-                    </Button>
-                )}
-                {vilkar.length > 0 && <VilkarListe vilkar={vilkar} />}
-                {alleDokumentasjonkrav.length > 0 && <Dokumentasjonkrav dokumentasjonkrav={alleDokumentasjonkrav} />}
-            </VStack>
-        </>
+        <VStack gap="space-8" as="section" aria-labelledby="oppgaver-tittel">
+            <HStack align="center" gap="space-8">
+                <Heading size="medium" level="2" id="oppgaver-tittel">
+                    {t("tittel")}
+                </Heading>
+                <Tag variant={hasUncompletedOppgaver ? "warning" : "success"} icon={<TasklistIcon aria-hidden />}>
+                    {hasUncompletedOppgaver
+                        ? t("xAvYFullfort", { fullfort: fullforteOppgaver.length, total: oppgaver.length })
+                        : t("alleFullfort")}
+                </Tag>
+                {isFetching && <Loader />}
+            </HStack>
+            {hasUncompletedOppgaver && <OppgaverReadMore />}
+            <NavigationGuardProvider>
+                <ExpandableList
+                    items={sortedOppgaver}
+                    id={"oppgaver"}
+                    showMoreSuffix={t("suffix")}
+                    labelledById="oppgaver-tittel"
+                    itemsLimit={hasUncompletedOppgaver ? 3 : 1}
+                >
+                    {(oppgave, ref) => {
+                        const { typeTekst, tilleggsinfoTekst } = getVisningstekster(
+                            oppgave.dokumenttype,
+                            oppgave.tilleggsinformasjon
+                        );
+                        const metadata: Metadata = {
+                            dokumentKontekst: "dokumentasjonetterspurt",
+                            innsendelsesfrist: oppgave.innsendelsesfrist,
+                            hendelsereferanse: oppgave.hendelsereferanse,
+                            type: oppgave.dokumenttype,
+                            tilleggsinfo: oppgave.tilleggsinformasjon,
+                            hendelsetype: oppgave.hendelsetype,
+                        };
+                        return (
+                            <Box
+                                as="li"
+                                ref={ref}
+                                key={`${oppgave.oppgaveId}-${oppgave.dokumenttype}-${oppgave.tilleggsinformasjon}`}
+                                background={oppgave.erLastetOpp ? "neutral-soft" : "warning-soft"}
+                                padding="space-24"
+                                borderRadius="12"
+                                borderColor={oppgave.erLastetOpp ? "warning-subtle" : undefined}
+                            >
+                                {newUploadEnabled ? (
+                                    <OpplastingsboksTus
+                                        id={oppgave.oppgaveId}
+                                        completed={oppgave.erLastetOpp}
+                                        label={typeTekst}
+                                        description={
+                                            oppgave.erLastetOpp ? (
+                                                t("lastetOpp", { dato: new Date(oppgave.opplastetDato!) })
+                                            ) : (
+                                                <BodyShort as="span" lang="no">
+                                                    {tilleggsinfoTekst}
+                                                </BodyShort>
+                                            )
+                                        }
+                                        tag={
+                                            <OppgaveTag
+                                                frist={oppgave.innsendelsesfrist}
+                                                completed={oppgave.erLastetOpp}
+                                            />
+                                        }
+                                        metadata={metadata}
+                                    />
+                                ) : (
+                                    <Opplastingsboks
+                                        metadata={metadata}
+                                        completed={oppgave.erLastetOpp}
+                                        label={typeTekst}
+                                        description={
+                                            oppgave.erLastetOpp ? (
+                                                t("lastetOpp", { dato: new Date(oppgave.opplastetDato!) })
+                                            ) : (
+                                                <BodyShort as="span" lang="no">
+                                                    {tilleggsinfoTekst}
+                                                </BodyShort>
+                                            )
+                                        }
+                                        tag={
+                                            <OppgaveTag
+                                                frist={oppgave.innsendelsesfrist}
+                                                completed={oppgave.erLastetOpp}
+                                            />
+                                        }
+                                    />
+                                )}
+                            </Box>
+                        );
+                    }}
+                </ExpandableList>
+            </NavigationGuardProvider>
+            {vilkar.length > 0 && <VilkarListe vilkar={vilkar} />}
+            {alleDokumentasjonkrav.length > 0 && <Dokumentasjonkrav dokumentasjonkrav={alleDokumentasjonkrav} />}
+        </VStack>
     );
 };
 
