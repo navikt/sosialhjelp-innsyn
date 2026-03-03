@@ -119,6 +119,9 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                             {tag}
                         </HStack>
                     }
+                    description={
+                        <HStack justify="space-between">{description ? <BodyLong>{description}</BodyLong> : ""}</HStack>
+                    }
                     tag={tag}
                     buttonText={t("Opplastingsboks.lastOppFiler")}
                     onSelect={onFilesSelect}

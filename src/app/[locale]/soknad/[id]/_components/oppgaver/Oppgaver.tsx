@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, BodyShort, Box, Heading, HStack, Loader, Skeleton, Tag, VStack } from "@navikt/ds-react";
+import { Alert, Box, Heading, HStack, Loader, Skeleton, Tag, VStack } from "@navikt/ds-react";
 import { NavigationGuardProvider } from "next-navigation-guard";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -101,15 +101,7 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                                         id={oppgave.oppgaveId}
                                         completed={oppgave.erLastetOpp}
                                         label={typeTekst}
-                                        description={
-                                            oppgave.erLastetOpp ? (
-                                                t("lastetOpp", { dato: new Date(oppgave.opplastetDato!) })
-                                            ) : (
-                                                <BodyShort as="span" lang="no">
-                                                    {tilleggsinfoTekst}
-                                                </BodyShort>
-                                            )
-                                        }
+                                        description={tilleggsinfoTekst}
                                         tag={
                                             <OppgaveTag
                                                 frist={oppgave.innsendelsesfrist}
@@ -123,15 +115,7 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                                         metadata={metadata}
                                         completed={oppgave.erLastetOpp}
                                         label={typeTekst}
-                                        description={
-                                            oppgave.erLastetOpp ? (
-                                                t("lastetOpp", { dato: new Date(oppgave.opplastetDato!) })
-                                            ) : (
-                                                <BodyShort as="span" lang="no">
-                                                    {tilleggsinfoTekst}
-                                                </BodyShort>
-                                            )
-                                        }
+                                        description={tilleggsinfoTekst}
                                         tag={
                                             <OppgaveTag
                                                 frist={oppgave.innsendelsesfrist}
