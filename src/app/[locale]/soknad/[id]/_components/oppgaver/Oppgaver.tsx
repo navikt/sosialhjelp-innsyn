@@ -93,7 +93,8 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                                 background={oppgave.erLastetOpp ? "neutral-soft" : "warning-soft"}
                                 padding="space-24"
                                 borderRadius="12"
-                                borderColor={oppgave.erLastetOpp ? "warning-subtle" : undefined}
+                                borderWidth="1"
+                                borderColor={oppgave.erLastetOpp ? "neutral-subtle" : "warning-subtle"}
                             >
                                 {newUploadEnabled ? (
                                     <OpplastingsboksTus
