@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { VStack } from "@navikt/ds-react";
 
 import useShowMore, { ITEMS_LIMIT } from "@components/showmore/useShowMore";
@@ -11,6 +11,7 @@ interface Props<T> {
     showMoreSuffix: string;
     labelledById: string;
     itemsLimit?: number;
+    forceShowAll?: boolean;
 }
 
 const ExpandableList = <T,>({
@@ -20,9 +21,14 @@ const ExpandableList = <T,>({
     id,
     showMoreSuffix,
     labelledById,
+    forceShowAll,
 }: Props<T>): React.JSX.Element => {
     const showMore = useShowMore(items, itemsLimit);
-    const { hasMore, showAll } = showMore;
+    const { hasMore, showAll, setShowAll } = showMore;
+
+    useEffect(() => {
+        if (forceShowAll) setShowAll(true);
+    }, [forceShowAll, setShowAll]);
     const firstExpandedItemRef = useRef<HTMLLIElement>(null);
     const visibleItems = showAll ? items : items.slice(0, itemsLimit);
 

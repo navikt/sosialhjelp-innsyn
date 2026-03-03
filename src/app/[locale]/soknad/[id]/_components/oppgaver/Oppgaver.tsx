@@ -4,7 +4,7 @@ import { Alert, BodyShort, Box, Heading, HStack, Loader, Skeleton, Tag, VStack }
 import { NavigationGuardProvider } from "next-navigation-guard";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import React, { use } from "react";
+import React, { use, useEffect, useState } from "react";
 import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
 import OpplastingsboksTus from "@components/filopplasting/new/OpplastingsboksTus";
 import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
@@ -36,19 +36,57 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
     const { data: oppgaver, isFetching } = useGetOppgaverBetaSuspense(id);
     const { data: alleDokumentasjonkrav } = useGetDokumentasjonkravBetaSuspense(id);
     const vilkar = vilkarPromise ? use(vilkarPromise) : [];
-
-    if (oppgaver.length === 0) {
-        return null;
-    }
-
-    const fullforteOppgaver = oppgaver.filter((oppgave) => oppgave.erLastetOpp);
-    const hasUncompletedOppgaver = oppgaver.length - fullforteOppgaver.length > 0;
+    const [forceExpand, setForceExpand] = useState(false);
+    const [highlightedId, setHighlightedId] = useState<string | null>(null);
     const sortedOppgaver = oppgaver.toSorted((a, b) => {
         if (a.erLastetOpp === b.erLastetOpp) {
             return 0;
         }
         return a.erLastetOpp ? 1 : -1;
     });
+    const fullforteOppgaver = oppgaver.filter((oppgave) => oppgave.erLastetOpp);
+    const hasUncompletedOppgaver = oppgaver.length - fullforteOppgaver.length > 0;
+    const itemsLimit = hasUncompletedOppgaver ? 3 : 1;
+
+    useEffect(() => {
+        const expand = () => {
+            const hash = window.location.hash.slice(1);
+            if (!hash) return;
+            const targetIndex = sortedOppgaver.findIndex((o) => o.oppgaveId === hash);
+            if (targetIndex >= itemsLimit) {
+                setForceExpand(true);
+            } else if (targetIndex >= 0) {
+                setTimeout(() => {
+                    requestAnimationFrame(() => {
+                        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "center" });
+                        setHighlightedId(hash);
+                        setTimeout(() => setHighlightedId(null), 1800);
+                    });
+                }, 50);
+            }
+        };
+
+        expand();
+        window.addEventListener("hashchange", expand);
+        return () => window.removeEventListener("hashchange", expand);
+    }, [itemsLimit, sortedOppgaver]);
+
+    useEffect(() => {
+        if (!forceExpand) return;
+        const hash = window.location.hash.slice(1);
+        if (!hash) return;
+        setTimeout(() => {
+            requestAnimationFrame(() => {
+                document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "center" });
+                setHighlightedId(hash);
+                setTimeout(() => setHighlightedId(null), 1800);
+            });
+        }, 50);
+    }, [forceExpand]);
+
+    if (oppgaver.length === 0) {
+        return null;
+    }
 
     return (
         <VStack gap="space-8" as="section" aria-labelledby="oppgaver-tittel">
@@ -71,6 +109,7 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                     showMoreSuffix={t("suffix")}
                     labelledById="oppgaver-tittel"
                     itemsLimit={hasUncompletedOppgaver ? 3 : 1}
+                    forceShowAll={forceExpand}
                 >
                     {(oppgave, ref) => {
                         const { typeTekst, tilleggsinfoTekst } = getVisningstekster(
@@ -88,12 +127,14 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                         return (
                             <Box
                                 as="li"
+                                id={oppgave.oppgaveId}
                                 ref={ref}
                                 key={`${oppgave.oppgaveId}-${oppgave.dokumenttype}-${oppgave.tilleggsinformasjon}`}
                                 background={oppgave.erLastetOpp ? "neutral-soft" : "warning-soft"}
                                 padding="space-24"
                                 borderRadius="12"
                                 borderColor={oppgave.erLastetOpp ? "warning-subtle" : undefined}
+                                className={highlightedId === oppgave.oppgaveId ? "scroll-highlight" : undefined}
                             >
                                 {newUploadEnabled ? (
                                     <OpplastingsboksTus

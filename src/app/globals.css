@@ -13,6 +13,26 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+@keyframes scroll-highlight {
+    0%,
+    100% {
+        outline: 3px solid transparent;
+        outline-offset: 2px;
+    }
+    20% {
+        outline: 3px solid var(--ax-border-focus);
+        outline-offset: 2px;
+    }
+    80% {
+        outline: 3px solid var(--ax-border-focus);
+        outline-offset: 2px;
+    }
+}
+
+.scroll-highlight {
+    animation: scroll-highlight 1.8s ease-in-out;
+}
+
 /*
  * "Hack" for å skjule tallet i Stepper (søknadsoversikt)
  * TODO: Fjern når Progress-komponenten er på plass i aksel

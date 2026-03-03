@@ -2,7 +2,7 @@
 
 import Info from "./Info";
 import Behandlingstid from "./Behandlingstid";
-import { BodyLong, BodyShort, List, VStack } from "@navikt/ds-react";
+import { BodyLong, BodyShort, Link, List, VStack } from "@navikt/ds-react";
 import { ListItem } from "@navikt/ds-react/List";
 import { useTranslations } from "next-intl";
 import React from "react";
@@ -10,7 +10,7 @@ import React from "react";
 type AlertState =
     | { type: "sendt"; navKontor?: string }
     | { type: "saksbehandlingstid"; navKontor?: string }
-    | { type: "oppgaver"; oppgaver: { name: string; frist?: Date }[]; navKontor?: string }
+    | { type: "oppgaver"; oppgaver: { id: string; name: string; frist?: Date }[]; navKontor?: string }
     | { type: "nyttVedtak" }
     | { type: "forelopigSvar"; navKontor?: string; forelopigSvarUrl?: string };
 
@@ -64,21 +64,21 @@ const SoknadInfoCard = ({ state }: Props) => {
                                 })}
                             </BodyLong>
                             <List>
-                                {state.oppgaver.map(({ name, frist }, index) => (
+                                {state.oppgaver.map(({ id, name, frist }, index) => (
                                     <ListItem key={`${name}-${index}`}>
-                                        {frist ? (
-                                            t.rich("oppgaver.oppgave", {
-                                                bold: (chunks) => (
-                                                    <BodyShort as="span" weight="semibold">
-                                                        {chunks}
-                                                    </BodyShort>
-                                                ),
-                                                name,
-                                                frist: new Date(frist),
-                                            })
-                                        ) : (
-                                            <BodyShort weight="semibold">{name}</BodyShort>
-                                        )}
+                                        <Link href={`#${id}`}>
+                                            {frist
+                                                ? t.rich("oppgaver.oppgave", {
+                                                      bold: (chunks) => (
+                                                          <BodyShort as="span" weight="semibold">
+                                                              {chunks}
+                                                          </BodyShort>
+                                                      ),
+                                                      name,
+                                                      frist: new Date(frist),
+                                                  })
+                                                : name}
+                                        </Link>
                                     </ListItem>
                                 ))}
                             </List>
