@@ -14,13 +14,14 @@ import { hentKlager, prefetchHentKlagerQuery } from "@generated/ssr/klage-contro
 import {
     prefetchGetDokumentasjonkravBetaQuery,
     prefetchGetOppgaverBetaQuery,
-    getVilkar,
+    prefetchGetVilkarQuery,
 } from "@generated/ssr/oppgave-controller-v-2/oppgave-controller-v-2";
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 
 import Oversikt from "./oversikt/Oversikt";
 import Filopplasting, { FilopplastingSkeleton } from "./dokumenter/Filopplasting";
 import Oppgaver, { OppgaverSkeleton } from "./oppgaver/Oppgaver";
+import VilkarListe from "./vilkar/VilkarListe";
 import Saker from "./saker/Saker";
 import ForelopigSvar from "./forelopigsvar/ForelopigSvar";
 import Snarveier from "@components/snarveier/Snarveier";
@@ -55,10 +56,10 @@ export const Soknad = async ({ id }: Props) => {
     prefetchHentOriginalSoknadQuery(vedleggQueryClient, id);
     prefetchGetOppgaverBetaQuery(oppgaverQueryClient, id);
     prefetchGetDokumentasjonkravBetaQuery(dokumentasjonkravQueryClient, id);
+    prefetchGetVilkarQuery(dokumentasjonkravQueryClient, id);
     prefetchHentKlagerQuery(klageQueryClient, id, { query: { enabled: !mottattOrSendt } });
     prefetchGetSaksDetaljerQuery(saksdetaljerQueryClient, id);
     const forelopigSvarPromise = !ferdigbehandlet && hentForelopigSvarStatus(id);
-    const vilkarPromise = getVilkar(id);
     const sakerPromise = !mottattOrSendt && hentSaksStatuser(id);
     const klagerPromise = !mottattOrSendt && hentKlager(id);
 
@@ -90,9 +91,12 @@ export const Soknad = async ({ id }: Props) => {
             )}
             <Suspense fallback={<OppgaverSkeleton />}>
                 <HydrationBoundary state={dehydrate(oppgaverQueryClient)}>
-                    <HydrationBoundary state={dehydrate(dokumentasjonkravQueryClient)}>
-                        <Oppgaver vilkarPromise={vilkarPromise} />
-                    </HydrationBoundary>
+                    <Oppgaver />
+                </HydrationBoundary>
+            </Suspense>
+            <Suspense fallback={null}>
+                <HydrationBoundary state={dehydrate(dokumentasjonkravQueryClient)}>
+                    <VilkarListe />
                 </HydrationBoundary>
             </Suspense>
             <Suspense fallback={<FilopplastingSkeleton />}>

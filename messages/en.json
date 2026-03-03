@@ -37,12 +37,6 @@
             "beskrivelse2": "If the condition is not met, Nav may make a new decision to reduce your social assistance, but this must be stated in your decision. <link>Read more about conditions here</link>."
         }
     },
-    "Dokumentasjonkrav": {
-        "tittel": "Documentation requirements",
-        "beskrivelse": "Nav may ask you to submit documents that provide information about your case in connection with your application. This could be, for example, a rental contract or electricity bill. You can submit the documents digitally or physically at the Nav office.",
-        "frist": "Due: {frist, date, ::ddMMyyyy}",
-        "løst": "Submitted"
-    },
     "Behandlingstid": {
         "Description": {
             "normal": "<norsk>{navKontor}</norsk> will process your case as soon as possible.",
@@ -884,5 +878,27 @@
         "nettsidesBody": "If you need to send documentation from another website, you can download the document first if possible. For example, the tax return and decisions from Lånekassen are available for download as PDF. You should avoid taking a photo of the PC screen with a camera.",
         "lesbarHeading": "Make sure the documentation you send can be read",
         "lesbarBody": "It is important that you check that the documentation you upload is complete and legible. If the document is difficult to read, you may be asked to resend it."
+    },
+    "VilkarReadMore": {
+        "header": "How do conditions work?",
+        "beskrivelse": "Conditions can be used if they help you to support yourself in a way other than through financial social assistance. When conditions are set, they should help you get out of a difficult life situation. As a general rule, the condition should be set in cooperation with you.",
+        "beskrivelse2": "If the condition is not met, Nav may make a new decision to reduce your social assistance, but this must be stated in your decision. <lenke>Read more about conditions here</lenke>."
+    },
+    "DokKravReadMore": {
+        "header": "Do you need help sending documentation?",
+        "feilFormatHeading": "Are we not accepting the document you are trying to submit?",
+        "feilFormatBody": "You may want to check whether the document is under 10 MB or is password protected.",
+        "papirHeading": "Documentation you have on paper",
+        "papirBody": "If you have documentation on paper, you can scan it and send it digitally. Scanning the documentation improves the quality, making it easier to read.",
+        "nettsidesHeading": "Documentation from other websites",
+        "nettsidesBody": "If you need to send documentation from another website, you can download the document first if possible. For example, the tax return and decisions from Lånekassen are available for download as PDF. You should avoid taking a photo of the PC screen with a camera.",
+        "lesbarHeading": "Make sure the documentation you send can be read",
+        "lesbarBody": "It is important that you check that the documentation you upload is complete and legible. If the document is difficult to read, you may be asked to resend it."
+    },
+    "Dokumentasjonkrav": {
+        "tittel": "Documentation requirements",
+        "beskrivelse": "Nav may ask you to submit documents that provide information about your case in connection with your application. This could be, for example, a rental contract or electricity bill. You can submit the documents digitally or physically at the Nav office.",
+        "frist": "Due: {frist, date, ::ddMMyyyy}",
+        "løst": "Submitted"
     }
 }
