@@ -63,7 +63,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
 
     if (completed) {
         return (
-            <VStack gap="space-40">
+            <VStack>
                 <Box>
                     <HStack align="center" justify="space-between">
                         {label ? (
@@ -79,21 +79,29 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                     </HStack>
                     <BodyLong>{description ?? t("Opplastingsboks.beskrivelse")}</BodyLong>
                 </Box>
-                {metadata.hendelsereferanse && (
-                    <VedleggListe
-                        vedlegg={[]}
-                        oppgaveId={metadata.hendelsereferanse}
-                        labelledById={`oppgave-vedlegg-${metadata.hendelsereferanse}`}
-                        oppgaveBeskrivelse={label}
-                    />
-                )}
-                <div ref={feedbackRef} tabIndex={-1} className={isUploadSuccess ? "" : "-mb-10"}>
-                    {isUploadSuccess && (
-                        <Alert role="alert" aria-live="assertive" closeButton onClose={resetMutation} variant="success">
-                            {t("common.vedlegg.suksess")}
-                        </Alert>
+                <VStack gap="space-24">
+                    {metadata.hendelsereferanse && (
+                        <VedleggListe
+                            vedlegg={[]}
+                            oppgaveId={metadata.hendelsereferanse}
+                            labelledById={`oppgave-vedlegg-${metadata.hendelsereferanse}`}
+                            oppgaveBeskrivelse={label}
+                        />
                     )}
-                </div>
+                    <div ref={feedbackRef} tabIndex={-1} className={isUploadSuccess ? "" : "-mb-10"}>
+                        {isUploadSuccess && (
+                            <Alert
+                                role="alert"
+                                aria-live="assertive"
+                                closeButton
+                                onClose={resetMutation}
+                                variant="success"
+                            >
+                                {t("common.vedlegg.suksess")}
+                            </Alert>
+                        )}
+                    </div>
+                </VStack>
             </VStack>
         );
     }
