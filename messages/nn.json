@@ -249,7 +249,7 @@
         "utbetalingStoppet": "Blir ikkje utbetalt"
     },
     "AktiveSoknader": {
-        "tittel": "Aktive saker",
+        "tittel": "Aktive søknader",
         "EmptyState": {
             "tittel": "Vi finn ingen søknader frå deg",
             "beskrivelse": "Dette kan vere fordi kommunen din ikkje kan vise søknader sendt på papir, eller at søknaden din er eldre enn 15 månader."

@@ -248,7 +248,7 @@
         "utbetalingStoppet": "Payment stopped"
     },
     "AktiveSoknader": {
-        "tittel": "Active cases",
+        "tittel": "Active applications",
         "EmptyState": {
             "tittel": "We can't find any applications from you",
             "beskrivelse": "This can be because your municipality cannot show applications submitted on paper, or your application is older than 15 months."
