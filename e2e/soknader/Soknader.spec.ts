@@ -83,12 +83,12 @@ test.describe("Soknader page - application categorization", () => {
         // Wait for the page to load
         await expect(page.getByRole("heading", { name: "Søknader", level: 1 })).toBeVisible();
 
-        const activeSoknaderHeading = page.getByRole("heading", { name: "Aktive saker", level: 2 });
+        const activeSoknaderHeading = page.getByRole("heading", { name: "Aktive søknader", level: 2 });
         await expect(activeSoknaderHeading).toBeVisible();
 
         await expect(page.getByText("Recent Application")).toBeVisible();
 
-        const tidligereSoknaderHeading = page.getByRole("heading", { name: "Tidligere saker", level: 2 });
+        const tidligereSoknaderHeading = page.getByRole("heading", { name: "Tidligere søknader", level: 2 });
         await expect(tidligereSoknaderHeading).toBeVisible();
 
         await expect(page.getByText("Old Application")).toBeVisible();
@@ -136,11 +136,11 @@ test.describe("Soknader page - application categorization", () => {
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
         await expect(page.getByRole("heading", { name: "Søknader", level: 1 })).toBeVisible();
 
-        await expect(page.getByRole("heading", { name: "Aktive saker", level: 2 })).toBeVisible();
+        await expect(page.getByRole("heading", { name: "Aktive søknader", level: 2 })).toBeVisible();
 
         await expect(page.getByText("Recent Finished Application")).toBeVisible();
 
-        await expect(page.getByRole("heading", { name: "Tidligere saker", level: 2 })).not.toBeVisible();
+        await expect(page.getByRole("heading", { name: "Tidligere søknader", level: 2 })).not.toBeVisible();
     });
 
     test("should show only Earlier applications when all applications are old and finished", async ({
@@ -207,11 +207,11 @@ test.describe("Soknader page - application categorization", () => {
 
         await expect(page.getByRole("heading", { name: "Søknader", level: 1 })).toBeVisible();
 
-        await expect(page.getByRole("heading", { name: "Tidligere saker", level: 2 })).toBeVisible();
+        await expect(page.getByRole("heading", { name: "Tidligere søknader", level: 2 })).toBeVisible();
         await expect(page.getByText("Old Application 1")).toBeVisible();
         await expect(page.getByText("Old Application 2")).toBeVisible();
 
-        await expect(page.getByRole("heading", { name: "Aktive saker", level: 2 })).not.toBeVisible();
+        await expect(page.getByRole("heading", { name: "Aktive søknader", level: 2 })).not.toBeVisible();
     });
 
     test("applications with status other than FERDIGBEHANDLET should always be in Active applications", async ({
@@ -255,10 +255,10 @@ test.describe("Soknader page - application categorization", () => {
 
         await expect(page.getByRole("heading", { name: "Søknader", level: 1 })).toBeVisible();
 
-        await expect(page.getByRole("heading", { name: "Aktive saker", level: 2 })).toBeVisible();
+        await expect(page.getByRole("heading", { name: "Aktive søknader", level: 2 })).toBeVisible();
         await expect(page.getByText("Old But Still Active Application")).toBeVisible();
 
-        await expect(page.getByRole("heading", { name: "Tidligere saker", level: 2 })).not.toBeVisible();
+        await expect(page.getByRole("heading", { name: "Tidligere søknader", level: 2 })).not.toBeVisible();
     });
 
     test("Application which is ferdigbehandlet and older than 3 weeks, but has upcoming dokumentasjonkrav should be active", async ({
@@ -299,7 +299,7 @@ test.describe("Soknader page - application categorization", () => {
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
 
-        const aktiveSaker = page.getByRole("list", { name: "Aktive saker" });
+        const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
         await expect(aktiveSaker).toBeVisible();
         await expect(aktiveSaker.getByText("Old But Still Active Application")).toBeVisible();
     });
@@ -342,10 +342,10 @@ test.describe("Soknader page - application categorization", () => {
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
 
-        const aktiveSaker = page.getByRole("list", { name: "Aktive saker" });
+        const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
         await expect(aktiveSaker).not.toBeVisible();
 
-        const tidligereSaker = page.getByRole("list", { name: "Tidligere saker" });
+        const tidligereSaker = page.getByRole("list", { name: "Tidligere søknader" });
         await expect(tidligereSaker).toBeVisible();
         await expect(tidligereSaker.getByText("Dette er en tittel")).toBeVisible();
     });
@@ -383,10 +383,10 @@ test.describe("Soknader page - application categorization", () => {
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
 
-        const aktiveSaker = page.getByRole("list", { name: "Aktive saker" });
+        const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
         await expect(aktiveSaker).not.toBeVisible();
 
-        const tidligereSaker = page.getByRole("list", { name: "Tidligere saker" });
+        const tidligereSaker = page.getByRole("list", { name: "Tidligere søknader" });
         await expect(tidligereSaker).toBeVisible();
 
         await expect(page.getByText("Vi finner ingen søknader fra deg")).not.toBeVisible();
@@ -408,7 +408,7 @@ test.describe("Soknader page - application categorization", () => {
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
 
-        const aktiveSaker = page.getByRole("list", { name: "Aktive saker" });
+        const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
         await expect(aktiveSaker).toBeVisible();
         await expect(page.getByText(/Utkast/).first()).toBeVisible();
         await expect(page.getByText(/Beholdes frem til/).first()).toBeVisible();
@@ -434,7 +434,7 @@ test.describe("Soknader page - application categorization", () => {
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
 
-        const tidligereSaker = page.getByRole("list", { name: "Tidligere saker" });
+        const tidligereSaker = page.getByRole("list", { name: "Tidligere søknader" });
         await expect(tidligereSaker).toBeVisible();
         await expect(page.getByText(/Behandles ikke/).first()).toBeVisible();
     });
@@ -800,7 +800,7 @@ test.describe("SoknadCard rendering logic", () => {
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
 
-        const aktiveSaker = page.getByRole("list", { name: "Aktive saker" });
+        const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
         await expect(aktiveSaker).toBeVisible();
         await expect(page.getByText(/Behandles ikke/).first()).toBeVisible();
         await expect(page.getByText(/Ferdigbehandlet/).first()).toBeVisible();
@@ -928,7 +928,7 @@ test.describe("Sorting", () => {
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
 
-        const aktiveSaker = page.getByRole("list", { name: "Aktive saker" });
+        const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
         await expect(aktiveSaker).toBeVisible();
 
         // Get all application links in order
