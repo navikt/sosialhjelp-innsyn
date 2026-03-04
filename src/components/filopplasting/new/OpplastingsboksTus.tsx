@@ -54,6 +54,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
                         vedlegg={[]}
                         oppgaveId={metadata.hendelsereferanse}
                         labelledById={`oppgave-vedlegg-${metadata.hendelsereferanse}`}
+                        oppgaveBeskrivelse={label}
                     />
                 )}
                 {isUploadSuccess && (

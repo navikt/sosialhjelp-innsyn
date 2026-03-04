@@ -84,6 +84,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                         vedlegg={[]}
                         oppgaveId={metadata.hendelsereferanse}
                         labelledById={`oppgave-vedlegg-${metadata.hendelsereferanse}`}
+                        oppgaveBeskrivelse={label}
                     />
                 )}
                 <div ref={feedbackRef} tabIndex={-1} className={isUploadSuccess ? "" : "-mb-10"}>

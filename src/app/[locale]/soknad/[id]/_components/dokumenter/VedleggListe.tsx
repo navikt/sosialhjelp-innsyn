@@ -11,15 +11,17 @@ import useIsMobile from "@utils/useIsMobile";
 import ExpandableList from "@components/showmore/ExpandableList";
 import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 import { useParams } from "next/navigation";
+import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
 
 interface Props {
     vedlegg: VedleggResponse[];
     originalSoknad?: OriginalSoknadDto;
     labelledById: string;
     oppgaveId?: string;
+    oppgaveBeskrivelse?: string;
 }
 
-const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveId }: Props) => {
+const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveId, oppgaveBeskrivelse }: Props) => {
     const t = useTranslations("VedleggListe");
     const { id: fiksDigisosId } = useParams<{ id: string }>();
 
@@ -69,7 +71,10 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveId }: Prop
                                 cardIcon="external-link"
                                 dataColor="accent"
                                 description={
-                                    <BodyShort>{t.rich("sendt", { dato: new Date(fil.datoLagtTil) })}</BodyShort>
+                                    <BodyShort>
+                                        {getVisningstekster(fil.type, fil.tilleggsinfo).typeTekst} (
+                                        {t("sendt", { dato: new Date(fil.datoLagtTil) })})
+                                    </BodyShort>
                                 }
                             >
                                 {fil.filnavn}
@@ -93,7 +98,9 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveId }: Prop
                                 cardIcon="external-link"
                                 dataColor="accent"
                                 description={
-                                    <BodyShort>{t.rich("sendt", { dato: new Date(fil.tidspunktLastetOpp) })}</BodyShort>
+                                    <BodyShort>
+                                        {oppgaveBeskrivelse} ({t("sendt", { dato: new Date(fil.tidspunktLastetOpp) })})
+                                    </BodyShort>
                                 }
                             >
                                 {fil.filnavn}
