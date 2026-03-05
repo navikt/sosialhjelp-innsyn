@@ -132,6 +132,8 @@
     },
     "Oppgaver": {
         "tittel": "Tasks",
+        "missingInformationTitle": "We are missing some information for your application",
+        "missingInformationDescription": "Here you can see which information you did not submit with your application. We recommend that you submit the information as soon as possible. If you have delivered the information directly to your local Nav office, you can disregard this message.",
         "suffix": "tasks",
         "visFullforte": "Show completed tasks",
         "lastetOpp": "Submitted {dato, date, ::ddMMyyyy}",
