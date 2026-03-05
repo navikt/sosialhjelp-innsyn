@@ -72,8 +72,10 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveId, oppgav
                                 dataColor="accent"
                                 description={
                                     <BodyShort>
-                                        {getVisningstekster(fil.type, fil.tilleggsinfo).typeTekst} (
-                                        {t("sendt", { dato: new Date(fil.datoLagtTil) })})
+                                        {fil.type === "annet" && fil.tilleggsinfo === "annet"
+                                            ? t("ettersendt")
+                                            : getVisningstekster(fil.type, fil.tilleggsinfo).typeTekst}{" "}
+                                        ({t("sendt", { dato: new Date(fil.datoLagtTil) })})
                                     </BodyShort>
                                 }
                             >

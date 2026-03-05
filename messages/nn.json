@@ -228,6 +228,7 @@
         "lastetOpp": "lasta opp {dato, date, ::ddMMyyyy}",
         "soknadFilename": "Søknad om økonomisk sosialhjelp",
         "sendt": "Sendt {dato, date, ::ddMMyyyy}",
+        "ettersendt": "Ettersendt dokumentasjon",
         "visFlereDokumenter": "dokument"
     },
     "Metadata": {

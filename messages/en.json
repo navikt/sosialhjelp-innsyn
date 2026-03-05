@@ -227,6 +227,7 @@
         "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}",
         "soknadFilename": "Application for financial assistance",
         "sendt": "Sent {dato, date, ::ddMMyyyy}",
+        "ettersendt": "Submitted documentation",
         "visFlereDokumenter": "documents"
     },
     "Metadata": {
