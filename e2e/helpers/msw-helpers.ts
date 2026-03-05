@@ -1,10 +1,13 @@
 import { APIRequestContext } from "@playwright/test";
+import * as R from "remeda";
+import { max, formatISO } from "date-fns";
 import {
     type DokumentasjonkravDto,
     HendelseDto,
     KlageDto,
     OppgaveResponseBeta,
     OriginalSoknadDto,
+    SaksDetaljerResponse,
     SaksStatusResponse,
     SoknadsStatusResponse,
     VilkarResponse,
@@ -74,6 +77,7 @@ export function createMswHelper(request: APIRequestContext, baseURL: string): Ms
     return new MswHelper(request, baseURL);
 }
 
+const defaultTittel = "Søknad om økonomisk sosialhjelp";
 export async function mockSoknadEndpoints(
     msw: MswHelper,
     soknadId: string,
@@ -88,6 +92,7 @@ export async function mockSoknadEndpoints(
         saksStatus?: SaksStatusResponse[];
         klager?: KlageDto[];
         hendelser?: HendelseDto[];
+        detaljer?: SaksDetaljerResponse;
     }
 ) {
     const defaultSoknadsStatus: SoknadsStatusResponse = {
@@ -96,7 +101,7 @@ export async function mockSoknadEndpoints(
         tidspunktSendt: "2025-11-15T10:00:00Z",
         soknadsalderIMinutter: 1000,
         navKontor: "NAV Oslo",
-        tittel: "Søknad om økonomisk sosialhjelp",
+        tittel: defaultTittel,
         ...overrides?.soknadsStatus,
     };
 
@@ -113,6 +118,34 @@ export async function mockSoknadEndpoints(
         ...overrides?.forelopigSvar,
     };
 
+    const defaultDetaljer: SaksDetaljerResponse = {
+        fiksDigisosId: soknadId,
+        saker:
+            overrides?.saksStatus?.map((it) => ({
+                status: it.status ?? "UNDER_BEHANDLING",
+                antallVedtak: it.vedtak.length,
+            })) ?? [],
+        vilkar: (overrides?.vilkar?.length ?? 0) > 0,
+        dokumentasjonkrav: (overrides?.dokumentasjonkrav?.length ?? 0) > 0,
+        sisteDokumentasjonKravFrist:
+            overrides?.dokumentasjonkrav &&
+            R.pipe(
+                overrides?.dokumentasjonkrav,
+                R.map(R.prop("frist")),
+                R.filter(R.isNonNullish),
+                R.map((it) => new Date(it)),
+                R.conditional([R.isEmpty, R.constant(undefined)], (dates) => R.pipe(dates, max, formatISO))
+            ),
+        soknadTittel: overrides?.detaljer?.soknadTittel ?? defaultTittel,
+        status: overrides?.detaljer?.status ?? "UNDER_BEHANDLING",
+        dokumentasjonEtterspurt:
+            (overrides?.oppgaver?.filter((oppgave) => oppgave.hendelsetype === "dokumentasjonEtterspurt").length ?? 0) >
+            0,
+        sistOppdatert: overrides?.detaljer?.sistOppdatert ?? new Date().toISOString(),
+        forelopigSvar: overrides?.detaljer?.forelopigSvar ?? { harMottattForelopigSvar: false },
+        ...overrides?.detaljer,
+    };
+
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/soknadsStatus`, defaultSoknadsStatus);
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/vedlegg`, overrides?.vedlegg ?? []);
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/originalSoknad`, defaultOriginalSoknad);
@@ -123,4 +156,5 @@ export async function mockSoknadEndpoints(
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/saksStatus`, overrides?.saksStatus ?? []);
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/klager`, overrides?.klager ?? []);
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/hendelser/beta`, overrides?.hendelser ?? []);
+    await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/detaljer`, overrides?.detaljer ?? defaultDetaljer);
 }

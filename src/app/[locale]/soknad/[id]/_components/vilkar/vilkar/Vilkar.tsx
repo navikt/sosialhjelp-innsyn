@@ -6,7 +6,7 @@ interface Props {
 }
 
 const Vilkar = ({ vilkar }: Props) => (
-    <Box background="warning-moderateA" padding="space-24" borderRadius="12">
+    <Box as="li" background="warning-moderateA" padding="space-24" borderRadius="12">
         <Heading level="4" size="small" lang="no">
             {vilkar.tittel}
         </Heading>

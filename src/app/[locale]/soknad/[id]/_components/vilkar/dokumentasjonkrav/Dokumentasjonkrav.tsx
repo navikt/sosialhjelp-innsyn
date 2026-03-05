@@ -16,7 +16,7 @@ const Dokumentasjonkrav = ({ dokKrav }: Props) => {
     const toggle = useFlag("sosialhjelp.innsyn.ny_upload");
     const newUploadEnabled = toggle?.enabled ?? false;
     return (
-        <Box key={dokKrav.dokumentasjonkravId} background="neutral-soft" padding="space-24" borderRadius="12">
+        <Box as="li" key={dokKrav.dokumentasjonkravId} background="neutral-soft" padding="space-24" borderRadius="12">
             {newUploadEnabled ? (
                 <OpplastingsboksTus
                     id={dokKrav.dokumentasjonkravId}

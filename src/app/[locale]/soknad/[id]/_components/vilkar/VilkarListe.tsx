@@ -18,10 +18,21 @@ import VilkarReadMore from "./readmore/VilkarReadMore";
 import DokKravReadMore from "./readmore/DokKravReadMore";
 import Dokumentasjonkrav from "./dokumentasjonkrav/Dokumentasjonkrav";
 
-const sortDokumentasjonKrav = (items: DokumentasjonkravDto[]) =>
-    R.sortBy(items, (it) => it.frist ?? new Date(Number.MAX_SAFE_INTEGER).toISOString());
+const sortUncompletedDokumentasjonKrav = (items: DokumentasjonkravDto[]) =>
+    R.sort(items, (a, b) => {
+        if (!a.frist) return 1;
+        if (!b.frist) return -1;
+        return new Date(a.frist).getTime() - new Date(b.frist).getTime();
+    });
 
-const sortVilkar = (vilkar: VilkarResponse[]) => R.sortBy(vilkar, R.prop("hendelsetidspunkt"));
+const sortCompletedDokumentasjonKrav = (items: DokumentasjonkravDto[]) =>
+    R.sort(items, (a, b) => {
+        if (!a.frist) return -1;
+        if (!b.frist) return 1;
+        return new Date(a.frist).getTime() - new Date(b.frist).getTime();
+    });
+
+const sortVilkar = (vilkar: VilkarResponse[]) => R.sortBy(vilkar, (vilk) => new Date(vilk.hendelsetidspunkt));
 
 const VilkarListe = () => {
     const t = useTranslations("VilkarListe");
@@ -30,16 +41,21 @@ const VilkarListe = () => {
     const { data: dokumentasjonkrav, isFetching: isDokumentasjonkravFetching } =
         useGetDokumentasjonkravBetaSuspense(id);
     const isFetching = isVilkarFetching || isDokumentasjonkravFetching;
-    const hasVilkar = vilkar.filter((it) => it.status === "IKKE_OPPFYLT" || it.status === "RELEVANT").length > 0;
+
+    const relevantVilkar = vilkar.filter((it) => it.status === "IKKE_OPPFYLT" || it.status === "RELEVANT");
     const uncompletedDokKrav = dokumentasjonkrav.filter(
         (it) => (it.status === "IKKE_OPPFYLT" || it.status === "RELEVANT") && it.erLastetOpp === false
     );
+    const completedDokKrav = dokumentasjonkrav.filter((it) => it.status === "OPPFYLT" || it.erLastetOpp === true);
+
+    const hasVilkar = relevantVilkar.length > 0;
     const hasUncompletedDokKrav = uncompletedDokKrav.length > 0;
 
-    const sortedDokumentasjonKrav = sortDokumentasjonKrav(dokumentasjonkrav);
-    const sortedVilkar = sortVilkar(vilkar);
+    const sortedUncompletedDokumentasjonKrav = sortUncompletedDokumentasjonKrav(uncompletedDokKrav);
+    const sortedCompletedDokumentasjonKrav = sortCompletedDokumentasjonKrav(completedDokKrav);
+    const sortedVilkar = sortVilkar(relevantVilkar);
 
-    if (sortedDokumentasjonKrav.length + sortedVilkar.length === 0) return null;
+    if (sortedUncompletedDokumentasjonKrav.length + sortedVilkar.length === 0) return null;
 
     return (
         <VStack gap="space-8" as="section" aria-labelledby="vilkar-tittel">
@@ -51,14 +67,21 @@ const VilkarListe = () => {
             </HStack>
             {hasVilkar && <VilkarReadMore />}
             {hasUncompletedDokKrav && <DokKravReadMore />}
-            <NavigationGuardProvider>
-                {sortedDokumentasjonKrav.map((dokumentasjonkrav) => (
-                    <Dokumentasjonkrav key={dokumentasjonkrav.dokumentasjonkravId} dokKrav={dokumentasjonkrav} />
+            <VStack as="ol" gap="space-8">
+                <NavigationGuardProvider>
+                    {sortedUncompletedDokumentasjonKrav.map((dokumentasjonkrav) => (
+                        <Dokumentasjonkrav key={dokumentasjonkrav.dokumentasjonkravId} dokKrav={dokumentasjonkrav} />
+                    ))}
+                </NavigationGuardProvider>
+                {sortedVilkar.map((vilk) => (
+                    <Vilkar key={vilk.vilkarReferanse} vilkar={vilk}></Vilkar>
                 ))}
-            </NavigationGuardProvider>
-            {vilkar.map((vilk) => {
-                return <Vilkar key={vilk.vilkarReferanse} vilkar={vilk}></Vilkar>;
-            })}
+                <NavigationGuardProvider>
+                    {sortedCompletedDokumentasjonKrav.map((dokumentasjonkrav) => (
+                        <Dokumentasjonkrav key={dokumentasjonkrav.dokumentasjonkravId} dokKrav={dokumentasjonkrav} />
+                    ))}
+                </NavigationGuardProvider>
+            </VStack>
         </VStack>
     );
 };
