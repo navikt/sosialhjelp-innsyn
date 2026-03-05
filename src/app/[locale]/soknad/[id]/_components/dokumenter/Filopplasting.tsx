@@ -24,39 +24,34 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
     const tOpplastingsboks = useTranslations("Opplastingsboks");
     const isMobile = useIsMobile();
 
-    const { data } = useHentVedleggSuspense(id);
-    const ettersendelseDokumenter = data.filter(
-        (vedlegg) => vedlegg.type === "annet" && vedlegg.tilleggsinfo === "annet"
-    );
+    const { data: vedlegg } = useHentVedleggSuspense(id);
     const { data: originalSoknad } = useHentOriginalSoknadSuspense(id);
 
     return (
-        <VStack gap="space-8">
+        <VStack>
             <Heading size="medium" level="2">
                 {t("tittel")}
             </Heading>
             {!isMobile && <BodyLong>{tOpplastingsboks("beskrivelse")}</BodyLong>}
             <Box background="info-soft" padding="space-24" borderRadius="12" borderWidth="1" borderColor="info-subtle">
-                {isMobile && <BodyLong className="mb-4">{tOpplastingsboks("beskrivelse")}</BodyLong>}
-                <NavigationGuardProvider>
-                    {newUploadEnabled ? (
-                        <OpplastingsboksTus metadata={metadata} id={id} />
-                    ) : (
-                        <Opplastingsboks metadata={metadata} />
+                {isMobile && <BodyLong>{tOpplastingsboks("beskrivelse")}</BodyLong>}
+                <VStack gap="space-40">
+                    <NavigationGuardProvider>
+                        {newUploadEnabled ? (
+                            <OpplastingsboksTus metadata={metadata} id={id} />
+                        ) : (
+                            <Opplastingsboks metadata={metadata} />
+                        )}
+                    </NavigationGuardProvider>
+                    {(vedlegg.length > 0 || originalSoknad) && (
+                        <VStack gap="space-8">
+                            <Heading size="small" level="3" id="dokumenter">
+                                {t("opplastedeVedlegg")}
+                            </Heading>
+                            <VedleggListe vedlegg={vedlegg} originalSoknad={originalSoknad} labelledById="dokumenter" />
+                        </VStack>
                     )}
-                </NavigationGuardProvider>
-                {(ettersendelseDokumenter.length > 0 || originalSoknad) && (
-                    <VStack gap="space-8" className={isMobile ? "mt-10" : "mt-10"}>
-                        <Heading size="small" level="3" id="dokumenter">
-                            {t("opplastedeVedlegg")}
-                        </Heading>
-                        <VedleggListe
-                            vedlegg={ettersendelseDokumenter}
-                            originalSoknad={originalSoknad}
-                            labelledById="dokumenter"
-                        />
-                    </VStack>
-                )}
+                </VStack>
             </Box>
         </VStack>
     );
@@ -64,7 +59,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
 export const FilopplastingSkeleton = () => {
     const t = useTranslations("Filopplasting");
     return (
-        <VStack gap="space-8">
+        <VStack>
             <Heading size="small" level="3" spacing>
                 {t("tittel")}
             </Heading>

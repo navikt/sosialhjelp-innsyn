@@ -17,6 +17,7 @@ import {
 import { FancyFile, Error as FileError, Metadata, Feil } from "../types";
 import { determineErrorType } from "../utils/mapErrors";
 import { createMetadataFile, formatFilesForUpload } from "../utils/formatFiles";
+import { getGetSaksDetaljerQueryKey } from "@generated/saks-oversikt-controller/saks-oversikt-controller";
 
 const getQueryKeysForInvalidation = (fiksDigisosId: string, oppgaveId?: string): string[] =>
     [
@@ -24,6 +25,7 @@ const getQueryKeysForInvalidation = (fiksDigisosId: string, oppgaveId?: string):
         getHentHendelserQueryKey(fiksDigisosId),
         getHentHendelserBetaQueryKey(fiksDigisosId),
         getGetVedleggForOppgaveQueryKey(fiksDigisosId, oppgaveId),
+        getGetSaksDetaljerQueryKey(fiksDigisosId),
     ].flat();
 
 const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: () => void) => {

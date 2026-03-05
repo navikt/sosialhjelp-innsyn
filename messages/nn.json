@@ -77,8 +77,8 @@
         "oppgaver": {
             "title": "Du har fått oppgåver",
             "description": "<norsk>{navKontor}</norsk> treng meir dokumentasjon for å kunne behandle saka di:",
-            "oppgave": "<bold>{name}</bold>, frist {frist, date, ::ddMMyyyy}",
-            "warning": "Dersom du ikkje sender nødvendig dokumentasjon innan fristen, kan ikkje Nav-kontoret behandle søknaden din. Det kan føre til at søknaden blir avslått, og at du må søkje på nytt."
+            "oppgave": "<bold>{name}</bold> (frist {frist, date, ::ddMMyyyy})",
+            "warning": "Viss du ikkje sender nødvendig dokumentasjon innan fristen, kan ikkje Nav-kontoret behandle søknaden din. Det kan føre til at søknaden vert avslått og at du må søkje på nytt. Har du levert noko av dokumentasjonen direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
         },
         "nyttVedtak": {
             "title": "Du har fått eit nytt vedtak",
@@ -132,16 +132,15 @@
         "completed": "Sendt inn"
     },
     "Oppgaver": {
-        "tittel": "Oppgåvene dine",
+        "tittel": "Oppgåver",
         "visFullforte": "Vis fullførte oppgåver",
-        "ingenOppgaver": {
-            "tittel": "Du har ingen oppgåver",
-            "beskrivelse": "Dersom du blir beden om å ettersende dokumentasjon, vil det dukke opp her."
-        },
-        "lastetOpp": "Levert {dato, date, ::ddMMyyyy}"
+        "suffix": "oppgåver",
+        "lastetOpp": "Levert {dato, date, ::ddMMyyyy}",
+        "xAvYFullfort": "{fullfort, number}/{total, number} fullført",
+        "alleFullfort": "Fullført"
     },
     "History": {
-        "suffx": "steg",
+        "suffix": "steg",
         "UtbetalingerOppdatertEvent": {
             "tittel": "Dine utbetalingar har blitt oppdaterte",
             "beskrivelse": "Sjå dine utbetalingar"
@@ -250,7 +249,7 @@
         "utbetalingStoppet": "Blir ikkje utbetalt"
     },
     "AktiveSoknader": {
-        "tittel": "Aktive saker",
+        "tittel": "Aktive søknader",
         "EmptyState": {
             "tittel": "Vi finn ingen søknader frå deg",
             "beskrivelse": "Dette kan vere fordi kommunen din ikkje kan vise søknader sendt på papir, eller at søknaden din er eldre enn 15 månader."
@@ -890,5 +889,16 @@
     "PageFlipperButtons": {
         "forrige": "Førre side",
         "neste": "Neste side"
+    },
+    "OppgaverReadMore": {
+        "header": "Treng du hjelp til å sende dokumentasjon?",
+        "feilFormatHeading": "Godtek vi ikkje dokumentet du prøver å sende inn?",
+        "feilFormatBody": "Du kan gjerne sjekke om dokumentet er under 10 MB, eller er låst med passord.",
+        "papirHeading": "Dokumentasjon du har på papir",
+        "papirBody": "Har du dokumentasjon på papir, kan du skanne det og sende det digitalt. Ved å skanne dokumentasjonen blir kvaliteten betre, slik at dei er lettare å lese.",
+        "nettsidesHeading": "Dokumentasjon frå andre nettsider",
+        "nettsidesBody": "Viss du skal sende dokumentasjon frå ei anna nettside, kan du laste ned dokumentet først viss det er mogleg. For eksempel er skattemeldinga og vedtak frå Lånekassen tilgjengeleg for nedlasting som PDF. Du bør unngå å ta bilete av PC-skjermen med eit kamera.",
+        "lesbarHeading": "Sørgj for at dokumentasjonen du sender kan lesast",
+        "lesbarBody": "Det er viktig at du sjekkar at dokumentasjonen du lastar opp er fullstendige og kan lesast. Viss det er vanskeleg å lese dokumentet, kan du bli beden om å sende dei på nytt."
     }
 }

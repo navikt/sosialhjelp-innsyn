@@ -15,6 +15,7 @@ import {
 } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 
 import { Metadata } from "../types";
+import { getGetSaksDetaljerQueryKey } from "@generated/saks-oversikt-controller/saks-oversikt-controller";
 
 const getQueryKeysForInvalidation = (fiksDigisosId: string, oppgaveId?: string): string[] =>
     [
@@ -22,6 +23,7 @@ const getQueryKeysForInvalidation = (fiksDigisosId: string, oppgaveId?: string):
         getHentHendelserQueryKey(fiksDigisosId),
         getHentHendelserBetaQueryKey(fiksDigisosId),
         getGetVedleggForOppgaveQueryKey(fiksDigisosId, oppgaveId),
+        getGetSaksDetaljerQueryKey(fiksDigisosId),
     ].flat();
 
 const submitUpload = async ({

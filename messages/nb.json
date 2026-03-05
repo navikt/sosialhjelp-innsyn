@@ -90,8 +90,8 @@
         "oppgaver": {
             "title": "Du har fått oppgaver",
             "description": "<norsk>{navKontor}</norsk> trenger mer dokumentasjon for å kunne behandle saken din:",
-            "oppgave": "<bold>{name}</bold>, frist {frist, date, ::ddMMyyyy}",
-            "warning": "Hvis du ikke sender nødvendig dokumentasjon innen fristen, kan ikke Nav-kontoret behandle søknaden din. Det kan føre til at søknaden avslås, og at du må søke på nytt."
+            "oppgave": "<bold>{name}</bold> (frist {frist, date, ::ddMMyyyy})",
+            "warning": "Hvis du ikke sender nødvendig dokumentasjon innen fristen, kan ikke Nav-kontoret behandle søknaden din. Det kan føre til at søknaden avslås og at du må søke på nytt. Har du levert noe av dokumentasjonen direkte til Nav-kontoret ditt, kan du se bort fra denne meldingen."
         },
         "nyttVedtak": {
             "title": "Du har fått et nytt vedtak",
@@ -145,14 +145,12 @@
         "completed": "Sendt inn"
     },
     "Oppgaver": {
-        "tittel": "Dine opppgaver",
-        "missingInformationTitle": "Vi mangler noen opplysninger til søknaden din",
-        "missingInformationDescription": "Her ser du hvilke opplysninger du ikke sendte inn sammen med søknaden. Vi anbefaler at du sender inn opplysningene så snart som mulig. Har du levert opplysningene direkte til Nav-kontoret ditt, kan du se bort fra denne meldingen.",
-        "ingenOppgaver": {
-            "tittel": "Du har ingen oppgaver",
-            "beskrivelse": "Dersom du blir bedt om å ettersende dokumentasjon, vil det dukke opp her."
-        },
-        "lastetOpp": "Levert {dato, date, ::ddMMyyyy}"
+        "tittel": "Oppgaver",
+        "visFullforte": "Vis fullførte oppgaver",
+        "suffix": "oppgaver",
+        "lastetOpp": "Levert {dato, date, ::ddMMyyyy}",
+        "xAvYFullfort": "{fullfort, number}/{total, number} fullført",
+        "alleFullfort": "Fullført"
     },
     "History": {
         "suffix": "steg",
@@ -222,8 +220,8 @@
         "sendInn": "Send inn",
         "lastOppFiler": "Last opp filer",
         "valgteFiler": "Valgte filer ({antall_filer})",
-      "filerTilOpplasting": "Filer til opplasting",
-      "antallFiler": "{count, plural, one {# fil klar til opplasting} other {# filer klare til opplasting}}",
+        "filerTilOpplasting": "Filer til opplasting",
+        "antallFiler": "{count, plural, one {# fil klar til opplasting} other {# filer klare til opplasting}}",
         "konvertert": {
             "tittel": "Noen filer kan ha blitt forandret",
             "beskrivelse": "Enkelte filer kan ha blitt konvertert fordi det originale filformatet ikke støttes. Du må se gjennom og godkjenne filene før du kan fortsette."
@@ -263,7 +261,7 @@
         "utbetalingStoppet": "Utbetales ikke"
     },
     "AktiveSoknader": {
-        "tittel": "Aktive saker",
+        "tittel": "Aktive søknader",
         "EmptyState": {
             "tittel": "Vi finner ingen søknader fra deg",
             "beskrivelse": "Dette kan være fordi kommunen din ikke kan vise søknader sendt på papir, eller at søknaden din er eldre enn 15 måneder."
@@ -277,7 +275,7 @@
         "soknader": "søknader"
     },
     "TidligereSoknader": {
-        "tittel": "Tidligere saker"
+        "tittel": "Tidligere søknader"
     },
     "SoknadCard": {
         "defaultTittel": "Søknad om økonomisk sosialhjelp",
@@ -877,5 +875,16 @@
             "postgiro": "Postgiro",
             "garanti": "Garanti"
         }
+    },
+    "OppgaverReadMore": {
+        "header": "Trenger du hjelp til å sende dokumentasjon?",
+        "feilFormatHeading": "Godtar vi ikke dokumentet du prøver å sende inn?",
+        "feilFormatBody": "Da kan du gjerne sjekke om dokumentet er under 10 MB, eller er låst med passord.",
+        "papirHeading": "Dokumentasjon du har på papir",
+        "papirBody": "Har du dokumentasjon på papir, kan du skanne det og sende det digitalt. Ved å skanne dokumentasjonen blir kvaliteten bedre, slik at de er lettere å lese.",
+        "nettsidesHeading": "Dokumentasjon fra andre nettsider",
+        "nettsidesBody": "Hvis du skal sende dokumentasjon fra en annen nettside, kan du laste ned dokumentet først hvis det er mulig. For eksempel er skattemeldingen og vedtak fra Lånekassen tilgjengelig for nedlastning som PDF. Du bør unngå å ta bilde av PC-skjermen med et kamera.",
+        "lesbarHeading": "Sørg for at dokumentasjonen du sender kan leses",
+        "lesbarBody": "Det er viktig at du sjekker at dokumentasjonen du laster opp er fullstendige og kan leses. Hvis det er vanskelig å lese dokumentet, kan du bli bedt om å sende de på nytt."
     }
 }

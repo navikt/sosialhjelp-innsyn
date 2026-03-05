@@ -76,8 +76,8 @@
         "oppgaver": {
             "title": "You have received tasks",
             "description": "<norsk>{navKontor}</norsk> needs more documentation to process your case:",
-            "oppgave": "<bold>{name}</bold>, deadline {frist, date, ::ddMMyyyy}",
-            "warning": "If you do not submit the necessary documentation by the deadline, the NAV office cannot process your application. This may result in your application being rejected, and you may need to apply again."
+            "oppgave": "<bold>{name}</bold> (due {frist, date, ::ddMMyyyy})",
+            "warning": "If you do not submit the required documentation by the deadline, the Nav office will not be able to process your application. This may result in your application being rejected and you having to apply again. If you have delivered some of the documentation directly to your Nav office, you can disregard this message."
         },
         "nyttVedtak": {
             "title": "You have received a new decision",
@@ -131,13 +131,12 @@
         "completed": "Submitted"
     },
     "Oppgaver": {
-        "tittel": "Your tasks",
+        "tittel": "Tasks",
+        "suffix": "tasks",
         "visFullforte": "Show completed tasks",
-        "ingenOppgaver": {
-            "tittel": "You have no tasks",
-            "beskrivelse": "If you are asked to submit documentation, it will appear here."
-        },
-        "lastetOpp": "Submitted {dato, date, ::ddMMyyyy}"
+        "lastetOpp": "Submitted {dato, date, ::ddMMyyyy}",
+        "xAvYFullfort": "{fullfort, number}/{total, number} completed",
+        "alleFullfort": "Completed"
     },
     "History": {
         "suffix": "steps",
@@ -249,7 +248,7 @@
         "utbetalingStoppet": "Payment stopped"
     },
     "AktiveSoknader": {
-        "tittel": "Active cases",
+        "tittel": "Active applications",
         "EmptyState": {
             "tittel": "We can't find any applications from you",
             "beskrivelse": "This can be because your municipality cannot show applications submitted on paper, or your application is older than 15 months."
@@ -874,5 +873,16 @@
     "PageFlipperButtons": {
         "forrige": "Previous page",
         "neste": "Next page"
+    },
+    "OppgaverReadMore": {
+        "header": "Do you need help sending documentation?",
+        "feilFormatHeading": "Are we not accepting the document you are trying to submit?",
+        "feilFormatBody": "You may want to check whether the document is under 10 MB or is password protected.",
+        "papirHeading": "Documentation you have on paper",
+        "papirBody": "If you have documentation on paper, you can scan it and send it digitally. Scanning the documentation improves the quality, making it easier to read.",
+        "nettsidesHeading": "Documentation from other websites",
+        "nettsidesBody": "If you need to send documentation from another website, you can download the document first if possible. For example, the tax return and decisions from Lånekassen are available for download as PDF. You should avoid taking a photo of the PC screen with a camera.",
+        "lesbarHeading": "Make sure the documentation you send can be read",
+        "lesbarBody": "It is important that you check that the documentation you upload is complete and legible. If the document is difficult to read, you may be asked to resend it."
     }
 }

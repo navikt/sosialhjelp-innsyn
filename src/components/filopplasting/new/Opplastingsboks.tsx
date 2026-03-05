@@ -74,7 +74,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
 
     if (completed) {
         return (
-            <VStack gap="space-8">
+            <VStack gap="space-40">
                 <Box>
                     <HStack align="center" justify="space-between">
                         {label ? (
@@ -91,7 +91,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                     <BodyLong>{description ?? t("Opplastingsboks.beskrivelse")}</BodyLong>
                 </Box>
                 <UploadedFileList fiksDigisosId={fiksDigisosId} oppgaveId={metadata.hendelsereferanse} />
-                <div ref={feedbackRef} tabIndex={-1}>
+                <div ref={feedbackRef} tabIndex={-1} className={isUploadSuccess ? "" : "-mb-10"}>
                     {isUploadSuccess && (
                         <Alert role="alert" aria-live="assertive" closeButton onClose={resetMutation} variant="success">
                             {t("common.vedlegg.suksess")}
@@ -116,7 +116,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                 },
             }}
         >
-            <VStack gap="space-24">
+            <VStack gap="space-40">
                 <FileSelectUpload
                     label={
                         <HStack justify="space-between">
@@ -181,9 +181,13 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                         </Button>
                     </VStack>
                 )}
-                <div ref={feedbackRef} tabIndex={-1}>
+                <div
+                    ref={feedbackRef}
+                    tabIndex={-1}
+                    className={!(isUploadSuccess || mutationErrors.length > 0) ? "-mb-10" : ""}
+                >
                     {isUploadSuccess && (
-                        <Alert role="alert" aria-live="assertive" variant="success">
+                        <Alert closeButton onClose={resetMutation} role="alert" aria-live="assertive" variant="success">
                             {t("common.vedlegg.suksess")}
                         </Alert>
                     )}
