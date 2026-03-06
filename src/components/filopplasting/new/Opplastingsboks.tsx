@@ -79,7 +79,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                         )}
                         {tag}
                     </HStack>
-                    <BodyLong>{description ?? t("Opplastingsboks.beskrivelse")}</BodyLong>
+                    {description ?? <BodyLong> {description}</BodyLong>}
                 </VStack>
                 {metadata.hendelsereferanse && (
                     <VedleggListe
