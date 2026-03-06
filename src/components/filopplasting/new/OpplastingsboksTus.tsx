@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Alert, BodyShort, Box, Button, Heading, HStack, VStack } from "@navikt/ds-react";
+import { Alert, BodyShort, Button, Heading, HStack, VStack } from "@navikt/ds-react";
 import { ReactNode, useRef, useEffect } from "react";
 import { Metadata } from "@components/filopplasting/new/types";
 import { useDocumentState } from "@components/filopplasting/new/api/useDocumentState";
@@ -39,8 +39,8 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
 
     if (completed) {
         return (
-            <VStack gap="space-8">
-                <Box>
+            <VStack gap="space-24">
+                <VStack gap="space-8">
                     <HStack align="center" justify="space-between">
                         <Heading size="small" level="3" lang="no">
                             {label ?? t("tittel")}
@@ -48,7 +48,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
                         {tag}
                     </HStack>
                     <BodyShort>{description ?? t("beskrivelse")}</BodyShort>
-                </Box>
+                </VStack>
                 {metadata.hendelsereferanse && (
                     <VedleggListe
                         vedlegg={[]}

@@ -1,13 +1,14 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Alert, BodyLong, Box, Button, FileObject, FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
+import { Alert, BodyLong, Button, FileObject, FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
 import { ReactNode, useRef, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useNavigationGuard } from "next-navigation-guard";
 import useSendVedleggHelper from "@components/filopplasting/new/api/useSendVedleggHelper";
 import useFiles from "@components/filopplasting/new/useFiles";
 import { Metadata } from "@components/filopplasting/new/types";
+import useIsMobile from "@utils/useIsMobile";
 import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";
 import VedleggListe from "../../../app/[locale]/soknad/[id]/_components/dokumenter/VedleggListe";
 import { FileSelectUpload } from "@components/filopplasting/new/FileSelectUpload";
@@ -24,6 +25,7 @@ interface Props {
 
 const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props) => {
     const t = useTranslations();
+    const isMobile = useIsMobile();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
     const { addFiler, files, removeFil, outerErrors, reset: resetFilOpplastningData } = useFiles();
     const {
@@ -63,8 +65,8 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
 
     if (completed) {
         return (
-            <VStack>
-                <Box>
+            <VStack gap="space-24">
+                <VStack gap="space-8">
                     <HStack align="center" justify="space-between">
                         {label ? (
                             <Heading size="small" level="3" lang="no">
@@ -78,30 +80,22 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                         {tag}
                     </HStack>
                     <BodyLong>{description ?? t("Opplastingsboks.beskrivelse")}</BodyLong>
-                </Box>
-                <VStack gap="space-24">
-                    {metadata.hendelsereferanse && (
-                        <VedleggListe
-                            vedlegg={[]}
-                            oppgaveId={metadata.hendelsereferanse}
-                            labelledById={`oppgave-vedlegg-${metadata.hendelsereferanse}`}
-                            oppgaveBeskrivelse={label}
-                        />
-                    )}
-                    <div ref={feedbackRef} tabIndex={-1} className={isUploadSuccess ? "" : "-mb-10"}>
-                        {isUploadSuccess && (
-                            <Alert
-                                role="alert"
-                                aria-live="assertive"
-                                closeButton
-                                onClose={resetMutation}
-                                variant="success"
-                            >
-                                {t("common.vedlegg.suksess")}
-                            </Alert>
-                        )}
-                    </div>
                 </VStack>
+                {metadata.hendelsereferanse && (
+                    <VedleggListe
+                        vedlegg={[]}
+                        oppgaveId={metadata.hendelsereferanse}
+                        labelledById={`oppgave-vedlegg-${metadata.hendelsereferanse}`}
+                        oppgaveBeskrivelse={label}
+                    />
+                )}
+                <div ref={feedbackRef} tabIndex={-1} aria-live="polite" className={isUploadSuccess ? "" : "contents"}>
+                    {isUploadSuccess && (
+                        <Alert role="alert" aria-live="assertive" closeButton onClose={resetMutation} variant="success">
+                            {t("common.vedlegg.suksess")}
+                        </Alert>
+                    )}
+                </div>
             </VStack>
         );
     }
@@ -120,22 +114,23 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                 },
             }}
         >
-            <VStack gap="space-40">
+            <VStack gap="space-24">
                 <FileSelectUpload
                     label={
-                        <HStack justify="space-between">
-                            {label ? (
-                                <Heading size="small" level="3" lang="no">
-                                    {label}
-                                </Heading>
-                            ) : (
-                                t("Opplastingsboks.tittel")
-                            )}
-                            {tag}
-                        </HStack>
+                        label ? (
+                            <Heading size="small" level="3" lang="no">
+                                {label}
+                            </Heading>
+                        ) : isMobile ? undefined : (
+                            t("Opplastingsboks.tittel")
+                        )
                     }
                     description={
-                        <HStack justify="space-between">{description ? <BodyLong>{description}</BodyLong> : ""}</HStack>
+                        description ? (
+                            <HStack justify="space-between">
+                                <BodyLong>{description}</BodyLong>
+                            </HStack>
+                        ) : undefined
                     }
                     tag={tag}
                     buttonText={t("Opplastingsboks.lastOppFiler")}
@@ -151,24 +146,26 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                     }
                 />
                 {files.length > 0 && (
-                    <VStack gap="space-8">
-                        <Heading size="small" level="3">
-                            {t("Opplastingsboks.valgteFiler", { antall_filer: files.length })}
-                        </Heading>
-                        <div role="status" aria-live="polite" className="sr-only">
-                            {t("Opplastingsboks.antallFiler", { count: files.length })}
-                        </div>
-                        <VStack as="ul" gap="space-8" aria-live="polite" aria-relevant="additions removals">
-                            {files.map((file) => (
-                                <FileUpload.Item
-                                    as="li"
-                                    key={file.uuid}
-                                    file={file.file}
-                                    button={{ action: "delete", onClick: () => removeFil(file) }}
-                                    status={isPending ? "uploading" : "idle"}
-                                    error={file.error ? t(`common.${errorStatusToMessage[file.error]}`) : undefined}
-                                />
-                            ))}
+                    <VStack gap="space-16">
+                        <VStack gap="space-4">
+                            <Heading size="small" level="3">
+                                {t("Opplastingsboks.valgteFiler", { antall_filer: files.length })}
+                            </Heading>
+                            <div role="status" aria-live="polite" className="sr-only">
+                                {t("Opplastingsboks.antallFiler", { count: files.length })}
+                            </div>
+                            <VStack as="ul" gap="space-8" aria-live="polite" aria-relevant="additions removals">
+                                {files.map((file) => (
+                                    <FileUpload.Item
+                                        as="li"
+                                        key={file.uuid}
+                                        file={file.file}
+                                        button={{ action: "delete", onClick: () => removeFil(file) }}
+                                        status={isPending ? "uploading" : "idle"}
+                                        error={file.error ? t(`common.${errorStatusToMessage[file.error]}`) : undefined}
+                                    />
+                                ))}
+                            </VStack>
                         </VStack>
                         <Button
                             disabled={Object.values(files).flat().length === 0}
@@ -191,7 +188,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                 <div
                     ref={feedbackRef}
                     tabIndex={-1}
-                    className={!(isUploadSuccess || mutationErrors.length > 0) ? "-mb-10" : ""}
+                    className={!(isUploadSuccess || mutationErrors.length > 0) ? "contents" : ""}
                 >
                     {isUploadSuccess && (
                         <Alert closeButton onClose={resetMutation} role="alert" aria-live="assertive" variant="success">

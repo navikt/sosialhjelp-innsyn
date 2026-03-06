@@ -34,15 +34,17 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
             </Heading>
             {!isMobile && <BodyLong>{tOpplastingsboks("beskrivelse")}</BodyLong>}
             <Box background="info-soft" padding="space-24" borderRadius="12" borderWidth="1" borderColor="info-subtle">
-                {isMobile && <BodyLong>{tOpplastingsboks("beskrivelse")}</BodyLong>}
                 <VStack gap="space-40">
-                    <NavigationGuardProvider>
-                        {newUploadEnabled ? (
-                            <OpplastingsboksTus metadata={metadata} id={id} />
-                        ) : (
-                            <Opplastingsboks metadata={metadata} />
-                        )}
-                    </NavigationGuardProvider>
+                    <VStack gap={isMobile ? "space-16" : "space-40"}>
+                        {isMobile && <BodyLong>{tOpplastingsboks("beskrivelse")}</BodyLong>}
+                        <NavigationGuardProvider>
+                            {newUploadEnabled ? (
+                                <OpplastingsboksTus metadata={metadata} id={id} />
+                            ) : (
+                                <Opplastingsboks metadata={metadata} />
+                            )}
+                        </NavigationGuardProvider>
+                    </VStack>
                     {(vedlegg.length > 0 || originalSoknad) && (
                         <VStack gap="space-8">
                             <Heading size="small" level="3" id="dokumenter">

@@ -4,7 +4,6 @@ import { BodyShort, HStack, Skeleton, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import React from "react";
 import * as R from "remeda";
-import { FileIcon } from "@navikt/aksel-icons";
 import { OriginalSoknadDto, VedleggResponse } from "@generated/model";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import useIsMobile from "@utils/useIsMobile";
@@ -38,53 +37,55 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveId, oppgav
 
     return (
         <>
-            <ExpandableList
-                items={sortedVedlegg}
-                id="vedlegg-liste"
-                showMoreSuffix={t("visFlereDokumenter")}
-                labelledById={labelledById}
-                itemsLimit={3}
-            >
-                {(fil, ref) => {
-                    if ("soknad" in fil) {
+            {sortedVedlegg.length > 0 && (
+                <ExpandableList
+                    items={sortedVedlegg}
+                    id="vedlegg-liste"
+                    showMoreSuffix={t("visFlereDokumenter")}
+                    labelledById={labelledById}
+                    itemsLimit={3}
+                >
+                    {(fil, ref) => {
+                        if ("soknad" in fil) {
+                            return (
+                                <li key="soknad" ref={ref} tabIndex={-1}>
+                                    <DigisosLinkCard
+                                        href={fil.url}
+                                        cardIcon="external-link"
+                                        dataColor="accent"
+                                        description={
+                                            fil.date && (
+                                                <BodyShort>{t.rich("sendt", { dato: new Date(fil.date) })}</BodyShort>
+                                            )
+                                        }
+                                    >
+                                        {fil.filename?.length ? fil.filename : t("soknadFilename")}
+                                    </DigisosLinkCard>
+                                </li>
+                            );
+                        }
                         return (
-                            <li key="soknad" ref={ref} tabIndex={-1}>
+                            <li key={fil.filnavn + fil.originalIndex} ref={ref} tabIndex={-1}>
                                 <DigisosLinkCard
                                     href={fil.url}
-                                    icon={<FileIcon aria-hidden />}
                                     cardIcon="external-link"
+                                    dataColor="accent"
                                     description={
-                                        fil.date && (
-                                            <BodyShort>{t.rich("sendt", { dato: new Date(fil.date) })}</BodyShort>
-                                        )
+                                        <BodyShort>
+                                            {fil.type === "annet" && fil.tilleggsinfo === "annet"
+                                                ? t("ettersendt")
+                                                : getVisningstekster(fil.type, fil.tilleggsinfo).typeTekst}{" "}
+                                            ({t("sendt", { dato: new Date(fil.datoLagtTil) })})
+                                        </BodyShort>
                                     }
                                 >
-                                    {fil.filename?.length ? fil.filename : t("soknadFilename")}
+                                    {fil.filnavn}
                                 </DigisosLinkCard>
                             </li>
                         );
-                    }
-                    return (
-                        <li key={fil.filnavn + fil.originalIndex} ref={ref} tabIndex={-1}>
-                            <DigisosLinkCard
-                                href={fil.url}
-                                cardIcon="external-link"
-                                dataColor="accent"
-                                description={
-                                    <BodyShort>
-                                        {fil.type === "annet" && fil.tilleggsinfo === "annet"
-                                            ? t("ettersendt")
-                                            : getVisningstekster(fil.type, fil.tilleggsinfo).typeTekst}{" "}
-                                        ({t("sendt", { dato: new Date(fil.datoLagtTil) })})
-                                    </BodyShort>
-                                }
-                            >
-                                {fil.filnavn}
-                            </DigisosLinkCard>
-                        </li>
-                    );
-                }}
-            </ExpandableList>
+                    }}
+                </ExpandableList>
+            )}
             {oppgaveVedlegg && oppgaveVedlegg.length > 0 && (
                 <ExpandableList
                     items={oppgaveVedlegg}
