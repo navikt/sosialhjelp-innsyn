@@ -58,16 +58,13 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
             <VStack gap="space-24">
                 <FileSelectUpload
                     label={
-                        <HStack justify="space-between">
-                            {label ? (
-                                <BodyShort as="span" lang="no">
-                                    {label}
-                                </BodyShort>
-                            ) : (
-                                t("tittel")
-                            )}
-                            {tag}
-                        </HStack>
+                        label ? (
+                            <BodyShort as="span" lang="no">
+                                {label}
+                            </BodyShort>
+                        ) : (
+                            t("tittel")
+                        )
                     }
                     tag={tag}
                     description={description}
