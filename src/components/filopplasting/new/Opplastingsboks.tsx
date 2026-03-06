@@ -67,6 +67,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
         return (
             <VStack gap="space-24">
                 <VStack gap="space-8">
+                    {isMobile && <HStack>{tag}</HStack>}
                     <HStack align="center" justify="space-between">
                         {label ? (
                             <Heading size="small" level="3" lang="no">
@@ -77,7 +78,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                                 {t("Opplastingsboks.tittel")}
                             </Heading>
                         )}
-                        {tag}
+                        {!isMobile && tag}
                     </HStack>
                     {description ?? <BodyLong> {description}</BodyLong>}
                 </VStack>

@@ -8,6 +8,7 @@ import { useDocumentState } from "@components/filopplasting/new/api/useDocumentS
 import useSendVedleggHelperTus from "@components/filopplasting/new/api/useSendVedleggHelperTus";
 import FileSelectNew from "@components/filopplasting/new/FileSelectNew";
 import VedleggListe from "../../../app/[locale]/soknad/[id]/_components/dokumenter/VedleggListe";
+import useIsMobile from "@utils/useIsMobile";
 
 interface Props {
     metadata: Metadata;
@@ -20,6 +21,7 @@ interface Props {
 
 const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }: Props) => {
     const t = useTranslations("Opplastingsboks");
+    const isMobile = useIsMobile();
     const docState = useDocumentState(id);
     const {
         upload,
@@ -41,11 +43,12 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
         return (
             <VStack gap="space-24">
                 <VStack gap="space-8">
+                    {isMobile && tag}
                     <HStack align="center" justify="space-between">
                         <Heading size="small" level="3" lang="no">
                             {label ?? t("tittel")}
                         </Heading>
-                        {tag}
+                        {!isMobile && tag}
                     </HStack>
                     <BodyShort>{description ?? t("beskrivelse")}</BodyShort>
                 </VStack>

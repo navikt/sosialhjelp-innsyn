@@ -78,7 +78,7 @@ const Oppgaver = () => {
                                 ref={ref}
                                 key={`${oppgave.oppgaveId}-${oppgave.dokumenttype}-${oppgave.tilleggsinformasjon}`}
                                 background={oppgave.erLastetOpp ? "neutral-soft" : "warning-soft"}
-                                padding="space-24"
+                                padding={{ xs: "space-16", sm: "space-24" }}
                                 borderRadius="12"
                                 borderWidth="1"
                                 borderColor={oppgave.erLastetOpp ? "neutral-subtle" : "warning-subtle"}
