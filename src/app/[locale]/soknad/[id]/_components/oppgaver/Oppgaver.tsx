@@ -4,38 +4,25 @@ import { Alert, BodyShort, Box, Heading, HStack, Loader, Skeleton, Tag, VStack }
 import { NavigationGuardProvider } from "next-navigation-guard";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import React, { use } from "react";
+import React from "react";
 import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
 import OpplastingsboksTus from "@components/filopplasting/new/OpplastingsboksTus";
 import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
 import { useFlag } from "@featuretoggles/context";
 import { Metadata } from "@components/filopplasting/new/types";
-import {
-    useGetOppgaverBetaSuspense,
-    useGetDokumentasjonkravBetaSuspense,
-} from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
-import { VilkarResponse } from "@generated/ssr/model";
-
-import VilkarListe from "../saker/vilkar/VilkarListe";
-import Dokumentasjonkrav from "../saker/dokumentasjonkrav/Dokumentasjonkrav";
+import { useGetOppgaverBetaSuspense } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 
 import OppgaveTag from "./OppgaveTag";
 import OppgaverReadMore from "./readmore/OppgaverReadMore";
 import ExpandableList from "@components/showmore/ExpandableList";
 import { TasklistIcon } from "@navikt/aksel-icons";
 
-interface Props {
-    vilkarPromise?: Promise<VilkarResponse[]>;
-}
-
-const Oppgaver = ({ vilkarPromise }: Props) => {
+const Oppgaver = () => {
     const t = useTranslations("Oppgaver");
     const { id } = useParams<{ id: string }>();
     const toggle = useFlag("sosialhjelp.innsyn.ny_upload");
     const newUploadEnabled = toggle?.enabled ?? false;
     const { data: oppgaver, isFetching } = useGetOppgaverBetaSuspense(id);
-    const { data: alleDokumentasjonkrav } = useGetDokumentasjonkravBetaSuspense(id);
-    const vilkar = vilkarPromise ? use(vilkarPromise) : [];
 
     if (oppgaver.length === 0) {
         return null;
@@ -144,8 +131,6 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                     }}
                 </ExpandableList>
             </NavigationGuardProvider>
-            {vilkar.length > 0 && <VilkarListe vilkar={vilkar} />}
-            {alleDokumentasjonkrav.length > 0 && <Dokumentasjonkrav dokumentasjonkrav={alleDokumentasjonkrav} />}
         </VStack>
     );
 };
