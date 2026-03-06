@@ -5,37 +5,33 @@ import { useTranslations } from "next-intl";
 import React from "react";
 import * as R from "remeda";
 import { OriginalSoknadDto, VedleggResponse } from "@generated/model";
+import { OppgaveVedleggFil } from "@generated/model/oppgaveVedleggFil";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import useIsMobile from "@utils/useIsMobile";
 import ExpandableList from "@components/showmore/ExpandableList";
-import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
-import { useParams } from "next/navigation";
 import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
 
 interface Props {
-    vedlegg: VedleggResponse[];
+    vedlegg: (VedleggResponse | OppgaveVedleggFil)[];
     originalSoknad?: OriginalSoknadDto;
     labelledById: string;
-    oppgaveId?: string;
     oppgaveBeskrivelse?: string;
 }
 
-const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveId, oppgaveBeskrivelse }: Props) => {
+const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveBeskrivelse }: Props) => {
     const t = useTranslations("VedleggListe");
-    const { id: fiksDigisosId } = useParams<{ id: string }>();
-
-    const { data: oppgaveVedlegg } = useGetVedleggForOppgave(fiksDigisosId, oppgaveId!, {
-        query: { enabled: !!oppgaveId },
-    });
 
     const alleVedlegg = [
         ...(originalSoknad ? [{ soknad: true as const, ...originalSoknad, datoLagtTil: originalSoknad.date }] : []),
         ...vedlegg.map((v, index) => ({ ...v, originalIndex: index })),
     ];
 
+    const getDato = (v: (typeof alleVedlegg)[number]) =>
+        "tidspunktLastetOpp" in v ? v.tidspunktLastetOpp : (v.datoLagtTil ?? 0);
+
     const sortedVedlegg = R.sortBy(
         alleVedlegg,
-        [(v) => new Date(v.datoLagtTil ?? 0).getTime(), "desc"],
+        [(v) => new Date(getDato(v)).getTime(), "desc"],
         [(v) => ("originalIndex" in v ? v.originalIndex : 0), "desc"]
     );
 
@@ -68,6 +64,25 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveId, oppgav
                                 </li>
                             );
                         }
+                        if ("tidspunktLastetOpp" in fil) {
+                            return (
+                                <li key={fil.url} ref={ref} tabIndex={-1}>
+                                    <DigisosLinkCard
+                                        href={fil.url}
+                                        cardIcon="external-link"
+                                        dataColor="accent"
+                                        description={
+                                            <BodyShort>
+                                                {oppgaveBeskrivelse} (
+                                                {t("sendt", { dato: new Date(fil.tidspunktLastetOpp) })})
+                                            </BodyShort>
+                                        }
+                                    >
+                                        {fil.filnavn}
+                                    </DigisosLinkCard>
+                                </li>
+                            );
+                        }
                         return (
                             <li key={fil.filnavn + fil.originalIndex} ref={ref} tabIndex={-1}>
                                 <DigisosLinkCard
@@ -88,32 +103,6 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveId, oppgav
                             </li>
                         );
                     }}
-                </ExpandableList>
-            )}
-            {oppgaveVedlegg && oppgaveVedlegg.length > 0 && (
-                <ExpandableList
-                    items={oppgaveVedlegg}
-                    id={`vedlegg-liste-oppgave-${oppgaveId}`}
-                    showMoreSuffix={t("visFlereDokumenter")}
-                    labelledById={labelledById}
-                    itemsLimit={3}
-                >
-                    {(fil, ref) => (
-                        <li key={fil.url} ref={ref} tabIndex={-1}>
-                            <DigisosLinkCard
-                                href={fil.url}
-                                cardIcon="external-link"
-                                dataColor="accent"
-                                description={
-                                    <BodyShort>
-                                        {oppgaveBeskrivelse} ({t("sendt", { dato: new Date(fil.tidspunktLastetOpp) })})
-                                    </BodyShort>
-                                }
-                            >
-                                {fil.filnavn}
-                            </DigisosLinkCard>
-                        </li>
-                    )}
                 </ExpandableList>
             )}
         </>

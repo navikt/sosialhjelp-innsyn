@@ -12,7 +12,7 @@ import useIsMobile from "@utils/useIsMobile";
 import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";
 import VedleggListe from "../../../app/[locale]/soknad/[id]/_components/dokumenter/VedleggListe";
 import { FileSelectUpload } from "@components/filopplasting/new/FileSelectUpload";
-
+import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 import { umamiTrack } from "../../../app/umami";
 
 interface Props {
@@ -27,6 +27,9 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
     const t = useTranslations();
     const isMobile = useIsMobile();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
+    const { data: oppgaveVedlegg } = useGetVedleggForOppgave(fiksDigisosId, metadata.hendelsereferanse!, {
+        query: { enabled: !!metadata.hendelsereferanse },
+    });
     const { addFiler, files, removeFil, outerErrors, reset: resetFilOpplastningData } = useFiles();
     const {
         upload,
@@ -80,12 +83,11 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                         )}
                         {!isMobile && tag}
                     </HStack>
-                    {description ?? <BodyLong> {description}</BodyLong>}
+                    {description && <BodyLong>{description}</BodyLong>}
                 </VStack>
                 {metadata.hendelsereferanse && (
                     <VedleggListe
-                        vedlegg={[]}
-                        oppgaveId={metadata.hendelsereferanse}
+                        vedlegg={oppgaveVedlegg ?? []}
                         labelledById={`oppgave-vedlegg-${metadata.hendelsereferanse}`}
                         oppgaveBeskrivelse={label}
                     />
