@@ -72,7 +72,7 @@ const SoknadInfoCard = ({ state }: Props) => {
             );
         case "soknadsOppgaver":
             return (
-                <Info variant="info" title={t("soknadsOppgaver.title")} titleId="soknads-oppgaver-info-card-title">
+                <Info variant="reminder" title={t("soknadsOppgaver.title")} titleId="soknads-oppgaver-info-card-title">
                     <VStack gap="space-16">
                         <VStack gap="space-16">
                             <BodyLong>{t("soknadsOppgaver.description")}</BodyLong>
