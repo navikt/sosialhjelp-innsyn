@@ -14,7 +14,7 @@ import {
     useGetOppgaverBetaSuspense,
     useGetDokumentasjonkravBetaSuspense,
 } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
-import { OppgaveResponseBetaHendelsetype, VilkarResponse } from "@generated/ssr/model";
+import { VilkarResponse } from "@generated/ssr/model";
 
 import VilkarListe from "../saker/vilkar/VilkarListe";
 import Dokumentasjonkrav from "../saker/dokumentasjonkrav/Dokumentasjonkrav";
@@ -50,9 +50,7 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
         return a.erLastetOpp ? 1 : -1;
     });
 
-    const isAllOppgaverFromSoknad = oppgaver.every(
-        (oppgave) => oppgave.hendelsetype === OppgaveResponseBetaHendelsetype.soknad
-    );
+    const isAllOppgaverFromSoknad = oppgaver.every((oppgave) => oppgave.erFraInnsyn === false);
 
     return (
         <VStack gap="space-8" as="section" aria-labelledby="oppgaver-tittel">
@@ -60,13 +58,14 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                 <Heading size="medium" level="2" id="oppgaver-tittel">
                     {isAllOppgaverFromSoknad ? t("missingInformationTitle") : t("tittel")}
                 </Heading>
-                <Tag variant={hasUncompletedOppgaver ? "warning" : "success"} icon={<TasklistIcon aria-hidden />}>
-                    {hasUncompletedOppgaver
-                        ? t("xAvYFullfort", { fullfort: fullforteOppgaver.length, total: oppgaver.length })
-                        : t("alleFullfort")}
-                </Tag>
+                {!isAllOppgaverFromSoknad && (
+                    <Tag variant={hasUncompletedOppgaver ? "warning" : "success"} icon={<TasklistIcon aria-hidden />}>
+                        {hasUncompletedOppgaver
+                            ? t("xAvYFullfort", { fullfort: fullforteOppgaver.length, total: oppgaver.length })
+                            : t("alleFullfort")}
+                    </Tag>
+                )}
                 {isFetching && <Loader />}
-                {isAllOppgaverFromSoknad && <BodyShort>{t("missingInformationDescription")}</BodyShort>}
             </HStack>
             {hasUncompletedOppgaver && <OppgaverReadMore />}
             <NavigationGuardProvider>
@@ -96,10 +95,7 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                                 ref={ref}
                                 key={`${oppgave.oppgaveId}-${oppgave.dokumenttype}-${oppgave.tilleggsinformasjon}`}
                                 background={
-                                    oppgave.erLastetOpp ||
-                                    oppgave.hendelsetype === OppgaveResponseBetaHendelsetype.soknad
-                                        ? "neutral-soft"
-                                        : "warning-soft"
+                                    oppgave.erLastetOpp || !oppgave.erFraInnsyn ? "neutral-soft" : "warning-soft"
                                 }
                                 padding="space-24"
                                 borderRadius="12"

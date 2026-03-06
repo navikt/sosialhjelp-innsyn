@@ -17,6 +17,7 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
     const { data: oppgaver } = useGetOppgaverBetaSuspense(id);
 
     const relevanteOppgaver = oppgaver.filter((oppgave) => !oppgave.erLastetOpp && oppgave.erFraInnsyn);
+    const soknadsOppgaver = oppgaver.filter((oppgave) => !oppgave.erLastetOpp && !oppgave.erFraInnsyn);
     const harSakMedFlereVedtak = saksdetaljer.saker?.some((s) => s.antallVedtak > 1) ?? false;
     const cards: JSX.Element[] = [];
 
@@ -34,6 +35,20 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
                         name: oppgave.dokumenttype,
                     })),
                     navKontor,
+                }}
+            />
+        );
+    }
+
+    if (soknadsOppgaver.length > 0) {
+        cards.push(
+            <SoknadInfoCard
+                key="soknadsOppgaver"
+                state={{
+                    type: "soknadsOppgaver",
+                    oppgaver: soknadsOppgaver.map((oppgave) => ({
+                        name: oppgave.dokumenttype,
+                    })),
                 }}
             />
         );
