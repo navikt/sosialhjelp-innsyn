@@ -28,11 +28,15 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveId, oppgav
         query: { enabled: !!oppgaveId },
     });
 
-    const sortedVedlegg = R.pipe(
-        vedlegg,
-        R.map((v, index) => ({ ...v, originalIndex: index })),
-        R.sortBy([(v) => new Date(v.datoLagtTil).getTime(), "desc"], [(v) => v.originalIndex, "desc"]),
-        (vedlegg) => (originalSoknad ? [{ soknad: true, ...originalSoknad }, ...vedlegg] : vedlegg)
+    const alleVedlegg = [
+        ...(originalSoknad ? [{ soknad: true as const, ...originalSoknad, datoLagtTil: originalSoknad.date }] : []),
+        ...vedlegg.map((v, index) => ({ ...v, originalIndex: index })),
+    ];
+
+    const sortedVedlegg = R.sortBy(
+        alleVedlegg,
+        [(v) => new Date(v.datoLagtTil ?? 0).getTime(), "desc"],
+        [(v) => ("originalIndex" in v ? v.originalIndex : 0), "desc"]
     );
 
     return (
