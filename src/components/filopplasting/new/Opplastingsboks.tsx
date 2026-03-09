@@ -69,21 +69,23 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
     if (completed) {
         return (
             <VStack gap="space-24">
-                <VStack gap="space-8">
+                <VStack gap="space-16">
                     {isMobile && <HStack>{tag}</HStack>}
-                    <HStack align="center" justify="space-between">
-                        {label ? (
-                            <Heading size="small" level="3" lang="no">
-                                {label}
-                            </Heading>
-                        ) : (
-                            <Heading size="small" level="3">
-                                {t("Opplastingsboks.tittel")}
-                            </Heading>
-                        )}
-                        {!isMobile && tag}
-                    </HStack>
-                    {description && <BodyLong>{description}</BodyLong>}
+                    <VStack gap="space-4">
+                        <HStack align="center" justify="space-between">
+                            {label ? (
+                                <Heading size="small" level="3" lang="no">
+                                    {label}
+                                </Heading>
+                            ) : (
+                                <Heading size="small" level="3">
+                                    {t("Opplastingsboks.tittel")}
+                                </Heading>
+                            )}
+                            {!isMobile && tag}
+                        </HStack>
+                        {description && <BodyLong>{description}</BodyLong>}
+                    </VStack>
                 </VStack>
                 {metadata.hendelsereferanse && (
                     <VedleggListe
