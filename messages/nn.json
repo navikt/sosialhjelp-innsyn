@@ -139,7 +139,6 @@
     "Oppgaver": {
         "tittel": "Oppgåver",
         "missingInformationTitle": "Vi manglar nokre opplysningar til søknaden din",
-        "missingInformationDescription": "Her ser du kva opplysningar du ikkje sende inn saman med søknaden. Vi tilrår at du sender inn opplysningane så snart som mogleg. Har du levert opplysningane direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga.",
         "visFullforte": "Vis fullførte oppgåver",
         "suffix": "oppgåver",
         "lastetOpp": "Levert {dato, date, ::ddMMyyyy}",
