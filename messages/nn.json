@@ -74,6 +74,14 @@
             "description": "<norsk>{navKontor}</norsk> treng meir dokumentasjon for å kunne behandle saka di:",
             "warning": "Viss du ikkje sender nødvendig dokumentasjon innan fristen, kan ikkje Nav-kontoret behandle søknaden din. Det kan føre til at søknaden vert avslått og at du må søkje på nytt. Har du levert noko av dokumentasjonen direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
         },
+        "vilkar": {
+            "title": "Du har fått vilkår",
+            "titleEmpty": "Du kan ha fått vilkår",
+            "descriptionEmpty": "Vilkår er aktivitetar du skal gjere som ein del av oppfølginga di frå Nav. <link>Les vedtaksbrevet ditt</link> for å sjå om du har fått vilkår, eller om Nav-kontoret treng meir dokumentasjon for å kunne utbetale stønaden din.",
+            "description": "Vilkår er aktivitetar du skal gjere som ein del av oppfølginga di frå Nav.",
+            "vilkar": "<bold>{name}</bold> ({frist, date, ::ddMMyyyy})",
+            "kanHaFlere": "Obs! Du kan ha fått fleire vilkår enn dei som visast her. Les vedtaksbrevet ditt for å sjå om du har fått fleire vilkår, eller om Nav-kontoret treng meir dokumentasjon for å kunne utbetale stønaden din."
+        },
         "soknadsOppgaver": {
             "title": "Hugs å fullføre søknaden",
             "description": "Her ser du kva opplysningar du ikkje sende inn saman med søknaden. Vi tilrår at du sender inn desse opplysningane så snart som mogleg.",

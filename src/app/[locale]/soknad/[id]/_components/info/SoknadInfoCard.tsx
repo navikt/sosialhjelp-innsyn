@@ -3,9 +3,12 @@
 import Info from "./Info";
 import Behandlingstid from "./Behandlingstid";
 import OppgaveListe from "./OppgaveListe";
-import { BodyLong, BodyShort, VStack } from "@navikt/ds-react";
+import { BodyLong, BodyShort, VStack, Link as AkselLink } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { ReactNode } from "react";
+import { Link } from "@i18n/navigation";
+import VilkarReadMore from "../vilkar/readmore/VilkarReadMore";
+import DokKravReadMore from "../vilkar/readmore/DokKravReadMore";
 
 type AlertState =
     | { type: "sendt"; navKontor?: string }
@@ -13,7 +16,9 @@ type AlertState =
     | { type: "oppgaver"; oppgaver: { name: string; frist?: Date }[]; navKontor?: string }
     | { type: "soknadsOppgaver"; oppgaver: { name: string }[] }
     | { type: "nyttVedtak" }
-    | { type: "forelopigSvar"; navKontor?: string; forelopigSvarUrl?: string };
+    | { type: "forelopigSvar"; navKontor?: string; forelopigSvarUrl?: string }
+    | { type: "vilkar"; vilkar: { name: string; frist?: Date }[] }
+    | { type: "kanHaVilkar" };
 
 interface Props {
     state: AlertState;
@@ -47,6 +52,54 @@ const SoknadInfoCard = ({ state }: Props) => {
                     <Behandlingstid>
                         <Behandlingstid.Description navKontor={state.navKontor ?? t("defaultNavKontor")} />
                     </Behandlingstid>
+                </Info>
+            );
+        case "kanHaVilkar":
+            return (
+                <Info variant="warning" title={t("vilkar.titleEmpty")} titleId="vilkar-info-card-title">
+                    <VStack gap="space-16">
+                        <BodyLong>
+                            {t.rich("vilkar.descriptionEmpty", {
+                                link: (chunks) => (
+                                    <AkselLink as={Link} href="#vedtak" inlineText>
+                                        {chunks}
+                                    </AkselLink>
+                                ),
+                            })}
+                        </BodyLong>
+                        <VilkarReadMore />
+                        <DokKravReadMore />
+                    </VStack>
+                </Info>
+            );
+        case "vilkar":
+            return (
+                <Info variant="warning" title={t("vilkar.title")} titleId="vilkar-info-card-title">
+                    <VStack gap="space-16">
+                        <BodyLong>{t("vilkar.description")}</BodyLong>
+                        <List>
+                            {state.vilkar.map(({ name, frist }, index) => (
+                                <ListItem key={`${name}-${index}`}>
+                                    {frist ? (
+                                        t.rich("vilkar.vilkar", {
+                                            bold: (chunks) => (
+                                                <BodyShort as="span" weight="semibold">
+                                                    {chunks}
+                                                </BodyShort>
+                                            ),
+                                            name,
+                                            frist: new Date(frist),
+                                        })
+                                    ) : (
+                                        <BodyShort as="span" weight="semibold" lang="no">
+                                            {name}
+                                        </BodyShort>
+                                    )}
+                                </ListItem>
+                            ))}
+                        </List>
+                        <BodyLong>{t("vilkar.kanHaFlere")}</BodyLong>
+                    </VStack>
                 </Info>
             );
         case "oppgaver":
