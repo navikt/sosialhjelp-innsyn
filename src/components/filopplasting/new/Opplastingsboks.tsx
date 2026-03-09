@@ -17,13 +17,14 @@ import { umamiTrack } from "../../../app/umami";
 
 interface Props {
     metadata: Metadata;
-    label?: string;
+    label?: ReactNode;
+    labelText?: string;
     description?: ReactNode;
     tag?: ReactNode;
     completed?: boolean;
 }
 
-const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props) => {
+const Opplastingsboks = ({ metadata, label, labelText, description, tag, completed }: Props) => {
     const t = useTranslations();
     const isMobile = useIsMobile();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
@@ -91,7 +92,7 @@ const Opplastingsboks = ({ metadata, label, description, tag, completed }: Props
                     <VedleggListe
                         vedlegg={oppgaveVedlegg ?? []}
                         labelledById={`oppgave-vedlegg-${metadata.hendelsereferanse}`}
-                        oppgaveBeskrivelse={label}
+                        oppgaveBeskrivelse={labelText}
                     />
                 )}
                 <div ref={feedbackRef} tabIndex={-1} aria-live="polite" className={isUploadSuccess ? "" : "contents"}>

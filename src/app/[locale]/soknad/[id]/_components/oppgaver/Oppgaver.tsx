@@ -32,6 +32,9 @@ const Oppgaver = () => {
     const fullforteOppgaver = oppgaver.filter((oppgave) => oppgave.erLastetOpp);
     const hasUncompletedOppgaver = oppgaver.length - fullforteOppgaver.length > 0;
 
+    const withWarningColor = (text: string | undefined, isUncompleted: boolean) =>
+        isUncompleted && text ? <span className="text-ax-text-warning">{text}</span> : text;
+
     return (
         <VStack gap="space-8" as="section" aria-labelledby="oppgaver-tittel">
             <HStack align="center" gap="space-8">
@@ -97,8 +100,9 @@ const Oppgaver = () => {
                                     <Opplastingsboks
                                         metadata={metadata}
                                         completed={oppgave.erLastetOpp}
-                                        label={typeTekst}
-                                        description={tilleggsinfoTekst}
+                                        label={withWarningColor(typeTekst, !oppgave.erLastetOpp)}
+                                        labelText={typeTekst}
+                                        description={withWarningColor(tilleggsinfoTekst, !oppgave.erLastetOpp)}
                                         tag={
                                             <OppgaveTag
                                                 frist={oppgave.innsendelsesfrist}
