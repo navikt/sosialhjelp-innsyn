@@ -53,6 +53,7 @@ const Oppgaver = () => {
                     showMoreSuffix={t("suffix")}
                     labelledById="oppgaver-tittel"
                     itemsLimit={hasUncompletedOppgaver ? 3 : 1}
+                    gap={{ xs: "space-12", md: "space-16" }}
                 >
                     {(oppgave, ref) => {
                         const { typeTekst, tilleggsinfoTekst } = getVisningstekster(

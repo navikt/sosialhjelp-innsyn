@@ -67,7 +67,7 @@ const VilkarListe = () => {
             </HStack>
             {hasVilkar && <VilkarReadMore />}
             {hasUncompletedDokKrav && <DokKravReadMore />}
-            <VStack as="ol" gap="space-8">
+            <VStack as="ol" gap={{ xs: "space-12", md: "space-16" }}>
                 <NavigationGuardProvider>
                     {sortedUncompletedDokumentasjonKrav.map((dokumentasjonkrav) => (
                         <Dokumentasjonkrav key={dokumentasjonkrav.dokumentasjonkravId} dokKrav={dokumentasjonkrav} />

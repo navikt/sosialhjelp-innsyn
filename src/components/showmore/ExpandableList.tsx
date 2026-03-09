@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { VStack } from "@navikt/ds-react";
+import { VStack, VStackProps } from "@navikt/ds-react";
 
 import useShowMore, { ITEMS_LIMIT } from "@components/showmore/useShowMore";
 import ShowMoreButton from "@components/showmore/ShowMoreButton";
@@ -11,6 +11,7 @@ interface Props<T> {
     showMoreSuffix: string;
     labelledById: string;
     itemsLimit?: number;
+    gap?: VStackProps["gap"];
 }
 
 const ExpandableList = <T,>({
@@ -20,6 +21,7 @@ const ExpandableList = <T,>({
     id,
     showMoreSuffix,
     labelledById,
+    gap = "space-8",
 }: Props<T>): React.JSX.Element => {
     const showMore = useShowMore(items, itemsLimit);
     const { hasMore, showAll } = showMore;
@@ -28,7 +30,7 @@ const ExpandableList = <T,>({
 
     return (
         <>
-            <VStack as="ul" gap="space-8" id={id} aria-labelledby={labelledById}>
+            <VStack as="ul" gap={gap} id={id} aria-labelledby={labelledById}>
                 {/* eslint-disable-next-line react-hooks/refs -- Using ref for focus management on expand */}
                 {visibleItems.map((item, index) => children(item, index === itemsLimit ? firstExpandedItemRef : null))}
             </VStack>
