@@ -22,6 +22,7 @@ const Oppgaver = () => {
     const { id } = useParams<{ id: string }>();
     const toggle = useFlag("sosialhjelp.innsyn.ny_upload");
     const newUploadEnabled = toggle?.enabled ?? false;
+    // Kommer sortert på lastetOpp og deretter frist
     const { data: oppgaver, isFetching } = useGetOppgaverBetaSuspense(id);
 
     if (oppgaver.length === 0) {
@@ -30,12 +31,6 @@ const Oppgaver = () => {
 
     const fullforteOppgaver = oppgaver.filter((oppgave) => oppgave.erLastetOpp);
     const hasUncompletedOppgaver = oppgaver.length - fullforteOppgaver.length > 0;
-    const sortedOppgaver = oppgaver.toSorted((a, b) => {
-        if (a.erLastetOpp === b.erLastetOpp) {
-            return 0;
-        }
-        return a.erLastetOpp ? 1 : -1;
-    });
 
     return (
         <VStack gap="space-8" as="section" aria-labelledby="oppgaver-tittel">
@@ -53,7 +48,7 @@ const Oppgaver = () => {
             {hasUncompletedOppgaver && <OppgaverReadMore />}
             <NavigationGuardProvider>
                 <ExpandableList
-                    items={sortedOppgaver}
+                    items={oppgaver}
                     id={"oppgaver"}
                     showMoreSuffix={t("suffix")}
                     labelledById="oppgaver-tittel"
