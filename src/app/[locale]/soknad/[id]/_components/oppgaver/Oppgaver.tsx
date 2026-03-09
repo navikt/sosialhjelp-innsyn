@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, BodyShort, Box, Heading, HStack, Loader, Skeleton, Tag, VStack } from "@navikt/ds-react";
+import { Alert, Box, Heading, HStack, Loader, Skeleton, Tag, VStack } from "@navikt/ds-react";
 import { NavigationGuardProvider } from "next-navigation-guard";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -32,6 +32,9 @@ const Oppgaver = () => {
     const fullforteOppgaver = oppgaver.filter((oppgave) => oppgave.erLastetOpp);
     const hasUncompletedOppgaver = oppgaver.length - fullforteOppgaver.length > 0;
 
+    const withWarningColor = (text: string | undefined, isUncompleted: boolean) =>
+        isUncompleted && text ? <span className="text-ax-text-warning">{text}</span> : text;
+
     return (
         <VStack gap="space-8" as="section" aria-labelledby="oppgaver-tittel">
             <HStack align="center" gap="space-8">
@@ -53,6 +56,7 @@ const Oppgaver = () => {
                     showMoreSuffix={t("suffix")}
                     labelledById="oppgaver-tittel"
                     itemsLimit={hasUncompletedOppgaver ? 3 : 1}
+                    gap={{ xs: "space-12", md: "space-16" }}
                 >
                     {(oppgave, ref) => {
                         const { typeTekst, tilleggsinfoTekst } = getVisningstekster(
@@ -73,24 +77,17 @@ const Oppgaver = () => {
                                 ref={ref}
                                 key={`${oppgave.oppgaveId}-${oppgave.dokumenttype}-${oppgave.tilleggsinformasjon}`}
                                 background={oppgave.erLastetOpp ? "neutral-soft" : "warning-soft"}
-                                padding="space-24"
+                                padding={{ xs: "space-16", sm: "space-24" }}
                                 borderRadius="12"
-                                borderColor={oppgave.erLastetOpp ? "warning-subtle" : undefined}
+                                borderWidth="1"
+                                borderColor={oppgave.erLastetOpp ? "neutral-subtle" : "warning-subtle"}
                             >
                                 {newUploadEnabled ? (
                                     <OpplastingsboksTus
                                         id={oppgave.oppgaveId}
                                         completed={oppgave.erLastetOpp}
                                         label={typeTekst}
-                                        description={
-                                            oppgave.erLastetOpp ? (
-                                                t("lastetOpp", { dato: new Date(oppgave.opplastetDato!) })
-                                            ) : (
-                                                <BodyShort as="span" lang="no">
-                                                    {tilleggsinfoTekst}
-                                                </BodyShort>
-                                            )
-                                        }
+                                        description={tilleggsinfoTekst}
                                         tag={
                                             <OppgaveTag
                                                 frist={oppgave.innsendelsesfrist}
@@ -103,16 +100,9 @@ const Oppgaver = () => {
                                     <Opplastingsboks
                                         metadata={metadata}
                                         completed={oppgave.erLastetOpp}
-                                        label={typeTekst}
-                                        description={
-                                            oppgave.erLastetOpp ? (
-                                                t("lastetOpp", { dato: new Date(oppgave.opplastetDato!) })
-                                            ) : (
-                                                <BodyShort as="span" lang="no">
-                                                    {tilleggsinfoTekst}
-                                                </BodyShort>
-                                            )
-                                        }
+                                        label={withWarningColor(typeTekst, !oppgave.erLastetOpp)}
+                                        labelText={typeTekst}
+                                        description={withWarningColor(tilleggsinfoTekst, !oppgave.erLastetOpp)}
                                         tag={
                                             <OppgaveTag
                                                 frist={oppgave.innsendelsesfrist}

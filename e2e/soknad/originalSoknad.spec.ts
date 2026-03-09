@@ -63,7 +63,7 @@ test.describe("Original søknad i dokumentliste", () => {
         await expect(soknadLink).toBeVisible();
     });
 
-    test("should show original søknad before other vedlegg in the list", async ({ page, request, baseURL }) => {
+    test("should sort original søknad and other vedlegg chronologically", async ({ page, request, baseURL }) => {
         const msw = createMswHelper(request, baseURL!);
 
         const originalSoknad: OriginalSoknadDto = {
@@ -98,9 +98,9 @@ test.describe("Original søknad i dokumentliste", () => {
         // There should be at least 2 links (original søknad + ettersendelse)
         expect(links.length).toBeGreaterThanOrEqual(2);
 
-        // The original søknad link should be first
-        await expect(links[0]).toContainText("min-soknad.pdf");
-        await expect(links[1]).toContainText("ettersendelse.pdf");
+        // Sorted chronologically — ettersendelse.pdf (Feb) is newer than min-soknad.pdf (Jan)
+        await expect(links[0]).toContainText("ettersendelse.pdf");
+        await expect(links[1]).toContainText("min-soknad.pdf");
     });
 
     test("should not show the documents section when there are no vedlegg and no original søknad", async ({
