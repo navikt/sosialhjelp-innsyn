@@ -2,15 +2,16 @@
 
 import Info from "./Info";
 import Behandlingstid from "./Behandlingstid";
-import { BodyLong, BodyShort, List, VStack } from "@navikt/ds-react";
-import { ListItem } from "@navikt/ds-react/List";
+import OppgaveListe from "./OppgaveListe";
+import { BodyLong, BodyShort, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-import React from "react";
+import { ReactNode } from "react";
 
 type AlertState =
     | { type: "sendt"; navKontor?: string }
     | { type: "saksbehandlingstid"; navKontor?: string }
     | { type: "oppgaver"; oppgaver: { name: string; frist?: Date }[]; navKontor?: string }
+    | { type: "soknadsOppgaver"; oppgaver: { name: string }[] }
     | { type: "nyttVedtak" }
     | { type: "forelopigSvar"; navKontor?: string; forelopigSvarUrl?: string };
 
@@ -52,10 +53,10 @@ const SoknadInfoCard = ({ state }: Props) => {
             return (
                 <Info variant="warning" title={t("oppgaver.title")} titleId="oppgaver-info-card-title">
                     <VStack gap="space-16">
-                        <VStack gap="space-4">
+                        <VStack gap="space-16">
                             <BodyLong>
                                 {t.rich("oppgaver.description", {
-                                    norsk: (chunks) => (
+                                    norsk: (chunks: ReactNode) => (
                                         <BodyShort as="span" lang="no">
                                             {chunks}
                                         </BodyShort>
@@ -63,27 +64,21 @@ const SoknadInfoCard = ({ state }: Props) => {
                                     navKontor: state.navKontor ?? t("defaultNavKontor"),
                                 })}
                             </BodyLong>
-                            <List>
-                                {state.oppgaver.map(({ name, frist }, index) => (
-                                    <ListItem key={`${name}-${index}`}>
-                                        {frist ? (
-                                            t.rich("oppgaver.oppgave", {
-                                                bold: (chunks) => (
-                                                    <BodyShort as="span" weight="semibold">
-                                                        {chunks}
-                                                    </BodyShort>
-                                                ),
-                                                name,
-                                                frist: new Date(frist),
-                                            })
-                                        ) : (
-                                            <BodyShort weight="semibold">{name}</BodyShort>
-                                        )}
-                                    </ListItem>
-                                ))}
-                            </List>
+                            <OppgaveListe oppgaver={state.oppgaver} />
                         </VStack>
                         <BodyLong size="small">{t("oppgaver.warning")}</BodyLong>
+                    </VStack>
+                </Info>
+            );
+        case "soknadsOppgaver":
+            return (
+                <Info variant="reminder" title={t("soknadsOppgaver.title")} titleId="soknads-oppgaver-info-card-title">
+                    <VStack gap="space-16">
+                        <VStack gap="space-16">
+                            <BodyLong>{t("soknadsOppgaver.description")}</BodyLong>
+                            <OppgaveListe oppgaver={state.oppgaver} />
+                        </VStack>
+                        <BodyLong size="small">{t("soknadsOppgaver.disregardInfo")}</BodyLong>
                     </VStack>
                 </Info>
             );

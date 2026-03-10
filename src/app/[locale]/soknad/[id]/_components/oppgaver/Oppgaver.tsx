@@ -35,17 +35,21 @@ const Oppgaver = () => {
     const withWarningColor = (text: string | undefined, isUncompleted: boolean) =>
         isUncompleted && text ? <span className="text-ax-text-warning">{text}</span> : text;
 
+    const isAllOppgaverFromSoknad = oppgaver.every((oppgave) => oppgave.erFraInnsyn === false);
+
     return (
         <VStack gap="space-8" as="section" aria-labelledby="oppgaver-tittel">
             <HStack align="center" gap="space-8">
                 <Heading size="medium" level="2" id="oppgaver-tittel">
-                    {t("tittel")}
+                    {isAllOppgaverFromSoknad ? t("missingInformationTitle") : t("tittel")}
                 </Heading>
-                <Tag variant={hasUncompletedOppgaver ? "warning" : "success"} icon={<TasklistIcon aria-hidden />}>
-                    {hasUncompletedOppgaver
-                        ? t("xAvYFullfort", { fullfort: fullforteOppgaver.length, total: oppgaver.length })
-                        : t("alleFullfort")}
-                </Tag>
+                {!isAllOppgaverFromSoknad && (
+                    <Tag variant={hasUncompletedOppgaver ? "warning" : "success"} icon={<TasklistIcon aria-hidden />}>
+                        {hasUncompletedOppgaver
+                            ? t("xAvYFullfort", { fullfort: fullforteOppgaver.length, total: oppgaver.length })
+                            : t("alleFullfort")}
+                    </Tag>
+                )}
                 {isFetching && <Loader />}
             </HStack>
             {hasUncompletedOppgaver && <OppgaverReadMore />}
@@ -76,7 +80,9 @@ const Oppgaver = () => {
                                 as="li"
                                 ref={ref}
                                 key={`${oppgave.oppgaveId}-${oppgave.dokumenttype}-${oppgave.tilleggsinformasjon}`}
-                                background={oppgave.erLastetOpp ? "neutral-soft" : "warning-soft"}
+                                background={
+                                    oppgave.erLastetOpp || !oppgave.erFraInnsyn ? "neutral-soft" : "warning-soft"
+                                }
                                 padding={{ xs: "space-16", sm: "space-24" }}
                                 borderRadius="12"
                                 borderWidth="1"

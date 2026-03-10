@@ -68,11 +68,16 @@
         "mottatt": {
             "title": "Saksbehandlingstid"
         },
+        "oppgave": "<bold>{name}</bold> (frist {frist, date, ::ddMMyyyy})",
         "oppgaver": {
             "title": "Du har fått oppgåver",
             "description": "<norsk>{navKontor}</norsk> treng meir dokumentasjon for å kunne behandle saka di:",
-            "oppgave": "<bold>{name}</bold> (frist {frist, date, ::ddMMyyyy})",
             "warning": "Viss du ikkje sender nødvendig dokumentasjon innan fristen, kan ikkje Nav-kontoret behandle søknaden din. Det kan føre til at søknaden vert avslått og at du må søkje på nytt. Har du levert noko av dokumentasjonen direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
+        },
+        "soknadsOppgaver": {
+            "title": "Hugs å fullføre søknaden",
+            "description": "Her ser du kva opplysningar du ikkje sende inn saman med søknaden. Vi tilrår at du sender inn desse opplysningane så snart som mogleg.",
+            "disregardInfo": "Har du levert opplysningane direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
         },
         "nyttVedtak": {
             "title": "Du har fått eit nytt vedtak",
@@ -127,6 +132,7 @@
     },
     "Oppgaver": {
         "tittel": "Oppgåver",
+        "missingInformationTitle": "Vi manglar nokre opplysningar til søknaden din",
         "visFullforte": "Vis fullførte oppgåver",
         "suffix": "oppgåver",
         "lastetOpp": "Levert {dato, date, ::ddMMyyyy}",
