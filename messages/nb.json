@@ -50,12 +50,6 @@
             "beskrivelse2": "Hvis vilkåret ikke oppfylles, kan Nav fatte nytt vedtak om reduksjon i sosialhjelpen, men det må være informert om i vedtaket ditt. <lenke>Les mer om vilkår her</lenke>."
         }
     },
-    "Dokumentasjonkrav": {
-        "tittel": "Dokumentasjonkrav",
-        "beskrivelse": "Nav kan be deg om å levere dokumenter som opplyser saken din i forbindelse med søknaden. Det kan for eksempel være husleiekontrakt eller strømfaktura. Du kan levere dokumentene digitalt eller fysisk på Nav-kontoret.",
-        "frist": "Frist: {frist, date, ::ddMMyyyy}",
-        "løst": "Sendt inn"
-    },
     "Behandlingstid": {
         "Description": {
             "normal": "<norsk>{navKontor}</norsk> vil behandle saken din så fort de kan.",
@@ -246,6 +240,7 @@
         "lastetOpp": "lastet opp {dato, date, ::ddMMyyyy}",
         "soknadFilename": "Søknad om økonomisk sosialhjelp",
         "sendt": "Sendt {dato, date, ::ddMMyyyy}",
+        "ettersendt": "Ettersendt dokumentasjon",
         "visFlereDokumenter": "dokumenter"
     },
     "Metadata": {
@@ -892,5 +887,27 @@
         "nettsidesBody": "Hvis du skal sende dokumentasjon fra en annen nettside, kan du laste ned dokumentet først hvis det er mulig. For eksempel er skattemeldingen og vedtak fra Lånekassen tilgjengelig for nedlastning som PDF. Du bør unngå å ta bilde av PC-skjermen med et kamera.",
         "lesbarHeading": "Sørg for at dokumentasjonen du sender kan leses",
         "lesbarBody": "Det er viktig at du sjekker at dokumentasjonen du laster opp er fullstendige og kan leses. Hvis det er vanskelig å lese dokumentet, kan du bli bedt om å sende de på nytt."
+    },
+    "VilkarReadMore": {
+        "header": "Hvordan fungerer vilkår?",
+        "beskrivelse": "Vilkår kan brukes hvis det bidrar til å gjøre deg i stand til å sørge for ditt livsopphold på en annen måte enn ved økonomisk sosialhjelp. Når det settes vilkår, skal det bidra til å hjelpe deg med å komme ut av en vanskelig livssituasjon. Som hovedregel skal vilkåret settes i samarbeid med deg.",
+        "beskrivelse2": "Hvis vilkåret ikke oppfylles, kan Nav fatte nytt vedtak om reduksjon i sosialhjelpen, men det må være informert om i vedtaket ditt. <lenke>Les mer om vilkår her</lenke>."
+    },
+    "DokKravReadMore": {
+        "header": "Trenger du hjelp til å sende dokumentasjon?",
+        "feilFormatHeading": "Godtar vi ikke dokumentet du prøver å sende inn?",
+        "feilFormatBody": "Da kan du gjerne sjekke om dokumentet er under 10 MB, eller er låst med passord.",
+        "papirHeading": "Dokumentasjon du har på papir",
+        "papirBody": "Har du dokumentasjon på papir, kan du skanne det og sende det digitalt. Ved å skanne dokumentasjonen blir kvaliteten bedre, slik at de er lettere å lese.",
+        "nettsidesHeading": "Dokumentasjon fra andre nettsider",
+        "nettsidesBody": "Hvis du skal sende dokumentasjon fra en annen nettside, kan du laste ned dokumentet først hvis det er mulig. For eksempel er skattemeldingen og vedtak fra Lånekassen tilgjengelig for nedlastning som PDF. Du bør unngå å ta bilde av PC-skjermen med et kamera.",
+        "lesbarHeading": "Sørg for at dokumentasjonen du sender kan leses",
+        "lesbarBody": "Det er viktig at du sjekker at dokumentasjonen du laster opp er fullstendige og kan leses. Hvis det er vanskelig å lese dokumentet, kan du bli bedt om å sende de på nytt."
+    },
+    "Dokumentasjonkrav": {
+        "tittel": "Dokumentasjonkrav",
+        "beskrivelse": "Nav kan be deg om å levere dokumenter som opplyser saken din i forbindelse med søknaden. Det kan for eksempel være husleiekontrakt eller strømfaktura. Du kan levere dokumentene digitalt eller fysisk på Nav-kontoret.",
+        "frist": "Frist: {frist, date, ::ddMMyyyy}",
+        "løst": "Sendt inn"
     }
 }

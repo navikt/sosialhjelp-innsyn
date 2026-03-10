@@ -1,4 +1,4 @@
-import { Alert, BodyShort, Button, FileObject, FileUpload, HStack, VStack } from "@navikt/ds-react";
+import { Alert, BodyLong, Button, FileObject, FileUpload, HStack, VStack } from "@navikt/ds-react";
 import { ReactNode } from "react";
 import { allowedFileTypes } from "@components/filopplasting/new/consts";
 import { UploadIcon } from "@navikt/aksel-icons";
@@ -31,7 +31,16 @@ export const FileSelectUpload = ({
                 <FileUpload.Dropzone
                     className="flex flex-col"
                     // @ts-expect-error: Typen på Dropzone er string, men den sendes ned i en komponent som aksepterer ReactNode.
-                    label={label}
+                    label={
+                        tag ? (
+                            <HStack justify="space-between">
+                                {label}
+                                {tag}
+                            </HStack>
+                        ) : (
+                            label
+                        )
+                    }
                     description={description}
                     onSelect={onSelect}
                     accept={allowedFileTypes}
@@ -42,8 +51,11 @@ export const FileSelectUpload = ({
                 />
             ) : (
                 <VStack gap="space-16">
-                    <HStack justify="space-between">{tag}</HStack>
-                    {description && <BodyShort as="div">{description}</BodyShort>}
+                    {tag && <HStack>{tag}</HStack>}
+                    <VStack gap="space-4">
+                        {label && <div>{label}</div>}
+                        {description && <BodyLong as="div">{description}</BodyLong>}
+                    </VStack>
                     <FileUpload.Trigger
                         accept={allowedFileTypes}
                         maxSizeInBytes={10 * 1024 * 1024}

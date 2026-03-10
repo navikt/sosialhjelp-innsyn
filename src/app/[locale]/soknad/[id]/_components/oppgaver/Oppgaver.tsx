@@ -1,41 +1,29 @@
 "use client";
 
-import { Alert, BodyShort, Box, Heading, HStack, Loader, Skeleton, Tag, VStack } from "@navikt/ds-react";
+import { Alert, Box, Heading, HStack, Loader, Skeleton, Tag, VStack } from "@navikt/ds-react";
 import { NavigationGuardProvider } from "next-navigation-guard";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import React, { use } from "react";
+import React from "react";
 import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
 import OpplastingsboksTus from "@components/filopplasting/new/OpplastingsboksTus";
 import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
 import { useFlag } from "@featuretoggles/context";
 import { Metadata } from "@components/filopplasting/new/types";
-import {
-    useGetOppgaverBetaSuspense,
-    useGetDokumentasjonkravBetaSuspense,
-} from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
-import { VilkarResponse } from "@generated/ssr/model";
-
-import VilkarListe from "../saker/vilkar/VilkarListe";
-import Dokumentasjonkrav from "../saker/dokumentasjonkrav/Dokumentasjonkrav";
+import { useGetOppgaverBetaSuspense } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 
 import OppgaveTag from "./OppgaveTag";
 import OppgaverReadMore from "./readmore/OppgaverReadMore";
 import ExpandableList from "@components/showmore/ExpandableList";
 import { TasklistIcon } from "@navikt/aksel-icons";
 
-interface Props {
-    vilkarPromise?: Promise<VilkarResponse[]>;
-}
-
-const Oppgaver = ({ vilkarPromise }: Props) => {
+const Oppgaver = () => {
     const t = useTranslations("Oppgaver");
     const { id } = useParams<{ id: string }>();
     const toggle = useFlag("sosialhjelp.innsyn.ny_upload");
     const newUploadEnabled = toggle?.enabled ?? false;
+    // Kommer sortert på lastetOpp og deretter frist
     const { data: oppgaver, isFetching } = useGetOppgaverBetaSuspense(id);
-    const { data: alleDokumentasjonkrav } = useGetDokumentasjonkravBetaSuspense(id);
-    const vilkar = vilkarPromise ? use(vilkarPromise) : [];
 
     if (oppgaver.length === 0) {
         return null;
@@ -43,12 +31,9 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
 
     const fullforteOppgaver = oppgaver.filter((oppgave) => oppgave.erLastetOpp);
     const hasUncompletedOppgaver = oppgaver.length - fullforteOppgaver.length > 0;
-    const sortedOppgaver = oppgaver.toSorted((a, b) => {
-        if (a.erLastetOpp === b.erLastetOpp) {
-            return 0;
-        }
-        return a.erLastetOpp ? 1 : -1;
-    });
+
+    const withWarningColor = (text: string | undefined, isUncompleted: boolean) =>
+        isUncompleted && text ? <span className="text-ax-text-warning">{text}</span> : text;
 
     const isAllOppgaverFromSoknad = oppgaver.every((oppgave) => oppgave.erFraInnsyn === false);
 
@@ -70,11 +55,12 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
             {hasUncompletedOppgaver && <OppgaverReadMore />}
             <NavigationGuardProvider>
                 <ExpandableList
-                    items={sortedOppgaver}
+                    items={oppgaver}
                     id={"oppgaver"}
                     showMoreSuffix={t("suffix")}
                     labelledById="oppgaver-tittel"
                     itemsLimit={hasUncompletedOppgaver ? 3 : 1}
+                    gap={{ xs: "space-12", md: "space-16" }}
                 >
                     {(oppgave, ref) => {
                         const { typeTekst, tilleggsinfoTekst } = getVisningstekster(
@@ -97,24 +83,17 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                                 background={
                                     oppgave.erLastetOpp || !oppgave.erFraInnsyn ? "neutral-soft" : "warning-soft"
                                 }
-                                padding="space-24"
+                                padding={{ xs: "space-16", sm: "space-24" }}
                                 borderRadius="12"
-                                borderColor={oppgave.erLastetOpp ? "warning-subtle" : undefined}
+                                borderWidth="1"
+                                borderColor={oppgave.erLastetOpp ? "neutral-subtle" : "warning-subtle"}
                             >
                                 {newUploadEnabled ? (
                                     <OpplastingsboksTus
                                         id={oppgave.oppgaveId}
                                         completed={oppgave.erLastetOpp}
                                         label={typeTekst}
-                                        description={
-                                            oppgave.erLastetOpp ? (
-                                                t("lastetOpp", { dato: new Date(oppgave.opplastetDato!) })
-                                            ) : (
-                                                <BodyShort as="span" lang="no">
-                                                    {tilleggsinfoTekst}
-                                                </BodyShort>
-                                            )
-                                        }
+                                        description={tilleggsinfoTekst}
                                         tag={
                                             <OppgaveTag
                                                 frist={oppgave.innsendelsesfrist}
@@ -127,16 +106,9 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                                     <Opplastingsboks
                                         metadata={metadata}
                                         completed={oppgave.erLastetOpp}
-                                        label={typeTekst}
-                                        description={
-                                            oppgave.erLastetOpp ? (
-                                                t("lastetOpp", { dato: new Date(oppgave.opplastetDato!) })
-                                            ) : (
-                                                <BodyShort as="span" lang="no">
-                                                    {tilleggsinfoTekst}
-                                                </BodyShort>
-                                            )
-                                        }
+                                        label={withWarningColor(typeTekst, !oppgave.erLastetOpp)}
+                                        labelText={typeTekst}
+                                        description={withWarningColor(tilleggsinfoTekst, !oppgave.erLastetOpp)}
                                         tag={
                                             <OppgaveTag
                                                 frist={oppgave.innsendelsesfrist}
@@ -150,8 +122,6 @@ const Oppgaver = ({ vilkarPromise }: Props) => {
                     }}
                 </ExpandableList>
             </NavigationGuardProvider>
-            {vilkar.length > 0 && <VilkarListe vilkar={vilkar} />}
-            {alleDokumentasjonkrav.length > 0 && <Dokumentasjonkrav dokumentasjonkrav={alleDokumentasjonkrav} />}
         </VStack>
     );
 };

@@ -1,10 +1,11 @@
 import { isServer, QueryClient, defaultShouldDehydrateQuery } from "@tanstack/react-query";
+import { browserEnv } from "@config/env";
 
-function makeQueryClient() {
+function makeQueryClient(env?: string) {
     return new QueryClient({
         defaultOptions: {
             queries: {
-                staleTime: 60 * 1000,
+                staleTime: env === "e2e" ? Infinity : 60 * 1000,
             },
             dehydrate: {
                 // include pending queries in dehydration
@@ -33,7 +34,7 @@ export function getQueryClient() {
         // This is very important, so we don't re-make a new client if React
         // suspends during the initial render. This may not be needed if we
         // have a suspense boundary BELOW the creation of the query client
-        if (!browserQueryClient) browserQueryClient = makeQueryClient();
+        if (!browserQueryClient) browserQueryClient = makeQueryClient(browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT);
         return browserQueryClient;
     }
 }
