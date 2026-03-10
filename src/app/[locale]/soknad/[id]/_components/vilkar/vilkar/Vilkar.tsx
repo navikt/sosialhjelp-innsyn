@@ -1,17 +1,18 @@
-import { BodyShort, Box, Heading } from "@navikt/ds-react";
+import { BodyShort, Heading } from "@navikt/ds-react";
 import { VilkarResponse } from "@generated/model";
+import TaskListItem from "../../tasklistitem/TaskListItem";
 
 interface Props {
     vilkar: VilkarResponse;
 }
 
 const Vilkar = ({ vilkar }: Props) => (
-    <Box as="li" background="warning-moderateA" padding="space-24" borderRadius="12">
+    <TaskListItem completed={false}>
         <Heading level="4" size="small" lang="no">
             {vilkar.tittel}
         </Heading>
         <BodyShort lang="no">{vilkar.beskrivelse}</BodyShort>
-    </Box>
+    </TaskListItem>
 );
 
 export default Vilkar;

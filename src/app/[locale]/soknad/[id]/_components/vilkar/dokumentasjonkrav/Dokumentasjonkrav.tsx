@@ -1,7 +1,8 @@
 "use client";
 
-import { Box, Tag } from "@navikt/ds-react";
+import { Tag } from "@navikt/ds-react";
 import OpplastingsboksTus from "@components/filopplasting/new/OpplastingsboksTus";
+import TaskListItem from "../../tasklistitem/TaskListItem";
 import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
 import { useTranslations } from "next-intl";
 import { DokumentasjonkravDto } from "@generated/model";
@@ -16,13 +17,7 @@ const Dokumentasjonkrav = ({ dokKrav }: Props) => {
     const toggle = useFlag("sosialhjelp.innsyn.ny_upload");
     const newUploadEnabled = toggle?.enabled ?? false;
     return (
-        <Box
-            as="li"
-            key={dokKrav.dokumentasjonkravId}
-            background="neutral-soft"
-            padding={{ xs: "space-16", sm: "space-24" }}
-            borderRadius="12"
-        >
+        <TaskListItem completed={dokKrav.erLastetOpp}>
             {newUploadEnabled ? (
                 <OpplastingsboksTus
                     id={dokKrav.dokumentasjonkravId}
@@ -67,7 +62,7 @@ const Dokumentasjonkrav = ({ dokKrav }: Props) => {
                     }
                 />
             )}
-        </Box>
+        </TaskListItem>
     );
 };
 
