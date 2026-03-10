@@ -64,6 +64,7 @@ const nextConfig: NextConfig = {
     experimental: {
         scrollRestoration: true,
         optimizePackageImports: ["@navikt/ds-react", "@navikt/aksel-icons"],
+        proxyClientMaxBodySize: "100mb",
     },
     productionBrowserSourceMaps: true,
 };
