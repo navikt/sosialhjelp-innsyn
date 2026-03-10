@@ -3,7 +3,7 @@
 import Info from "./Info";
 import Behandlingstid from "./Behandlingstid";
 import OppgaveListe from "./OppgaveListe";
-import { BodyLong, BodyShort, VStack, Link as AkselLink } from "@navikt/ds-react";
+import { BodyLong, BodyShort, VStack, Link as AkselLink, List } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { ReactNode } from "react";
 import { Link } from "@i18n/navigation";
@@ -79,7 +79,7 @@ const SoknadInfoCard = ({ state }: Props) => {
                         <BodyLong>{t("vilkar.description")}</BodyLong>
                         <List>
                             {state.vilkar.map(({ name, frist }, index) => (
-                                <ListItem key={`${name}-${index}`}>
+                                <List.Item key={`${name}-${index}`}>
                                     {frist ? (
                                         t.rich("vilkar.vilkar", {
                                             bold: (chunks) => (
@@ -95,7 +95,7 @@ const SoknadInfoCard = ({ state }: Props) => {
                                             {name}
                                         </BodyShort>
                                     )}
-                                </ListItem>
+                                </List.Item>
                             ))}
                         </List>
                         <BodyLong>{t("vilkar.kanHaFlere")}</BodyLong>

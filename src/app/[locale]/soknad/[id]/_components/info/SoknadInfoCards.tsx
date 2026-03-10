@@ -72,7 +72,10 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
                 }}
             />
         );
-    } else if (harFattVedtak) {
+    } else if (vilkar.length + dokKrav.length === 0 && harFattVedtak) {
+        /* Ikke vis "Du kan ha vilkår" dersom det allerede er vilkår eller dokumentasjonskrav som er oppfylt.
+         * Da vet vi at fagsystemet støtte vilkår/dokkrav, og kan derfor regne med at nye vilkår/dokkrav vil vises i innsyn.
+         */
         cards.push(<SoknadInfoCard key="kan-ha-vilkar" state={{ type: "kanHaVilkar" }} />);
     }
 
