@@ -88,7 +88,7 @@ test.describe("Vilkår", () => {
         await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
-        await expect(page.getByRole("heading", { name: "Vilkår", level: 2 })).toBeVisible();
+        await expect(page.getByRole("heading", { name: "Vilkår", level: 2, exact: true })).toBeVisible();
     });
 
     test("should show vilkår section when there are uncompleted dokumentasjonkrav", async ({
@@ -107,7 +107,7 @@ test.describe("Vilkår", () => {
         await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
-        await expect(page.getByRole("heading", { name: "Vilkår", level: 2 })).toBeVisible();
+        await expect(page.getByRole("heading", { name: "Vilkår", level: 2, exact: true })).toBeVisible();
     });
 
     test("should render vilkår title and description", async ({ page, request, baseURL }) => {
@@ -291,8 +291,9 @@ test.describe("DokKravReadMore", () => {
         const uuid = "413ff800-c795-4a64-865e-e2cabac7828c";
         await mockSoknadEndpoints(msw, uuid, {
             saksStatus: defaultSaksStatus,
-            dokumentasjonkrav: [createDokKrav("d1", new Date(Date.now() + 86400000).toISOString(), false)],
+            dokumentasjonkrav: [createDokKrav("d1", addDays(new Date(), 1).toISOString(), false)],
         });
+        await msw.mockEndpoint(`/api/v2/innsyn/${uuid}/oppgaver/ref-d1/vedlegg`, []);
 
         await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
@@ -350,7 +351,7 @@ test.describe("Sort order", () => {
         await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
-        const vilkarRegion = page.getByRole("region", { name: "Vilkår" });
+        const vilkarRegion = page.getByRole("region", { name: "Vilkår", exact: true });
         await vilkarRegion.waitFor({ state: "visible" });
 
         const listItems = await vilkarRegion.getByRole("listitem").all();
@@ -376,7 +377,7 @@ test.describe("Sort order", () => {
         await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
-        const vilkarRegion = page.getByRole("region", { name: "Vilkår" });
+        const vilkarRegion = page.getByRole("region", { name: "Vilkår", exact: true });
         await vilkarRegion.waitFor({ state: "visible" });
 
         const listItems = await vilkarRegion.getByRole("listitem").all();
@@ -405,7 +406,7 @@ test.describe("Sort order", () => {
         await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
-        const vilkarRegion = page.getByRole("region", { name: "Vilkår" });
+        const vilkarRegion = page.getByRole("region", { name: "Vilkår", exact: true });
         await vilkarRegion.waitFor({ state: "visible" });
 
         const listItems = await vilkarRegion.getByRole("listitem").all();
@@ -432,7 +433,7 @@ test.describe("Sort order", () => {
         await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
-        const vilkarRegion = page.getByRole("region", { name: "Vilkår" });
+        const vilkarRegion = page.getByRole("region", { name: "Vilkår", exact: true });
         await vilkarRegion.waitFor({ state: "visible" });
 
         const listItems = await vilkarRegion.getByRole("list").getByRole("listitem").all();
