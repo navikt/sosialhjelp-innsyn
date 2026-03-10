@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, Box, Heading, HStack, Loader, Skeleton, Tag, VStack } from "@navikt/ds-react";
+import { Alert, Heading, HStack, Loader, Skeleton, Tag, VStack } from "@navikt/ds-react";
 import { NavigationGuardProvider } from "next-navigation-guard";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -12,6 +12,7 @@ import { useFlag } from "@featuretoggles/context";
 import { Metadata } from "@components/filopplasting/new/types";
 import { useGetOppgaverBetaSuspense } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 
+import TaskListItem from "../tasklistitem/TaskListItem";
 import OppgaveTag from "./OppgaveTag";
 import OppgaverReadMore from "./readmore/OppgaverReadMore";
 import ExpandableList from "@components/showmore/ExpandableList";
@@ -76,17 +77,13 @@ const Oppgaver = () => {
                             hendelsetype: oppgave.hendelsetype,
                         };
                         return (
-                            <Box
-                                as="li"
+                            <TaskListItem
                                 ref={ref}
                                 key={`${oppgave.oppgaveId}-${oppgave.dokumenttype}-${oppgave.tilleggsinformasjon}`}
+                                completed={oppgave.erLastetOpp}
                                 background={
                                     oppgave.erLastetOpp || !oppgave.erFraInnsyn ? "neutral-soft" : "warning-soft"
                                 }
-                                padding={{ xs: "space-16", sm: "space-24" }}
-                                borderRadius="12"
-                                borderWidth="1"
-                                borderColor={oppgave.erLastetOpp ? "neutral-subtle" : "warning-subtle"}
                             >
                                 {newUploadEnabled ? (
                                     <OpplastingsboksTus
@@ -117,7 +114,7 @@ const Oppgaver = () => {
                                         }
                                     />
                                 )}
-                            </Box>
+                            </TaskListItem>
                         );
                     }}
                 </ExpandableList>
