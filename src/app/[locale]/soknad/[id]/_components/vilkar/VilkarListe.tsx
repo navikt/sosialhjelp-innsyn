@@ -74,7 +74,7 @@ const VilkarListe = () => {
                     ))}
                 </NavigationGuardProvider>
                 {sortedVilkar.map((vilk) => (
-                    <Vilkar key={vilk.vilkarReferanse} vilkar={vilk}></Vilkar>
+                    <Vilkar key={vilk.vilkarReferanse} vilkar={vilk} />
                 ))}
                 <NavigationGuardProvider>
                     {sortedCompletedDokumentasjonKrav.map((dokumentasjonkrav) => (

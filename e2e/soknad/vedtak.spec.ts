@@ -181,7 +181,7 @@ test.describe("Vedtak functionality", () => {
             id: "vedtak-3",
             utfall: "AVSLATT",
             vedtaksFilUrl: "/vedtak/3.pdf",
-            dato: "2025-11-25",
+            dato: "2025-11-28",
         };
 
         await mockSoknadEndpoints(msw, "test-soknad-1", {

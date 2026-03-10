@@ -73,6 +73,14 @@
             "description": "<norsk>{navKontor}</norsk> needs more documentation to process your case:",
             "warning": "If you do not submit the required documentation by the deadline, the Nav office will not be able to process your application. This may result in your application being rejected and you having to apply again. If you have delivered some of the documentation directly to your Nav office, you can disregard this message."
         },
+        "vilkar": {
+            "titleEmpty": "You may have received conditions",
+            "title": "You have received conditions",
+            "descriptionEmpty": "Conditions are activities you must carry out as part of your follow-up from Nav. <link>Read your decision letter</link> to see if you have received conditions, or whether the Nav office needs more documentation to pay your benefit.",
+            "description": "Conditions are activities you must carry out as part of your follow-up from Nav.",
+            "vilkar": "<bold>{name}</bold> ({frist, date, ::ddMMyyyy})",
+            "kanHaFlere": "Note! You may have received more conditions than those shown here. Read your decision letter to see if you have received more conditions, or whether the Nav office needs more documentation to pay your benefit."
+        },
         "soknadsOppgaver": {
             "title": "Remember to complete your application",
             "description": "Here you can see which information you did not submit with your application. We recommend that you submit this information as soon as possible.",
