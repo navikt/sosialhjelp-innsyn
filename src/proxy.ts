@@ -29,7 +29,7 @@ export async function proxy(request: NextRequest) {
         ).pathname.split("/");
         const pathname = "/" + rest.join("/");
 
-        if (pathname.includes("/status")) {
+        if (pathname.includes("/status") && !pathname.includes("/klage")) {
             const soknadToggle = getFlag("sosialhjelp.innsyn.ny_soknadside", await getToggles());
             if (soknadToggle.enabled) {
                 const id = pathname.split("/")[1];
