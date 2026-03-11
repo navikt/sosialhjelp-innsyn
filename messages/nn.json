@@ -91,6 +91,10 @@
         "nyttVedtak": {
             "title": "Du har fått eit nytt vedtak",
             "description": "Les det nyaste vedtaksbrevet for meir informasjon"
+        },
+        "ikkeInnsyn": {
+            "title": "Kan ikkje vise status",
+            "description": "Saka di vil bli behandla, men me kan ikkje vise status for søknaden din på nav.no. Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringje oss på <tlf>55 55 33 33</tlf>."
         }
     },
     "StatusPage": {

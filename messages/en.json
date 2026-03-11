@@ -90,6 +90,10 @@
         "nyttVedtak": {
             "title": "You have received a new decision",
             "description": "Read the latest decision letter for more information"
+        },
+        "ikkeInnsyn": {
+            "title": "Cannot display status",
+            "description": "Your application will be processed, but we cannot display the status of your application on nav.no. If you have questions, you can <navKontorLenke>contact your local Nav office</navKontorLenke>, or call us at <tlf>55 55 33 33</tlf>."
         }
     },
     "StatusPage": {
