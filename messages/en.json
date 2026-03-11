@@ -228,7 +228,8 @@
         "tittel": "Your documents"
     },
     "Filopplasting": {
-        "tittel": "Submit additional documentation",
+        "tittel": "Do you want to attach more documents?",
+        "beskrivelse": "If you have more relevant information regarding your application, they can be uploaded here.",
         "opplastedeVedlegg": "Documents"
     },
     "VedleggListe": {

@@ -21,7 +21,6 @@ interface Props {
 
 const Filopplasting = ({ id, newUploadEnabled }: Props) => {
     const t = useTranslations("Filopplasting");
-    const tOpplastingsboks = useTranslations("Opplastingsboks");
     const isMobile = useIsMobile();
 
     const { data: vedlegg } = useHentVedleggSuspense(id);
@@ -32,7 +31,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
             <Heading size="medium" level="2">
                 {t("tittel")}
             </Heading>
-            {!isMobile && <BodyLong>{tOpplastingsboks("beskrivelse")}</BodyLong>}
+            {!isMobile && <BodyLong>{t("beskrivelse")}</BodyLong>}
             <Box
                 background="info-soft"
                 padding={{ xs: "space-16", sm: "space-24" }}
@@ -42,7 +41,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
             >
                 <VStack gap="space-40">
                     <VStack gap={isMobile ? "space-16" : "space-40"}>
-                        {isMobile && <BodyLong>{tOpplastingsboks("beskrivelse")}</BodyLong>}
+                        {isMobile && <BodyLong>{t("beskrivelse")}</BodyLong>}
                         <NavigationGuardProvider>
                             {newUploadEnabled ? (
                                 <OpplastingsboksTus metadata={metadata} id={id} />

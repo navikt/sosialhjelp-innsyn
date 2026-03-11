@@ -241,7 +241,8 @@
         "tittel": "Dine dokumenter"
     },
     "Filopplasting": {
-        "tittel": "Ettersend dokumentasjon",
+        "tittel": "Har du mer dokumentasjon du vil sende inn?",
+        "beskrivelse": "Hvis du har flere opplysninger som kan være relevante for søknaden din, kan de sendes inn her.",
         "opplastedeVedlegg": "Dokumenter"
     },
     "VedleggListe": {
