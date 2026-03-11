@@ -8,10 +8,12 @@ interface Props {
 
 const Vilkar = ({ vilkar }: Props) => (
     <TaskListItem completed={false}>
-        <Heading level="4" size="small" lang="no">
+        <Heading level="4" size="small" lang="no" data-color="warning">
             {vilkar.tittel}
         </Heading>
-        <BodyShort lang="no">{vilkar.beskrivelse}</BodyShort>
+        <BodyShort lang="no" data-color="warning">
+            {vilkar.beskrivelse}
+        </BodyShort>
     </TaskListItem>
 );
 
