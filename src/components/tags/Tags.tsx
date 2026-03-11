@@ -14,7 +14,11 @@ const Tags = ({ soknad }: Props) => {
     const mottattDato = soknad.mottattTidspunkt ? new Date(soknad.mottattTidspunkt) : undefined;
     const isDigitalSoknad = !!sendtDato;
     const forsteOppgaveFrist = soknad.forsteOppgaveFrist ? new Date(soknad.forsteOppgaveFrist) : undefined;
+    const sisteDokumentasjonKravFrist = soknad.sisteDokumentasjonKravFrist
+        ? new Date(soknad.sisteDokumentasjonKravFrist)
+        : undefined;
     const antallNyeOppgaver = soknad.antallNyeOppgaver ?? 0;
+    const antallNyeVilkarOgDokumentasjonKrav = soknad.antallNyeVilkarOgDokumentasjonKrav ?? 0;
     const harSakMedFlereVedtak = soknad.saker?.some((s) => s.antallVedtak > 1) ?? false;
 
     if (soknad.status === "MOTTATT") {
@@ -38,12 +42,17 @@ const Tags = ({ soknad }: Props) => {
         const antallSaker = soknad.saker?.length || 1;
         const ferdigeSaker = soknad.saker?.filter((sak) => sak.status === "FERDIGBEHANDLET").length || 0;
         const vedtakProgress = antallSaker > 1 && ferdigeSaker > 0 ? { ferdigeSaker, antallSaker } : undefined;
+        const antallNyeDokEtterspurt = antallNyeOppgaver - antallNyeVilkarOgDokumentasjonKrav;
+
         return (
             <>
                 <DatoTag sendtDato={sendtDato} mottattDato={mottattDato} />
                 <BehandlingsStatusTag status="under_behandling" vedtakProgress={vedtakProgress} />
                 {harSakMedFlereVedtak && <VedtakTag />}
-                {antallNyeOppgaver > 0 && <AlertTag alertType="oppgave" deadline={forsteOppgaveFrist} />}
+                {antallNyeDokEtterspurt > 0 && <AlertTag alertType="oppgave" deadline={forsteOppgaveFrist} />}
+                {antallNyeVilkarOgDokumentasjonKrav > 0 && (
+                    <AlertTag alertType="vilkar" deadline={sisteDokumentasjonKravFrist} />
+                )}
                 {soknad.forelopigSvar?.harMottattForelopigSvar && <AlertTag alertType="forlenget_behandlingstid" />}
             </>
         );
@@ -56,7 +65,9 @@ const Tags = ({ soknad }: Props) => {
                     status={!isActiveSoknad(soknad) ? "ferdigbehandlet_eldre" : "ferdigbehandlet_nylig"}
                 />
                 {harSakMedFlereVedtak && <VedtakTag />}
-                {soknad.vilkar && <AlertTag alertType="oppgave" deadline={forsteOppgaveFrist} />}
+                {antallNyeVilkarOgDokumentasjonKrav > 0 && (
+                    <AlertTag alertType="vilkar" deadline={sisteDokumentasjonKravFrist} />
+                )}
             </>
         );
     }

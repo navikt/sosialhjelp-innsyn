@@ -615,6 +615,46 @@ test.describe("SoknadCard rendering logic", () => {
         await expect(page.getByText(/2 av 3 saker er ferdigbehandlet/)).toBeVisible();
     });
 
+    test("UNDER_BEHANDLING with multiple saker where there is both vilkår and dokumentasjonEtterspurt should show both tags", async ({
+        page,
+        request,
+        baseURL,
+    }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const mockSak = {
+            fiksDigisosId: "test-under-behandling-progress",
+            soknadTittel: "Søknad med flere saker",
+            sistOppdatert: "2025-12-01T10:00:00Z",
+            kommunenummer: "0301",
+            soknadOpprettet: "2025-11-05T10:00:00Z",
+            status: "UNDER_BEHANDLING",
+        };
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
+        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+            fiksDigisosId: mockSak.fiksDigisosId,
+            antallNyeOppgaver: 2,
+            antallNyeVilkarOgDokumentasjonKrav: 1,
+            forsteOppgaveFrist: "2025-12-20T10:00:00Z",
+            sisteDokumentasjonKravFrist: "2025-12-25T10:00:00Z",
+            dokumentasjonEtterspurt: true,
+            forelopigSvar: { harMottattForelopigSvar: false },
+            dokumentasjonkrav: true,
+            status: "UNDER_BEHANDLING",
+            soknadTittel: "Søknad med flere saker",
+            vilkar: false,
+            saker: [
+                { status: "FERDIGBEHANDLET", antallVedtak: 1 },
+                { status: "UNDER_BEHANDLING", antallVedtak: 0 },
+            ],
+        } satisfies SaksDetaljerResponse);
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+
+        await expect(page.getByRole("link", { name: /Søknad med flere saker/ })).toBeVisible();
+        await expect(page.getByText(/20\.12\.2025/)).toBeVisible();
+        await expect(page.getByText(/25\.12\.2025/)).toBeVisible();
+    });
+
     test("UNDER_BEHANDLING with multiple vedtak should show VedtakTag", async ({ page, request, baseURL }) => {
         const msw = createMswHelper(request, baseURL!);
         const mockSak = {
@@ -735,8 +775,10 @@ test.describe("SoknadCard rendering logic", () => {
         await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
             vilkar: true,
             forsteOppgaveFrist: "2025-12-25T10:00:00Z",
+            sisteDokumentasjonKravFrist: "2025-12-25T10:00:00Z",
             fiksDigisosId: "test-ferdigbehandlet-vilkar",
             antallNyeOppgaver: 1,
+            antallNyeVilkarOgDokumentasjonKrav: 1,
             saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 1 }],
         });
 
