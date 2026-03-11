@@ -49,6 +49,21 @@ export class MswHelper {
         await this.mockEndpoint("/api/v1/innsyn/saker", []);
     }
 
+    async mockDetaljer(id: string, overrides?: Partial<SaksDetaljerResponse>) {
+        await this.mockEndpoint(`/api/v1/innsyn/sak/${id}/detaljer`, {
+            fiksDigisosId: id,
+            saker: overrides?.saker ?? [],
+            vilkar: overrides?.vilkar ?? false,
+            dokumentasjonkrav: overrides?.dokumentasjonkrav ?? false,
+            sisteDokumentasjonKravFrist: overrides?.sisteDokumentasjonKravFrist,
+            soknadTittel: overrides?.soknadTittel ?? defaultTittel,
+            status: overrides?.status ?? "UNDER_BEHANDLING",
+            dokumentasjonEtterspurt: overrides?.dokumentasjonEtterspurt ?? false,
+            sistOppdatert: overrides?.sistOppdatert ?? new Date().toISOString(),
+            forelopigSvar: overrides?.forelopigSvar ?? { harMottattForelopigSvar: false },
+            ...overrides,
+        } satisfies SaksDetaljerResponse);
+    }
     /**
      * Mock utbetalinger endpoint with empty array
      */
@@ -137,7 +152,7 @@ export async function mockSoknadEndpoints(
                 R.conditional([R.isEmpty, R.constant(undefined)], (dates) => R.pipe(dates, max, formatISO))
             ),
         soknadTittel: overrides?.detaljer?.soknadTittel ?? defaultTittel,
-        status: overrides?.detaljer?.status ?? "UNDER_BEHANDLING",
+        status: overrides?.detaljer?.status ?? overrides?.soknadsStatus?.status ?? "UNDER_BEHANDLING",
         dokumentasjonEtterspurt:
             (overrides?.oppgaver?.filter((oppgave) => oppgave.hendelsetype === "dokumentasjonEtterspurt").length ?? 0) >
             0,
