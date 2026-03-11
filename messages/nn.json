@@ -107,7 +107,8 @@
         "DELVIS_INNVILGET": "<b>Utfall</b>: Delvis innvilga",
         "AVVIST": "<b>Utfall</b>: Avvist",
         "AVSLATT": "<b>Utfall</b>: Avslag",
-        "UNDER_BEHANDLING": "Under behandling"
+        "UNDER_BEHANDLING": "Under behandling",
+        "IKKE_INNSYN": "Kan ikkje vise status"
     },
     "Vedtak": {
         "beskrivelse": {
@@ -122,6 +123,9 @@
         "pdf": "PDF-fil",
         "mottattDato": "Motteken {dato, date, ::ddMMyyyy}",
         "vedtaksbrev": "Vedtaksbrev"
+    },
+    "IkkeInnsynInfo": {
+        "info": "Saka di vil bli behandla, men me kan ikkje vise status for søknaden din på nav.no. Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringje oss på <tlf>55 55 33 33</tlf>."
     },
     "KlageInfo": {
         "seKlage": "Se din innsendte klage",
@@ -289,6 +293,9 @@
     "DatoTag": {
         "sendt": "Sendt {dato, date, ::ddMMyyyy}",
         "mottatt": "Teke imot {dato, date, ::ddMMyyyy}"
+    },
+    "IkkeInnsynTag": {
+        "tittel": "Kan ikkje vise status"
     },
     "AlertTexts": {
         "forlengetSaksbehandlingsTid": "Forlengde saksbehandlingstid",

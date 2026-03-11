@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 import { BodyShort, Tag, TagProps } from "@navikt/ds-react";
-import { SaksStatusResponseUtfallVedtak } from "@generated/model";
+import { SaksStatusResponseStatus, SaksStatusResponseUtfallVedtak } from "@generated/model";
 import useIsMobile from "@utils/useIsMobile";
 
 const utfallVariant: Record<SaksStatusResponseUtfallVedtak, TagProps["variant"]> = {
@@ -10,12 +10,21 @@ const utfallVariant: Record<SaksStatusResponseUtfallVedtak, TagProps["variant"]>
     AVSLATT: "error",
 };
 
+const statusVariant: Record<SaksStatusResponseStatus, TagProps["variant"]> = {
+    BEHANDLES_IKKE: undefined,
+    FEILREGISTRERT: undefined,
+    FERDIGBEHANDLET: undefined,
+    UNDER_BEHANDLING: "info-moderate",
+    IKKE_INNSYN: "warning-moderate",
+};
+
 interface StatusTagProps {
     vedtakUtfall?: SaksStatusResponseUtfallVedtak;
+    status?: SaksStatusResponseStatus;
     className?: string;
 }
 
-const StatusTag = ({ vedtakUtfall, className }: StatusTagProps) => {
+const StatusTag = ({ vedtakUtfall, className, status = "UNDER_BEHANDLING" }: StatusTagProps) => {
     const t = useTranslations("StatusTag");
     const isMobile = useIsMobile();
     const size = isMobile ? "small" : "medium";
@@ -33,9 +42,13 @@ const StatusTag = ({ vedtakUtfall, className }: StatusTagProps) => {
             </Tag>
         );
     }
+    const variant = statusVariant[status];
+    if (!variant) {
+        return null;
+    }
     return (
-        <Tag variant="info-moderate" className={className} size={size}>
-            {t("UNDER_BEHANDLING")}
+        <Tag variant={variant} className={className} size={size}>
+            {t(status)}
         </Tag>
     );
 };

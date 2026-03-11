@@ -106,7 +106,8 @@
         "DELVIS_INNVILGET": "<b>Outcome</b>: Partially granted",
         "AVVIST": "<b>Outcome</b>: Rejected",
         "AVSLATT": "<b>Outcome</b>: Declined",
-        "UNDER_BEHANDLING": "Processing"
+        "UNDER_BEHANDLING": "Processing",
+        "IKKE_INNSYN": "Cannot display status"
     },
     "Vedtak": {
         "beskrivelse": {
@@ -121,6 +122,9 @@
         "pdf": "PDF file",
         "mottattDato": "Received {dato, date, ::ddMMyyyy}",
         "vedtaksbrev": "Decision letters"
+    },
+    "IkkeInnsynInfo": {
+        "info": "Your application will be processed, but we cannot display the status of your application on nav.no. If you have questions, you can <navKontorLenke>contact your local Nav office</navKontorLenke>, or call us at <tlf>55 55 33 33</tlf>."
     },
     "KlageInfo": {
         "seKlage": "View your submitted appeal",
@@ -288,6 +292,9 @@
     "DatoTag": {
         "sendt": "Sent {dato, date, ::ddMMyyyy}",
         "mottatt": "Received {dato, date, ::ddMMyyyy}"
+    },
+    "IkkeInnsynTag": {
+        "tittel": "Cannot display status"
     },
     "AlertTexts": {
         "forlengetSaksbehandlingsTid": "Extended processing time",

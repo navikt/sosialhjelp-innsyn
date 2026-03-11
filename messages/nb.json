@@ -120,7 +120,8 @@
         "DELVIS_INNVILGET": "<b>Utfall</b>: Delvis innvilget",
         "AVVIST": "<b>Utfall</b>: Avvist",
         "AVSLATT": "<b>Utfall</b>: Avslag",
-        "UNDER_BEHANDLING": "Under behandling"
+        "UNDER_BEHANDLING": "Under behandling",
+        "IKKE_INNSYN": "Kan ikke vise status"
     },
     "Vedtak": {
         "beskrivelse": {
@@ -135,6 +136,9 @@
         "pdf": "PDF-fil",
         "mottattDato": "Mottatt {dato, date, ::ddMMyyyy}",
         "vedtaksbrev": "Vedtaksbrev"
+    },
+    "IkkeInnsynInfo": {
+        "info": "Saken din vil bli behandlet, men vi kan ikke vise status for søknaden din på nav.no. Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringe oss på <tlf>55 55 33 33</tlf>."
     },
     "KlageInfo": {
         "seKlage": "Se din innsendte klage",
@@ -296,6 +300,9 @@
     "DatoTag": {
         "sendt": "Sendt {dato, date, ::ddMMyyyy}",
         "mottatt": "Mottatt {dato, date, ::ddMMyyyy}"
+    },
+    "IkkeInnsynTag": {
+        "tittel": "Kan ikke vise status"
     },
     "PaabegyntCard": {
         "title": "Søknad om økonomisk sosialhjelp",
