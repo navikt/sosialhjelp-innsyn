@@ -17,9 +17,9 @@ const Tags = ({ soknad }: Props) => {
     const forsteOppgaveFrist = soknad.forsteOppgaveFrist ? new Date(soknad.forsteOppgaveFrist) : undefined;
     const antallNyeOppgaver = soknad.antallNyeOppgaver ?? 0;
     const harSakMedFlereVedtak = soknad.saker.some((s) => s.antallVedtak > 1);
-    const alleSakerIkkeInnsyn = soknad.saker.length > 0 && soknad.saker.every((s) => s.status === "IKKE_INNSYN");
+    const enSakIkkeInnsyn = soknad.saker.length === 1 && soknad.saker[0].status === "IKKE_INNSYN";
 
-    if (alleSakerIkkeInnsyn) {
+    if (enSakIkkeInnsyn) {
         return (
             <>
                 <DatoTag sendtDato={sendtDato} mottattDato={mottattDato} />

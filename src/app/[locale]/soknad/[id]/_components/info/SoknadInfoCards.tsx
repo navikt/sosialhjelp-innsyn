@@ -28,8 +28,7 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
     const soknadsOppgaver = oppgaver.filter((oppgave) => !oppgave.erLastetOpp && !oppgave.erFraInnsyn);
     const harSakMedFlereVedtak = saksdetaljer.saker?.some((s) => s.antallVedtak > 1) ?? false;
     const harFattVedtak = saksdetaljer.saker.some((s) => s.antallVedtak > 0);
-    const alleSakerIkkeInnsyn =
-        saksdetaljer.saker.length > 0 && saksdetaljer.saker.every((s) => s.status === "IKKE_INNSYN");
+    const enSakIkkeInnsyn = saksdetaljer.saker.length === 1 && saksdetaljer.saker[0].status === "IKKE_INNSYN";
 
     const cards: JSX.Element[] = [];
 
@@ -37,7 +36,7 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
         cards.push(<SoknadInfoCard key="sendt" state={{ type: "sendt" }} />);
     }
 
-    if (alleSakerIkkeInnsyn) {
+    if (enSakIkkeInnsyn) {
         cards.push(<SoknadInfoCard key="ikkeInnsyn" state={{ type: "ikkeInnsyn" }} />);
         // Early exit her, så vi ikke viser noen andre kort.
         return cards;

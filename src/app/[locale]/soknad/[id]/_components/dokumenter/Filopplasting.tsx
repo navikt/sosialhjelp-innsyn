@@ -27,7 +27,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
     const { data: vedlegg } = useHentVedleggSuspense(id);
     const { data: originalSoknad } = useHentOriginalSoknadSuspense(id);
     const { data: saker } = useHentSaksStatuserSuspense(id);
-    const alleSakerIkkeInnsyn = saker.length > 0 && saker.every((s) => s.status === "IKKE_INNSYN");
+    const enSakIkkeInnsyn = saker.length === 1 && saker[0].status === "IKKE_INNSYN";
 
     return (
         <VStack>
@@ -43,7 +43,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
                 borderColor="info-subtle"
             >
                 <VStack gap="space-40">
-                    {!alleSakerIkkeInnsyn && (
+                    {!enSakIkkeInnsyn && (
                         <VStack gap={isMobile ? "space-16" : "space-40"}>
                             {isMobile && <BodyLong>{t("beskrivelse")}</BodyLong>}
                             <NavigationGuardProvider>
