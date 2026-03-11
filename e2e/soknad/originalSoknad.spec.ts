@@ -34,8 +34,11 @@ test.describe("Original søknad i dokumentliste", () => {
         await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad-1");
         await page.getByRole("main").waitFor({ state: "visible" });
 
-        // The original søknad link should appear in the documents list under "Ettersend dokumentasjon"
-        const dokumenterHeading = page.getByRole("heading", { name: "Ettersend dokumentasjon", level: 2 });
+        // The original søknad link should appear in the documents list under "Har du mer dokumentasjon du vil sende inn?"
+        const dokumenterHeading = page.getByRole("heading", {
+            name: "Har du mer dokumentasjon du vil sende inn?",
+            level: 2,
+        });
         await expect(dokumenterHeading).toBeVisible();
 
         const soknadLink = page.getByRole("link", { name: "soknad.pdf" });
