@@ -6,7 +6,8 @@
         "vedtak": "Vedtak"
     },
     "Saker": {
-        "dineSaker": "Sakene dine"
+        "dineSaker": "Sakene dine",
+        "deltSoknadInfo": "Søknaden din har vorte delt i {n} saker sidan det er behov for å behandle delar av søknaden separat."
     },
     "FileUploadItem": {
         "validation": {
@@ -71,8 +72,8 @@
         "oppgave": "<bold>{name}</bold> (frist {frist, date, ::ddMMyyyy})",
         "oppgaver": {
             "title": "Du har fått oppgåver",
-            "description": "<norsk>{navKontor}</norsk> treng meir dokumentasjon for å kunne behandle saka di:",
-            "warning": "Viss du ikkje sender nødvendig dokumentasjon innan fristen, kan ikkje Nav-kontoret behandle søknaden din. Det kan føre til at søknaden vert avslått og at du må søkje på nytt. Har du levert noko av dokumentasjonen direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
+            "description": "<norsk>{navKontor}</norsk> treng meir dokumentasjon for å kunne behandle søknaden din:",
+            "warning": "Hugs å sende etterspurd dokumentasjon innan fristen, slik at Nav-kontoret ditt får behandla søknaden din. Om ikkje kan søknaden avslåast, og du må søkje på nytt. Har du levert dokumentasjon direkte til Nav-kontoret ditt kan du sjå bort frå denne meldinga."
         },
         "vilkar": {
             "title": "Du har fått vilkår",
