@@ -6,6 +6,7 @@ import {
     HendelseDto,
     KlageDto,
     OppgaveResponseBeta,
+    OppgaveVedleggFil,
     OriginalSoknadDto,
     SaksDetaljerResponse,
     SaksStatusResponse,
@@ -108,6 +109,7 @@ export async function mockSoknadEndpoints(
         klager?: KlageDto[];
         hendelser?: HendelseDto[];
         detaljer?: SaksDetaljerResponse;
+        vedleggForOppgave?: Record<string, OppgaveVedleggFil[]>;
     }
 ) {
     const defaultSoknadsStatus: SoknadsStatusResponse = {
@@ -172,4 +174,12 @@ export async function mockSoknadEndpoints(
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/klager`, overrides?.klager ?? []);
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/hendelser/beta`, overrides?.hendelser ?? []);
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/detaljer`, overrides?.detaljer ?? defaultDetaljer);
+    overrides?.oppgaver?.forEach((oppgave) => {
+        if (oppgave.hendelsereferanse) {
+            msw.mockEndpoint(
+                `/api/v2/innsyn/${soknadId}/oppgaver/${oppgave.hendelsereferanse}/vedlegg`,
+                overrides.vedleggForOppgave?.[oppgave.hendelsereferanse] ?? []
+            );
+        }
+    });
 }

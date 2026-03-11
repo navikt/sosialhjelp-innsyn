@@ -59,7 +59,7 @@ export const Soknad = async ({ id }: Props) => {
     prefetchGetDokumentasjonkravBetaQuery(dokumentasjonkravQueryClient, id);
     prefetchGetVilkarQuery(dokumentasjonkravQueryClient, id);
     prefetchHentKlagerQuery(klageQueryClient, id, { query: { enabled: !mottattOrSendt } });
-    prefetchHentSaksStatuserQuery(sakerQueryClient, id, { query: { enabled: !mottattOrSendt } });
+    prefetchHentSaksStatuserQuery(sakerQueryClient, id);
     prefetchGetSaksDetaljerQuery(saksdetaljerQueryClient, id);
     const forelopigSvarPromise = !ferdigbehandlet && hentForelopigSvarStatus(id);
     const klagerPromise = !mottattOrSendt && hentKlager(id);
@@ -86,7 +86,9 @@ export const Soknad = async ({ id }: Props) => {
             {klagerPromise && (
                 <Suspense fallback={null}>
                     <HydrationBoundary state={dehydrate(klageQueryClient)}>
-                        <Saker />
+                        <HydrationBoundary state={dehydrate(sakerQueryClient)}>
+                            <Saker />
+                        </HydrationBoundary>
                     </HydrationBoundary>
                 </Suspense>
             )}

@@ -12,8 +12,8 @@ import useIsMobile from "@utils/useIsMobile";
 import { errorStatusToMessage } from "@components/filopplasting/new/utils/mapErrors";
 import VedleggListe from "../../../app/[locale]/soknad/[id]/_components/dokumenter/VedleggListe";
 import { FileSelectUpload } from "@components/filopplasting/new/FileSelectUpload";
-import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 import { umamiTrack } from "../../../app/umami";
+import { OppgaveVedleggFil } from "@generated/model";
 
 interface Props {
     metadata: Metadata;
@@ -28,9 +28,7 @@ const Opplastingsboks = ({ metadata, label, labelText, description, tag, complet
     const t = useTranslations();
     const isMobile = useIsMobile();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
-    const { data: oppgaveVedlegg } = useGetVedleggForOppgave(fiksDigisosId, metadata.hendelsereferanse!, {
-        query: { enabled: !!metadata.hendelsereferanse },
-    });
+    const oppgaveVedlegg: OppgaveVedleggFil[] = [];
     const { addFiler, files, removeFil, outerErrors, reset: resetFilOpplastningData } = useFiles();
     const {
         upload,
