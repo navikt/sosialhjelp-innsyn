@@ -19,7 +19,8 @@ type AlertState =
     | { type: "forelopigSvar"; navKontor?: string; forelopigSvarUrl?: string }
     | { type: "vilkar"; vilkar: { name: string; frist?: Date }[] }
     | { type: "kanHaVilkar" }
-    | { type: "ikkeInnsyn" };
+    | { type: "ikkeInnsyn" }
+    | { type: "behandlesIkke" };
 
 interface Props {
     state: AlertState;
@@ -159,6 +160,26 @@ const SoknadInfoCard = ({ state }: Props) => {
                             </AkselLink>
                         ),
                     })}
+                </Info>
+            );
+        case "behandlesIkke":
+            return (
+                <Info title={t("behandlesIkke.title")} variant="warning" titleId={"behandles-ikke-info-card-title"}>
+                    <BodyLong spacing>{t("behandlesIkke.description1")}</BodyLong>
+                    <BodyLong>
+                        {t.rich("behandlesIkke.description2", {
+                            navKontorLenke: (chunks) => (
+                                <AkselLink inlineText href={`https://www.nav.no/sok-nav-kontor${localeSuffix}`}>
+                                    {chunks}
+                                </AkselLink>
+                            ),
+                            tlf: (chunks) => (
+                                <AkselLink inlineText href="tel:55553333">
+                                    {chunks}
+                                </AkselLink>
+                            ),
+                        })}
+                    </BodyLong>
                 </Info>
             );
     }

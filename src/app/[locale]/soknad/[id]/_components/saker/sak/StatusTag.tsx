@@ -11,11 +11,11 @@ const utfallVariant: Record<SaksStatusResponseUtfallVedtak, TagProps["variant"]>
 };
 
 const statusVariant: Record<SaksStatusResponseStatus, TagProps["variant"]> = {
-    BEHANDLES_IKKE: undefined,
     FEILREGISTRERT: undefined,
     FERDIGBEHANDLET: undefined,
     UNDER_BEHANDLING: "info-moderate",
     IKKE_INNSYN: "warning-moderate",
+    BEHANDLES_IKKE: "warning-moderate",
 };
 
 interface StatusTagProps {

@@ -108,6 +108,11 @@
         "ikkeInnsyn": {
             "title": "Kan ikke vise status",
             "description": "Saken din vil bli behandlet, men vi kan ikke vise status for søknaden din på nav.no. Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringe oss på <tlf>55 55 33 33</tlf>."
+        },
+        "behandlesIkke": {
+            "title": "Søknaden behandles ikke",
+            "description1": "Vi kan ikke vise status for søknaden din på nav.no. Det kan være fordi søknaden din blir behandlet sammen med en annen søknad du har sendt, eller fordi du har trukket tilbake søknaden.",
+            "description2": "Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringe oss på <tlf>55 55 33 33</tlf>."
         }
     },
     "StatusPage": {
@@ -125,7 +130,8 @@
         "AVVIST": "<b>Utfall</b>: Avvist",
         "AVSLATT": "<b>Utfall</b>: Avslag",
         "UNDER_BEHANDLING": "Under behandling",
-        "IKKE_INNSYN": "Kan ikke vise status"
+        "IKKE_INNSYN": "Kan ikke vise status",
+        "BEHANDLES_IKKE": "Behandles ikke"
     },
     "Vedtak": {
         "beskrivelse": {
@@ -307,6 +313,9 @@
     },
     "IkkeInnsynTag": {
         "tittel": "Kan ikke vise status"
+    },
+    "BehandlesIkkeTag": {
+        "tittel": "Søknaden behandles ikke"
     },
     "PaabegyntCard": {
         "title": "Søknad om økonomisk sosialhjelp",

@@ -105,7 +105,7 @@ export const Soknad = async ({ id }: Props) => {
             <Suspense fallback={<FilopplastingSkeleton />}>
                 <HydrationBoundary state={dehydrate(vedleggQueryClient)}>
                     <HydrationBoundary state={dehydrate(sakerQueryClient)}>
-                        <Filopplasting id={id} newUploadEnabled={newUploadEnabled} />
+                        <Filopplasting id={id} newUploadEnabled={newUploadEnabled} soknadStatus={status} />
                     </HydrationBoundary>
                 </HydrationBoundary>
             </Suspense>

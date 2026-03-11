@@ -5,6 +5,7 @@ import VedtakTag from "@components/tags/tag/VedtakTag";
 import { InnsendtSoknad, isActiveSoknad } from "@components/soknaderList/list/soknaderUtils";
 import { Skeleton, Tag, TagProps } from "@navikt/ds-react";
 import IkkeInnsynTag from "@components/tags/tag/IkkeInnsynTag";
+import BehandlesIkkeTag from "@components/tags/tag/BehandlesIkkeTag";
 
 interface Props {
     soknad: InnsendtSoknad;
@@ -18,6 +19,19 @@ const Tags = ({ soknad }: Props) => {
     const antallNyeOppgaver = soknad.antallNyeOppgaver ?? 0;
     const harSakMedFlereVedtak = soknad.saker.some((s) => s.antallVedtak > 1);
     const enSakIkkeInnsyn = soknad.saker.length === 1 && soknad.saker[0].status === "IKKE_INNSYN";
+
+    const behandlesIkke =
+        soknad.status === "BEHANDLES_IKKE" ||
+        (soknad.saker.length === 1 && soknad.saker[0].status === "BEHANDLES_IKKE");
+
+    if (behandlesIkke) {
+        return (
+            <>
+                <DatoTag sendtDato={sendtDato} mottattDato={mottattDato} />
+                <BehandlesIkkeTag />
+            </>
+        );
+    }
 
     if (enSakIkkeInnsyn) {
         return (
