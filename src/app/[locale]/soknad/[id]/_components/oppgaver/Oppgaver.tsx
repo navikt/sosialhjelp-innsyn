@@ -18,6 +18,9 @@ import OppgaverReadMore from "./readmore/OppgaverReadMore";
 import ExpandableList from "@components/showmore/ExpandableList";
 import { TasklistIcon } from "@navikt/aksel-icons";
 
+const withWarningColor = (text: string | undefined, isUncompleted: boolean) =>
+    isUncompleted && text ? <span className="text-ax-text-warning">{text}</span> : text;
+
 const Oppgaver = () => {
     const t = useTranslations("Oppgaver");
     const { id } = useParams<{ id: string }>();
@@ -32,9 +35,6 @@ const Oppgaver = () => {
 
     const fullforteOppgaver = oppgaver.filter((oppgave) => oppgave.erLastetOpp);
     const hasUncompletedOppgaver = oppgaver.length - fullforteOppgaver.length > 0;
-
-    const withWarningColor = (text: string | undefined, isUncompleted: boolean) =>
-        isUncompleted && text ? <span className="text-ax-text-warning">{text}</span> : text;
 
     const isAllOppgaverFromSoknad = oppgaver.every((oppgave) => oppgave.erFraInnsyn === false);
 

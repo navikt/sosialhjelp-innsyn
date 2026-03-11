@@ -16,9 +16,8 @@ const Tags = ({ soknad }: Props) => {
     const isDigitalSoknad = !!sendtDato;
     const forsteOppgaveFrist = soknad.forsteOppgaveFrist ? new Date(soknad.forsteOppgaveFrist) : undefined;
     const antallNyeOppgaver = soknad.antallNyeOppgaver ?? 0;
-    const harSakMedFlereVedtak = soknad.saker?.some((s) => s.antallVedtak > 1) ?? false;
-    const alleSakerIkkeInnsyn =
-        (soknad.saker.length > 0 && soknad.saker?.every((s) => s.status === "IKKE_INNSYN")) ?? true;
+    const harSakMedFlereVedtak = soknad.saker.some((s) => s.antallVedtak > 1);
+    const alleSakerIkkeInnsyn = soknad.saker.length > 0 && soknad.saker.every((s) => s.status === "IKKE_INNSYN");
 
     if (alleSakerIkkeInnsyn) {
         return (

@@ -11,6 +11,7 @@ import useIsMobile from "@utils/useIsMobile";
 
 import VedleggListe, { VedleggListeSkeleton } from "./VedleggListe";
 import { useHentOriginalSoknadSuspense } from "@generated/soknads-status-controller/soknads-status-controller";
+import { useHentSaksStatuserSuspense } from "@generated/saks-status-controller/saks-status-controller";
 
 const metadata = { dokumentKontekst: "ettersendelse", type: "annet", tilleggsinfo: "annet" } satisfies Metadata;
 
@@ -25,6 +26,8 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
 
     const { data: vedlegg } = useHentVedleggSuspense(id);
     const { data: originalSoknad } = useHentOriginalSoknadSuspense(id);
+    const { data: saker } = useHentSaksStatuserSuspense(id);
+    const alleSakerIkkeInnsyn = saker.length > 0 && saker.every((s) => s.status === "IKKE_INNSYN");
 
     return (
         <VStack>
@@ -40,16 +43,18 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
                 borderColor="info-subtle"
             >
                 <VStack gap="space-40">
-                    <VStack gap={isMobile ? "space-16" : "space-40"}>
-                        {isMobile && <BodyLong>{t("beskrivelse")}</BodyLong>}
-                        <NavigationGuardProvider>
-                            {newUploadEnabled ? (
-                                <OpplastingsboksTus metadata={metadata} id={id} />
-                            ) : (
-                                <Opplastingsboks metadata={metadata} />
-                            )}
-                        </NavigationGuardProvider>
-                    </VStack>
+                    {!alleSakerIkkeInnsyn && (
+                        <VStack gap={isMobile ? "space-16" : "space-40"}>
+                            {isMobile && <BodyLong>{t("beskrivelse")}</BodyLong>}
+                            <NavigationGuardProvider>
+                                {newUploadEnabled ? (
+                                    <OpplastingsboksTus metadata={metadata} id={id} />
+                                ) : (
+                                    <Opplastingsboks metadata={metadata} />
+                                )}
+                            </NavigationGuardProvider>
+                        </VStack>
+                    )}
                     {(vedlegg.length > 0 || originalSoknad) && (
                         <VStack gap="space-8">
                             <Heading size="small" level="3" id="dokumenter">
