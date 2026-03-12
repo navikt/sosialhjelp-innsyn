@@ -209,7 +209,7 @@
             "visBrevet": "View the letter (opens in new tab)"
         },
         "EtterspurtDokumentasjonLevertEvent": {
-            "tittel": "You provided requested documents"
+            "tittel": "You submitted documentation"
         },
         "VedtakFattetEvent": {
             "tittel": "You have received a{nytt, select, true { new} other {}} decision",

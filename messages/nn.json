@@ -210,7 +210,7 @@
             "visBrevet": "Vis brevet (blir opna i ei ny fane)"
         },
         "EtterspurtDokumentasjonLevertEvent": {
-            "tittel": "Du leverte etterspurde dokument"
+            "tittel": "Du sende inn dokumentasjon"
         },
         "VedtakFattetEvent": {
             "tittel": "Du har fått eit{nytt, select, true { nytt} other {}} vedtak",

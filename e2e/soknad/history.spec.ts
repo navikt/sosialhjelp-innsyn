@@ -128,7 +128,7 @@ test.describe("History", () => {
         await expect(etterspurtUtenLink).toBeVisible();
         await expect(etterspurtUtenLink.getByRole("link", { name: "Vis brevet (åpnes i ny fane)" })).not.toBeVisible();
 
-        await expect(page.getByRole("listitem").filter({ hasText: /Du leverte etterspurte dokumenter/ })).toBeVisible();
+        await expect(page.getByRole("listitem").filter({ hasText: /Du sendte inn dokumentasjon/ })).toBeVisible();
 
         const utbetalingEvent = page.getByRole("listitem").filter({ hasText: /Dine utbetalinger har blitt oppdatert/ });
         await expect(utbetalingEvent).toBeVisible();
