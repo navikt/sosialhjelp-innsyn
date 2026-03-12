@@ -8,7 +8,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { ReactNode } from "react";
 import { Link } from "@i18n/navigation";
 import VilkarReadMore from "../vilkar/readmore/VilkarReadMore";
-import DokKravReadMore from "../vilkar/readmore/DokKravReadMore";
 
 type AlertState =
     | { type: "sendt"; navKontor?: string }
@@ -72,7 +71,6 @@ const SoknadInfoCard = ({ state }: Props) => {
                             })}
                         </BodyLong>
                         <VilkarReadMore />
-                        <DokKravReadMore />
                     </VStack>
                 </Info>
             );
