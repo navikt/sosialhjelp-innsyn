@@ -6,7 +6,8 @@
         "vedtak": "Decision"
     },
     "Saker": {
-        "dineSaker": "Your cases"
+        "dineSaker": "Your cases",
+        "deltSoknadInfo": "Your application has been split into {n} cases because there is a need to process parts of the application separately."
     },
     "FileUploadItem": {
         "validation": {
@@ -70,8 +71,8 @@
         "oppgave": "<bold>{name}</bold> (due {frist, date, ::ddMMyyyy})",
         "oppgaver": {
             "title": "You have received tasks",
-            "description": "<norsk>{navKontor}</norsk> needs more documentation to process your case:",
-            "warning": "If you do not submit the required documentation by the deadline, the Nav office will not be able to process your application. This may result in your application being rejected and you having to apply again. If you have delivered some of the documentation directly to your Nav office, you can disregard this message."
+            "description": "<norsk>{navKontor}</norsk> needs more documentation to process your application:",
+            "warning": "Remember to send the requested documentation within the deadline so that your Nav office can process your application. If you do not, your application may be rejected and you will have to reapply. If you have submitted documentation directly to your Nav office, you can disregard this message."
         },
         "vilkar": {
             "titleEmpty": "You may have received conditions",

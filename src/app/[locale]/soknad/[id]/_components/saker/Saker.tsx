@@ -1,7 +1,7 @@
 "use client";
 
 import React, { use } from "react";
-import { Heading, VStack } from "@navikt/ds-react";
+import { BodyLong, Heading, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { SaksStatusResponse } from "@generated/model";
 
@@ -29,6 +29,7 @@ const Saker = ({ sakerPromise }: Props) => {
             <Heading size="medium" level="2">
                 {t("dineSaker")}
             </Heading>
+            <BodyLong>{t("deltSoknadInfo", { n: saker.length })}</BodyLong>
             <VStack gap="space-16">
                 {saker.map((sak) => (
                     <SakPanel key={sak.referanse} sak={sak} />
