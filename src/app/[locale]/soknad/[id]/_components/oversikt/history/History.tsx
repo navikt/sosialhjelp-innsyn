@@ -29,7 +29,13 @@ const History = ({ labelledById }: Props) => {
     const truncated = showAll ? steps : steps.slice(0, LIMIT);
 
     return (
-        <Box asChild background="info-soft" padding={{ xs: "space-16", md: "space-24" }} borderRadius="12">
+        <Box
+            asChild
+            background="info-soft"
+            borderColor="info-subtle"
+            padding={{ xs: "space-16", md: "space-24" }}
+            borderRadius="12"
+        >
             <VStack gap={{ xs: "space-16", md: "space-24" }}>
                 <Process
                     id="process"
