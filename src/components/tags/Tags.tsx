@@ -1,9 +1,10 @@
-import DatoTag from "@components/soknaderList/list/soknadCard/DatoTag";
-import BehandlingsStatusTag from "@components/soknaderList/list/soknadCard/status/BehandlingStatusTag";
-import AlertTag from "@components/soknaderList/list/soknadCard/status/AlertTag";
-import VedtakTag from "@components/soknaderList/list/soknadCard/VedtakTag";
+import DatoTag from "@components/tags/tag/DatoTag";
+import BehandlingsStatusTag from "@components/tags/tag/BehandlingStatusTag";
+import AlertTag from "@components/tags/tag/AlertTag";
+import VedtakTag from "@components/tags/tag/VedtakTag";
 import { InnsendtSoknad, isActiveSoknad } from "@components/soknaderList/list/soknaderUtils";
 import { Skeleton, Tag, TagProps } from "@navikt/ds-react";
+import IkkeInnsynTag from "@components/tags/tag/IkkeInnsynTag";
 
 interface Props {
     soknad: InnsendtSoknad;
@@ -15,7 +16,17 @@ const Tags = ({ soknad }: Props) => {
     const isDigitalSoknad = !!sendtDato;
     const forsteOppgaveFrist = soknad.forsteOppgaveFrist ? new Date(soknad.forsteOppgaveFrist) : undefined;
     const antallNyeOppgaver = soknad.antallNyeOppgaver ?? 0;
-    const harSakMedFlereVedtak = soknad.saker?.some((s) => s.antallVedtak > 1) ?? false;
+    const harSakMedFlereVedtak = soknad.saker.some((s) => s.antallVedtak > 1);
+    const enSakIkkeInnsyn = soknad.saker.length === 1 && soknad.saker[0].status === "IKKE_INNSYN";
+
+    if (enSakIkkeInnsyn) {
+        return (
+            <>
+                <DatoTag sendtDato={sendtDato} mottattDato={mottattDato} />
+                <IkkeInnsynTag />
+            </>
+        );
+    }
 
     if (soknad.status === "MOTTATT") {
         return (

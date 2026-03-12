@@ -4,7 +4,7 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 import { prefetchHentVedleggQuery } from "@generated/ssr/vedlegg-controller/vedlegg-controller";
 import { getQueryClient } from "@api/queryClient";
-import { hentSaksStatuser } from "@generated/ssr/saks-status-controller/saks-status-controller";
+import { prefetchHentSaksStatuserQuery } from "@generated/ssr/saks-status-controller/saks-status-controller";
 import { hentForelopigSvarStatus } from "@generated/ssr/forelopig-svar-controller/forelopig-svar-controller";
 import {
     hentSoknadsStatus,
@@ -42,6 +42,7 @@ export const Soknad = async ({ id }: Props) => {
     const dokumentasjonkravQueryClient = getQueryClient();
     const klageQueryClient = getQueryClient();
     const saksdetaljerQueryClient = getQueryClient();
+    const sakerQueryClient = getQueryClient();
 
     const { status, navKontor, tittel } = await hentSoknadsStatus(id);
     const mottattOrSendt = ["SENDT", "MOTTATT"].includes(status);
@@ -58,9 +59,9 @@ export const Soknad = async ({ id }: Props) => {
     prefetchGetDokumentasjonkravBetaQuery(dokumentasjonkravQueryClient, id);
     prefetchGetVilkarQuery(dokumentasjonkravQueryClient, id);
     prefetchHentKlagerQuery(klageQueryClient, id, { query: { enabled: !mottattOrSendt } });
+    prefetchHentSaksStatuserQuery(sakerQueryClient, id);
     prefetchGetSaksDetaljerQuery(saksdetaljerQueryClient, id);
     const forelopigSvarPromise = !ferdigbehandlet && hentForelopigSvarStatus(id);
-    const sakerPromise = !mottattOrSendt && hentSaksStatuser(id);
     const klagerPromise = !mottattOrSendt && hentKlager(id);
 
     return (
@@ -82,10 +83,12 @@ export const Soknad = async ({ id }: Props) => {
                     </HydrationBoundary>
                 </HydrationBoundary>
             </Suspense>
-            {sakerPromise && klagerPromise && (
+            {klagerPromise && (
                 <Suspense fallback={null}>
                     <HydrationBoundary state={dehydrate(klageQueryClient)}>
-                        <Saker sakerPromise={sakerPromise} />
+                        <HydrationBoundary state={dehydrate(sakerQueryClient)}>
+                            <Saker />
+                        </HydrationBoundary>
                     </HydrationBoundary>
                 </Suspense>
             )}
@@ -101,7 +104,9 @@ export const Soknad = async ({ id }: Props) => {
             </Suspense>
             <Suspense fallback={<FilopplastingSkeleton />}>
                 <HydrationBoundary state={dehydrate(vedleggQueryClient)}>
-                    <Filopplasting id={id} newUploadEnabled={newUploadEnabled} />
+                    <HydrationBoundary state={dehydrate(sakerQueryClient)}>
+                        <Filopplasting id={id} newUploadEnabled={newUploadEnabled} />
+                    </HydrationBoundary>
                 </HydrationBoundary>
             </Suspense>
             {forelopigSvarPromise && (
