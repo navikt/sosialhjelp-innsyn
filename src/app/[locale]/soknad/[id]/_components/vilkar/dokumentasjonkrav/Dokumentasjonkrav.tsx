@@ -20,7 +20,7 @@ const Dokumentasjonkrav = ({ dokKrav }: Props) => {
     const toggle = useFlag("sosialhjelp.innsyn.ny_upload");
     const newUploadEnabled = toggle?.enabled ?? false;
     return (
-        <TaskListItem completed={dokKrav.erLastetOpp}>
+        <TaskListItem variant={dokKrav.erLastetOpp ? "normal" : "warning"}>
             {newUploadEnabled ? (
                 <OpplastingsboksTus
                     id={dokKrav.dokumentasjonkravId}
