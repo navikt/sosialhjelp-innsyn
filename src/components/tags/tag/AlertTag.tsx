@@ -3,7 +3,7 @@ import { Tag } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { useTagSize } from "@components/tags/TagsContextProvider";
 
-export type AlertType = "oppgave" | "forlenget_behandlingstid";
+export type AlertType = "oppgave" | "vilkar" | "forlenget_behandlingstid";
 
 type Props = {
     alertType: AlertType;
@@ -17,6 +17,8 @@ const AlertTagText = ({ alertType, deadline }: Props) => {
             return deadline ? t("oppgaveMedFrist", { frist: deadline }) : t("oppgaver");
         case "forlenget_behandlingstid":
             return t("forlengetSaksbehandlingsTid");
+        case "vilkar":
+            return deadline ? t("vilkarsfrist", { frist: deadline }) : t("vilkar");
     }
 };
 
