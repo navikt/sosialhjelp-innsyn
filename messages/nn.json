@@ -134,6 +134,10 @@
         "mottattDato": "Motteken {dato, date, ::ddMMyyyy}",
         "vedtaksbrev": "Vedtaksbrev"
     },
+    "BehandlesIkkeInfo": {
+        "description1": "Vi kan ikkje vise status for søknaden din på nav.no. Det kan vere fordi søknaden din blir behandla saman med ein annan søknad du har sendt, eller fordi du har trekt tilbake søknaden.",
+        "description2": "Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringje oss på <tlf>55 55 33 33</tlf>."
+    },
     "IkkeInnsynInfo": {
         "info": "Saka di vil bli behandla, men me kan ikkje vise status for søknaden din på nav.no. Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringje oss på <tlf>55 55 33 33</tlf>."
     },
@@ -245,7 +249,8 @@
     },
     "Filopplasting": {
         "tittel": "Har du meir dokumentasjon du vil sende inn?",
-         "beskrivelse": "Om du har fleire opplysningar som kan vere relevante for søknaden din, kan dei sendast inn her.",
+        "passivTittel": "Vedlagd dokumentasjon",
+        "beskrivelse": "Om du har fleire opplysningar som kan vere relevante for søknaden din, kan dei sendast inn her.",
         "opplastedeVedlegg": "Dokumenta"
     },
     "VedleggListe": {

@@ -133,6 +133,10 @@
         "mottattDato": "Received {dato, date, ::ddMMyyyy}",
         "vedtaksbrev": "Decision letters"
     },
+    "BehandlesIkkeInfo": {
+        "description1": "We cannot show the status of your application on nav.no. This may be because your application is being processed together with another application you have submitted, or because you have withdrawn your application.",
+        "description2": "If you have questions, you can <navKontorLenke>contact your local Nav office</navKontorLenke>, or call us at <tlf>55 55 33 33</tlf>."
+    },
     "IkkeInnsynInfo": {
         "info": "Your application will be processed, but we cannot display the status of your application on nav.no. If you have questions, you can <navKontorLenke>contact your local Nav office</navKontorLenke>, or call us at <tlf>55 55 33 33</tlf>."
     },
@@ -243,7 +247,8 @@
         "tittel": "Your documents"
     },
     "Filopplasting": {
-        "tittel": "Do you want to attach more documents?",
+        "tittel": "Do you want to submit more documents?",
+        "passivTittel": "Submitted documents",
         "beskrivelse": "If you have more relevant information regarding your application, they can be uploaded here.",
         "opplastedeVedlegg": "Documents"
     },

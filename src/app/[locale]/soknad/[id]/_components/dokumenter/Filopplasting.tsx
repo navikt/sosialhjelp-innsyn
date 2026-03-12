@@ -38,9 +38,9 @@ const Filopplasting = ({ id, newUploadEnabled, soknadStatus }: Props) => {
     return (
         <VStack>
             <Heading size="medium" level="2">
-                {t("tittel")}
+                {showUpload ? t("tittel") : t("passivTittel")}
             </Heading>
-            {!isMobile && <BodyLong>{t("beskrivelse")}</BodyLong>}
+            {!isMobile && showUpload && <BodyLong>{t("beskrivelse")}</BodyLong>}
             <Box
                 background="info-soft"
                 padding={{ xs: "space-16", sm: "space-24" }}
