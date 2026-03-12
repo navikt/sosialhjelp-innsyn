@@ -7,9 +7,11 @@ import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 const LandingssideSnarvei = () => {
     const t = useTranslations("Snarveier");
     return (
-        <DigisosLinkCard href="/" icon={<HouseIcon aria-hidden />}>
-            {t("landingsside")}
-        </DigisosLinkCard>
+        <li>
+            <DigisosLinkCard href="/" icon={<HouseIcon aria-hidden />}>
+                {t("landingsside")}
+            </DigisosLinkCard>
+        </li>
     );
 };
 

@@ -19,7 +19,7 @@ const Footer = async () => {
     return (
         <Bleed marginInline="full" marginBlock="space-0 space-64" asChild reflectivePadding>
             <Box background="accent-soft">
-                <VStack paddingBlock="space-64 space-0" gap="space-64">
+                <VStack paddingBlock="space-64 space-0" gap="space-64" as="aside">
                     <VStack gap="space-8">
                         <Heading size="small" level="2">
                             {t("trengerDuHjelp")}
@@ -96,38 +96,27 @@ const Footer = async () => {
                             {t("relevantInnhold")}
                         </Heading>
                         <VStack gap="space-20" as="ul">
-                            <li>
-                                <Link
-                                    href={`https://www.nav.no/okonomisk-sosialhjelp${localeSuffix}#${t("lenker.klage")}`}
-                                >
-                                    {t("lenker.klagerettigheter")}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={`https://www.nav.no/okonomisk-sosialhjelp${localeSuffix}`}>
-                                    {t("lenker.okonomiskSosialhjelp")}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={`https://www.nav.no/ikke-bolig${localeSuffix}`}>
-                                    {t("lenker.nodsituasjon")}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={`https://www.nav.no/okonomi-gjeld${localeSuffix}`}>
-                                    {t("lenker.radgivning")}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={`https://www.nav.no/snakke-med-nav${localeSuffix}`}>
-                                    {t("lenker.snakke")}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={`https://www.nav.no/personopplysninger-sosialhjelp${localeSuffix}`}>
-                                    {t("lenker.personopplysninger")}
-                                </Link>
-                            </li>
+                            <Link
+                                as="li"
+                                href={`https://www.nav.no/okonomisk-sosialhjelp${localeSuffix}#${t("lenker.klage")}`}
+                            >
+                                {t("lenker.klagerettigheter")}
+                            </Link>
+                            <Link as="li" href={`https://www.nav.no/okonomisk-sosialhjelp${localeSuffix}`}>
+                                {t("lenker.okonomiskSosialhjelp")}
+                            </Link>
+                            <Link as="li" href={`https://www.nav.no/ikke-bolig${localeSuffix}`}>
+                                {t("lenker.nodsituasjon")}
+                            </Link>
+                            <Link as="li" href={`https://www.nav.no/okonomi-gjeld${localeSuffix}`}>
+                                {t("lenker.radgivning")}
+                            </Link>
+                            <Link as="li" href={`https://www.nav.no/snakke-med-nav${localeSuffix}`}>
+                                {t("lenker.snakke")}
+                            </Link>
+                            <Link as="li" href={`https://www.nav.no/personopplysninger-sosialhjelp${localeSuffix}`}>
+                                {t("lenker.personopplysninger")}
+                            </Link>
                         </VStack>
                     </VStack>
                 </VStack>
