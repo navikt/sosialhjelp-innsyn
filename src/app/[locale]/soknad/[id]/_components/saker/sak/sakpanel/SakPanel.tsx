@@ -1,5 +1,6 @@
 import React from "react";
 import Vedtak from "./Vedtak";
+import * as R from "remeda";
 import { Box, VStack } from "@navikt/ds-react";
 import KlageInfo from "./KlageInfo";
 import { SaksStatusResponse } from "@generated/model";
@@ -15,19 +16,20 @@ interface Props {
 const SakPanel = ({ sak }: Props): React.JSX.Element => {
     const { id: fiksDigisosId } = useParams<{ id: string }>();
     const { data: klager } = useHentKlagerSuspense(fiksDigisosId);
+    // Sorted by date ascending. That is, last element is latest vedtak
     const sortedVedtak = sak.vedtak.toSorted((a, b) => {
         const dateA = a.dato ? new Date(a.dato).getTime() : 0;
         const dateB = b.dato ? new Date(b.dato).getTime() : 0;
-        return dateB - dateA;
+        return dateA - dateB;
     });
-    const latestVedtak = sortedVedtak[0];
+    const latestVedtak = R.last(sortedVedtak);
     const allVedtakIds = sak.vedtak.map((vedtak) => vedtak.id);
     const innsendtKlage = klager.find((klage) => allVedtakIds.includes(klage.vedtakId));
     return (
         <Box borderWidth="1" borderColor="neutral-subtle" borderRadius="12" overflow="hidden">
             <VStack gap="space-16" padding={{ xs: "space-16", md: "space-24" }}>
                 <Sakstittel tittel={sak.tittel} latestVedtakUtfall={latestVedtak?.utfall} status={sak.status} />
-                {latestVedtak && <Vedtak sortedVedtak={sak.vedtak} latestVedtak={latestVedtak} />}
+                {latestVedtak && <Vedtak sortedVedtak={R.reverse(sortedVedtak)} latestVedtak={latestVedtak} />}
                 {sak.status === "IKKE_INNSYN" && <IkkeInnsynInfo />}
             </VStack>
             {latestVedtak && (
