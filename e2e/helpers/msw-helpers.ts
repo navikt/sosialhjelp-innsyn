@@ -108,7 +108,7 @@ export async function mockSoknadEndpoints(
         saksStatus?: SaksStatusResponse[];
         klager?: KlageDto[];
         hendelser?: HendelseDto[];
-        detaljer?: SaksDetaljerResponse;
+        detaljer?: Partial<SaksDetaljerResponse>;
         vedleggForOppgave?: Record<string, OppgaveVedleggFil[]>;
     }
 ) {
@@ -173,7 +173,7 @@ export async function mockSoknadEndpoints(
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/saksStatus`, overrides?.saksStatus ?? []);
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/klager`, overrides?.klager ?? []);
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/hendelser/beta`, overrides?.hendelser ?? []);
-    await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/detaljer`, overrides?.detaljer ?? defaultDetaljer);
+    await msw.mockDetaljer(soknadId, overrides?.detaljer ?? defaultDetaljer);
     overrides?.oppgaver?.forEach((oppgave) => {
         if (oppgave.hendelsereferanse) {
             msw.mockEndpoint(
