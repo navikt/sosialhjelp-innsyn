@@ -33,6 +33,7 @@ const History = ({ labelledById }: Props) => {
             asChild
             background="info-soft"
             borderColor="info-subtle"
+            borderWidth="1"
             padding={{ xs: "space-16", md: "space-24" }}
             borderRadius="12"
         >
