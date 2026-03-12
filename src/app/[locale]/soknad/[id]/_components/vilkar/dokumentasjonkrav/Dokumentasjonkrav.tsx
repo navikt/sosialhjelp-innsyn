@@ -12,6 +12,9 @@ interface Props {
     dokKrav: DokumentasjonkravDto;
 }
 
+const withWarningColor = (text: string | undefined, isUncompleted: boolean) =>
+    isUncompleted && text ? <span className="text-ax-text-warning">{text}</span> : text;
+
 const Dokumentasjonkrav = ({ dokKrav }: Props) => {
     const t = useTranslations("Dokumentasjonkrav");
     const toggle = useFlag("sosialhjelp.innsyn.ny_upload");
@@ -50,8 +53,8 @@ const Dokumentasjonkrav = ({ dokKrav }: Props) => {
                         hendelsetype: dokKrav.hendelsetype,
                         innsendelsesfrist: dokKrav.frist,
                     }}
-                    label={dokKrav.tittel}
-                    description={dokKrav.beskrivelse}
+                    label={withWarningColor(dokKrav.tittel, !dokKrav.erLastetOpp)}
+                    description={withWarningColor(dokKrav.beskrivelse, !dokKrav.erLastetOpp)}
                     completed={dokKrav.erLastetOpp}
                     tag={
                         dokKrav.opplastetDato ? (

@@ -6,7 +6,8 @@
         "vedtak": "Vedtak"
     },
     "Saker": {
-        "dineSaker": "Sakene dine"
+        "dineSaker": "Sakene dine",
+        "deltSoknadInfo": "Søknaden din har vorte delt i {n} saker sidan det er behov for å behandle delar av søknaden separat."
     },
     "FileUploadItem": {
         "validation": {
@@ -71,8 +72,8 @@
         "oppgave": "<bold>{name}</bold> (frist {frist, date, ::ddMMyyyy})",
         "oppgaver": {
             "title": "Du har fått oppgåver",
-            "description": "<norsk>{navKontor}</norsk> treng meir dokumentasjon for å kunne behandle saka di:",
-            "warning": "Viss du ikkje sender nødvendig dokumentasjon innan fristen, kan ikkje Nav-kontoret behandle søknaden din. Det kan føre til at søknaden vert avslått og at du må søkje på nytt. Har du levert noko av dokumentasjonen direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
+            "description": "<norsk>{navKontor}</norsk> treng meir dokumentasjon for å kunne behandle søknaden din:",
+            "warning": "Hugs å sende etterspurd dokumentasjon innan fristen, slik at Nav-kontoret ditt får behandla søknaden din. Om ikkje kan søknaden avslåast, og du må søkje på nytt. Har du levert dokumentasjon direkte til Nav-kontoret ditt kan du sjå bort frå denne meldinga."
         },
         "vilkar": {
             "title": "Du har fått vilkår",
@@ -90,6 +91,15 @@
         "nyttVedtak": {
             "title": "Du har fått eit nytt vedtak",
             "description": "Les det nyaste vedtaksbrevet for meir informasjon"
+        },
+        "ikkeInnsyn": {
+            "title": "Kan ikkje vise status",
+            "description": "Saka di vil bli behandla, men vi kan ikkje vise status for søknaden din på nav.no. Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringje oss på <tlf>55 55 33 33</tlf>."
+        },
+        "behandlesIkke": {
+            "title": "Søknaden blir ikkje behandla",
+            "description1": "Vi kan ikkje vise status for søknaden din på nav.no. Det kan vere fordi søknaden din blir behandla saman med ein annan søknad du har sendt, eller fordi du har trekt tilbake søknaden.",
+            "description2": "Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringje oss på <tlf>55 55 33 33</tlf>."
         }
     },
     "StatusPage": {
@@ -106,7 +116,9 @@
         "DELVIS_INNVILGET": "<b>Utfall</b>: Delvis innvilga",
         "AVVIST": "<b>Utfall</b>: Avvist",
         "AVSLATT": "<b>Utfall</b>: Avslag",
-        "UNDER_BEHANDLING": "Under behandling"
+        "UNDER_BEHANDLING": "Under behandling",
+        "IKKE_INNSYN": "Kan ikkje vise status",
+        "BEHANDLES_IKKE": "Blir ikkje behandla"
     },
     "Vedtak": {
         "beskrivelse": {
@@ -121,6 +133,9 @@
         "pdf": "PDF-fil",
         "mottattDato": "Motteken {dato, date, ::ddMMyyyy}",
         "vedtaksbrev": "Vedtaksbrev"
+    },
+    "IkkeInnsynInfo": {
+        "info": "Saka di vil bli behandla, men me kan ikkje vise status for søknaden din på nav.no. Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringje oss på <tlf>55 55 33 33</tlf>."
     },
     "KlageInfo": {
         "seKlage": "Se din innsendte klage",
@@ -229,7 +244,8 @@
         "tittel": "Dine dokument"
     },
     "Filopplasting": {
-        "tittel": "Ettersend dokumentasjon",
+        "tittel": "Har du meir dokumentasjon du vil sende inn?",
+         "beskrivelse": "Om du har fleire opplysningar som kan vere relevante for søknaden din, kan dei sendast inn her.",
         "opplastedeVedlegg": "Dokumenta"
     },
     "VedleggListe": {
@@ -287,6 +303,12 @@
     "DatoTag": {
         "sendt": "Sendt {dato, date, ::ddMMyyyy}",
         "mottatt": "Teke imot {dato, date, ::ddMMyyyy}"
+    },
+    "BehandlesIkkeTag": {
+        "tittel": "Søknaden behandles ikkje"
+    },
+    "IkkeInnsynTag": {
+        "tittel": "Kan ikkje vise status"
     },
     "AlertTexts": {
         "forlengetSaksbehandlingsTid": "Forlengde saksbehandlingstid",

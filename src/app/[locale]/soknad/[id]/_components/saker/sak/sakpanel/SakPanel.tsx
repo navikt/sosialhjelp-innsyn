@@ -6,6 +6,7 @@ import { SaksStatusResponse } from "@generated/model";
 import Sakstittel from "../Sakstittel";
 import { useHentKlagerSuspense } from "@generated/klage-controller/klage-controller";
 import { useParams } from "next/navigation";
+import IkkeInnsynInfo from "./IkkeInnsynInfo";
 
 interface Props {
     sak: SaksStatusResponse;
@@ -25,8 +26,9 @@ const SakPanel = ({ sak }: Props): React.JSX.Element => {
     return (
         <Box borderWidth="1" borderColor="neutral-subtle" borderRadius="12" overflow="hidden">
             <VStack gap="space-16" padding={{ xs: "space-16", md: "space-24" }}>
-                <Sakstittel tittel={sak.tittel} latestVedtakUtfall={latestVedtak?.utfall} />
+                <Sakstittel tittel={sak.tittel} latestVedtakUtfall={latestVedtak?.utfall} status={sak.status} />
                 {latestVedtak && <Vedtak sortedVedtak={sak.vedtak} latestVedtak={latestVedtak} />}
+                {sak.status === "IKKE_INNSYN" && <IkkeInnsynInfo />}
             </VStack>
             {latestVedtak && (
                 <Box

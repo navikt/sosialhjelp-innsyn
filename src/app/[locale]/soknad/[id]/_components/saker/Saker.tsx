@@ -1,20 +1,18 @@
 "use client";
 
-import React, { use } from "react";
-import { Heading, VStack } from "@navikt/ds-react";
+import React from "react";
+import { BodyLong, Heading, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-import { SaksStatusResponse } from "@generated/model";
 
 import SingleSak from "./sak/SingleSak";
 import SakPanel from "./sak/sakpanel/SakPanel";
+import { useHentSaksStatuserSuspense } from "@generated/saks-status-controller/saks-status-controller";
+import { useParams } from "next/navigation";
 
-interface Props {
-    sakerPromise: Promise<SaksStatusResponse[]>;
-}
-
-const Saker = ({ sakerPromise }: Props) => {
+const Saker = () => {
     const t = useTranslations("Saker");
-    const saker = use(sakerPromise);
+    const { id } = useParams<{ id: string }>();
+    const { data: saker } = useHentSaksStatuserSuspense(id);
 
     if (!saker.length) {
         return null;
@@ -29,6 +27,7 @@ const Saker = ({ sakerPromise }: Props) => {
             <Heading size="medium" level="2">
                 {t("dineSaker")}
             </Heading>
+            <BodyLong>{t("deltSoknadInfo", { n: saker.length })}</BodyLong>
             <VStack gap="space-16">
                 {saker.map((sak) => (
                     <SakPanel key={sak.referanse} sak={sak} />

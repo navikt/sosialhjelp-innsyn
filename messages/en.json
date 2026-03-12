@@ -6,7 +6,8 @@
         "vedtak": "Decision"
     },
     "Saker": {
-        "dineSaker": "Your cases"
+        "dineSaker": "Your cases",
+        "deltSoknadInfo": "Your application has been split into {n} cases because there is a need to process parts of the application separately."
     },
     "FileUploadItem": {
         "validation": {
@@ -70,8 +71,8 @@
         "oppgave": "<bold>{name}</bold> (due {frist, date, ::ddMMyyyy})",
         "oppgaver": {
             "title": "You have received tasks",
-            "description": "<norsk>{navKontor}</norsk> needs more documentation to process your case:",
-            "warning": "If you do not submit the required documentation by the deadline, the Nav office will not be able to process your application. This may result in your application being rejected and you having to apply again. If you have delivered some of the documentation directly to your Nav office, you can disregard this message."
+            "description": "<norsk>{navKontor}</norsk> needs more documentation to process your application:",
+            "warning": "Remember to send the requested documentation within the deadline so that your Nav office can process your application. If you do not, your application may be rejected and you will have to reapply. If you have submitted documentation directly to your Nav office, you can disregard this message."
         },
         "vilkar": {
             "titleEmpty": "You may have received conditions",
@@ -89,6 +90,15 @@
         "nyttVedtak": {
             "title": "You have received a new decision",
             "description": "Read the latest decision letter for more information"
+        },
+        "ikkeInnsyn": {
+            "title": "Cannot display status",
+            "description": "Your application will be processed, but we cannot display the status of your application on nav.no. If you have questions, you can <navKontorLenke>contact your local Nav office</navKontorLenke>, or call us at <tlf>55 55 33 33</tlf>."
+        },
+        "behandlesIkke": {
+            "title": "The application will not be processed",
+            "description1": "We cannot show the status of your application on nav.no. This may be because your application is being processed together with another application you have submitted, or because you have withdrawn your application.",
+            "description2": "If you have questions, you can <navKontorLenke>contact your local Nav office</navKontorLenke>, or call us at <tlf>55 55 33 33</tlf>."
         }
     },
     "StatusPage": {
@@ -105,7 +115,9 @@
         "DELVIS_INNVILGET": "<b>Outcome</b>: Partially granted",
         "AVVIST": "<b>Outcome</b>: Rejected",
         "AVSLATT": "<b>Outcome</b>: Declined",
-        "UNDER_BEHANDLING": "Processing"
+        "UNDER_BEHANDLING": "Processing",
+        "IKKE_INNSYN": "Cannot display status",
+        "BEHANDLES_IKKE": "Will not be processed"
     },
     "Vedtak": {
         "beskrivelse": {
@@ -120,6 +132,9 @@
         "pdf": "PDF file",
         "mottattDato": "Received {dato, date, ::ddMMyyyy}",
         "vedtaksbrev": "Decision letters"
+    },
+    "IkkeInnsynInfo": {
+        "info": "Your application will be processed, but we cannot display the status of your application on nav.no. If you have questions, you can <navKontorLenke>contact your local Nav office</navKontorLenke>, or call us at <tlf>55 55 33 33</tlf>."
     },
     "KlageInfo": {
         "seKlage": "View your submitted appeal",
@@ -228,7 +243,8 @@
         "tittel": "Your documents"
     },
     "Filopplasting": {
-        "tittel": "Submit additional documentation",
+        "tittel": "Do you want to attach more documents?",
+        "beskrivelse": "If you have more relevant information regarding your application, they can be uploaded here.",
         "opplastedeVedlegg": "Documents"
     },
     "VedleggListe": {
@@ -286,6 +302,12 @@
     "DatoTag": {
         "sendt": "Sent {dato, date, ::ddMMyyyy}",
         "mottatt": "Received {dato, date, ::ddMMyyyy}"
+    },
+    "BehandlesIkkeTag": {
+        "tittel": "Application will not be processed"
+    },
+    "IkkeInnsynTag": {
+        "tittel": "Cannot display status"
     },
     "AlertTexts": {
         "forlengetSaksbehandlingsTid": "Extended processing time",

@@ -6,7 +6,8 @@
         "vedtak": "Vedtak"
     },
     "Saker": {
-        "dineSaker": "Dine saker"
+        "dineSaker": "Dine saker",
+        "deltSoknadInfo": "Søknaden din har blitt delt i {n} saker siden det er behov for å behandle deler av søknaden separat."
     },
     "FileUploadItem": {
         "validation": {
@@ -84,8 +85,8 @@
         "oppgave": "<bold>{name}</bold> (frist {frist, date, ::ddMMyyyy})",
         "oppgaver": {
             "title": "Du har fått oppgaver",
-            "description": "<norsk>{navKontor}</norsk> trenger mer dokumentasjon for å kunne behandle saken din:",
-            "warning": "Hvis du ikke sender nødvendig dokumentasjon innen fristen, kan ikke Nav-kontoret behandle søknaden din. Det kan føre til at søknaden avslås og at du må søke på nytt. Har du levert noe av dokumentasjonen direkte til Nav-kontoret ditt, kan du se bort fra denne meldingen."
+            "description": "<norsk>{navKontor}</norsk> trenger mer dokumentasjon for å kunne behandle søknaden din:",
+            "warning": "Husk å sende etterspurt dokumentasjon innen fristen, slik at Nav-kontoret ditt får behandlet søknaden din. Hvis ikke kan søknaden avslås, og du må søke på nytt. Har du levert dokumentasjon direkte til Nav-kontoret ditt kan du se bort ifra denne meldingen."
         },
         "vilkar": {
             "title": "Du har fått vilkår",
@@ -103,6 +104,15 @@
         "nyttVedtak": {
             "title": "Du har fått et nytt vedtak",
             "description": "Les det nyeste vedtaksbrevet for mer informasjon"
+        },
+        "ikkeInnsyn": {
+            "title": "Kan ikke vise status",
+            "description": "Saken din vil bli behandlet, men vi kan ikke vise status for søknaden din på nav.no. Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringe oss på <tlf>55 55 33 33</tlf>."
+        },
+        "behandlesIkke": {
+            "title": "Søknaden behandles ikke",
+            "description1": "Vi kan ikke vise status for søknaden din på nav.no. Det kan være fordi søknaden din blir behandlet sammen med en annen søknad du har sendt, eller fordi du har trukket tilbake søknaden.",
+            "description2": "Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringe oss på <tlf>55 55 33 33</tlf>."
         }
     },
     "StatusPage": {
@@ -119,7 +129,9 @@
         "DELVIS_INNVILGET": "<b>Utfall</b>: Delvis innvilget",
         "AVVIST": "<b>Utfall</b>: Avvist",
         "AVSLATT": "<b>Utfall</b>: Avslag",
-        "UNDER_BEHANDLING": "Under behandling"
+        "UNDER_BEHANDLING": "Under behandling",
+        "IKKE_INNSYN": "Kan ikke vise status",
+        "BEHANDLES_IKKE": "Behandles ikke"
     },
     "Vedtak": {
         "beskrivelse": {
@@ -134,6 +146,9 @@
         "pdf": "PDF-fil",
         "mottattDato": "Mottatt {dato, date, ::ddMMyyyy}",
         "vedtaksbrev": "Vedtaksbrev"
+    },
+    "IkkeInnsynInfo": {
+        "info": "Saken din vil bli behandlet, men vi kan ikke vise status for søknaden din på nav.no. Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringe oss på <tlf>55 55 33 33</tlf>."
     },
     "KlageInfo": {
         "seKlage": "Se din innsendte klage",
@@ -241,7 +256,8 @@
         "tittel": "Dine dokumenter"
     },
     "Filopplasting": {
-        "tittel": "Ettersend dokumentasjon",
+        "tittel": "Har du mer dokumentasjon du vil sende inn?",
+        "beskrivelse": "Hvis du har flere opplysninger som kan være relevante for søknaden din, kan de sendes inn her.",
         "opplastedeVedlegg": "Dokumenter"
     },
     "VedleggListe": {
@@ -294,6 +310,12 @@
     "DatoTag": {
         "sendt": "Sendt {dato, date, ::ddMMyyyy}",
         "mottatt": "Mottatt {dato, date, ::ddMMyyyy}"
+    },
+    "IkkeInnsynTag": {
+        "tittel": "Kan ikke vise status"
+    },
+    "BehandlesIkkeTag": {
+        "tittel": "Søknaden behandles ikke"
     },
     "PaabegyntCard": {
         "title": "Søknad om økonomisk sosialhjelp",

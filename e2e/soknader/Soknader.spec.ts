@@ -1,8 +1,8 @@
 import { test, expect } from "@playwright/test";
-import { addDays, subDays } from "date-fns";
+import { addDays, subDays, subWeeks } from "date-fns";
 
 import { createMswHelper } from "../helpers/msw-helpers";
-import { SaksDetaljerResponse, SaksListeResponse } from "../../src/generated/model";
+import { SaksListeResponse } from "../../src/generated/model";
 
 test.afterEach(async ({ request, baseURL }) => {
     // Reset MSW handlers after each test to avoid interference between tests
@@ -50,7 +50,7 @@ test.describe("Soknader page - application categorization", () => {
         await msw.mockEndpoint("/api/v1/innsyn/saker", mockSakerData);
 
         // Mock saksdetaljer for recent application (UNDER_BEHANDLING - should be active)
-        await msw.mockEndpoint("/api/v1/innsyn/sak/recent-soknad-1/detaljer", {
+        await msw.mockDetaljer("recent-soknad-1", {
             fiksDigisosId: "recent-soknad-1",
             soknadTittel: "Recent Application",
             status: "UNDER_BEHANDLING",
@@ -62,10 +62,11 @@ test.describe("Soknader page - application categorization", () => {
                 harMottattForelopigSvar: false,
             },
             saker: [],
-        } satisfies SaksDetaljerResponse);
+            sistOppdatert: recentDate.toISOString(),
+        });
 
         // Mock saksdetaljer for old application (FERDIGBEHANDLET - should be in earlier)
-        await msw.mockEndpoint("/api/v1/innsyn/sak/old-soknad-1/detaljer", {
+        await msw.mockDetaljer("old-soknad-1", {
             fiksDigisosId: "old-soknad-1",
             soknadTittel: "Old Application",
             status: "FERDIGBEHANDLET",
@@ -77,7 +78,8 @@ test.describe("Soknader page - application categorization", () => {
                 harMottattForelopigSvar: false,
             },
             saker: [],
-        } satisfies SaksDetaljerResponse);
+            sistOppdatert: oldDate.toISOString(),
+        });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
         // Wait for the page to load
@@ -119,7 +121,7 @@ test.describe("Soknader page - application categorization", () => {
         await msw.mockEndpoint("/api/v1/innsyn/saker", mockSakerData);
 
         // Mock saksdetaljer for recent finished application
-        await msw.mockEndpoint("/api/v1/innsyn/sak/recent-ferdig-1/detaljer", {
+        await msw.mockDetaljer("recent-ferdig-1", {
             fiksDigisosId: "recent-ferdig-1",
             soknadTittel: "Recent Finished Application",
             status: "FERDIGBEHANDLET",
@@ -175,10 +177,11 @@ test.describe("Soknader page - application categorization", () => {
 
         await msw.mockEndpoint("/api/v1/innsyn/saker", mockSakerData);
 
-        await msw.mockEndpoint("/api/v1/innsyn/sak/old-soknad-1/detaljer", {
+        await msw.mockDetaljer("old-soknad-1", {
             fiksDigisosId: "old-soknad-1",
             soknadTittel: "Old Application 1",
             status: "FERDIGBEHANDLET",
+            sistOppdatert: oldDate1.toISOString(),
             antallNyeOppgaver: 0,
             dokumentasjonEtterspurt: false,
             dokumentasjonkrav: false,
@@ -189,10 +192,11 @@ test.describe("Soknader page - application categorization", () => {
             saker: [],
         });
 
-        await msw.mockEndpoint("/api/v1/innsyn/sak/old-soknad-2/detaljer", {
+        await msw.mockDetaljer("old-soknad-2", {
             fiksDigisosId: "old-soknad-2",
             soknadTittel: "Old Application 2",
             status: "FERDIGBEHANDLET",
+            sistOppdatert: oldDate2.toISOString(),
             antallNyeOppgaver: 0,
             dokumentasjonEtterspurt: false,
             dokumentasjonkrav: false,
@@ -237,7 +241,7 @@ test.describe("Soknader page - application categorization", () => {
 
         await msw.mockEndpoint("/api/v1/innsyn/saker", mockSakerData);
 
-        await msw.mockEndpoint("/api/v1/innsyn/sak/old-active-1/detaljer", {
+        await msw.mockDetaljer("old-active-1", {
             fiksDigisosId: "old-active-1",
             soknadTittel: "Old But Still Active Application",
             status: "UNDER_BEHANDLING",
@@ -282,7 +286,7 @@ test.describe("Soknader page - application categorization", () => {
 
         await msw.mockEndpoint("/api/v1/innsyn/saker", mockSakerData);
 
-        await msw.mockEndpoint("/api/v1/innsyn/sak/active-dokkrav/detaljer", {
+        await msw.mockDetaljer("active-dokkrav", {
             fiksDigisosId: "active-dokkrav",
             soknadTittel: "Old But Still Active Application",
             status: "FERDIGBEHANDLET",
@@ -295,7 +299,7 @@ test.describe("Soknader page - application categorization", () => {
             },
             saker: [],
             sisteDokumentasjonKravFrist: addDays(now, 25).toISOString(),
-        } satisfies SaksDetaljerResponse);
+        });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
 
@@ -325,7 +329,7 @@ test.describe("Soknader page - application categorization", () => {
 
         await msw.mockEndpoint("/api/v1/innsyn/saker", mockSakerData);
 
-        await msw.mockEndpoint("/api/v1/innsyn/sak/non-active-dokkrav/detaljer", {
+        await msw.mockDetaljer("non-active-dokkrav", {
             fiksDigisosId: "non-active-dokkrav",
             soknadTittel: "Dette er en tittel",
             status: "FERDIGBEHANDLET",
@@ -337,8 +341,9 @@ test.describe("Soknader page - application categorization", () => {
                 harMottattForelopigSvar: false,
             },
             saker: [],
+            sistOppdatert: oldDate.toISOString(),
             sisteDokumentasjonKravFrist: addDays(now, 25).toISOString(),
-        } satisfies SaksDetaljerResponse);
+        });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
 
@@ -367,10 +372,11 @@ test.describe("Soknader page - application categorization", () => {
 
         await msw.mockEndpoint("/api/v1/innsyn/saker", mockSakerData);
 
-        await msw.mockEndpoint("/api/v1/innsyn/sak/tidligere-soknad/detaljer", {
+        await msw.mockDetaljer("tidligere-soknad", {
             fiksDigisosId: "tidligere-soknad",
             soknadTittel: "Gammel søknad",
             status: "FERDIGBEHANDLET",
+            sistOppdatert: oldDate.toISOString(),
             antallNyeOppgaver: 0,
             dokumentasjonEtterspurt: false,
             dokumentasjonkrav: false,
@@ -379,7 +385,7 @@ test.describe("Soknader page - application categorization", () => {
                 harMottattForelopigSvar: false,
             },
             saker: [],
-        } satisfies SaksDetaljerResponse);
+        });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
 
@@ -398,7 +404,7 @@ test.describe("Soknader page - application categorization", () => {
             {
                 eventTidspunkt: "2025-12-01T10:00:00Z",
                 link: "link/to/soknad",
-                sistOppdatert: "2025-12-01T10:00:00Z",
+                sistOppdatert: subWeeks(new Date(), 2).toISOString(),
                 soknadId: "paabegynt-soknad",
             },
         ];
@@ -430,7 +436,11 @@ test.describe("Soknader page - application categorization", () => {
             status: "BEHANDLES_IKKE",
         };
         await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
-        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {});
+        await msw.mockDetaljer("behandles-ikke", {
+            status: "BEHANDLES_IKKE",
+            sistOppdatert: oldDate.toISOString(),
+            soknadTittel: mockSak.soknadTittel,
+        });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
 
@@ -456,13 +466,18 @@ test.describe("SoknadCard rendering logic", () => {
         const mockSak = {
             fiksDigisosId: "test-mottatt-1",
             soknadTittel: "Søknad mottatt",
-            sistOppdatert: "2025-12-01T10:00:00Z",
+            sistOppdatert: subWeeks(new Date(), 2).toISOString(),
             kommunenummer: "0301",
             soknadOpprettet: "2025-11-15T10:00:00Z",
             status: "MOTTATT",
         };
         await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
-        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {});
+        await msw.mockDetaljer(mockSak.fiksDigisosId, {
+            fiksDigisosId: "test-mottatt-1",
+            soknadTittel: "Søknad mottatt",
+            sistOppdatert: subWeeks(new Date(), 2).toISOString(),
+            status: "MOTTATT",
+        });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
 
@@ -476,7 +491,7 @@ test.describe("SoknadCard rendering logic", () => {
         const mockSak = {
             fiksDigisosId: "test-mottatt-oppgave",
             soknadTittel: "Søknad med oppgave",
-            sistOppdatert: "2025-12-01T10:00:00Z",
+            sistOppdatert: subWeeks(new Date(), 2).toISOString(),
             kommunenummer: "0301",
             soknadOpprettet: "2025-11-15T10:00:00Z",
             status: "MOTTATT",
@@ -484,9 +499,13 @@ test.describe("SoknadCard rendering logic", () => {
             forsteOppgaveFrist: "2025-12-20T10:00:00Z",
         };
         await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
-        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+        await msw.mockDetaljer(mockSak.fiksDigisosId, {
             antallNyeOppgaver: 2,
             forsteOppgaveFrist: "2025-12-20T10:00:00Z",
+            fiksDigisosId: "test-mottatt-oppgave",
+            soknadTittel: "Søknad med oppgave",
+            sistOppdatert: subWeeks(new Date(), 2).toISOString(),
+            status: "MOTTATT",
         });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
@@ -510,12 +529,12 @@ test.describe("SoknadCard rendering logic", () => {
         const mockSak = {
             fiksDigisosId: "test-mottatt-oppgave",
             soknadTittel: "Papirsøknad",
-            kommunenummer: "0301",
             sistOppdatert: new Date().toISOString(),
+            kommunenummer: "0301",
             isPapirSoknad: true,
         } satisfies SaksListeResponse;
         await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
-        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+        await msw.mockDetaljer(mockSak.fiksDigisosId, {
             status: "MOTTATT",
             saker: [],
             vilkar: false,
@@ -527,7 +546,8 @@ test.describe("SoknadCard rendering logic", () => {
             dokumentasjonEtterspurt: false,
             mottattTidspunkt: "2025-11-15T10:00:00Z",
             fiksDigisosId: "test-mottatt-oppgave",
-        } satisfies SaksDetaljerResponse);
+            sistOppdatert: new Date().toISOString(),
+        });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
 
@@ -542,13 +562,18 @@ test.describe("SoknadCard rendering logic", () => {
         const mockSak = {
             fiksDigisosId: "test-sendt-1",
             soknadTittel: "Søknad sendt",
-            sistOppdatert: "2025-12-01T10:00:00Z",
+            sistOppdatert: subWeeks(new Date(), 2).toISOString(),
             kommunenummer: "0301",
             soknadOpprettet: "2025-11-20T10:00:00Z",
             status: "SENDT",
         };
         await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
-        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {});
+        await msw.mockDetaljer(mockSak.fiksDigisosId, {
+            fiksDigisosId: "test-sendt-1",
+            soknadTittel: "Søknad sendt",
+            status: "SENDT",
+            sistOppdatert: subWeeks(new Date(), 2).toISOString(),
+        });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
 
@@ -562,14 +587,18 @@ test.describe("SoknadCard rendering logic", () => {
         const mockSak = {
             fiksDigisosId: "test-under-behandling-1",
             soknadTittel: "Søknad under behandling",
-            sistOppdatert: "2025-12-01T10:00:00Z",
+            sistOppdatert: subWeeks(new Date(), 2).toISOString(),
             kommunenummer: "0301",
             soknadOpprettet: "2025-11-10T10:00:00Z",
             mottattTidspunkt: "2025-11-11T10:00:00Z",
             status: "UNDER_BEHANDLING",
         };
         await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
-        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+        await msw.mockDetaljer(mockSak.fiksDigisosId, {
+            fiksDigisosId: "test-under-behandling-1",
+            soknadTittel: "Søknad under behandling",
+            sistOppdatert: subWeeks(new Date(), 2).toISOString(),
+            status: "UNDER_BEHANDLING",
             saker: [{ status: "UNDER_BEHANDLING", antallVedtak: 0 }],
         });
 
@@ -587,19 +616,20 @@ test.describe("SoknadCard rendering logic", () => {
         const mockSak = {
             fiksDigisosId: "test-under-behandling-progress",
             soknadTittel: "Søknad med flere saker",
-            sistOppdatert: "2025-12-01T10:00:00Z",
+            sistOppdatert: subWeeks(new Date(), 2).toISOString(),
             kommunenummer: "0301",
             soknadOpprettet: "2025-11-05T10:00:00Z",
             status: "UNDER_BEHANDLING",
         };
         await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
-        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
-            fiksDigisosId: mockSak.fiksDigisosId,
+        await msw.mockDetaljer(mockSak.fiksDigisosId, {
+            fiksDigisosId: "test-under-behandling-progress",
+            status: "UNDER_BEHANDLING",
+            sistOppdatert: subWeeks(new Date(), 2).toISOString(),
             antallNyeOppgaver: 0,
             dokumentasjonEtterspurt: false,
             forelopigSvar: { harMottattForelopigSvar: false },
             dokumentasjonkrav: false,
-            status: "UNDER_BEHANDLING",
             soknadTittel: "Søknad med flere saker",
             vilkar: false,
             saker: [
@@ -607,7 +637,7 @@ test.describe("SoknadCard rendering logic", () => {
                 { status: "FERDIGBEHANDLET", antallVedtak: 1 },
                 { status: "UNDER_BEHANDLING", antallVedtak: 0 },
             ],
-        } satisfies SaksDetaljerResponse);
+        });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
 
@@ -660,16 +690,18 @@ test.describe("SoknadCard rendering logic", () => {
         const mockSak = {
             fiksDigisosId: "test-ferdigbehandlet-vedtak",
             soknadTittel: "Søknad med flere vedtak",
-            sistOppdatert: "2025-12-01T10:00:00Z",
+            sistOppdatert: subWeeks(new Date(), 2).toISOString(),
             kommunenummer: "0301",
             soknadOpprettet: "2025-11-01T10:00:00Z",
             status: "FERDIGBEHANDLET",
         };
         await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
-        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+        await msw.mockDetaljer(mockSak.fiksDigisosId, {
             fiksDigisosId: "test-ferdigbehandlet-vedtak",
             saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 2 }],
             status: "FERDIGBEHANDLET",
+            soknadTittel: "Søknad med flere vedtak",
+            sistOppdatert: subWeeks(new Date(), 2).toISOString(),
         });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
@@ -687,14 +719,16 @@ test.describe("SoknadCard rendering logic", () => {
         const mockSak = {
             fiksDigisosId: "test-under-behandling-forelopig",
             soknadTittel: "Søknad med forlenget behandlingstid",
-            sistOppdatert: "2025-12-01T10:00:00Z",
+            sistOppdatert: subWeeks(new Date(), 2).toISOString(),
             kommunenummer: "0301",
             soknadOpprettet: "2025-10-01T10:00:00Z",
             isPapirSoknad: false,
         } satisfies SaksListeResponse;
         await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
-        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+        await msw.mockDetaljer(mockSak.fiksDigisosId, {
             status: "UNDER_BEHANDLING",
+            soknadTittel: "Søknad med forlenget behandlingstid",
+            sistOppdatert: subWeeks(new Date(), 2).toISOString(),
             fiksDigisosId: "test-under-behandling-forelopig",
             forelopigSvar: { harMottattForelopigSvar: true, link: "link.no" },
             saker: [{ status: "UNDER_BEHANDLING", antallVedtak: 0 }],
@@ -722,7 +756,11 @@ test.describe("SoknadCard rendering logic", () => {
             status: "FERDIGBEHANDLET",
         };
         await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
-        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+        await msw.mockDetaljer(mockSak.fiksDigisosId, {
+            fiksDigisosId: "test-ferdigbehandlet-nylig",
+            soknadTittel: "Søknad ferdigbehandlet nylig",
+            sistOppdatert: recentDate.toISOString(),
+            status: "FERDIGBEHANDLET",
             saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 1 }],
         });
 
@@ -749,8 +787,11 @@ test.describe("SoknadCard rendering logic", () => {
             status: "FERDIGBEHANDLET",
         };
         await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
-        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+        await msw.mockDetaljer(mockSak.fiksDigisosId, {
+            status: "FERDIGBEHANDLET",
             fiksDigisosId: "test-ferdigbehandlet-eldre",
+            soknadTittel: "Søknad ferdigbehandlet for lenge siden",
+            sistOppdatert: oldDate.toISOString(),
             saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 1 }],
         });
 
@@ -766,20 +807,23 @@ test.describe("SoknadCard rendering logic", () => {
         const mockSak = {
             fiksDigisosId: "test-ferdigbehandlet-vilkar",
             soknadTittel: "Søknad ferdigbehandlet med vilkår",
-            sistOppdatert: "2025-12-01T10:00:00Z",
+            sistOppdatert: subWeeks(new Date(), 2).toISOString(),
             kommunenummer: "0301",
             soknadOpprettet: "2025-11-01T10:00:00Z",
             status: "FERDIGBEHANDLET",
         };
         await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
-        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+        await msw.mockDetaljer(mockSak.fiksDigisosId, {
             vilkar: true,
             forsteOppgaveFrist: "2025-12-25T10:00:00Z",
             sisteDokumentasjonKravFrist: "2025-12-25T10:00:00Z",
             fiksDigisosId: "test-ferdigbehandlet-vilkar",
+            soknadTittel: "Søknad ferdigbehandlet med vilkår",
+            sistOppdatert: subWeeks(new Date(), 2).toISOString(),
             antallNyeOppgaver: 1,
             antallNyeVilkarOgDokumentasjonKrav: 1,
             saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 1 }],
+            status: "FERDIGBEHANDLET",
         });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
@@ -794,7 +838,7 @@ test.describe("SoknadCard rendering logic", () => {
         const mockSak = {
             fiksDigisosId: "test-complex",
             soknadTittel: "Kompleks søknad",
-            sistOppdatert: "2025-12-01T10:00:00Z",
+            sistOppdatert: subWeeks(new Date(), 2).toISOString(),
             kommunenummer: "0301",
             soknadOpprettet: "2025-10-01T10:00:00Z",
             mottattTidspunkt: "2025-10-02T10:00:00Z",
@@ -803,9 +847,11 @@ test.describe("SoknadCard rendering logic", () => {
             forsteOppgaveFrist: "2025-12-18T10:00:00Z",
         };
         await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
-        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {
+        await msw.mockDetaljer(mockSak.fiksDigisosId, {
             antallNyeOppgaver: 1,
             fiksDigisosId: "test-complex",
+            soknadTittel: "Kompleks søknad",
+            sistOppdatert: subWeeks(new Date(), 2).toISOString(),
             forsteOppgaveFrist: "2025-12-18T10:00:00Z",
             forelopigSvar: { harMottattForelopigSvar: true },
             saker: [
@@ -833,19 +879,24 @@ test.describe("SoknadCard rendering logic", () => {
         const mockSak = {
             fiksDigisosId: "behandles-ikke",
             soknadTittel: "Behandles ikke",
-            sistOppdatert: new Date(),
+            sistOppdatert: new Date().toISOString(),
             soknadOpprettet: "2025-10-01T10:00:00Z",
             status: "BEHANDLES_IKKE",
         };
         await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
-        await msw.mockEndpoint(`/api/v1/innsyn/sak/${mockSak.fiksDigisosId}/detaljer`, {});
+        await msw.mockDetaljer(mockSak.fiksDigisosId, {
+            fiksDigisosId: "behandles-ikke",
+            soknadTittel: "Behandles ikke",
+            sistOppdatert: new Date().toISOString(),
+            status: "BEHANDLES_IKKE",
+        });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
 
         const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
         await expect(aktiveSaker).toBeVisible();
-        await expect(page.getByText(/Behandles ikke/).first()).toBeVisible();
-        await expect(page.getByText(/Ferdigbehandlet/).first()).toBeVisible();
+        await expect(page.getByText("Behandles ikke", { exact: true }).first()).toBeVisible();
+        await expect(page.getByText("Søknaden behandles ikke", { exact: true }).first()).toBeVisible();
     });
 });
 
@@ -906,7 +957,7 @@ test.describe("Sorting", () => {
 
         await msw.mockEndpoint("/api/v1/innsyn/saker", mockSakerData);
 
-        await msw.mockEndpoint("/api/v1/innsyn/sak/soknad-deadline-soon/detaljer", {
+        await msw.mockDetaljer("soknad-deadline-soon", {
             fiksDigisosId: "soknad-deadline-soon",
             soknadTittel: "Deadline tomorrow",
             status: "UNDER_BEHANDLING",
@@ -917,9 +968,9 @@ test.describe("Sorting", () => {
             forelopigSvar: { harMottattForelopigSvar: false },
             forsteOppgaveFrist: tomorrow.toISOString(),
             saker: [],
-        } satisfies SaksDetaljerResponse);
+        });
 
-        await msw.mockEndpoint("/api/v1/innsyn/sak/soknad-deadline-later/detaljer", {
+        await msw.mockDetaljer("soknad-deadline-later", {
             fiksDigisosId: "soknad-deadline-later",
             soknadTittel: "Deadline next week",
             status: "UNDER_BEHANDLING",
@@ -930,9 +981,9 @@ test.describe("Sorting", () => {
             forelopigSvar: { harMottattForelopigSvar: false },
             forsteOppgaveFrist: nextWeek.toISOString(),
             saker: [],
-        } satisfies SaksDetaljerResponse);
+        });
 
-        await msw.mockEndpoint("/api/v1/innsyn/sak/soknad-tasks-no-deadline/detaljer", {
+        await msw.mockDetaljer("soknad-tasks-no-deadline", {
             fiksDigisosId: "soknad-tasks-no-deadline",
             soknadTittel: "Tasks without deadline",
             status: "UNDER_BEHANDLING",
@@ -942,9 +993,9 @@ test.describe("Sorting", () => {
             vilkar: false,
             forelopigSvar: { harMottattForelopigSvar: false },
             saker: [],
-        } satisfies SaksDetaljerResponse);
+        });
 
-        await msw.mockEndpoint("/api/v1/innsyn/sak/soknad-no-tasks-oldest/detaljer", {
+        await msw.mockDetaljer("soknad-no-tasks-oldest", {
             fiksDigisosId: "soknad-no-tasks-oldest",
             soknadTittel: "No tasks oldest",
             status: "UNDER_BEHANDLING",
@@ -954,9 +1005,9 @@ test.describe("Sorting", () => {
             vilkar: false,
             forelopigSvar: { harMottattForelopigSvar: false },
             saker: [],
-        } satisfies SaksDetaljerResponse);
+        });
 
-        await msw.mockEndpoint("/api/v1/innsyn/sak/soknad-no-tasks-newest/detaljer", {
+        await msw.mockDetaljer("soknad-no-tasks-newest", {
             fiksDigisosId: "soknad-no-tasks-newest",
             soknadTittel: "No tasks newest",
             status: "UNDER_BEHANDLING",
@@ -966,7 +1017,7 @@ test.describe("Sorting", () => {
             vilkar: false,
             forelopigSvar: { harMottattForelopigSvar: false },
             saker: [],
-        } satisfies SaksDetaljerResponse);
+        });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
 

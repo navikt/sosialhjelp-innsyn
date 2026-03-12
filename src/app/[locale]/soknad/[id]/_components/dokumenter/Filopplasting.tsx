@@ -11,28 +11,36 @@ import useIsMobile from "@utils/useIsMobile";
 
 import VedleggListe, { VedleggListeSkeleton } from "./VedleggListe";
 import { useHentOriginalSoknadSuspense } from "@generated/soknads-status-controller/soknads-status-controller";
+import { useHentSaksStatuserSuspense } from "@generated/saks-status-controller/saks-status-controller";
+import { SoknadsStatusResponseStatus } from "@generated/model";
 
 const metadata = { dokumentKontekst: "ettersendelse", type: "annet", tilleggsinfo: "annet" } satisfies Metadata;
 
 interface Props {
     id: string;
     newUploadEnabled: boolean;
+    soknadStatus: SoknadsStatusResponseStatus;
 }
 
-const Filopplasting = ({ id, newUploadEnabled }: Props) => {
+const Filopplasting = ({ id, newUploadEnabled, soknadStatus }: Props) => {
     const t = useTranslations("Filopplasting");
-    const tOpplastingsboks = useTranslations("Opplastingsboks");
     const isMobile = useIsMobile();
 
     const { data: vedlegg } = useHentVedleggSuspense(id);
     const { data: originalSoknad } = useHentOriginalSoknadSuspense(id);
+    const { data: saker } = useHentSaksStatuserSuspense(id);
+    const enSakIkkeInnsyn = saker.length === 1 && saker[0].status === "IKKE_INNSYN";
+    const behandlesIkke =
+        soknadStatus === "BEHANDLES_IKKE" || (saker.length === 1 && saker[0].status === "BEHANDLES_IKKE");
+
+    const showUpload = !enSakIkkeInnsyn && !behandlesIkke;
 
     return (
         <VStack>
             <Heading size="medium" level="2">
                 {t("tittel")}
             </Heading>
-            {!isMobile && <BodyLong>{tOpplastingsboks("beskrivelse")}</BodyLong>}
+            {!isMobile && <BodyLong>{t("beskrivelse")}</BodyLong>}
             <Box
                 background="info-soft"
                 padding={{ xs: "space-16", sm: "space-24" }}
@@ -41,16 +49,18 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
                 borderColor="info-subtle"
             >
                 <VStack gap="space-40">
-                    <VStack gap={isMobile ? "space-16" : "space-40"}>
-                        {isMobile && <BodyLong>{tOpplastingsboks("beskrivelse")}</BodyLong>}
-                        <NavigationGuardProvider>
-                            {newUploadEnabled ? (
-                                <OpplastingsboksTus metadata={metadata} id={id} />
-                            ) : (
-                                <Opplastingsboks metadata={metadata} />
-                            )}
-                        </NavigationGuardProvider>
-                    </VStack>
+                    {showUpload && (
+                        <VStack gap={isMobile ? "space-16" : "space-40"}>
+                            {isMobile && <BodyLong>{t("beskrivelse")}</BodyLong>}
+                            <NavigationGuardProvider>
+                                {newUploadEnabled ? (
+                                    <OpplastingsboksTus metadata={metadata} id={id} />
+                                ) : (
+                                    <Opplastingsboks metadata={metadata} />
+                                )}
+                            </NavigationGuardProvider>
+                        </VStack>
+                    )}
                     {(vedlegg.length > 0 || originalSoknad) && (
                         <VStack gap="space-8">
                             <Heading size="small" level="3" id="dokumenter">
