@@ -12,15 +12,17 @@ import useIsMobile from "@utils/useIsMobile";
 import VedleggListe, { VedleggListeSkeleton } from "./VedleggListe";
 import { useHentOriginalSoknadSuspense } from "@generated/soknads-status-controller/soknads-status-controller";
 import { useHentSaksStatuserSuspense } from "@generated/saks-status-controller/saks-status-controller";
+import { SoknadsStatusResponseStatus } from "@generated/model";
 
 const metadata = { dokumentKontekst: "ettersendelse", type: "annet", tilleggsinfo: "annet" } satisfies Metadata;
 
 interface Props {
     id: string;
     newUploadEnabled: boolean;
+    soknadStatus: SoknadsStatusResponseStatus;
 }
 
-const Filopplasting = ({ id, newUploadEnabled }: Props) => {
+const Filopplasting = ({ id, newUploadEnabled, soknadStatus }: Props) => {
     const t = useTranslations("Filopplasting");
     const isMobile = useIsMobile();
 
@@ -28,6 +30,10 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
     const { data: originalSoknad } = useHentOriginalSoknadSuspense(id);
     const { data: saker } = useHentSaksStatuserSuspense(id);
     const enSakIkkeInnsyn = saker.length === 1 && saker[0].status === "IKKE_INNSYN";
+    const behandlesIkke =
+        soknadStatus === "BEHANDLES_IKKE" || (saker.length === 1 && saker[0].status === "BEHANDLES_IKKE");
+
+    const showUpload = !enSakIkkeInnsyn && !behandlesIkke;
 
     return (
         <VStack>
@@ -43,7 +49,7 @@ const Filopplasting = ({ id, newUploadEnabled }: Props) => {
                 borderColor="info-subtle"
             >
                 <VStack gap="space-40">
-                    {!enSakIkkeInnsyn && (
+                    {showUpload && (
                         <VStack gap={isMobile ? "space-16" : "space-40"}>
                             {isMobile && <BodyLong>{t("beskrivelse")}</BodyLong>}
                             <NavigationGuardProvider>

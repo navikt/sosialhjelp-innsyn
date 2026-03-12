@@ -30,10 +30,20 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
     const harFattVedtak = saksdetaljer.saker.some((s) => s.antallVedtak > 0);
     const enSakIkkeInnsyn = saksdetaljer.saker.length === 1 && saksdetaljer.saker[0].status === "IKKE_INNSYN";
 
+    const behandlesIkke =
+        saksdetaljer.status === "BEHANDLES_IKKE" ||
+        (saksdetaljer.saker.length === 1 && saksdetaljer.saker[0].status === "BEHANDLES_IKKE");
+
     const cards: JSX.Element[] = [];
 
     if (saksdetaljer.status === "SENDT") {
         cards.push(<SoknadInfoCard key="sendt" state={{ type: "sendt" }} />);
+    }
+
+    if (behandlesIkke) {
+        cards.push(<SoknadInfoCard key="behandlesIkke" state={{ type: "behandlesIkke" }} />);
+        // Early exit her, så vi ikke viser noen andre kort.
+        return cards;
     }
 
     if (enSakIkkeInnsyn) {

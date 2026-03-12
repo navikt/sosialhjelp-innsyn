@@ -853,8 +853,8 @@ test.describe("SoknadCard rendering logic", () => {
 
         const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
         await expect(aktiveSaker).toBeVisible();
-        await expect(page.getByText(/Behandles ikke/).first()).toBeVisible();
-        await expect(page.getByText(/Ferdigbehandlet/).first()).toBeVisible();
+        await expect(page.getByText("Behandles ikke", { exact: true }).first()).toBeVisible();
+        await expect(page.getByText("Søknaden behandles ikke", { exact: true }).first()).toBeVisible();
     });
 });
 

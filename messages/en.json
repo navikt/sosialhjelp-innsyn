@@ -94,6 +94,11 @@
         "ikkeInnsyn": {
             "title": "Cannot display status",
             "description": "Your application will be processed, but we cannot display the status of your application on nav.no. If you have questions, you can <navKontorLenke>contact your local Nav office</navKontorLenke>, or call us at <tlf>55 55 33 33</tlf>."
+        },
+        "behandlesIkke": {
+            "title": "The application will not be processed",
+            "description1": "We cannot show the status of your application on nav.no. This may be because your application is being processed together with another application you have submitted, or because you have withdrawn your application.",
+            "description2": "If you have questions, you can <navKontorLenke>contact your local Nav office</navKontorLenke>, or call us at <tlf>55 55 33 33</tlf>."
         }
     },
     "StatusPage": {
@@ -111,7 +116,8 @@
         "AVVIST": "<b>Outcome</b>: Rejected",
         "AVSLATT": "<b>Outcome</b>: Declined",
         "UNDER_BEHANDLING": "Processing",
-        "IKKE_INNSYN": "Cannot display status"
+        "IKKE_INNSYN": "Cannot display status",
+        "BEHANDLES_IKKE": "Will not be processed"
     },
     "Vedtak": {
         "beskrivelse": {
@@ -296,6 +302,9 @@
     "DatoTag": {
         "sendt": "Sent {dato, date, ::ddMMyyyy}",
         "mottatt": "Received {dato, date, ::ddMMyyyy}"
+    },
+    "BehandlesIkkeTag": {
+        "tittel": "Application will not be processed"
     },
     "IkkeInnsynTag": {
         "tittel": "Cannot display status"
