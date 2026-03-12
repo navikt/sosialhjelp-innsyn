@@ -88,9 +88,9 @@
             "warning": "Hvis du ikke sender nødvendig dokumentasjon innen fristen, kan ikke Nav-kontoret behandle søknaden din. Det kan føre til at søknaden avslås og at du må søke på nytt. Har du levert noe av dokumentasjonen direkte til Nav-kontoret ditt, kan du se bort fra denne meldingen."
         },
         "vilkar": {
-            "title": "Du har fått vilkår",
+            "title": "Du har vilkår",
             "titleEmpty": "Du kan ha fått vilkår",
-            "descriptionEmpty": "Vilkår er aktiviteter du skal gjøre som en del av oppfølgingen din fra Nav. <link>Les vedtaksbrevet ditt</link> for å se om du har fått vilkår, eller om Nav-kontoret trenger mer dokumentasjon for å kunne utbetale stønaden din.",
+            "descriptionEmpty": "Vilkår er aktiviteter du skal gjøre som en del av oppfølgingen din fra Nav. Les vedtaksbrevet ditt for å se om du har fått vilkår, eller om Nav-kontoret trenger mer dokumentasjon for å kunne utbetale stønaden din.",
             "description": "Vilkår er aktiviteter du skal gjøre som en del av oppfølgingen din fra Nav.",
             "vilkar": "<bold>{name}</bold> ({frist, date, ::ddMMyyyy})",
             "kanHaFlere": "Obs! Du kan ha fått flere vilkår enn de som vises her. Les vedtaksbrevet ditt for å se om du har fått flere vilkår, eller om Nav-kontoret trenger mer dokumentasjon for å kunne utbetale stønaden din."
@@ -900,7 +900,7 @@
     "VilkarReadMore": {
         "header": "Hvordan fungerer vilkår?",
         "beskrivelse": "Vilkår kan brukes hvis det bidrar til å gjøre deg i stand til å sørge for ditt livsopphold på en annen måte enn ved økonomisk sosialhjelp. Når det settes vilkår, skal det bidra til å hjelpe deg med å komme ut av en vanskelig livssituasjon. Som hovedregel skal vilkåret settes i samarbeid med deg.",
-        "beskrivelse2": "Hvis vilkåret ikke oppfylles, kan Nav fatte nytt vedtak om reduksjon i sosialhjelpen, men det må være informert om i vedtaket ditt. <lenke>Les mer om vilkår her</lenke>."
+        "beskrivelse2": "Hvis vilkårene ikke oppfylles, kan Nav-kontoret fatte nytt vedtak om reduksjon i sosialhjelpen, men det må være informert om i vedtaket ditt. <lenke>Les mer om vilkår her</lenke>."
     },
     "DokKravReadMore": {
         "header": "Trenger du hjelp til å sende dokumentasjon?",
