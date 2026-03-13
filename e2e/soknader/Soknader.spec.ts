@@ -873,7 +873,7 @@ test.describe("SoknadCard rendering logic", () => {
         await expect(page.getByText(/Forlenget saksbehandlingstid/)).toBeVisible();
     });
 
-    test("BEHANDLES_IKKE should be visible and show as ferdigbehandlet", async ({ page, request, baseURL }) => {
+    test("BEHANDLES_IKKE should be visible and show as behandles ikke", async ({ page, request, baseURL }) => {
         const msw = createMswHelper(request, baseURL!);
 
         const mockSak = {
@@ -897,6 +897,100 @@ test.describe("SoknadCard rendering logic", () => {
         await expect(aktiveSaker).toBeVisible();
         await expect(page.getByText("Behandles ikke", { exact: true }).first()).toBeVisible();
         await expect(page.getByText("Søknaden behandles ikke", { exact: true }).first()).toBeVisible();
+    });
+
+    test("Should not count feilregistrerte saker in x of y completed tag", async ({ page, request, baseURL }) => {
+        const msw = createMswHelper(request, baseURL!);
+
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [
+            {
+                fiksDigisosId: "test-id",
+                soknadTittel: "Søknad",
+                sistOppdatert: new Date().toISOString(),
+                soknadOpprettet: "2025-10-01T10:00:00Z",
+                status: "UNDER_BEHANDLING",
+            },
+        ]);
+        await msw.mockDetaljer("test-id", {
+            fiksDigisosId: "test-id",
+            soknadTittel: "Søknad",
+            sistOppdatert: new Date().toISOString(),
+            status: "UNDER_BEHANDLING",
+            saker: [
+                { status: "FEILREGISTRERT", antallVedtak: 0 },
+                { antallVedtak: 1, status: "FERDIGBEHANDLET" },
+                { antallVedtak: 0, status: "UNDER_BEHANDLING" },
+            ],
+        });
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+
+        const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
+        await expect(aktiveSaker).toBeVisible();
+        await expect(page.getByText("Søknad", { exact: true }).first()).toBeVisible();
+        await expect(page.getByText("1 av 2")).toBeVisible();
+    });
+
+    test("Should not count feilregistrerte saker in ferdigbehandlet tag", async ({ page, request, baseURL }) => {
+        const msw = createMswHelper(request, baseURL!);
+
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [
+            {
+                fiksDigisosId: "test-id",
+                soknadTittel: "Søknad",
+                sistOppdatert: new Date().toISOString(),
+                soknadOpprettet: "2025-10-01T10:00:00Z",
+                isPapirSoknad: false,
+            } satisfies SaksListeResponse,
+        ]);
+        await msw.mockDetaljer("test-id", {
+            fiksDigisosId: "test-id",
+            soknadTittel: "Søknad",
+            sistOppdatert: new Date().toISOString(),
+            status: "FERDIGBEHANDLET",
+            saker: [
+                { status: "FEILREGISTRERT", antallVedtak: 0 },
+                { antallVedtak: 1, status: "FERDIGBEHANDLET" },
+            ],
+        });
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+
+        const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
+        await expect(aktiveSaker).toBeVisible();
+        await expect(page.getByText("Søknad", { exact: true }).first()).toBeVisible();
+        await expect(page.getByText("Ferdigbehandlet")).toBeVisible();
+    });
+
+    test("Should not count feilregistrerte saker in under_behandling tag", async ({ page, request, baseURL }) => {
+        const msw = createMswHelper(request, baseURL!);
+
+        await msw.mockEndpoint("/api/v1/innsyn/saker", [
+            {
+                fiksDigisosId: "test-id",
+                soknadTittel: "Søknad",
+                sistOppdatert: new Date().toISOString(),
+                soknadOpprettet: "2025-10-01T10:00:00Z",
+                isPapirSoknad: false,
+            } satisfies SaksListeResponse,
+        ]);
+        await msw.mockDetaljer("test-id", {
+            fiksDigisosId: "test-id",
+            soknadTittel: "Søknad",
+            sistOppdatert: new Date().toISOString(),
+            status: "UNDER_BEHANDLING",
+            saker: [
+                { status: "FEILREGISTRERT", antallVedtak: 0 },
+                { antallVedtak: 0, status: "UNDER_BEHANDLING" },
+            ],
+        });
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+
+        const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
+        await expect(aktiveSaker).toBeVisible();
+        await expect(page.getByText("Søknad", { exact: true }).first()).toBeVisible();
+        await expect(page.getByText("Under behandling")).toBeVisible();
     });
 });
 

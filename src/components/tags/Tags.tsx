@@ -64,8 +64,8 @@ const Tags = ({ soknad }: Props) => {
         );
     }
     if (soknad.status === "UNDER_BEHANDLING") {
-        const antallSaker = soknad.saker?.length || 1;
-        const ferdigeSaker = soknad.saker?.filter((sak) => sak.status === "FERDIGBEHANDLET").length || 0;
+        const antallSaker = soknad.saker.filter((sak) => sak.status !== "FEILREGISTRERT").length;
+        const ferdigeSaker = soknad.saker.filter((sak) => sak.status === "FERDIGBEHANDLET").length;
         const vedtakProgress = antallSaker > 1 && ferdigeSaker > 0 ? { ferdigeSaker, antallSaker } : undefined;
         const antallNyeDokEtterspurt = antallNyeOppgaver - antallNyeVilkarOgDokumentasjonKrav;
 
