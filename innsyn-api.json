@@ -1528,6 +1528,7 @@
                 "type": "object",
                 "properties": {
                     "antallVedtak": { "type": "integer", "format": "int32" },
+                    "vedtak": { "type": "array", "items": { "$ref": "#/components/schemas/VedtakDto" } },
                     "status": {
                         "type": "string",
                         "enum": [
@@ -1539,7 +1540,7 @@
                         ]
                     }
                 },
-                "required": ["antallVedtak", "status"]
+                "required": ["antallVedtak", "status", "vedtak"]
             },
             "SaksDetaljerResponse": {
                 "type": "object",

@@ -27,7 +27,15 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
     const relevanteOppgaver = oppgaver.filter((oppgave) => !oppgave.erLastetOpp && oppgave.erFraInnsyn);
     const soknadsOppgaver = oppgaver.filter((oppgave) => !oppgave.erLastetOpp && !oppgave.erFraInnsyn);
     const harSakMedFlereVedtak = saksdetaljer.saker?.some((s) => s.antallVedtak > 1) ?? false;
-    const harFattVedtak = saksdetaljer.saker.some((s) => s.antallVedtak > 0);
+    const harFattVedtakMedPositivtUtfall = saksdetaljer.saker
+        .map((sak) =>
+            R.pipe(
+                sak.vedtak,
+                R.sortBy((vedtak) => (vedtak.dato ? new Date(vedtak.dato) : new Date(0))),
+                R.last()
+            )
+        )
+        .some((vedtak) => vedtak?.utfall && ["INNVILGET", "DELVIS_INNVILGET"].includes(vedtak.utfall));
     const enSakIkkeInnsyn = saksdetaljer.saker.length === 1 && saksdetaljer.saker[0].status === "IKKE_INNSYN";
 
     const behandlesIkke =
@@ -91,7 +99,7 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
                 }}
             />
         );
-    } else if (vilkar.length + dokKrav.length === 0 && harFattVedtak) {
+    } else if (vilkar.length + dokKrav.length === 0 && harFattVedtakMedPositivtUtfall) {
         /* Ikke vis "Du kan ha vilkår" dersom det allerede er vilkår eller dokumentasjonskrav som er oppfylt.
          * Da vet vi at fagsystemet støtte vilkår/dokkrav, og kan derfor regne med at nye vilkår/dokkrav vil vises i innsyn.
          */

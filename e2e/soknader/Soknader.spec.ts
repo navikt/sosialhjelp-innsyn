@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import { addDays, subDays, subWeeks } from "date-fns";
 
 import { createMswHelper } from "../helpers/msw-helpers";
-import { SaksListeResponse } from "../../src/generated/model";
+import { SaksDetaljerResponse, SaksListeResponse } from "../../src/generated/model";
 
 test.afterEach(async ({ request, baseURL }) => {
     // Reset MSW handlers after each test to avoid interference between tests
@@ -599,7 +599,7 @@ test.describe("SoknadCard rendering logic", () => {
             soknadTittel: "Søknad under behandling",
             sistOppdatert: subWeeks(new Date(), 2).toISOString(),
             status: "UNDER_BEHANDLING",
-            saker: [{ status: "UNDER_BEHANDLING", antallVedtak: 0 }],
+            saker: [{ status: "UNDER_BEHANDLING", antallVedtak: 0, vedtak: [] }],
         });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
@@ -633,9 +633,9 @@ test.describe("SoknadCard rendering logic", () => {
             soknadTittel: "Søknad med flere saker",
             vilkar: false,
             saker: [
-                { status: "FERDIGBEHANDLET", antallVedtak: 1 },
-                { status: "FERDIGBEHANDLET", antallVedtak: 1 },
-                { status: "UNDER_BEHANDLING", antallVedtak: 0 },
+                { status: "FERDIGBEHANDLET", antallVedtak: 1, vedtak: [] },
+                { status: "FERDIGBEHANDLET", antallVedtak: 1, vedtak: [] },
+                { status: "UNDER_BEHANDLING", antallVedtak: 0, vedtak: [] },
             ],
         });
 
@@ -673,9 +673,10 @@ test.describe("SoknadCard rendering logic", () => {
             soknadTittel: "Søknad med flere saker",
             vilkar: false,
             saker: [
-                { status: "FERDIGBEHANDLET", antallVedtak: 1 },
-                { status: "UNDER_BEHANDLING", antallVedtak: 0 },
+                { status: "FERDIGBEHANDLET", antallVedtak: 1, vedtak: [] },
+                { status: "UNDER_BEHANDLING", antallVedtak: 0, vedtak: [] },
             ],
+            sistOppdatert: new Date().toISOString(),
         } satisfies SaksDetaljerResponse);
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
@@ -698,7 +699,7 @@ test.describe("SoknadCard rendering logic", () => {
         await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
         await msw.mockDetaljer(mockSak.fiksDigisosId, {
             fiksDigisosId: "test-ferdigbehandlet-vedtak",
-            saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 2 }],
+            saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 2, vedtak: [] }],
             status: "FERDIGBEHANDLET",
             soknadTittel: "Søknad med flere vedtak",
             sistOppdatert: subWeeks(new Date(), 2).toISOString(),
@@ -731,7 +732,7 @@ test.describe("SoknadCard rendering logic", () => {
             sistOppdatert: subWeeks(new Date(), 2).toISOString(),
             fiksDigisosId: "test-under-behandling-forelopig",
             forelopigSvar: { harMottattForelopigSvar: true, link: "link.no" },
-            saker: [{ status: "UNDER_BEHANDLING", antallVedtak: 0 }],
+            saker: [{ status: "UNDER_BEHANDLING", antallVedtak: 0, vedtak: [] }],
         });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
@@ -761,7 +762,7 @@ test.describe("SoknadCard rendering logic", () => {
             soknadTittel: "Søknad ferdigbehandlet nylig",
             sistOppdatert: recentDate.toISOString(),
             status: "FERDIGBEHANDLET",
-            saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 1 }],
+            saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 1, vedtak: [] }],
         });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
@@ -792,7 +793,7 @@ test.describe("SoknadCard rendering logic", () => {
             fiksDigisosId: "test-ferdigbehandlet-eldre",
             soknadTittel: "Søknad ferdigbehandlet for lenge siden",
             sistOppdatert: oldDate.toISOString(),
-            saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 1 }],
+            saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 1, vedtak: [] }],
         });
 
         await page.goto("/sosialhjelp/innsyn/nb/soknader");
@@ -822,7 +823,7 @@ test.describe("SoknadCard rendering logic", () => {
             sistOppdatert: subWeeks(new Date(), 2).toISOString(),
             antallNyeOppgaver: 1,
             antallNyeVilkarOgDokumentasjonKrav: 1,
-            saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 1 }],
+            saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 1, vedtak: [] }],
             status: "FERDIGBEHANDLET",
         });
 
@@ -855,8 +856,8 @@ test.describe("SoknadCard rendering logic", () => {
             forsteOppgaveFrist: "2025-12-18T10:00:00Z",
             forelopigSvar: { harMottattForelopigSvar: true },
             saker: [
-                { status: "FERDIGBEHANDLET", antallVedtak: 2 },
-                { status: "UNDER_BEHANDLING", antallVedtak: 0 },
+                { status: "FERDIGBEHANDLET", antallVedtak: 2, vedtak: [] },
+                { status: "UNDER_BEHANDLING", antallVedtak: 0, vedtak: [] },
             ],
         });
 
@@ -917,9 +918,9 @@ test.describe("SoknadCard rendering logic", () => {
             sistOppdatert: new Date().toISOString(),
             status: "UNDER_BEHANDLING",
             saker: [
-                { status: "FEILREGISTRERT", antallVedtak: 0 },
-                { antallVedtak: 1, status: "FERDIGBEHANDLET" },
-                { antallVedtak: 0, status: "UNDER_BEHANDLING" },
+                { status: "FEILREGISTRERT", antallVedtak: 0, vedtak: [] },
+                { antallVedtak: 1, vedtak: [], status: "FERDIGBEHANDLET" },
+                { antallVedtak: 0, vedtak: [], status: "UNDER_BEHANDLING" },
             ],
         });
 
@@ -949,8 +950,8 @@ test.describe("SoknadCard rendering logic", () => {
             sistOppdatert: new Date().toISOString(),
             status: "FERDIGBEHANDLET",
             saker: [
-                { status: "FEILREGISTRERT", antallVedtak: 0 },
-                { antallVedtak: 1, status: "FERDIGBEHANDLET" },
+                { status: "FEILREGISTRERT", antallVedtak: 0, vedtak: [] },
+                { antallVedtak: 1, vedtak: [], status: "FERDIGBEHANDLET" },
             ],
         });
 
@@ -980,8 +981,8 @@ test.describe("SoknadCard rendering logic", () => {
             sistOppdatert: new Date().toISOString(),
             status: "UNDER_BEHANDLING",
             saker: [
-                { status: "FEILREGISTRERT", antallVedtak: 0 },
-                { antallVedtak: 0, status: "UNDER_BEHANDLING" },
+                { status: "FEILREGISTRERT", antallVedtak: 0, vedtak: [] },
+                { antallVedtak: 0, vedtak: [], status: "UNDER_BEHANDLING" },
             ],
         });
 

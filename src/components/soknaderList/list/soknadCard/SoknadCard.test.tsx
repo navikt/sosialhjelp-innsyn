@@ -18,7 +18,16 @@ describe("SoknadCard", () => {
                 },
             ];
             const detaljer = getGetSaksDetaljerResponseMock({
-                saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 2 }],
+                saker: [
+                    {
+                        status: "FERDIGBEHANDLET",
+                        antallVedtak: 2,
+                        vedtak: [
+                            { vedtaksFilUrl: "url1", id: "id1", dato: new Date().toISOString(), utfall: "INNVILGET" },
+                            { vedtaksFilUrl: "url2", id: "id2", dato: new Date().toISOString(), utfall: "INNVILGET" },
+                        ],
+                    },
+                ],
                 status: "FERDIGBEHANDLET",
             });
             render(<SoknadCard soknad={{ ...testSoknad[0], ...detaljer }}></SoknadCard>);

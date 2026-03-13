@@ -56,6 +56,78 @@ const createDokKrav = (
 });
 
 test.describe("Vilkår", () => {
+    test("should show vilkår info card with 'kan ha vilkår' when there is a positive outcome, but no vilkår/dokkrav", async ({
+        page,
+        request,
+        baseURL,
+    }) => {
+        const msw = createMswHelper(request, baseURL!);
+
+        const uuid = "5587b966-9186-4596-906e-a0c4d7305ecf";
+        await mockSoknadEndpoints(msw, uuid, {
+            saksStatus: [
+                {
+                    status: "FERDIGBEHANDLET",
+                    vedtak: [
+                        { id: "123", utfall: "INNVILGET", dato: new Date().toISOString(), vedtaksFilUrl: "abc.com" },
+                    ],
+                    utfallVedtak: "INNVILGET",
+                    tittel: "Søknad",
+                    skalViseVedtakInfoPanel: true,
+                },
+            ],
+            vilkar: [],
+            dokumentasjonkrav: [],
+        });
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknad/" + uuid);
+        await page.getByRole("main").waitFor({ state: "visible" });
+
+        await expect(page.getByText(/Beklager/)).not.toBeVisible();
+        await expect(page.getByRole("heading", { name: "Du kan ha fått vilkår", level: 2, exact: true })).toBeVisible();
+    });
+
+    test("should show vilkår info card with 'Du har vilkår' when there are vilkår/dokkrav", async ({
+        page,
+        request,
+        baseURL,
+    }) => {
+        const msw = createMswHelper(request, baseURL!);
+
+        const uuid = "5587b966-9186-4596-906e-a0c4d7305ecf";
+        await mockSoknadEndpoints(msw, uuid, {
+            saksStatus: [
+                {
+                    status: "FERDIGBEHANDLET",
+                    vedtak: [
+                        { id: "123", utfall: "INNVILGET", dato: new Date().toISOString(), vedtaksFilUrl: "abc.com" },
+                    ],
+                    utfallVedtak: "INNVILGET",
+                    tittel: "Søknad",
+                    skalViseVedtakInfoPanel: true,
+                },
+            ],
+            vilkar: [
+                {
+                    status: "RELEVANT",
+                    tittel: "Du må møte opp på kontoret",
+                    hendelsetidspunkt: new Date().toISOString(),
+                    vilkarReferanse: "123",
+                },
+            ],
+            dokumentasjonkrav: [],
+        });
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknad/" + uuid);
+        await page.getByRole("main").waitFor({ state: "visible" });
+
+        await expect(page.getByText(/Beklager/)).not.toBeVisible();
+        await expect(
+            page.getByRole("heading", { name: "Du kan ha fått vilkår", level: 2, exact: true })
+        ).not.toBeVisible();
+        await expect(page.getByRole("heading", { name: "Du har vilkår", level: 2, exact: true })).toBeVisible();
+    });
+
     test("should not show vilkår section when there are no vilkår or dokumentasjonkrav", async ({
         page,
         request,

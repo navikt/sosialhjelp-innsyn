@@ -141,6 +141,7 @@ export async function mockSoknadEndpoints(
             overrides?.saksStatus?.map((it) => ({
                 status: it.status ?? "UNDER_BEHANDLING",
                 antallVedtak: it.vedtak.length,
+                vedtak: it.vedtak,
             })) ?? [],
         vilkar: (overrides?.vilkar?.length ?? 0) > 0,
         dokumentasjonkrav: (overrides?.dokumentasjonkrav?.length ?? 0) > 0,
