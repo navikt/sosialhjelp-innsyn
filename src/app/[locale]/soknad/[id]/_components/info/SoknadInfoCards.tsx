@@ -105,7 +105,7 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
                 state={{
                     type: "soknadsOppgaver",
                     oppgaver: soknadsOppgaver.map((oppgave) => ({
-                        name: oppgave.dokumenttype,
+                        name: oppgave.tilleggsinformasjon ?? oppgave.dokumenttype,
                     })),
                 }}
             />
