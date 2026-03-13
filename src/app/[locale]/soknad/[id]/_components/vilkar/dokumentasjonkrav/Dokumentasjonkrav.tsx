@@ -7,6 +7,7 @@ import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
 import { useTranslations } from "next-intl";
 import { DokumentasjonkravDto } from "@generated/model";
 import { useFlag } from "@featuretoggles/context";
+import OppgaveTag from "../../tasklistitem/OppgaveTag";
 
 interface Props {
     dokKrav: DokumentasjonkravDto;
@@ -56,13 +57,7 @@ const Dokumentasjonkrav = ({ dokKrav }: Props) => {
                     label={withWarningColor(dokKrav.tittel, !dokKrav.erLastetOpp)}
                     description={withWarningColor(dokKrav.beskrivelse, !dokKrav.erLastetOpp)}
                     completed={dokKrav.erLastetOpp}
-                    tag={
-                        dokKrav.opplastetDato ? (
-                            <Tag variant="success">{t("løst")}</Tag>
-                        ) : dokKrav.frist ? (
-                            <Tag variant="warning">{t("frist", { frist: new Date(dokKrav.frist) })}</Tag>
-                        ) : undefined
-                    }
+                    tag={<OppgaveTag frist={dokKrav.frist} completed={dokKrav.erLastetOpp} />}
                 />
             )}
         </TaskListItem>

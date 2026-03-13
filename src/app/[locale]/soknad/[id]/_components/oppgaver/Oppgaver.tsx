@@ -13,7 +13,7 @@ import { Metadata } from "@components/filopplasting/new/types";
 import { useGetOppgaverBetaSuspense } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 
 import TaskListItem from "../tasklistitem/TaskListItem";
-import OppgaveTag from "./OppgaveTag";
+import OppgaveTag from "../tasklistitem/OppgaveTag";
 import OppgaverReadMore from "./readmore/OppgaverReadMore";
 import ExpandableList from "@components/showmore/ExpandableList";
 import { TasklistIcon } from "@navikt/aksel-icons";
