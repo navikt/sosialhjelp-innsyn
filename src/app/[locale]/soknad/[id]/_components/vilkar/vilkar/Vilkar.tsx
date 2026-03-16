@@ -7,7 +7,7 @@ interface Props {
 }
 
 const Vilkar = ({ vilkar }: Props) => (
-    <TaskListItem completed={false}>
+    <TaskListItem variant="warning">
         <Heading level="4" size="small" lang="no" data-color="warning">
             {vilkar.tittel}
         </Heading>
