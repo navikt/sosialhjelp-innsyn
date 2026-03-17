@@ -913,15 +913,20 @@
         }
     },
     "OppgaverReadMore": {
-        "header": "Trenger du hjelp til å sende dokumentasjon?",
-        "feilFormatHeading": "Godtar vi ikke dokumentet du prøver å sende inn?",
-        "feilFormatBody": "Da kan du gjerne sjekke om dokumentet er under 10 MB, eller er låst med passord.",
+        "header": "Tips til å sende inn dokumentasjon",
         "papirHeading": "Dokumentasjon du har på papir",
-        "papirBody": "Har du dokumentasjon på papir, kan du skanne det og sende det digitalt. Ved å skanne dokumentasjonen blir kvaliteten bedre, slik at de er lettere å lese.",
+        "papirIntro": "Hvis du har et dokument på papir, kan du ta et bilde av dokumentet og sende det inn digitalt. Slik gjør du det:",
+        "papirStep1": "Ta bilde av dokumentet med mobilen eller nettbrettet.",
+        "papirStep2": "Sjekk at dokumentet er lett å lese. Hvis det er vanskelig å lese dokumentet, kan du bli bedt om å sende det inn på nytt.",
+        "papirStep3": "Ønsker du å bruke en datamaskin, kan du sende bilde(ne) til din private e-postkonto og lagre bildet på enheten din.",
+        "papirStep4": "Last opp og send inn bildene.",
+        "papirSkanner": "Hvis du har tilgang til en skanner, kan du også skanne dokumenter og sende inn digitalt.",
         "nettsidesHeading": "Dokumentasjon fra andre nettsider",
-        "nettsidesBody": "Hvis du skal sende dokumentasjon fra en annen nettside, kan du laste ned dokumentet først hvis det er mulig. For eksempel er skattemeldingen og vedtak fra Lånekassen tilgjengelig for nedlastning som PDF. Du bør unngå å ta bilde av PC-skjermen med et kamera.",
-        "lesbarHeading": "Sørg for at dokumentasjonen du sender kan leses",
-        "lesbarBody": "Det er viktig at du sjekker at dokumentasjonen du laster opp er fullstendige og kan leses. Hvis det er vanskelig å lese dokumentet, kan du bli bedt om å sende de på nytt."
+        "nettsidesBody1": "Hvis du skal sende dokumentasjon fra en annen nettside, kan du prøve å laste ned dokumentet som PDF. For eksempel er skattemeldingen og vedtak fra Lånekassen tilgjengelig for nedlastning som PDF.",
+        "nettsidesBody2": "Du bør unngå å ta bilde av skjermen på datamaskinen med mobilen, da det ofte blir vanskelig å lese teksten på bildene.",
+        "problemerHeading": "Problemer med å sende inn",
+        "problemerBody1": "Hvis dokumentet ikke kan sendes inn, kan det være fordi det er større enn 10 MB, eller er låst med passord.",
+        "problemerBody2": "Hvis du står fast, kan du <ring>ringe våre veiledere på 55 55 33 33</ring> eller <kontor>ta kontakt med Nav-kontoret ditt</kontor>."
     },
     "VilkarReadMore": {
         "header": "Hvordan fungerer vilkår?",
@@ -929,15 +934,20 @@
         "beskrivelse2": "Hvis vilkårene ikke oppfylles, kan Nav-kontoret fatte nytt vedtak om reduksjon i sosialhjelpen, men det må være informert om i vedtaket ditt. <lenke>Les mer om vilkår her</lenke>."
     },
     "DokKravReadMore": {
-        "header": "Trenger du hjelp til å sende dokumentasjon?",
-        "feilFormatHeading": "Godtar vi ikke dokumentet du prøver å sende inn?",
-        "feilFormatBody": "Da kan du gjerne sjekke om dokumentet er under 10 MB, eller er låst med passord.",
+        "header": "Tips til å sende inn dokumentasjon",
         "papirHeading": "Dokumentasjon du har på papir",
-        "papirBody": "Har du dokumentasjon på papir, kan du skanne det og sende det digitalt. Ved å skanne dokumentasjonen blir kvaliteten bedre, slik at de er lettere å lese.",
+        "papirIntro": "Hvis du har et dokument på papir, kan du ta et bilde av dokumentet og sende det inn digitalt. Slik gjør du det:",
+        "papirStep1": "Ta bilde av dokumentet med mobilen eller nettbrettet.",
+        "papirStep2": "Sjekk at dokumentet er lett å lese. Hvis det er vanskelig å lese dokumentet, kan du bli bedt om å sende det inn på nytt.",
+        "papirStep3": "Ønsker du å bruke en datamaskin, kan du sende bilde(ne) til din private e-postkonto og lagre bildet på enheten din.",
+        "papirStep4": "Last opp og send inn bildene.",
+        "papirSkanner": "Hvis du har tilgang til en skanner, kan du også skanne dokumenter og sende inn digitalt.",
         "nettsidesHeading": "Dokumentasjon fra andre nettsider",
-        "nettsidesBody": "Hvis du skal sende dokumentasjon fra en annen nettside, kan du laste ned dokumentet først hvis det er mulig. For eksempel er skattemeldingen og vedtak fra Lånekassen tilgjengelig for nedlastning som PDF. Du bør unngå å ta bilde av PC-skjermen med et kamera.",
-        "lesbarHeading": "Sørg for at dokumentasjonen du sender kan leses",
-        "lesbarBody": "Det er viktig at du sjekker at dokumentasjonen du laster opp er fullstendige og kan leses. Hvis det er vanskelig å lese dokumentet, kan du bli bedt om å sende de på nytt."
+        "nettsidesBody1": "Hvis du skal sende dokumentasjon fra en annen nettside, kan du prøve å laste ned dokumentet som PDF. For eksempel er skattemeldingen og vedtak fra Lånekassen tilgjengelig for nedlastning som PDF.",
+        "nettsidesBody2": "Du bør unngå å ta bilde av skjermen på datamaskinen med mobilen, da det ofte blir vanskelig å lese teksten på bildene.",
+        "problemerHeading": "Problemer med å sende inn",
+        "problemerBody1": "Hvis dokumentet ikke kan sendes inn, kan det være fordi det er større enn 10 MB, eller er låst med passord.",
+        "problemerBody2": "Hvis du står fast, kan du <ring>ringe våre veiledere på 55 55 33 33</ring> eller <kontor>ta kontakt med Nav-kontoret ditt</kontor>."
     },
     "Dokumentasjonkrav": {
         "tittel": "Dokumentasjonkrav",

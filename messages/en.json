@@ -911,15 +911,20 @@
         "neste": "Next page"
     },
     "OppgaverReadMore": {
-        "header": "Do you need help sending documentation?",
-        "feilFormatHeading": "Are we not accepting the document you are trying to submit?",
-        "feilFormatBody": "You may want to check whether the document is under 10 MB or is password protected.",
+        "header": "Tips for submitting documentation",
         "papirHeading": "Documentation you have on paper",
-        "papirBody": "If you have documentation on paper, you can scan it and send it digitally. Scanning the documentation improves the quality, making it easier to read.",
+        "papirIntro": "If you have a document on paper, you can take a photo of it and submit it digitally. Here's how:",
+        "papirStep1": "Take a photo of the document with your mobile phone or tablet.",
+        "papirStep2": "Check that the document is easy to read. If the document is difficult to read, you may be asked to submit it again.",
+        "papirStep3": "If you want to use a computer, you can send the photo(s) to your personal email account and save the image on your device.",
+        "papirStep4": "Upload and submit the photos.",
+        "papirSkanner": "If you have access to a scanner, you can also scan documents and submit them digitally.",
         "nettsidesHeading": "Documentation from other websites",
-        "nettsidesBody": "If you need to send documentation from another website, you can download the document first if possible. For example, the tax return and decisions from Lånekassen are available for download as PDF. You should avoid taking a photo of the PC screen with a camera.",
-        "lesbarHeading": "Make sure the documentation you send can be read",
-        "lesbarBody": "It is important that you check that the documentation you upload is complete and legible. If the document is difficult to read, you may be asked to resend it."
+        "nettsidesBody1": "If you need to send documentation from another website, you can try to download the document as a PDF. For example, the tax return and decisions from Lånekassen are available for download as PDF.",
+        "nettsidesBody2": "You should avoid taking a photo of your computer screen with your mobile phone, as this often makes the text in the images difficult to read.",
+        "problemerHeading": "Problems with submitting",
+        "problemerBody1": "If the document cannot be submitted, it may be because it is larger than 10 MB or is password protected.",
+        "problemerBody2": "If you are stuck, you can <ring>call our advisors at 55 55 33 33</ring> or <kontor>contact your local NAV office</kontor>."
     },
     "VilkarReadMore": {
         "header": "How do conditions work?",
@@ -927,15 +932,20 @@
         "beskrivelse2": "If the conditions are not met, the Nav office may make a new decision to reduce your social assistance, but this must be stated in your decision. <lenke>Read more about conditions here</lenke>."
     },
     "DokKravReadMore": {
-        "header": "Do you need help sending documentation?",
-        "feilFormatHeading": "Are we not accepting the document you are trying to submit?",
-        "feilFormatBody": "You may want to check whether the document is under 10 MB or is password protected.",
+        "header": "Tips for submitting documentation",
         "papirHeading": "Documentation you have on paper",
-        "papirBody": "If you have documentation on paper, you can scan it and send it digitally. Scanning the documentation improves the quality, making it easier to read.",
+        "papirIntro": "If you have a document on paper, you can take a photo of it and submit it digitally. Here's how:",
+        "papirStep1": "Take a photo of the document with your mobile phone or tablet.",
+        "papirStep2": "Check that the document is easy to read. If the document is difficult to read, you may be asked to submit it again.",
+        "papirStep3": "If you want to use a computer, you can send the photo(s) to your personal email account and save the image on your device.",
+        "papirStep4": "Upload and submit the photos.",
+        "papirSkanner": "If you have access to a scanner, you can also scan documents and submit them digitally.",
         "nettsidesHeading": "Documentation from other websites",
-        "nettsidesBody": "If you need to send documentation from another website, you can download the document first if possible. For example, the tax return and decisions from Lånekassen are available for download as PDF. You should avoid taking a photo of the PC screen with a camera.",
-        "lesbarHeading": "Make sure the documentation you send can be read",
-        "lesbarBody": "It is important that you check that the documentation you upload is complete and legible. If the document is difficult to read, you may be asked to resend it."
+        "nettsidesBody1": "If you need to send documentation from another website, you can try to download the document as a PDF. For example, the tax return and decisions from Lånekassen are available for download as PDF.",
+        "nettsidesBody2": "You should avoid taking a photo of your computer screen with your mobile phone, as this often makes the text in the images difficult to read.",
+        "problemerHeading": "Problems with submitting",
+        "problemerBody1": "If the document cannot be submitted, it may be because it is larger than 10 MB or is password protected.",
+        "problemerBody2": "If you are stuck, you can <ring>call our advisors at 55 55 33 33</ring> or <kontor>contact your local NAV office</kontor>."
     },
     "Dokumentasjonkrav": {
         "tittel": "Documentation requirements",
