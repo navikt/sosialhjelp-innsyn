@@ -17,6 +17,8 @@ import OppgaveTag from "../tasklistitem/OppgaveTag";
 import OppgaverReadMore from "./readmore/OppgaverReadMore";
 import ExpandableList from "@components/showmore/ExpandableList";
 import { TasklistIcon } from "@navikt/aksel-icons";
+import useIkkeInnsyn from "@hooks/useIkkeInnsyn";
+import { useGetSaksDetaljerSuspense } from "@generated/saks-oversikt-controller/saks-oversikt-controller";
 
 const withWarningColor = (text: string | undefined, isUncompleted: boolean) =>
     isUncompleted && text ? <span className="text-ax-text-warning">{text}</span> : text;
@@ -27,13 +29,19 @@ const Oppgaver = () => {
     const toggle = useFlag("sosialhjelp.innsyn.ny_upload");
     const newUploadEnabled = toggle?.enabled ?? false;
     // Kommer sortert på lastetOpp og deretter frist
-    const { data: oppgaver, isFetching } = useGetOppgaverBetaSuspense(id);
+    const { data: allOppgaver, isFetching } = useGetOppgaverBetaSuspense(id);
+    const { data: soknad } = useGetSaksDetaljerSuspense(id);
+    const ikkeInnsyn = useIkkeInnsyn(soknad);
+
+    const fullforteOppgaver = allOppgaver.filter((oppgave) => oppgave.erLastetOpp);
+
+    // Hvis søknaden eller alle saker på søknaden har status behandles_ikke/ikke_innsyn, disregard alle ufullførte oppgaver.
+    const oppgaver = ikkeInnsyn ? fullforteOppgaver : allOppgaver;
 
     if (oppgaver.length === 0) {
         return null;
     }
 
-    const fullforteOppgaver = oppgaver.filter((oppgave) => oppgave.erLastetOpp);
     const hasUncompletedOppgaver = oppgaver.length - fullforteOppgaver.length > 0;
 
     const isAllOppgaverFromSoknad = oppgaver.every((oppgave) => oppgave.erFraInnsyn === false);
