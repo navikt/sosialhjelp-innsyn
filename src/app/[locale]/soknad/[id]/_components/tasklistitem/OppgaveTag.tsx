@@ -1,7 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Tag } from "@navikt/ds-react";
 import { CalendarIcon, CheckmarkIcon } from "@navikt/aksel-icons";
-import React from "react";
 
 interface FristTagProps {
     frist?: string;

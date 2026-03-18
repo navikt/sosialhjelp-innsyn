@@ -5,10 +5,11 @@ import { Box, VStack } from "@navikt/ds-react";
 import KlageInfo from "./KlageInfo";
 import { SaksStatusResponse } from "@generated/model";
 import Sakstittel from "../Sakstittel";
-import { useHentKlagerSuspense } from "@generated/klage-controller/klage-controller";
+import { useHentKlager } from "@generated/klage-controller/klage-controller";
 import { useParams } from "next/navigation";
 import IkkeInnsynInfo from "./IkkeInnsynInfo";
 import BehandlesIkkeInfo from "./BehandlesIkkeInfo";
+import { useFlag } from "@featuretoggles/context";
 
 interface Props {
     sak: SaksStatusResponse;
@@ -16,7 +17,8 @@ interface Props {
 
 const SakPanel = ({ sak }: Props): React.JSX.Element => {
     const { id: fiksDigisosId } = useParams<{ id: string }>();
-    const { data: klager } = useHentKlagerSuspense(fiksDigisosId);
+    const klageEnabled = useFlag("sosialhjelp.innsyn.klage").enabled;
+    const { data: klager } = useHentKlager(fiksDigisosId, { query: { enabled: klageEnabled } });
     // Sorted by date ascending. That is, last element is latest vedtak
     const sortedVedtak = sak.vedtak.toSorted((a, b) => {
         const dateA = a.dato ? new Date(a.dato).getTime() : 0;
@@ -25,7 +27,7 @@ const SakPanel = ({ sak }: Props): React.JSX.Element => {
     });
     const latestVedtak = R.last(sortedVedtak);
     const allVedtakIds = sak.vedtak.map((vedtak) => vedtak.id);
-    const innsendtKlage = klager.find((klage) => allVedtakIds.includes(klage.vedtakId));
+    const innsendtKlage = klager?.find((klage) => allVedtakIds.includes(klage.vedtakId));
     return (
         <Box borderWidth="1" borderColor="neutral-subtle" borderRadius="12" overflow="hidden">
             <VStack gap="space-16" padding={{ xs: "space-16", md: "space-24" }}>

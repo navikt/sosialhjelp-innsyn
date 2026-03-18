@@ -12,6 +12,7 @@ import * as R from "remeda";
 import { JSX } from "react";
 import { VStack } from "@navikt/ds-react";
 import { DokumentasjonkravDto, VilkarResponse } from "@generated/model";
+import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
 
 interface Props {
     navKontor?: string;
@@ -36,11 +37,12 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
             )
         )
         .some((vedtak) => vedtak?.utfall && ["INNVILGET", "DELVIS_INNVILGET"].includes(vedtak.utfall));
-    const enSakIkkeInnsyn = saksdetaljer.saker.length === 1 && saksdetaljer.saker[0].status === "IKKE_INNSYN";
+    const alleSakerHarIkkeInnsyn =
+        saksdetaljer.saker.length > 0 && saksdetaljer.saker.every((sak) => sak.status === "IKKE_INNSYN");
 
     const behandlesIkke =
         saksdetaljer.status === "BEHANDLES_IKKE" ||
-        (saksdetaljer.saker.length === 1 && saksdetaljer.saker[0].status === "BEHANDLES_IKKE");
+        (saksdetaljer.saker.length > 0 && saksdetaljer.saker.every((sak) => sak.status === "BEHANDLES_IKKE"));
 
     const cards: JSX.Element[] = [];
 
@@ -54,7 +56,7 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
         return cards;
     }
 
-    if (enSakIkkeInnsyn) {
+    if (alleSakerHarIkkeInnsyn) {
         cards.push(<SoknadInfoCard key="ikkeInnsyn" state={{ type: "ikkeInnsyn" }} />);
         // Early exit her, så vi ikke viser noen andre kort.
         return cards;
@@ -113,7 +115,7 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
                 state={{
                     type: "soknadsOppgaver",
                     oppgaver: soknadsOppgaver.map((oppgave) => ({
-                        name: oppgave.dokumenttype,
+                        name: getVisningstekster(oppgave.dokumenttype, oppgave.tilleggsinformasjon).typeTekst,
                     })),
                 }}
             />

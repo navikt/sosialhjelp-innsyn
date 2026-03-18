@@ -146,18 +146,20 @@ const SoknadInfoCard = ({ state }: Props) => {
         case "ikkeInnsyn":
             return (
                 <Info title={t("ikkeInnsyn.title")} variant="warning" titleId={"ikke-innsyn-info-card-title"}>
-                    {t.rich("ikkeInnsyn.description", {
-                        navKontorLenke: (chunks) => (
-                            <AkselLink inlineText href={`https://www.nav.no/sok-nav-kontor${localeSuffix}`}>
-                                {chunks}
-                            </AkselLink>
-                        ),
-                        tlf: (chunks) => (
-                            <AkselLink inlineText href="tel:55553333">
-                                {chunks}
-                            </AkselLink>
-                        ),
-                    })}
+                    <BodyLong>
+                        {t.rich("ikkeInnsyn.description", {
+                            navKontorLenke: (chunks) => (
+                                <AkselLink inlineText href={`https://www.nav.no/sok-nav-kontor${localeSuffix}`}>
+                                    {chunks}
+                                </AkselLink>
+                            ),
+                            tlf: (chunks) => (
+                                <AkselLink inlineText href="tel:55553333">
+                                    {chunks}
+                                </AkselLink>
+                            ),
+                        })}
+                    </BodyLong>
                 </Info>
             );
         case "behandlesIkke":
