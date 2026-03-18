@@ -86,7 +86,7 @@ const SoknadInfoCard = ({ state }: Props) => {
                                         t.rich("vilkar.vilkar", {
                                             bold: (chunks) => (
                                                 <BodyShort as="span" weight="semibold">
-                                                    {chunks}1
+                                                    {chunks}
                                                 </BodyShort>
                                             ),
                                             name,
