@@ -12,7 +12,7 @@ const OppgaverReadMore = () => {
                 {t("papirHeading")}
             </Heading>
             <BodyLong spacing>{t("papirIntro")}</BodyLong>
-            <List as="ol" size="small">
+            <List as="ul" size="small">
                 <ListItem>{t("papirStep1")}</ListItem>
                 <ListItem>{t("papirStep2")}</ListItem>
                 <ListItem>{t("papirStep3")}</ListItem>
