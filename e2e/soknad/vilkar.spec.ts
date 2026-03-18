@@ -252,7 +252,7 @@ test.describe("DokKravReadMore", () => {
         await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
-        await expect(page.getByRole("button", { name: "Trenger du hjelp til å sende dokumentasjon?" })).toBeVisible();
+        await expect(page.getByRole("button", { name: "Tips til å sende inn dokumentasjon" })).toBeVisible();
     });
 
     test("should not show DokKravReadMore when all dokumentasjonkrav are uploaded", async ({
@@ -272,9 +272,7 @@ test.describe("DokKravReadMore", () => {
         await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
-        await expect(
-            page.getByRole("button", { name: "Trenger du hjelp til å sende dokumentasjon?" })
-        ).not.toBeVisible();
+        await expect(page.getByRole("button", { name: "Tips til å sende inn dokumentasjon" })).not.toBeVisible();
     });
 
     test("should not show DokKravReadMore when dokumentasjonkrav has ANNULLERT status", async ({
@@ -294,9 +292,7 @@ test.describe("DokKravReadMore", () => {
         await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
-        await expect(
-            page.getByRole("button", { name: "Trenger du hjelp til å sende dokumentasjon?" })
-        ).not.toBeVisible();
+        await expect(page.getByRole("button", { name: "Tips til å sende inn dokumentasjon" })).not.toBeVisible();
     });
 
     test("should show both ReadMore sections when both relevant vilkår and uncompleted dokumentasjonkrav are present", async ({
@@ -317,7 +313,7 @@ test.describe("DokKravReadMore", () => {
         await page.getByRole("main").waitFor({ state: "visible" });
 
         await expect(page.getByRole("button", { name: "Hvordan fungerer vilkår?" })).toBeVisible();
-        await expect(page.getByRole("button", { name: "Trenger du hjelp til å sende dokumentasjon?" })).toBeVisible();
+        await expect(page.getByRole("button", { name: "Tips til å sende inn dokumentasjon" })).toBeVisible();
     });
 
     test("should expand DokKravReadMore on click and show content", async ({ page, request, baseURL }) => {
@@ -333,12 +329,10 @@ test.describe("DokKravReadMore", () => {
         await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
-        const readMore = page.getByRole("button", { name: "Trenger du hjelp til å sende dokumentasjon?" });
+        const readMore = page.getByRole("button", { name: "Tips til å sende inn dokumentasjon" });
         await readMore.click();
 
-        await expect(
-            page.getByRole("heading", { name: "Godtar vi ikke dokumentet du prøver å sende inn?" })
-        ).toBeVisible();
+        await expect(page.getByRole("heading", { name: "Problemer med å sende inn" })).toBeVisible();
         await expect(page.getByRole("heading", { name: "Dokumentasjon du har på papir" })).toBeVisible();
     });
 });
