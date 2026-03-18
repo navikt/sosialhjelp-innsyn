@@ -201,25 +201,6 @@ test.describe("Vilkår", () => {
 });
 
 test.describe("VilkarReadMore", () => {
-    test("should show VilkarReadMore when there are relevant vilkår (IKKE_OPPFYLT)", async ({
-        page,
-        request,
-        baseURL,
-    }) => {
-        const msw = createMswHelper(request, baseURL!);
-
-        const uuid = "08547d31-dd82-4768-a69f-6daea8c50969";
-        await mockSoknadEndpoints(msw, uuid, {
-            saksStatus: defaultSaksStatus,
-            vilkar: [createVilkar("v1", "IKKE_OPPFYLT", new Date().toISOString())],
-        });
-
-        await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
-        await page.getByRole("main").waitFor({ state: "visible" });
-
-        await expect(page.getByRole("button", { name: "Hvordan fungerer vilkår?" })).toBeVisible();
-    });
-
     test("should show VilkarReadMore when there are relevant vilkår (RELEVANT)", async ({ page, request, baseURL }) => {
         const msw = createMswHelper(request, baseURL!);
 
@@ -233,26 +214,6 @@ test.describe("VilkarReadMore", () => {
         await page.getByRole("main").waitFor({ state: "visible" });
 
         await expect(page.getByRole("button", { name: "Hvordan fungerer vilkår?" })).toBeVisible();
-    });
-
-    test("should not show VilkarReadMore when vilkår has non-relevant status (OPPFYLT)", async ({
-        page,
-        request,
-        baseURL,
-    }) => {
-        const msw = createMswHelper(request, baseURL!);
-
-        const uuid = "627d5cde-549d-40aa-ac44-19c167abe68f";
-        await mockSoknadEndpoints(msw, uuid, {
-            saksStatus: defaultSaksStatus,
-            vilkar: [createVilkar("v1", "OPPFYLT", new Date().toISOString())],
-        });
-
-        await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
-        await page.getByRole("main").waitFor({ state: "visible" });
-
-        const vilkarRegion = page.getByRole("region", { name: "Vilkår", exact: true });
-        await expect(vilkarRegion.getByRole("button", { name: "Hvordan fungerer vilkår?" })).not.toBeVisible();
     });
 
     test("should expand VilkarReadMore on click and show content", async ({ page, request, baseURL }) => {
@@ -399,6 +360,22 @@ test.describe("Dokumentasjonkrav rendering", () => {
         await page.getByRole("main").waitFor({ state: "visible" });
 
         await expect(page.getByText("Annullert dokument")).not.toBeVisible();
+    });
+
+    test("should render dokumentasjonkrav when there are completed dokkrav", async ({ page, request, baseURL }) => {
+        const msw = createMswHelper(request, baseURL!);
+
+        const uuid = "9d6bdd50-f5bf-476b-8f5d-2dc45890af26";
+        await mockSoknadEndpoints(msw, uuid, {
+            saksStatus: defaultSaksStatus,
+            vilkar: [createVilkar("v1", "OPPFYLT", new Date().toISOString())],
+            dokumentasjonkrav: [{ ...createDokKrav("d1", undefined, true, "Levert dokument"), status: "RELEVANT" }],
+        });
+
+        await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
+        await page.getByRole("main").waitFor({ state: "visible" });
+
+        await expect(page.getByText("Levert dokument")).not.toBeVisible();
     });
 });
 

@@ -107,10 +107,10 @@
         },
         "ikkeInnsyn": {
             "title": "Kan ikke vise status",
-            "description": "Saken din vil bli behandlet, men vi kan ikke vise status for søknaden din på nav.no. Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringe oss på <tlf>55 55 33 33</tlf>."
+            "description": "Søknaden din vil bli behandlet, men vi kan ikke vise status for søknaden din. Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringe oss på <tlf>55 55 33 33</tlf>."
         },
         "behandlesIkke": {
-            "title": "Søknaden behandles ikke",
+            "title": "Kan ikke vise status",
             "description1": "Vi kan ikke vise status for søknaden din på nav.no. Det kan være fordi søknaden din blir behandlet sammen med en annen søknad du har sendt, eller fordi du har trukket tilbake søknaden.",
             "description2": "Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringe oss på <tlf>55 55 33 33</tlf>."
         }
@@ -131,7 +131,7 @@
         "AVSLATT": "<b>Utfall</b>: Avslag",
         "UNDER_BEHANDLING": "Under behandling",
         "IKKE_INNSYN": "Kan ikke vise status",
-        "BEHANDLES_IKKE": "Behandles ikke"
+        "BEHANDLES_IKKE": "Kan ikke vise status"
     },
     "Vedtak": {
         "beskrivelse": {
@@ -152,7 +152,8 @@
         "description2": "Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringe oss på <tlf>55 55 33 33</tlf>."
     },
     "IkkeInnsynInfo": {
-        "info": "Saken din vil bli behandlet, men vi kan ikke vise status for søknaden din på nav.no. Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringe oss på <tlf>55 55 33 33</tlf>."
+        "description1": "Saken din vil bli behandlet, men vi kan ikke vise status for søknaden din på nav.no.",
+        "description2": "Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringe oss på <tlf>55 55 33 33</tlf>."
     },
     "KlageInfo": {
         "seKlage": "Se din innsendte klage",

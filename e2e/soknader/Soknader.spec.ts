@@ -874,7 +874,7 @@ test.describe("SoknadCard rendering logic", () => {
         await expect(page.getByText(/Forlenget saksbehandlingstid/)).toBeVisible();
     });
 
-    test("BEHANDLES_IKKE should be visible and show as behandles ikke", async ({ page, request, baseURL }) => {
+    test("BEHANDLES_IKKE should be visible and show as behandles_ikke", async ({ page, request, baseURL }) => {
         const msw = createMswHelper(request, baseURL!);
 
         const mockSak = {
@@ -896,8 +896,11 @@ test.describe("SoknadCard rendering logic", () => {
 
         const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
         await expect(aktiveSaker).toBeVisible();
-        await expect(page.getByText("Behandles ikke", { exact: true }).first()).toBeVisible();
-        await expect(page.getByText("Søknaden behandles ikke", { exact: true }).first()).toBeVisible();
+        await expect(page.getByRole("link", { name: "Behandles ikke" })).toBeVisible();
+
+        const tag = page.getByText("Kan ikke vise status", { exact: true });
+
+        await expect(tag).toBeVisible();
     });
 
     test("Should not count feilregistrerte saker in x of y completed tag", async ({ page, request, baseURL }) => {
