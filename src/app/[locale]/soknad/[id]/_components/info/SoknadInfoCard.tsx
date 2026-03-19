@@ -59,7 +59,7 @@ const SoknadInfoCard = ({ state }: Props) => {
             );
         case "kanHaVilkar":
             return (
-                <Info variant="warning" title={t("vilkar.titleEmpty")} titleId="vilkar-info-card-title">
+                <Info variant="neutral" title={t("vilkar.titleEmpty")} titleId="vilkar-info-card-title">
                     <VStack gap="space-16">
                         <BodyLong>
                             {t.rich("vilkar.descriptionEmpty", {
