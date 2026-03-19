@@ -22,7 +22,7 @@ const useFiles = () => {
                     return {
                         file,
                         uuid: crypto.randomUUID(),
-                        ...(error && { error }),
+                        ...(error !== null && { error }),
                     };
                 })
             );
