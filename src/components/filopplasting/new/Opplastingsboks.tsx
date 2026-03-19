@@ -168,7 +168,11 @@ const Opplastingsboks = ({ metadata, label, labelText, description, tag, complet
                                         file={file.file}
                                         button={{ action: "delete", onClick: () => removeFil(file) }}
                                         status={isPending ? "uploading" : "idle"}
-                                        error={file.error ? t(`common.${errorStatusToMessage[file.error]}`) : undefined}
+                                        error={
+                                            file.error !== undefined
+                                                ? t(`common.${errorStatusToMessage[file.error]}`)
+                                                : undefined
+                                        }
                                     />
                                 ))}
                             </VStack>
