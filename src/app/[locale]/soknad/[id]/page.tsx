@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
+import Footer from "@components/footer/Footer";
 
 import { Soknad } from "./_components/Soknad";
 
@@ -31,6 +32,7 @@ const Page = async ({
                 ]}
             />
             <Soknad id={id} />
+            <Footer />
         </>
     );
 };
