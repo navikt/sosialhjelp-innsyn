@@ -29,16 +29,13 @@ const Oppgaver = () => {
     const toggle = useFlag("sosialhjelp.innsyn.ny_upload");
     const newUploadEnabled = toggle?.enabled ?? false;
     // Kommer sortert på lastetOpp og deretter frist
-    const { data: allOppgaver, isFetching } = useGetOppgaverBetaSuspense(id);
+    const { data: oppgaver, isFetching } = useGetOppgaverBetaSuspense(id);
     const { data: soknad } = useGetSaksDetaljerSuspense(id);
     const ikkeInnsyn = useIkkeInnsyn(soknad);
 
-    const fullforteOppgaver = allOppgaver.filter((oppgave) => oppgave.erLastetOpp);
+    const fullforteOppgaver = oppgaver.filter((oppgave) => oppgave.erLastetOpp);
 
-    // Hvis søknaden eller alle saker på søknaden har status behandles_ikke/ikke_innsyn, disregard alle ufullførte oppgaver.
-    const oppgaver = ikkeInnsyn ? fullforteOppgaver : allOppgaver;
-
-    if (oppgaver.length === 0) {
+    if (oppgaver.length === 0 || ikkeInnsyn) {
         return null;
     }
 
