@@ -20,10 +20,10 @@ const DokKravReadMore = () => {
             </List>
             <BodyLong spacing>{t("papirSkanner")}</BodyLong>
             <Heading level="3" size="xsmall">
-                {t("nettsidesHeading")}
+                {t("nettsiderHeading")}
             </Heading>
-            <BodyLong spacing>{t("nettsidesBody1")}</BodyLong>
-            <BodyLong spacing>{t("nettsidesBody2")}</BodyLong>
+            <BodyLong spacing>{t("nettsiderBody1")}</BodyLong>
+            <BodyLong spacing>{t("nettsiderBody2")}</BodyLong>
             <Heading level="3" size="xsmall">
                 {t("problemerHeading")}
             </Heading>
