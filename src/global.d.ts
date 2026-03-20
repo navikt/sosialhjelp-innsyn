@@ -1,0 +1,3 @@
+interface FocusOptions {
+    focusVisible?: boolean;
+}
