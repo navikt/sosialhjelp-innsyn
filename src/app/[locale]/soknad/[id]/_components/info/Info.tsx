@@ -1,6 +1,6 @@
 "use client";
 
-import { InfoCard } from "@navikt/ds-react";
+import { InfoCard, InfoCardProps } from "@navikt/ds-react";
 import { InfoCardContent, InfoCardHeader, InfoCardTitle } from "@navikt/ds-react/InfoCard";
 import { PropsWithChildren } from "react";
 import {
@@ -8,13 +8,22 @@ import {
     ExclamationmarkTriangleIcon,
     InformationSquareIcon,
     PushPinIcon,
+    QuestionmarkDiamondIcon,
 } from "@navikt/aksel-icons";
 
 interface Props {
     title: string;
-    variant: "info" | "warning" | "success" | "reminder";
+    variant: "info" | "warning" | "success" | "reminder" | "neutral";
     titleId: string;
 }
+
+const variantToColor: Record<Props["variant"], InfoCardProps["data-color"]> = {
+    info: "info",
+    reminder: "info",
+    success: "success",
+    warning: "warning",
+    neutral: "neutral",
+};
 
 const Icon = ({ variant }: Pick<Props, "variant">) => {
     switch (variant) {
@@ -26,11 +35,13 @@ const Icon = ({ variant }: Pick<Props, "variant">) => {
             return <ExclamationmarkTriangleIcon aria-hidden />;
         case "success":
             return <CheckmarkCircleIcon aria-hidden />;
+        case "neutral":
+            return <QuestionmarkDiamondIcon aria-hidden />;
     }
 };
 
 const Info = ({ title, children, variant, titleId }: PropsWithChildren<Props>) => (
-    <InfoCard as="section" data-color={variant === "reminder" ? "info" : variant} aria-labelledby={titleId}>
+    <InfoCard as="section" data-color={variantToColor[variant]} aria-labelledby={titleId}>
         <InfoCardHeader icon={<Icon variant={variant} />}>
             <InfoCardTitle id={titleId} as="h2">
                 {title}
