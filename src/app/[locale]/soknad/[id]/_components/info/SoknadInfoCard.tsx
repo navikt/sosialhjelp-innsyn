@@ -33,9 +33,7 @@ const SoknadInfoCard = ({ state }: Props) => {
         case "sendt":
             return (
                 <Info variant="success" title={t("sendt.title")} titleId="sendt-info-card-title">
-                    <Behandlingstid>
-                        <Behandlingstid.Description navKontor={state.navKontor ?? t("defaultNavKontor")} />
-                    </Behandlingstid>
+                    <Behandlingstid.Description navKontor={state.navKontor ?? t("defaultNavKontor")} />
                 </Info>
             );
         case "forelopigSvar":
@@ -52,9 +50,7 @@ const SoknadInfoCard = ({ state }: Props) => {
         case "saksbehandlingstid":
             return (
                 <Info variant="info" title={t("mottatt.title")} titleId="mottattt-info-card-title">
-                    <Behandlingstid>
-                        <Behandlingstid.Description navKontor={state.navKontor ?? t("defaultNavKontor")} />
-                    </Behandlingstid>
+                    <Behandlingstid.Description navKontor={state.navKontor ?? t("defaultNavKontor")} />
                 </Info>
             );
         case "kanHaVilkar":
@@ -63,7 +59,7 @@ const SoknadInfoCard = ({ state }: Props) => {
                     <VStack gap="space-16">
                         <BodyLong>
                             {t.rich("vilkar.descriptionEmpty", {
-                                link: (chunks) => (
+                                lenke: (chunks) => (
                                     <AkselLink as={Link} href="#vedtak" inlineText>
                                         {chunks}
                                     </AkselLink>
@@ -100,7 +96,15 @@ const SoknadInfoCard = ({ state }: Props) => {
                                 </List.Item>
                             ))}
                         </List>
-                        <BodyLong>{t("vilkar.kanHaFlere")}</BodyLong>
+                        <BodyLong>
+                            {t.rich("vilkar.kanHaFlere", {
+                                lenke: (chunks) => (
+                                    <AkselLink inlineText href={"#vilkar"}>
+                                        {chunks}
+                                    </AkselLink>
+                                ),
+                            })}
+                        </BodyLong>
                     </VStack>
                 </Info>
             );

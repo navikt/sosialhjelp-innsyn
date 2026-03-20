@@ -41,8 +41,8 @@
     "Behandlingstid": {
         "Description": {
             "normal": "<norsk>{navKontor}</norsk> vil behandle saka di så fort dei kan.",
-            "forlenget": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan fristen, og har sendt deg eit brev. <lenke>Opne brevet om saksbehandlingstid</lenke> for å sjå når du kan vente svar på søknaden din.",
-            "forlengetUtenBrev": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan fristen, og har sendt deg eit brev. Les brevet om saksbehandlingstid for å sjå når du kan vente svar på søknaden din."
+            "forlenget": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan rimeleg tid, og har sendt deg eit brev. <lenke>Opne brevet om saksbehandlingstid</lenke> for å sjå når du kan vente svar på søknaden din.",
+            "forlengetUtenBrev": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan rimeleg tid, og har sendt deg eit brev. Les brevet om saksbehandlingstid for å sjå når du kan vente svar på søknaden din."
         },
         "ReadMore": {
             "melde": {
@@ -72,16 +72,16 @@
         "oppgave": "<bold>{name}</bold> (frist {frist, date, ::ddMMyyyy})",
         "oppgaver": {
             "title": "Du har fått oppgåver",
-            "description": "<norsk>{navKontor}</norsk> treng meir dokumentasjon for å kunne behandle søknaden din:",
-            "warning": "Hugs å sende etterspurd dokumentasjon innan fristen, slik at Nav-kontoret ditt får behandla søknaden din. Om ikkje kan søknaden avslåast, og du må søkje på nytt. Har du levert dokumentasjon direkte til Nav-kontoret ditt kan du sjå bort frå denne meldinga."
+            "description": "<norsk>{navKontor}</norsk> treng fleire opplysningar:",
+            "warning": "Hugs å sende inn opplysningane innan fristen. Har du levert opplysningane direkte til Nav-kontoret ditt kan du sjå bort frå denne meldinga."
         },
         "vilkar": {
             "title": "Du har fått vilkår",
             "titleEmpty": "Du kan ha fått vilkår",
-            "descriptionEmpty": "Vilkår er aktivitetar du skal gjere som ein del av oppfølginga di frå Nav. <link>Les vedtaksbrevet ditt</link> for å sjå om du har fått vilkår, eller om Nav-kontoret treng meir dokumentasjon for å kunne utbetale stønaden din.",
-            "description": "Vilkår er aktivitetar du skal gjere som ein del av oppfølginga di frå Nav.",
+            "descriptionEmpty": "Som ein del av oppfølginga di frå Nav kan du ha fått vilkår. Vilkår er aktivitetar eller dokumentasjonskrav du må oppfylle. <lenke>Les vedtaksbrevet ditt</lenke> for å sjå om du har fått vilkår.",
+            "description": "Som ein del av oppfølginga di frå Nav har du fått aktivitetar eller dokumentasjonskrav du må oppfylle:",
             "vilkar": "<bold>{name}</bold> ({frist, date, ::ddMMyyyy})",
-            "kanHaFlere": "Obs! Du kan ha fått fleire vilkår enn dei som visast her. Les vedtaksbrevet ditt for å sjå om du har fått fleire vilkår, eller om Nav-kontoret treng meir dokumentasjon for å kunne utbetale stønaden din."
+            "kanHaFlere": "Du kan ha fått fleire vilkår enn dei som visast her. <lenke>Les vedtaksbrevet ditt</lenke> for å sjå om du har fått fleire vilkår."
         },
         "soknadsOppgaver": {
             "title": "Hugs å fullføre søknaden",
@@ -437,7 +437,8 @@
             "dineVedlegg": "Dine vedlegg"
         },
         "validering": {
-            "maksLengde": "Du kan skrive inn maks 1000 teikn"
+            "maksLengde": "Du kan skrive inn maks {maksLengde} teikn",
+            "maksFiler": "Du kan laste opp maks {maksFiler} filer"
         },
         "forkastKlageKnapp": "Forkast",
         "sendKlage": "Send inn",
