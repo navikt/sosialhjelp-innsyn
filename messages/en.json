@@ -911,7 +911,7 @@
         "forrige": "Previous page",
         "neste": "Next page"
     },
-    "OppgaverReadMore": {
+    "TipsReadMore": {
         "header": "Tips for submitting documentation",
         "papirHeading": "Documentation you have on paper",
         "papirIntro": "If you have a document on paper, you can take a photo of it and submit it digitally. Here's how:",
@@ -920,9 +920,9 @@
         "papirStep3": "If you want to use a computer, you can send the photo(s) to your personal email account and save the image on your device.",
         "papirStep4": "Upload and submit the photos.",
         "papirSkanner": "If you have access to a scanner, you can also scan documents and submit them digitally.",
-        "nettsideHeading": "Documentation from other websites",
-        "nettsideBody1": "If you need to send documentation from another website, you can try to download the document as a PDF. For example, the tax return and decisions from Lånekassen are available for download as PDF.",
-        "nettsideBody2": "You should avoid taking a photo of your computer screen with your mobile phone, as this often makes the text in the images difficult to read.",
+        "nettsiderHeading": "Documentation from other websites",
+        "nettsiderBody1": "If you need to send documentation from another website, you can try to download the document as a PDF. For example, the tax return and decisions from Lånekassen are available for download as PDF.",
+        "nettsiderBody2": "You should avoid taking a photo of your computer screen with your mobile phone, as this often makes the text in the images difficult to read.",
         "problemerHeading": "Problems with submitting",
         "problemerBody1": "If the document cannot be submitted, it may be because it is larger than 10 MB or is password protected.",
         "problemerBody2": "If you are stuck, you can <ring>call our advisors at 55 55 33 33</ring> or <kontor>contact your local NAV office</kontor>."
@@ -931,22 +931,6 @@
         "header": "How do conditions work?",
         "beskrivelse": "Conditions can be used if they help you to support yourself in a way other than through financial social assistance. When conditions are set, they should help you get out of a difficult life situation. As a general rule, the condition should be set in cooperation with you.",
         "beskrivelse2": "If the conditions are not met, the Nav office may make a new decision to reduce your social assistance, but this must be stated in your decision. <lenke>Read more about conditions here</lenke>."
-    },
-    "DokKravReadMore": {
-        "header": "Tips for submitting documentation",
-        "papirHeading": "Documentation you have on paper",
-        "papirIntro": "If you have a document on paper, you can take a photo of it and submit it digitally. Here's how:",
-        "papirStep1": "Take a photo of the document with your mobile phone or tablet.",
-        "papirStep2": "Check that the document is easy to read. If the document is difficult to read, you may be asked to submit it again.",
-        "papirStep3": "If you want to use a computer, you can send the photo(s) to your personal email account and save the image on your device.",
-        "papirStep4": "Upload and submit the photos.",
-        "papirSkanner": "If you have access to a scanner, you can also scan documents and submit them digitally.",
-        "nettsideHeading": "Documentation from other websites",
-        "nettsideBody1": "If you need to send documentation from another website, you can try to download the document as a PDF. For example, the tax return and decisions from Lånekassen are available for download as PDF.",
-        "nettsideBody2": "You should avoid taking a photo of your computer screen with your mobile phone, as this often makes the text in the images difficult to read.",
-        "problemerHeading": "Problems with submitting",
-        "problemerBody1": "If the document cannot be submitted, it may be because it is larger than 10 MB or is password protected.",
-        "problemerBody2": "If you are stuck, you can <ring>call our advisors at 55 55 33 33</ring> or <kontor>contact your local NAV office</kontor>."
     },
     "Dokumentasjonkrav": {
         "tittel": "Documentation requirements",

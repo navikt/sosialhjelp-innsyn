@@ -14,7 +14,7 @@ import { useGetOppgaverBetaSuspense } from "@generated/oppgave-controller-v-2/op
 
 import TaskListItem from "../tasklistitem/TaskListItem";
 import OppgaveTag from "../tasklistitem/OppgaveTag";
-import OppgaverReadMore from "./readmore/OppgaverReadMore";
+import TipsReadMore from "../TipsReadMore";
 import ExpandableList from "@components/showmore/ExpandableList";
 import { TasklistIcon } from "@navikt/aksel-icons";
 
@@ -53,7 +53,7 @@ const Oppgaver = () => {
                 )}
                 {isFetching && <Loader />}
             </HStack>
-            {hasUncompletedOppgaver && <OppgaverReadMore />}
+            {hasUncompletedOppgaver && <TipsReadMore />}
             <NavigationGuardProvider>
                 <ExpandableList
                     items={oppgaver}

@@ -13,7 +13,7 @@ import VedleggListe, { VedleggListeSkeleton } from "./VedleggListe";
 import { useHentOriginalSoknadSuspense } from "@generated/soknads-status-controller/soknads-status-controller";
 import { useHentSaksStatuserSuspense } from "@generated/saks-status-controller/saks-status-controller";
 import { SoknadsStatusResponseStatus } from "@generated/model";
-import OppgaverReadMore from "../oppgaver/readmore/OppgaverReadMore";
+import TipsReadMore from "../TipsReadMore";
 
 const metadata = { dokumentKontekst: "ettersendelse", type: "annet", tilleggsinfo: "annet" } satisfies Metadata;
 
@@ -41,7 +41,7 @@ const Filopplasting = ({ id, newUploadEnabled, soknadStatus }: Props) => {
             <Heading size="medium" level="2">
                 {showUpload ? t("tittel") : t("passivTittel")}
             </Heading>
-            {showUpload && <OppgaverReadMore />}
+            {showUpload && <TipsReadMore />}
             <Box
                 background="info-soft"
                 padding={{ xs: "space-16", sm: "space-24" }}

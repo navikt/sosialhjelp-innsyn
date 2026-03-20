@@ -1,9 +1,11 @@
+"use client";
+
 import { BodyLong, Heading, Link, List, ReadMore, VStack } from "@navikt/ds-react";
 import { ListItem } from "@navikt/ds-react/List";
 import { useLocale, useTranslations } from "next-intl";
 
-const OppgaverReadMore = () => {
-    const t = useTranslations("OppgaverReadMore");
+const TipsReadMore = () => {
+    const t = useTranslations("TipsReadMore");
     const locale = useLocale();
     const localeSuffix = locale === "nb" ? "" : `/${locale}`;
     return (
@@ -64,4 +66,4 @@ const OppgaverReadMore = () => {
     );
 };
 
-export default OppgaverReadMore;
+export default TipsReadMore;
