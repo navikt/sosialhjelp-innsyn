@@ -47,7 +47,7 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
     const cards: JSX.Element[] = [];
 
     if (saksdetaljer.status === "SENDT") {
-        cards.push(<SoknadInfoCard key="sendt" state={{ type: "sendt" }} />);
+        cards.push(<SoknadInfoCard key="sendt" state={{ type: "status", navKontor, status: "sendt" }} />);
     }
 
     if (behandlesIkke) {
@@ -134,7 +134,16 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
                 />
             );
         } else if (cards.length === 0) {
-            cards.push(<SoknadInfoCard key="saksbehandlingstid" state={{ type: "saksbehandlingstid" }} />);
+            cards.push(
+                <SoknadInfoCard
+                    key="saksbehandlingstid"
+                    state={{
+                        type: "status",
+                        navKontor,
+                        status: saksdetaljer.status === "UNDER_BEHANDLING" ? "under_behandling" : "mottatt",
+                    }}
+                />
+            );
         }
     }
 

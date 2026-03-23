@@ -51,36 +51,27 @@
             "beskrivelse2": "Hvis vilkåret ikke oppfylles, kan Nav fatte nytt vedtak om reduksjon i sosialhjelpen, men det må være informert om i vedtaket ditt. <lenke>Les mer om vilkår her</lenke>."
         }
     },
-    "Behandlingstid": {
-        "Description": {
-            "normal": "<norsk>{navKontor}</norsk> vil behandle saken din så fort de kan.",
-            "forlenget": "<norsk>{navKontor}</norsk> ser at de ikke klarer å behandle søknaden din innen rimelig tid, og har sendt deg et brev. <lenke>Åpne brevet om saksbehandlingstid</lenke> for å se når du kan forvente svar på søknaden din.",
-            "forlengetUtenBrev": "<norsk>{navKontor}</norsk> ser at de ikke klarer å behandle søknaden din innen rimelig tid, og har sendt deg et brev. Les brevet om saksbehandlingstid for å se når du kan forvente svar på søknaden din."
-        },
-        "ReadMore": {
-            "melde": {
-                "tittel": "Husk å meld fra om endringer",
-                "beskrivelse": "Noen situasjoner kan påvirke utbetalingene du får i Nav. Dette inkluderer blant annet endringer i din sivilstatus, familiesituasjon eller inntekt. <lenke>Les mer om hvilke situasjoner som kan påvirke utbetalingen din.</lenke>",
-                "beskrivelse2": "For å melde fra om endringer kan du sende inn et tekstdokument i feltet \"Ettersend dokumentasjon\" nedenfor, eller kontakte saksbehandleren eller Nav-kontoret ditt. <tel>Du kan også ringe veilederne våre på 55 55 33 33.</tel>"
-            },
-            "saksbehandlingstid": {
-                "tittel": "Saksbehandlingstiden",
-                "beskrivelse1": "Behandlingstiden varierer på de ulike Nav-kontorene, og vi kan derfor ikke gi et nøyaktig estimat. Hvis det har gått mer enn 31 dager fra du søkte, skal du få et brev om at saksbehandlingstiden er forlenget.",
-                "beskrivelse2": "Hva kan jeg gjøre for å få svar fortere?",
-                "beskrivelse3": "Send inn dokumentasjonen som etterspørres av Nav-kontoret ditt. Hvis du sender inn et skjermbilde eller en bildefil, pass på at teksten på bildet er leselig."
-            }
-        }
+    "ForlengetBehandlingstid": {
+        "medBrev": "<norsk>{navKontor}</norsk> ser at de ikke klarer å behandle søknaden din innen rimelig tid, og har sendt deg et brev. <lenke>Åpne brevet om saksbehandlingstid</lenke> for å se når du kan forvente svar på søknaden din.",
+        "utenBrev": "<norsk>{navKontor}</norsk> ser at de ikke klarer å behandle søknaden din innen rimelig tid, og har sendt deg et brev. Les brevet om saksbehandlingstid for å se når du kan forvente svar på søknaden din."
     },
     "SoknadInfoCard": {
         "defaultNavKontor": "Nav-kontoret ditt",
-        "sendt": {
-            "title": "Søknaden din er sendt"
+        "status": {
+            "mottatt": {
+                "title": "Søknaden din er mottatt"
+            },
+            "under_behandling": {
+                "title": "Søknaden din er under behandling"
+            },
+            "sendt": {
+                "title": "Søknaden din er sendt!"
+            },
+            "description": "<norsk>{navKontor}</norsk> vil behandle søknaden din så fort de kan.",
+            "descriptionUtenNavKontor": "Ditt Nav-kontor vil behandle søknaden din så fort de kan."
         },
         "forelopigSvar": {
             "title": "Forlenget saksbehandlingstid"
-        },
-        "mottatt": {
-            "title": "Saksbehandlingstid"
         },
         "oppgave": "<bold>{name}</bold> (frist {frist, date, ::ddMMyyyy})",
         "oppgaver": {
