@@ -2,7 +2,7 @@
 
 import { BodyLong, BodyShort, Link, ReadMore, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-import React, { PropsWithChildren } from "react";
+import React from "react";
 import { ExternalLinkIcon } from "@navikt/aksel-icons";
 
 interface Props {
@@ -83,7 +83,7 @@ const ForlengetBehandlingstidDescription = ({ navKontor, forelopigSvarUrl }: Pro
     );
 };
 
-const BehandlingstidDescription = ({ navKontor }: Props) => {
+export const Behandlingstid = ({ navKontor }: Props) => {
     const t = useTranslations("Behandlingstid.Description");
     return (
         <BodyLong>
@@ -99,16 +99,9 @@ const BehandlingstidDescription = ({ navKontor }: Props) => {
     );
 };
 
-const Behandlingstid = ({ children }: PropsWithChildren) => {
-    return (
-        <VStack gap="space-8">
-            {children}
-            <SaksbehandlingstidReadMore />
-        </VStack>
-    );
-};
-
-Behandlingstid.ForlengetDescription = ForlengetBehandlingstidDescription;
-Behandlingstid.Description = BehandlingstidDescription;
-
-export default Behandlingstid;
+export const ForlengetBehandlingstid = ({ navKontor, forelopigSvarUrl }: Props & { forelopigSvarUrl?: string }) => (
+    <VStack gap="space-8">
+        <ForlengetBehandlingstidDescription navKontor={navKontor} forelopigSvarUrl={forelopigSvarUrl} />
+        <SaksbehandlingstidReadMore />
+    </VStack>
+);
