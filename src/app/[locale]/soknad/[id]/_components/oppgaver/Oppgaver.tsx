@@ -20,8 +20,7 @@ import { TasklistIcon } from "@navikt/aksel-icons";
 import useIkkeInnsyn from "@hooks/useIkkeInnsyn";
 import { useGetSaksDetaljerSuspense } from "@generated/saks-oversikt-controller/saks-oversikt-controller";
 
-const withWarningColor = (text: string | undefined, isUncompleted: boolean) =>
-    isUncompleted && text ? <span className="text-ax-text-warning">{text}</span> : text;
+const withWarningColor = (text: string | undefined) => <span className="text-ax-text-warning">{text}</span>;
 
 const Oppgaver = () => {
     const t = useTranslations("Oppgaver");
@@ -105,9 +104,17 @@ const Oppgaver = () => {
                                     <Opplastingsboks
                                         metadata={metadata}
                                         completed={oppgave.erLastetOpp}
-                                        label={withWarningColor(typeTekst, !oppgave.erLastetOpp)}
+                                        label={
+                                            !oppgave.erLastetOpp && oppgave.erFraInnsyn
+                                                ? withWarningColor(typeTekst)
+                                                : typeTekst
+                                        }
                                         labelText={typeTekst}
-                                        description={withWarningColor(tilleggsinfoTekst, !oppgave.erLastetOpp)}
+                                        description={
+                                            !oppgave.erLastetOpp && oppgave.erFraInnsyn
+                                                ? withWarningColor(tilleggsinfoTekst)
+                                                : tilleggsinfoTekst
+                                        }
                                         tag={
                                             <OppgaveTag
                                                 frist={oppgave.innsendelsesfrist}
