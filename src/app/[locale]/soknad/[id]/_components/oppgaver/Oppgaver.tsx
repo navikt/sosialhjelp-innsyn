@@ -17,6 +17,8 @@ import OppgaveTag from "../tasklistitem/OppgaveTag";
 import OppgaverReadMore from "./readmore/OppgaverReadMore";
 import ExpandableList from "@components/showmore/ExpandableList";
 import { TasklistIcon } from "@navikt/aksel-icons";
+import useIkkeInnsyn from "@hooks/useIkkeInnsyn";
+import { useGetSaksDetaljerSuspense } from "@generated/saks-oversikt-controller/saks-oversikt-controller";
 
 const withWarningColor = (text: string | undefined, isUncompleted: boolean) =>
     isUncompleted && text ? <span className="text-ax-text-warning">{text}</span> : text;
@@ -28,12 +30,15 @@ const Oppgaver = () => {
     const newUploadEnabled = toggle?.enabled ?? false;
     // Kommer sortert på lastetOpp og deretter frist
     const { data: oppgaver, isFetching } = useGetOppgaverBetaSuspense(id);
+    const { data: soknad } = useGetSaksDetaljerSuspense(id);
+    const ikkeInnsyn = useIkkeInnsyn(soknad);
 
-    if (oppgaver.length === 0) {
+    const fullforteOppgaver = oppgaver.filter((oppgave) => oppgave.erLastetOpp);
+
+    if (oppgaver.length === 0 || ikkeInnsyn) {
         return null;
     }
 
-    const fullforteOppgaver = oppgaver.filter((oppgave) => oppgave.erLastetOpp);
     const hasUncompletedOppgaver = oppgaver.length - fullforteOppgaver.length > 0;
 
     const isAllOppgaverFromSoknad = oppgaver.every((oppgave) => oppgave.erFraInnsyn === false);
