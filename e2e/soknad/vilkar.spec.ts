@@ -87,7 +87,7 @@ test.describe("Vilkår", () => {
         await expect(page.getByRole("heading", { name: "Du kan ha fått vilkår", level: 2, exact: true })).toBeVisible();
     });
 
-    test("should show vilkår info card with 'Du har vilkår' when there are vilkår/dokkrav", async ({
+    test("should show vilkår info card with 'Du har fått vilkår' when there are vilkår/dokkrav", async ({
         page,
         request,
         baseURL,
@@ -125,7 +125,7 @@ test.describe("Vilkår", () => {
         await expect(
             page.getByRole("heading", { name: "Du kan ha fått vilkår", level: 2, exact: true })
         ).not.toBeVisible();
-        await expect(page.getByRole("heading", { name: "Du har vilkår", level: 2, exact: true })).toBeVisible();
+        await expect(page.getByRole("heading", { name: "Du har fått vilkår", level: 2, exact: true })).toBeVisible();
     });
 
     test("should not show vilkår section when there are no vilkår or dokumentasjonkrav", async ({
