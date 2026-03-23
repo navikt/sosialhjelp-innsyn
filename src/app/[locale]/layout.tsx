@@ -4,12 +4,14 @@ import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import React, { PropsWithChildren } from "react";
 import { getTranslations } from "next-intl/server";
+import { Box } from "@navikt/ds-react";
 import { routing } from "@i18n/routing";
 import { TilgangResponse } from "@generated/model";
 import { getToggles } from "@featuretoggles/unleash";
 import { browserEnv } from "@config/env";
 
 import Providers from "./Providers";
+import Footer from "@components/footer/Footer";
 
 function buildUrl(path: string) {
     const isLocal = ["local", "e2e"].includes(browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT);
@@ -69,7 +71,8 @@ export default async function LocaleLayout({ children, params }: PropsWithChildr
     return (
         <NextIntlClientProvider>
             <Providers togglesPromise={toggles} tilgang={harTilgangResponse}>
-                {children}
+                <Box paddingBlock="space-0 space-128">{children}</Box>
+                <Footer />
             </Providers>
         </NextIntlClientProvider>
     );

@@ -2,7 +2,6 @@ import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { Metadata } from "next";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
-import Footer from "@components/footer/Footer";
 import Snarveier from "@components/snarveier/Snarveier";
 
 import SoknaderSnarveier from "./_components/SoknaderSnarveier";
@@ -23,7 +22,6 @@ const Page = async () => {
                 <Snarveier>
                     <SoknaderSnarveier />
                 </Snarveier>
-                <Footer />
             </VStack>
         </>
     );
