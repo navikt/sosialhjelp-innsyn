@@ -73,7 +73,7 @@
         "oppgaver": {
             "title": "You have received tasks",
             "description": "<norsk>{navKontor}</norsk> needs more information:",
-            "warning": "Remember to submit the information by the deadline. If you have submitted the information directly to your Nav office, you can ignore this message.\n\n"
+            "warning": "Remember to submit the information by the deadline. If you have submitted the information directly to your Nav office, you can ignore this message."
         },
         "vilkar": {
             "title": "You have received conditions",
@@ -83,7 +83,7 @@
             "vilkar": "<bold>{name}</bold> ({frist, date, ::ddMMyyyy})",
             "kanHaFlere": "You may have received more conditions than those shown here. <lenke>Read your decision letter</lenke> to see if you have received more conditions."
         },
-        "soknadsOppgaver": {
+        "FsoknadsOppgaver": {
             "title": "Remember to complete your application",
             "description": "Here you can see which information you did not submit with your application. We recommend that you submit this information as soon as possible.",
             "disregardInfo": "If you have delivered the information directly to your local Nav office, you can disregard this message."

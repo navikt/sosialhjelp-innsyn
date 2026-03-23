@@ -23,13 +23,11 @@ const Vedtak = ({ sortedVedtak, latestVedtak }: Props) => {
     useEffect(() => {
         const link = latestItemRef.current;
         if (window.location.hash === "#vedtak" && link) {
-            if (link) {
-                requestAnimationFrame(() => {
-                    link.scrollIntoView({ behavior: "smooth", block: "center" });
-                    // focusVisible tvinger :focus-visible pseudoclass på elementet. Funker ikke i alle browsere
-                    link.focus({ preventScroll: true, focusVisible: true });
-                });
-            }
+            requestAnimationFrame(() => {
+                link.scrollIntoView({ behavior: "smooth", block: "center" });
+                // focusVisible tvinger :focus-visible pseudoclass på elementet. Funker ikke i alle browsere
+                link.focus({ preventScroll: true, focusVisible: true });
+            });
         }
     }, [params]);
 
