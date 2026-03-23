@@ -92,11 +92,13 @@ export const Soknad = async ({ id }: Props) => {
                     </HydrationBoundary>
                 </Suspense>
             )}
-            <Suspense fallback={<OppgaverSkeleton />}>
-                <HydrationBoundary state={dehydrate(oppgaverQueryClient)}>
-                    <Oppgaver />
-                </HydrationBoundary>
-            </Suspense>
+            {status !== "FERDIGBEHANDLET" && status !== "BEHANDLES_IKKE" && (
+                <Suspense fallback={<OppgaverSkeleton />}>
+                    <HydrationBoundary state={dehydrate(oppgaverQueryClient)}>
+                        <Oppgaver />
+                    </HydrationBoundary>
+                </Suspense>
+            )}
             <Suspense fallback={null}>
                 <HydrationBoundary state={dehydrate(dokumentasjonkravQueryClient)}>
                     <VilkarListe />

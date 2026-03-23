@@ -41,8 +41,8 @@
     "Behandlingstid": {
         "Description": {
             "normal": "<norsk>{navKontor}</norsk> vil behandle saka di så fort dei kan.",
-            "forlenget": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan fristen, og har sendt deg eit brev. <lenke>Opne brevet om saksbehandlingstid</lenke> for å sjå når du kan vente svar på søknaden din.",
-            "forlengetUtenBrev": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan fristen, og har sendt deg eit brev. Les brevet om saksbehandlingstid for å sjå når du kan vente svar på søknaden din."
+            "forlenget": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan rimeleg tid, og har sendt deg eit brev. <lenke>Opne brevet om saksbehandlingstid</lenke> for å sjå når du kan vente svar på søknaden din.",
+            "forlengetUtenBrev": "<norsk>{navKontor}</norsk> ser at dei ikkje klarer å behandle søknaden din innan rimeleg tid, og har sendt deg eit brev. Les brevet om saksbehandlingstid for å sjå når du kan vente svar på søknaden din."
         },
         "ReadMore": {
             "melde": {
@@ -72,16 +72,16 @@
         "oppgave": "<bold>{name}</bold> (frist {frist, date, ::ddMMyyyy})",
         "oppgaver": {
             "title": "Du har fått oppgåver",
-            "description": "<norsk>{navKontor}</norsk> treng meir dokumentasjon for å kunne behandle søknaden din:",
-            "warning": "Hugs å sende etterspurd dokumentasjon innan fristen, slik at Nav-kontoret ditt får behandla søknaden din. Om ikkje kan søknaden avslåast, og du må søkje på nytt. Har du levert dokumentasjon direkte til Nav-kontoret ditt kan du sjå bort frå denne meldinga."
+            "description": "<norsk>{navKontor}</norsk> treng fleire opplysningar:",
+            "warning": "Hugs å sende inn opplysningane innan fristen. Om du har levert opplysningane direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
         },
         "vilkar": {
             "title": "Du har fått vilkår",
             "titleEmpty": "Du kan ha fått vilkår",
-            "descriptionEmpty": "Vilkår er aktivitetar du skal gjere som ein del av oppfølginga di frå Nav. <link>Les vedtaksbrevet ditt</link> for å sjå om du har fått vilkår, eller om Nav-kontoret treng meir dokumentasjon for å kunne utbetale stønaden din.",
-            "description": "Vilkår er aktivitetar du skal gjere som ein del av oppfølginga di frå Nav.",
+            "descriptionEmpty": "Som ein del av oppfølginga di frå Nav kan du ha fått vilkår. Vilkår er aktivitetar eller dokumentasjonskrav du må oppfylle. <lenke>Les vedtaksbrevet ditt</lenke> for å sjå om du har fått vilkår.",
+            "description": "Som ein del av oppfølginga di frå Nav har du fått aktivitetar eller dokumentasjonskrav du må oppfylle:",
             "vilkar": "<bold>{name}</bold> ({frist, date, ::ddMMyyyy})",
-            "kanHaFlere": "Obs! Du kan ha fått fleire vilkår enn dei som visast her. Les vedtaksbrevet ditt for å sjå om du har fått fleire vilkår, eller om Nav-kontoret treng meir dokumentasjon for å kunne utbetale stønaden din."
+            "kanHaFlere": "Du kan ha fått fleire vilkår enn dei som visast her. <lenke>Les vedtaksbrevet ditt</lenke> for å sjå om du har fått fleire vilkår."
         },
         "soknadsOppgaver": {
             "title": "Hugs å fullføre søknaden",
@@ -437,7 +437,8 @@
             "dineVedlegg": "Dine vedlegg"
         },
         "validering": {
-            "maksLengde": "Du kan skrive inn maks 1000 teikn"
+            "maksLengde": "Du kan skrive inn maks {maksLengde} teikn",
+            "maksFiler": "Du kan laste opp maks {maksFiler} filer"
         },
         "forkastKlageKnapp": "Forkast",
         "sendKlage": "Send inn",
@@ -927,32 +928,26 @@
         "forrige": "Førre side",
         "neste": "Neste side"
     },
-    "OppgaverReadMore": {
-        "header": "Treng du hjelp til å sende dokumentasjon?",
-        "feilFormatHeading": "Godtek vi ikkje dokumentet du prøver å sende inn?",
-        "feilFormatBody": "Du kan gjerne sjekke om dokumentet er under 10 MB, eller er låst med passord.",
+    "TipsReadMore": {
+        "header": "Tips til å sende inn dokumentasjon",
         "papirHeading": "Dokumentasjon du har på papir",
-        "papirBody": "Har du dokumentasjon på papir, kan du skanne det og sende det digitalt. Ved å skanne dokumentasjonen blir kvaliteten betre, slik at dei er lettare å lese.",
-        "nettsidesHeading": "Dokumentasjon frå andre nettsider",
-        "nettsidesBody": "Viss du skal sende dokumentasjon frå ei anna nettside, kan du laste ned dokumentet først viss det er mogleg. For eksempel er skattemeldinga og vedtak frå Lånekassen tilgjengeleg for nedlasting som PDF. Du bør unngå å ta bilete av PC-skjermen med eit kamera.",
-        "lesbarHeading": "Sørgj for at dokumentasjonen du sender kan lesast",
-        "lesbarBody": "Det er viktig at du sjekkar at dokumentasjonen du lastar opp er fullstendige og kan lesast. Viss det er vanskeleg å lese dokumentet, kan du bli beden om å sende dei på nytt."
+        "papirIntro": "Viss du har eit dokument på papir, kan du ta eit bilete av dokumentet og sende det inn digitalt. Slik gjer du det:",
+        "papirStep1": "Ta bilete av dokumentet med mobilen eller nettbrettet.",
+        "papirStep2": "Sjekk at dokumentet er lett å lese. Viss det er vanskeleg å lese dokumentet, kan du bli beden om å sende det inn på nytt.",
+        "papirStep3": "Ønskjer du å bruke ein datamaskin, kan du sende bilete til din private e-postkonto og lagre biletet på eininga di.",
+        "papirStep4": "Last opp og send inn bileta.",
+        "papirSkanner": "Viss du har tilgang til ein skannar, kan du òg skanne dokument og sende inn digitalt.",
+        "nettsiderHeading": "Dokumentasjon frå andre nettsider",
+        "nettsiderBody1": "Viss du skal sende dokumentasjon frå ei anna nettside, kan du prøve å laste ned dokumentet som PDF. For eksempel er skattemeldinga og vedtak frå Lånekassen tilgjengeleg for nedlasting som PDF.",
+        "nettsiderBody2": "Du bør unngå å ta bilete av skjermen på datamaskinen med mobilen, då det ofte vert vanskeleg å lese teksten på bileta.",
+        "problemerHeading": "Problem med å sende inn",
+        "problemerBody1": "Viss dokumentet ikkje kan sendast inn, kan det vere fordi det er større enn 10 MB, eller er låst med passord.",
+        "problemerBody2": "Viss du står fast, kan du <ring>ringe vegvisarane våre på 55 55 33 33</ring> eller <kontor>ta kontakt med Nav-kontoret ditt</kontor>."
     },
     "VilkarReadMore": {
         "header": "Korleis fungerer vilkår?",
         "beskrivelse": "Vilkår kan brukast dersom det bidreg til å gjere deg i stand til å sørgje for livsopphaldet ditt på ein annan måte enn ved økonomisk sosialhjelp. Når det blir sett vilkår, skal det bidra til å hjelpe deg med å komme ut av ein vanskeleg livssituasjon. Som hovudregel skal vilkåret setjast i samarbeid med deg.",
         "beskrivelse2": "Viss vilkåra ikkje blir oppfylt, kan Nav-kontoret gjere nytt vedtak om reduksjon i sosialhjelpa, men det må vere informert om i vedtaket ditt. <lenke>Les meir om vilkår her</lenke>."
-    },
-    "DokKravReadMore": {
-        "header": "Treng du hjelp til å sende dokumentasjon?",
-        "feilFormatHeading": "Godtek vi ikkje dokumentet du prøver å sende inn?",
-        "feilFormatBody": "Du kan gjerne sjekke om dokumentet er under 10 MB, eller er låst med passord.",
-        "papirHeading": "Dokumentasjon du har på papir",
-        "papirBody": "Har du dokumentasjon på papir, kan du skanne det og sende det digitalt. Ved å skanne dokumentasjonen blir kvaliteten betre, slik at dei er lettare å lese.",
-        "nettsidesHeading": "Dokumentasjon frå andre nettsider",
-        "nettsidesBody": "Viss du skal sende dokumentasjon frå ei anna nettside, kan du laste ned dokumentet først viss det er mogleg. For eksempel er skattemeldinga og vedtak frå Lånekassen tilgjengeleg for nedlasting som PDF. Du bør unngå å ta bilete av PC-skjermen med eit kamera.",
-        "lesbarHeading": "Sørgj for at dokumentasjonen du sender kan lesast",
-        "lesbarBody": "Det er viktig at du sjekkar at dokumentasjonen du lastar opp er fullstendige og kan lesast. Viss det er vanskeleg å lese dokumentet, kan du bli beden om å sende dei på nytt."
     },
     "Dokumentasjonkrav": {
         "tittel": "Dokumentasjonkrav",

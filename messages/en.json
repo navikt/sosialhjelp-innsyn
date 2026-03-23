@@ -41,7 +41,8 @@
     "Behandlingstid": {
         "Description": {
             "normal": "<norsk>{navKontor}</norsk> will process your case as soon as possible.",
-            "forlenget": "<norsk>{navKontor}</norsk> has found that they cannot process your application within the deadline and has sent you a letter. Read the letter about processing time to see when you can expect a response to your application."
+            "forlenget": "<norsk>{navKontor}</norsk> has found that they cannot process your application within a reasonable time, and has sent you a letter. <lenke>Open the letter about processing time</lenke> to see when you can expect a response to your application.",
+            "forlengetUtenBrev": "<norsk>{navKontor}</norsk> has found that they cannot process your application within a reasonable time, and has sent you a letter. Read the letter about processing time to see when you can expect a response to your application."
         },
         "ReadMore": {
             "melde": {
@@ -71,18 +72,18 @@
         "oppgave": "<bold>{name}</bold> (due {frist, date, ::ddMMyyyy})",
         "oppgaver": {
             "title": "You have received tasks",
-            "description": "<norsk>{navKontor}</norsk> needs more documentation to process your application:",
-            "warning": "Remember to send the requested documentation within the deadline so that your Nav office can process your application. If you do not, your application may be rejected and you will have to reapply. If you have submitted documentation directly to your Nav office, you can disregard this message."
+            "description": "<norsk>{navKontor}</norsk> needs more information:",
+            "warning": "Remember to submit the information by the deadline. If you have submitted the information directly to your Nav office, you can ignore this message."
         },
         "vilkar": {
-            "titleEmpty": "You may have received conditions",
             "title": "You have received conditions",
-            "descriptionEmpty": "Conditions are activities you must carry out as part of your follow-up from Nav. <link>Read your decision letter</link> to see if you have received conditions, or whether the Nav office needs more documentation to pay your benefit.",
-            "description": "Conditions are activities you must carry out as part of your follow-up from Nav.",
+            "titleEmpty": "You may have received conditions",
+            "descriptionEmpty": "As part of your follow-up from Nav, you may have received conditions. Conditions are activities or documentation requirements you must fulfil. <lenke>Read your decision letter</lenke> to see if you have received conditions.",
+            "description": "As part of your follow-up from Nav, you have received activities or documentation requirements you must fulfil:",
             "vilkar": "<bold>{name}</bold> ({frist, date, ::ddMMyyyy})",
-            "kanHaFlere": "Note! You may have received more conditions than those shown here. Read your decision letter to see if you have received more conditions, or whether the Nav office needs more documentation to pay your benefit."
+            "kanHaFlere": "You may have received more conditions than those shown here. <lenke>Read your decision letter</lenke> to see if you have received more conditions."
         },
-        "soknadsOppgaver": {
+        "FsoknadsOppgaver": {
             "title": "Remember to complete your application",
             "description": "Here you can see which information you did not submit with your application. We recommend that you submit this information as soon as possible.",
             "disregardInfo": "If you have delivered the information directly to your local Nav office, you can disregard this message."
@@ -436,7 +437,8 @@
             "dineVedlegg": "Your files"
         },
         "validering": {
-            "maksLengde": "You can write a maximum of 1000 characters"
+            "maksLengde": "You can write a maximum of {maksLengde} characters",
+            "maksFiler": "You can upload a maximum of {maksFiler} files"
         },
         "forkastKlageKnapp": "Discard",
         "sendKlage": "Send",
@@ -911,32 +913,26 @@
         "forrige": "Previous page",
         "neste": "Next page"
     },
-    "OppgaverReadMore": {
-        "header": "Do you need help sending documentation?",
-        "feilFormatHeading": "Are we not accepting the document you are trying to submit?",
-        "feilFormatBody": "You may want to check whether the document is under 10 MB or is password protected.",
+    "TipsReadMore": {
+        "header": "Tips for submitting documentation",
         "papirHeading": "Documentation you have on paper",
-        "papirBody": "If you have documentation on paper, you can scan it and send it digitally. Scanning the documentation improves the quality, making it easier to read.",
-        "nettsidesHeading": "Documentation from other websites",
-        "nettsidesBody": "If you need to send documentation from another website, you can download the document first if possible. For example, the tax return and decisions from Lånekassen are available for download as PDF. You should avoid taking a photo of the PC screen with a camera.",
-        "lesbarHeading": "Make sure the documentation you send can be read",
-        "lesbarBody": "It is important that you check that the documentation you upload is complete and legible. If the document is difficult to read, you may be asked to resend it."
+        "papirIntro": "If you have a document on paper, you can take a photo of it and submit it digitally. Here's how:",
+        "papirStep1": "Take a photo of the document with your mobile phone or tablet.",
+        "papirStep2": "Check that the document is easy to read. If the document is difficult to read, you may be asked to submit it again.",
+        "papirStep3": "If you want to use a computer, you can send the photo(s) to your personal email account and save the image on your device.",
+        "papirStep4": "Upload and submit the photos.",
+        "papirSkanner": "If you have access to a scanner, you can also scan documents and submit them digitally.",
+        "nettsiderHeading": "Documentation from other websites",
+        "nettsiderBody1": "If you need to send documentation from another website, you can try to download the document as a PDF. For example, the tax return and decisions from Lånekassen are available for download as PDF.",
+        "nettsiderBody2": "You should avoid taking a photo of your computer screen with your mobile phone, as this often makes the text in the images difficult to read.",
+        "problemerHeading": "Problems with submitting",
+        "problemerBody1": "If the document cannot be submitted, it may be because it is larger than 10 MB or is password protected.",
+        "problemerBody2": "If you are stuck, you can <ring>call our advisors at 55 55 33 33</ring> or <kontor>contact your local NAV office</kontor>."
     },
     "VilkarReadMore": {
         "header": "How do conditions work?",
         "beskrivelse": "Conditions can be used if they help you to support yourself in a way other than through financial social assistance. When conditions are set, they should help you get out of a difficult life situation. As a general rule, the condition should be set in cooperation with you.",
         "beskrivelse2": "If the conditions are not met, the Nav office may make a new decision to reduce your social assistance, but this must be stated in your decision. <lenke>Read more about conditions here</lenke>."
-    },
-    "DokKravReadMore": {
-        "header": "Do you need help sending documentation?",
-        "feilFormatHeading": "Are we not accepting the document you are trying to submit?",
-        "feilFormatBody": "You may want to check whether the document is under 10 MB or is password protected.",
-        "papirHeading": "Documentation you have on paper",
-        "papirBody": "If you have documentation on paper, you can scan it and send it digitally. Scanning the documentation improves the quality, making it easier to read.",
-        "nettsidesHeading": "Documentation from other websites",
-        "nettsidesBody": "If you need to send documentation from another website, you can download the document first if possible. For example, the tax return and decisions from Lånekassen are available for download as PDF. You should avoid taking a photo of the PC screen with a camera.",
-        "lesbarHeading": "Make sure the documentation you send can be read",
-        "lesbarBody": "It is important that you check that the documentation you upload is complete and legible. If the document is difficult to read, you may be asked to resend it."
     },
     "Dokumentasjonkrav": {
         "tittel": "Documentation requirements",

@@ -5,12 +5,14 @@ import VedtakTag from "@components/tags/tag/VedtakTag";
 import { InnsendtSoknad, isActiveSoknad } from "@components/soknaderList/list/soknaderUtils";
 import { Skeleton, Tag, TagProps } from "@navikt/ds-react";
 import IkkeInnsynTag from "@components/tags/tag/IkkeInnsynTag";
+import useIkkeInnsyn from "@hooks/useIkkeInnsyn";
 
 interface Props {
     soknad: InnsendtSoknad;
 }
 
 const Tags = ({ soknad }: Props) => {
+    const ikkeInnsyn = useIkkeInnsyn(soknad);
     const sendtDato = soknad.soknadOpprettet ? new Date(soknad.soknadOpprettet) : undefined; // Kun satt ved digital søknad
     const mottattDato = soknad.mottattTidspunkt ? new Date(soknad.mottattTidspunkt) : undefined;
     const isDigitalSoknad = !!sendtDato;
@@ -21,10 +23,6 @@ const Tags = ({ soknad }: Props) => {
     const antallNyeOppgaver = soknad.antallNyeOppgaver ?? 0;
     const harSakMedFlereVedtak = soknad.saker.some((s) => s.antallVedtak > 1);
     const antallNyeVilkarOgDokumentasjonKrav = soknad.antallNyeVilkarOgDokumentasjonKrav ?? 0;
-    const ikkeInnsyn =
-        soknad.status === "BEHANDLES_IKKE" ||
-        (soknad.saker.length > 0 &&
-            soknad.saker.every((sak) => sak.status === "IKKE_INNSYN" || sak.status === "BEHANDLES_IKKE"));
 
     if (ikkeInnsyn) {
         return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { LinkCard, LinkCardTitle, LinkCardDescription, LinkCardAnchor, LinkCardIcon } from "@navikt/ds-react/LinkCard";
-import React, { JSX, PropsWithChildren, ReactNode } from "react";
+import React, { forwardRef, JSX, PropsWithChildren, ReactNode, Ref } from "react";
 import { Box, VStack } from "@navikt/ds-react";
 
 import HoyreIkon from "./HoyreIkon";
@@ -39,18 +39,21 @@ const Icon = ({ icon }: IconProps) => (
     </VStack>
 );
 
-const DigisosLinkCard = ({
-    href,
-    children,
-    description,
-    icon,
-    cardIcon,
-    analyticsEvent,
-    analyticsData,
-    footer,
-    openInNewTab,
-    dataColor = "neutral",
-}: PropsWithChildren<Props>) => {
+const DigisosLinkCard = (
+    {
+        href,
+        children,
+        description,
+        icon,
+        cardIcon,
+        analyticsEvent,
+        analyticsData,
+        footer,
+        openInNewTab,
+        dataColor = "neutral",
+    }: PropsWithChildren<Props>,
+    ref: Ref<HTMLAnchorElement>
+) => {
     const isMobile = useIsMobile();
     const size = isMobile ? "small" : "medium";
     const dataAttrs: Record<string, string> = {};
@@ -70,6 +73,7 @@ const DigisosLinkCard = ({
                 <LinkCardAnchor asChild>
                     <Link
                         href={href}
+                        ref={ref}
                         className="min-w-0 flex-1 break-all whitespace-normal"
                         {...dataAttrs}
                         {...(openInNewTab ? { rel: "noopener noreferrer", target: "_blank" } : {})}
@@ -84,4 +88,4 @@ const DigisosLinkCard = ({
         </LinkCard>
     );
 };
-export default DigisosLinkCard;
+export default forwardRef(DigisosLinkCard);
