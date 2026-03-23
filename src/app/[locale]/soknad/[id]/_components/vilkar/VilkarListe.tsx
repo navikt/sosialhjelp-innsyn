@@ -15,7 +15,7 @@ import { DokumentasjonkravDto } from "@generated/model";
 
 import Vilkar from "./vilkar/Vilkar";
 import VilkarReadMore from "./readmore/VilkarReadMore";
-import DokKravReadMore from "./readmore/DokKravReadMore";
+import TipsReadMore from "../TipsReadMore";
 import Dokumentasjonkrav from "./dokumentasjonkrav/Dokumentasjonkrav";
 
 const sortUncompletedDokumentasjonKrav = (items: DokumentasjonkravDto[]) =>
@@ -66,7 +66,7 @@ const VilkarListe = () => {
                 {isFetching && <Loader />}
             </HStack>
             {hasVilkar && <VilkarReadMore />}
-            {hasUncompletedDokKrav && <DokKravReadMore />}
+            {hasUncompletedDokKrav && <TipsReadMore />}
             <VStack as="ol" gap={{ xs: "space-12", md: "space-16" }}>
                 <NavigationGuardProvider>
                     {sortedUncompletedDokumentasjonKrav.map((dokumentasjonkrav) => (
