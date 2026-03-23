@@ -41,7 +41,8 @@
     "Behandlingstid": {
         "Description": {
             "normal": "<norsk>{navKontor}</norsk> will process your case as soon as possible.",
-            "forlenget": "<norsk>{navKontor}</norsk> has found that they cannot process your application within the deadline and has sent you a letter. Read the letter about processing time to see when you can expect a response to your application."
+            "forlenget": "<norsk>{navKontor}</norsk> has found that they cannot process your application within a reasonable time, and has sent you a letter. <lenke>Open the letter about processing time</lenke> to see when you can expect a response to your application.",
+            "forlengetUtenBrev": "<norsk>{navKontor}</norsk> has found that they cannot process your application within a reasonable time, and has sent you a letter. Read the letter about processing time to see when you can expect a response to your application."
         },
         "ReadMore": {
             "melde": {
@@ -71,18 +72,18 @@
         "oppgave": "<bold>{name}</bold> (due {frist, date, ::ddMMyyyy})",
         "oppgaver": {
             "title": "You have received tasks",
-            "description": "<norsk>{navKontor}</norsk> needs more documentation to process your application:",
-            "warning": "Remember to send the requested documentation within the deadline so that your Nav office can process your application. If you do not, your application may be rejected and you will have to reapply. If you have submitted documentation directly to your Nav office, you can disregard this message."
+            "description": "<norsk>{navKontor}</norsk> needs more information:",
+            "warning": "Remember to submit the information by the deadline. If you have submitted the information directly to your Nav office, you can ignore this message."
         },
         "vilkar": {
-            "titleEmpty": "You may have received conditions",
             "title": "You have received conditions",
-            "descriptionEmpty": "Conditions are activities you must carry out as part of your follow-up from Nav. <link>Read your decision letter</link> to see if you have received conditions, or whether the Nav office needs more documentation to pay your benefit.",
-            "description": "Conditions are activities you must carry out as part of your follow-up from Nav.",
+            "titleEmpty": "You may have received conditions",
+            "descriptionEmpty": "As part of your follow-up from Nav, you may have received conditions. Conditions are activities or documentation requirements you must fulfil. <lenke>Read your decision letter</lenke> to see if you have received conditions.",
+            "description": "As part of your follow-up from Nav, you have received activities or documentation requirements you must fulfil:",
             "vilkar": "<bold>{name}</bold> ({frist, date, ::ddMMyyyy})",
-            "kanHaFlere": "Note! You may have received more conditions than those shown here. Read your decision letter to see if you have received more conditions, or whether the Nav office needs more documentation to pay your benefit."
+            "kanHaFlere": "You may have received more conditions than those shown here. <lenke>Read your decision letter</lenke> to see if you have received more conditions."
         },
-        "soknadsOppgaver": {
+        "FsoknadsOppgaver": {
             "title": "Remember to complete your application",
             "description": "Here you can see which information you did not submit with your application. We recommend that you submit this information as soon as possible.",
             "disregardInfo": "If you have delivered the information directly to your local Nav office, you can disregard this message."
@@ -436,7 +437,8 @@
             "dineVedlegg": "Your files"
         },
         "validering": {
-            "maksLengde": "You can write a maximum of 1000 characters"
+            "maksLengde": "You can write a maximum of {maksLengde} characters",
+            "maksFiler": "You can upload a maximum of {maksFiler} files"
         },
         "forkastKlageKnapp": "Discard",
         "sendKlage": "Send",

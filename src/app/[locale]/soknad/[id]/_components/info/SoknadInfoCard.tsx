@@ -1,7 +1,7 @@
 "use client";
 
 import Info from "./Info";
-import Behandlingstid from "./Behandlingstid";
+import { ForlengetBehandlingstid, Behandlingstid } from "./Behandlingstid";
 import OppgaveListe from "./OppgaveListe";
 import { BodyLong, BodyShort, VStack, Link as AkselLink, List } from "@navikt/ds-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -33,28 +33,22 @@ const SoknadInfoCard = ({ state }: Props) => {
         case "sendt":
             return (
                 <Info variant="success" title={t("sendt.title")} titleId="sendt-info-card-title">
-                    <Behandlingstid>
-                        <Behandlingstid.Description navKontor={state.navKontor ?? t("defaultNavKontor")} />
-                    </Behandlingstid>
+                    <Behandlingstid navKontor={state.navKontor ?? t("defaultNavKontor")} />
                 </Info>
             );
         case "forelopigSvar":
             return (
                 <Info variant="warning" title={t("forelopigSvar.title")} titleId="forelopig-svar-info-card-title">
-                    <Behandlingstid>
-                        <Behandlingstid.ForlengetDescription
-                            navKontor={state.navKontor ?? t("defaultNavKontor")}
-                            forelopigSvarUrl={state.forelopigSvarUrl}
-                        />
-                    </Behandlingstid>
+                    <ForlengetBehandlingstid
+                        navKontor={state.navKontor ?? t("defaultNavKontor")}
+                        forelopigSvarUrl={state.forelopigSvarUrl}
+                    />
                 </Info>
             );
         case "saksbehandlingstid":
             return (
                 <Info variant="info" title={t("mottatt.title")} titleId="mottattt-info-card-title">
-                    <Behandlingstid>
-                        <Behandlingstid.Description navKontor={state.navKontor ?? t("defaultNavKontor")} />
-                    </Behandlingstid>
+                    <Behandlingstid navKontor={state.navKontor ?? t("defaultNavKontor")} />
                 </Info>
             );
         case "kanHaVilkar":
@@ -63,7 +57,7 @@ const SoknadInfoCard = ({ state }: Props) => {
                     <VStack gap="space-16">
                         <BodyLong>
                             {t.rich("vilkar.descriptionEmpty", {
-                                link: (chunks) => (
+                                lenke: (chunks) => (
                                     <AkselLink as={Link} href="#vedtak" inlineText>
                                         {chunks}
                                     </AkselLink>
@@ -100,7 +94,15 @@ const SoknadInfoCard = ({ state }: Props) => {
                                 </List.Item>
                             ))}
                         </List>
-                        <BodyLong>{t("vilkar.kanHaFlere")}</BodyLong>
+                        <BodyLong>
+                            {t.rich("vilkar.kanHaFlere", {
+                                lenke: (chunks) => (
+                                    <AkselLink inlineText href={"#vilkar"}>
+                                        {chunks}
+                                    </AkselLink>
+                                ),
+                            })}
+                        </BodyLong>
                     </VStack>
                 </Info>
             );
