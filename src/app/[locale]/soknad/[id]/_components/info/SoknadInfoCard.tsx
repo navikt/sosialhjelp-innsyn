@@ -1,17 +1,16 @@
 "use client";
 
 import Info from "./Info";
-import { ForlengetBehandlingstid, Behandlingstid } from "./Behandlingstid";
+import ForlengetBehandlingstid from "./Behandlingstid";
 import OppgaveListe from "./OppgaveListe";
 import { BodyLong, BodyShort, VStack, Link as AkselLink, List } from "@navikt/ds-react";
 import { useLocale, useTranslations } from "next-intl";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { Link } from "@i18n/navigation";
 import VilkarReadMore from "../vilkar/readmore/VilkarReadMore";
 
 type AlertState =
-    | { type: "sendt"; navKontor?: string }
-    | { type: "saksbehandlingstid"; navKontor?: string }
+    | { type: "status"; navKontor?: string; status: "under_behandling" | "mottatt" | "sendt" }
     | { type: "oppgaver"; oppgaver: { name: string; frist?: Date }[]; navKontor?: string }
     | { type: "soknadsOppgaver"; oppgaver: { name: string }[] }
     | { type: "nyttVedtak" }
@@ -30,10 +29,25 @@ const SoknadInfoCard = ({ state }: Props) => {
     const locale = useLocale();
     const localeSuffix = locale === "nb" ? "" : `/${locale}`;
     switch (state.type) {
-        case "sendt":
+        case "status":
             return (
-                <Info variant="success" title={t("sendt.title")} titleId="sendt-info-card-title">
-                    <Behandlingstid navKontor={state.navKontor ?? t("defaultNavKontor")} />
+                <Info
+                    variant={state.status === "sendt" ? "success" : "info"}
+                    title={t(`status.${state.status}.title`)}
+                    titleId="status-info-card-title"
+                >
+                    <BodyLong>
+                        {state.navKontor
+                            ? t.rich("status.description", {
+                                  norsk: (chunks) => (
+                                      <BodyShort as="span" lang="no">
+                                          {chunks}
+                                      </BodyShort>
+                                  ),
+                                  navKontor: state.navKontor,
+                              })
+                            : t("status.descriptionUtenNavKontor")}
+                    </BodyLong>
                 </Info>
             );
         case "forelopigSvar":
@@ -43,12 +57,6 @@ const SoknadInfoCard = ({ state }: Props) => {
                         navKontor={state.navKontor ?? t("defaultNavKontor")}
                         forelopigSvarUrl={state.forelopigSvarUrl}
                     />
-                </Info>
-            );
-        case "saksbehandlingstid":
-            return (
-                <Info variant="info" title={t("mottatt.title")} titleId="mottattt-info-card-title">
-                    <Behandlingstid navKontor={state.navKontor ?? t("defaultNavKontor")} />
                 </Info>
             );
         case "kanHaVilkar":

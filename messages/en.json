@@ -38,36 +38,27 @@
             "beskrivelse2": "If the condition is not met, Nav may make a new decision to reduce your social assistance, but this must be stated in your decision. <link>Read more about conditions here</link>."
         }
     },
-    "Behandlingstid": {
-        "Description": {
-            "normal": "<norsk>{navKontor}</norsk> will process your case as soon as possible.",
-            "forlenget": "<norsk>{navKontor}</norsk> has found that they cannot process your application within a reasonable time, and has sent you a letter. <lenke>Open the letter about processing time</lenke> to see when you can expect a response to your application.",
-            "forlengetUtenBrev": "<norsk>{navKontor}</norsk> has found that they cannot process your application within a reasonable time, and has sent you a letter. Read the letter about processing time to see when you can expect a response to your application."
-        },
-        "ReadMore": {
-            "melde": {
-                "tittel": "Remember to report changes",
-                "beskrivelse": "Some situations may affect the payments you receive from Nav. This includes changes in your marital status, family situation or income. <lenke>Read more about which situations may affect your payment.</lenke>",
-                "beskrivelse2": "To report changes, you can submit a text document in the \"Submit additional documentation\" field below, or contact your caseworker or your Nav office. <tel>You can also call our advisors at 55 55 33 33.</tel>"
-            },
-            "saksbehandlingstid": {
-                "tittel": "Processing time",
-                "beskrivelse1": "Processing times vary at different Nav offices, and we can therefore not provide an exact estimate. If more than 31 days have passed since you applied, you should receive a letter stating that the processing time has been extended.",
-                "beskrivelse2": "What can I do to get an answer faster?",
-                "beskrivelse3": "Submit the documentation requested by your Nav office. If you submit a screenshot or image file, make sure the text in the image is legible."
-            }
-        }
+    "ForlengetBehandlingstid": {
+        "medBrev": "<norsk>{navKontor}</norsk> has found that they cannot process your application within a reasonable time, and has sent you a letter. <lenke>Open the letter about processing time</lenke> to see when you can expect a response to your application.",
+        "utenBrev": "<norsk>{navKontor}</norsk> has found that they cannot process your application within a reasonable time, and has sent you a letter. Read the letter about processing time to see when you can expect a response to your application."
     },
     "SoknadInfoCard": {
         "defaultNavKontor": "Your NAV office",
-        "sendt": {
-            "title": "Your application has been sent"
+        "status": {
+            "mottatt": {
+                "title": "Your application has been received"
+            },
+            "under_behandling": {
+                "title": "Your application is being processed"
+            },
+            "sendt": {
+                "title": "Your application has been sent!"
+            },
+            "description": "<norsk>{navKontor}</norsk> will process your application as soon as they can.",
+            "descriptionUtenNavKontor": "Your Nav office will process your application as soon as they can."
         },
         "forelopigSvar": {
             "title": "Extended processing time"
-        },
-        "mottatt": {
-            "title": "Processing time"
         },
         "oppgave": "<bold>{name}</bold> (due {frist, date, ::ddMMyyyy})",
         "oppgaver": {
