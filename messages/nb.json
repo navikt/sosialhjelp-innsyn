@@ -86,7 +86,7 @@
         "oppgaver": {
             "title": "Du har fått oppgaver",
             "description": "<norsk>{navKontor}</norsk> trenger flere opplysninger:",
-            "warning": "Husk å sende inn opplysningene innen fristen. Har du levert opplysningene direkte til Nav-kontoret ditt kan du se bort ifra denne meldingen."
+            "warning": "Husk å sende inn opplysningene innen fristen. Hvis du har levert opplysningene direkte til Nav-kontoret ditt, kan du se bort fra denne meldingen."
         },
         "vilkar": {
             "title": "Du har fått vilkår",

@@ -73,7 +73,7 @@
         "oppgaver": {
             "title": "Du har fått oppgåver",
             "description": "<norsk>{navKontor}</norsk> treng fleire opplysningar:",
-            "warning": "Hugs å sende inn opplysningane innan fristen. Har du levert opplysningane direkte til Nav-kontoret ditt kan du sjå bort frå denne meldinga."
+            "warning": "Hugs å sende inn opplysningane innan fristen. Om du har levert opplysningane direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
         },
         "vilkar": {
             "title": "Du har fått vilkår",
