@@ -12,7 +12,6 @@ import * as R from "remeda";
 import { JSX } from "react";
 import { VStack } from "@navikt/ds-react";
 import { DokumentasjonkravDto, VilkarResponse } from "@generated/model";
-import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
 
 interface Props {
     navKontor?: string;
@@ -114,9 +113,6 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
                 key="soknadsOppgaver"
                 state={{
                     type: "soknadsOppgaver",
-                    oppgaver: soknadsOppgaver.map((oppgave) => ({
-                        name: getVisningstekster(oppgave.dokumenttype, oppgave.tilleggsinformasjon).typeTekst,
-                    })),
                 }}
             />
         );
@@ -153,7 +149,7 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
     if (cards.length === 1) {
         return cards[0];
     }
-    return <VStack gap="space-8">{cards}</VStack>;
+    return <VStack gap={{ md: "space-16", xs: "space-8" }}>{cards}</VStack>;
 };
 
 export default SoknadInfoCards;
