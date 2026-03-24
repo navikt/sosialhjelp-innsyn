@@ -23,11 +23,12 @@ const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validat
     const ref = useRef<HTMLDialogElement>(null);
     const t = useTranslations("FileUploadItem");
     const { mutate, isPending } = useMutation({
-        mutationFn: () => Upload.terminate(`${browserEnv.NEXT_PUBLIC_TUSD_URL}/${uploadId}`),
+        mutationFn: () => Upload.terminate(`${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/tus/files/${uploadId}`, {}),
         retry: false,
     });
+    const isConverted = !!convertedFilename && convertedFilename !== originalFilename;
     // Filen er ikke ferdigbehandlet på backend enda
-    if (!url) {
+    if (!url && !validations) {
         return (
             <HStack as="li" justify="space-between" className={cx("border rounded-2xl p-6")}>
                 <VStack justify="center">
@@ -45,18 +46,24 @@ const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validat
                 as="li"
                 justify="space-between"
                 className={cx("border rounded-2xl p-6", {
-                    "border-ax-border-warning-subtle": convertedFilename,
+                    "border-ax-border-warning-subtle": isConverted,
                     "border-ax-border-danger": validations?.length,
                 })}
             >
                 <VStack justify="center">
                     <HStack gap="space-16" align="center" wrap={false}>
                         <FilePdfIcon height="32px" width="32px" />
-                        <Link onClick={() => ref.current?.showModal()} className="overflow-ellipsis">
-                            {originalFilename}
-                        </Link>
+                        {url ? (
+                            <Link onClick={() => ref.current?.showModal()} className="overflow-ellipsis">
+                                {originalFilename}
+                            </Link>
+                        ) : (
+                            <BodyShort weight="semibold" className="overflow-ellipsis">
+                                {originalFilename}
+                            </BodyShort>
+                        )}
                     </HStack>
-                    {convertedFilename && (
+                    {isConverted && (
                         <HStack align="center" gap="space-8" className="text-ax-text-warning-subtle">
                             <ExclamationmarkTriangleFillIcon aria-hidden />
                             <BodyShort>{t("seOver")}</BodyShort>
@@ -65,7 +72,7 @@ const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validat
                     {validations?.length && (
                         <List>
                             {validations.map((val) => (
-                                <List.Item key={val} className="text-ax-text-warning-subtle">
+                                <List.Item key={val} className="text-ax-text-danger-subtle">
                                     {t(`validation.${val}`)}
                                 </List.Item>
                             ))}
@@ -87,7 +94,7 @@ const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validat
                     onClose={() => ref.current?.close()}
                     filename={originalFilename}
                     url={url}
-                    isPdf={!!convertedFilename || originalFilename.endsWith(".pdf")}
+                    isPdf={isConverted || originalFilename.endsWith(".pdf")}
                 />
             )}
         </>

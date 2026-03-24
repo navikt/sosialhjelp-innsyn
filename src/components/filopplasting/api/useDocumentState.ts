@@ -4,10 +4,12 @@ import { eventstreamUrl, openEventChannel } from "@components/filopplasting/api/
 
 export type UploadState = {
     originalFilename: string;
-    convertedFilename?: string;
+    finalFilename?: string;
     id: string;
+    // Finished upload mellomlager-id
+    filId?: string;
     validations?: ValidationCode[];
-    signedUrl?: string;
+    url?: string;
 };
 
 export enum ValidationCode {

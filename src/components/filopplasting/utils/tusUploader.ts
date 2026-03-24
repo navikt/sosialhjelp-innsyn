@@ -14,7 +14,7 @@ export const getTusUploader = ({
     file: FileObject;
 } & Pick<UploadOptions, "onUploadUrlAvailable" | "onProgress" | "onSuccess">): Upload => {
     const uploadOptions = (file: File): UploadOptions => ({
-        endpoint: browserEnv.NEXT_PUBLIC_TUSD_URL,
+        endpoint: `${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/tus/files`,
         retryDelays: [0, 1000, 3000, 5000],
         metadata: {
             filename: file.name,

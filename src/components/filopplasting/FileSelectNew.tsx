@@ -9,6 +9,7 @@ import { DocumentState } from "@components/filopplasting/api/useDocumentState";
 
 import FileUploadItem from "./FileUploadItem";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
+import { browserEnv } from "@config/env";
 
 interface Props {
     id?: string;
@@ -25,8 +26,8 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
     const t = useTranslations("Opplastingsboks");
 
     // Starter opplasting umiddelbart ved filvalg
-    const onSelect = (_files: FileObject[]) => {
-        const uploads = _files.map((file: FileObject) =>
+    const onSelect = (files: FileObject[]) => {
+        const uploads = files.map((file: FileObject) =>
             getTusUploader({
                 id: uploadId,
                 onProgress: (bytesSent, bytesTotal) => {
@@ -38,11 +39,12 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
         );
         uploads.forEach((upload) => upload.start());
     };
-    const converted = docState.uploads?.some((upload) => upload.convertedFilename);
+    const converted = docState.uploads?.some(
+        (upload) => !!upload.finalFilename && upload.finalFilename !== upload.originalFilename
+    );
     return (
         <FileUpload
             id={id}
-            className="mb-4"
             translations={{
                 dropzone: {
                     buttonMultiple: t("button"),
@@ -76,7 +78,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                 {!!docState.uploads?.length && (
                     <VStack gap="space-8">
                         <Heading size="xsmall" level="3">
-                            {filesLabel ?? t("Opplastingsboks.valgteFiler", { antall_filer: docState.uploads.length })}
+                            {filesLabel ?? t("valgteFiler", { antall_filer: docState.uploads.length })}
                         </Heading>
                         {converted && (
                             <Alert variant="warning">
@@ -92,9 +94,13 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                             {docState.uploads?.map((upload) => (
                                 <FileUploadItem
                                     key={upload.originalFilename}
-                                    url={upload.signedUrl}
+                                    url={
+                                        upload.url
+                                            ? `${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`
+                                            : undefined
+                                    }
                                     uploadId={upload.id}
-                                    convertedFilename={upload.convertedFilename}
+                                    convertedFilename={upload.finalFilename}
                                     originalFilename={upload.originalFilename}
                                     validations={upload.validations}
                                 />

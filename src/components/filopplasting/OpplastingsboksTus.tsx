@@ -75,16 +75,16 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
     }
 
     return (
-        <>
+        <VStack gap="space-8">
             <FileSelectNew label={label} description={description} tag={tag} docState={docState} uploadId={id} />
             {!!docState.uploads?.length && (
                 <Button
                     onClick={() => upload(docState.documentId!)}
                     loading={isPending}
-                    className="self-start mt-4"
+                    className="self-start"
                     disabled={
                         isPending ||
-                        docState.uploads?.some((upload) => (upload.validations?.length ?? 0) > 0 || !upload.signedUrl)
+                        docState.uploads?.some((upload) => (upload.validations?.length ?? 0) > 0 || !upload.filId)
                     }
                 >
                     {t("sendInn")}
@@ -100,7 +100,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
                     {t("error")}
                 </Alert>
             )}
-        </>
+        </VStack>
     );
 };
 

@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Document, DocumentProps, Page, PageProps, pdfjs } from "react-pdf";
 import { Box } from "@navikt/ds-react";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 interface Props {
     pageNumber: number;
