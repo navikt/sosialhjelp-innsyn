@@ -2,7 +2,6 @@ import { Bleed, Heading, Show, Stack, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { Metadata } from "next";
 import OkonomiskSosialhjelpIcon from "@components/ikoner/OkonomiskSosialhjelp";
-import Footer from "@components/footer/Footer";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import Snarveier from "@components/snarveier/Snarveier";
 
@@ -37,7 +36,6 @@ const Page = async () => {
                 <Snarveier>
                     <LandingssideSnarveier />
                 </Snarveier>
-                <Footer />
             </VStack>
         </>
     );
