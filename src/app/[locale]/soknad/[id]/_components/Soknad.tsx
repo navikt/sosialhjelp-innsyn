@@ -5,7 +5,6 @@ import { getTranslations } from "next-intl/server";
 import { prefetchHentVedleggQuery } from "@generated/ssr/vedlegg-controller/vedlegg-controller";
 import { getQueryClient } from "@api/queryClient";
 import { prefetchHentSaksStatuserQuery } from "@generated/ssr/saks-status-controller/saks-status-controller";
-import { hentForelopigSvarStatus } from "@generated/ssr/forelopig-svar-controller/forelopig-svar-controller";
 import {
     hentSoknadsStatus,
     prefetchHentOriginalSoknadQuery,
@@ -23,13 +22,14 @@ import Filopplasting, { FilopplastingSkeleton } from "./dokumenter/Filopplasting
 import Oppgaver, { OppgaverSkeleton } from "./oppgaver/Oppgaver";
 import VilkarListe from "./vilkar/VilkarListe";
 import Saker from "./saker/Saker";
-import ForelopigSvar from "./forelopigsvar/ForelopigSvar";
+import BrevFraNav, { BrevFraNavSkeleton } from "./brevfranav/BrevFraNav";
 import Snarveier from "@components/snarveier/Snarveier";
 import SoknadSnarveier from "./snarveier/SoknadSnarveier";
 import TagsAdapter from "./tags/TagsAdapter";
 import { prefetchGetSaksDetaljerQuery } from "@generated/ssr/saks-oversikt-controller/saks-oversikt-controller";
 import { TagsSkeleton } from "@components/tags/Tags";
 import SoknadInfoCards from "./info/SoknadInfoCards";
+import { prefetchHentBrevQuery } from "@generated/ssr/brev-controller/brev-controller";
 
 interface Props {
     id: string;
@@ -43,10 +43,10 @@ export const Soknad = async ({ id }: Props) => {
     const klageQueryClient = getQueryClient();
     const saksdetaljerQueryClient = getQueryClient();
     const sakerQueryClient = getQueryClient();
+    const brevQueryClient = getQueryClient();
 
     const { status, navKontor, tittel } = await hentSoknadsStatus(id);
     const mottattOrSendt = ["SENDT", "MOTTATT"].includes(status);
-    const ferdigbehandlet = status === "FERDIGBEHANDLET";
 
     // Fetch feature flag flyttet ut av FIlopplasting komponenten
     const toggle = getFlag("sosialhjelp.innsyn.ny_upload", await getToggles());
@@ -61,7 +61,7 @@ export const Soknad = async ({ id }: Props) => {
     prefetchHentKlagerQuery(klageQueryClient, id, { query: { enabled: !mottattOrSendt } });
     prefetchHentSaksStatuserQuery(sakerQueryClient, id);
     prefetchGetSaksDetaljerQuery(saksdetaljerQueryClient, id);
-    const forelopigSvarPromise = !ferdigbehandlet && hentForelopigSvarStatus(id);
+    prefetchHentBrevQuery(brevQueryClient, id);
     const klagerPromise = !mottattOrSendt && hentKlager(id);
 
     return (
@@ -111,11 +111,11 @@ export const Soknad = async ({ id }: Props) => {
                     </HydrationBoundary>
                 </HydrationBoundary>
             </Suspense>
-            {forelopigSvarPromise && (
-                <Suspense fallback={null}>
-                    <ForelopigSvar forelopigSvarPromise={forelopigSvarPromise} />
-                </Suspense>
-            )}
+            <Suspense fallback={<BrevFraNavSkeleton soknadStatus={status} />}>
+                <HydrationBoundary state={dehydrate(brevQueryClient)}>
+                    <BrevFraNav />
+                </HydrationBoundary>
+            </Suspense>
             <Oversikt id={id} />
             <Snarveier hideSokButton={true}>
                 <SoknadSnarveier />

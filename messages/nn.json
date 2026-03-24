@@ -25,9 +25,12 @@
         "tittel": "Søknadene mine om økonomisk sosialhjelp",
         "htmlTitle": "Søknadene mine om økonomisk sosialhjelp"
     },
-    "ForelopigSvar": {
+    "BrevFraNav": {
         "tittel": "Brev frå Nav",
-        "lastNed": "Last ned brev om saksbehandlingstid"
+        "mottatt": "Motteken {dato, date, ::ddMMyyyy}",
+        "Vedtaksbrev": "Vedtaksbrev",
+        "saksbehandlingstid": "Brev om saksbehandlingstid",
+        "etterspurtDokumentasjon": "Brev om etterspurd dokumentasjon"
     },
     "VilkarListe": {
         "tittel": "Vilkår",
@@ -70,7 +73,7 @@
             "title": "Du har fått vilkår",
             "titleEmpty": "Du kan ha fått vilkår",
             "descriptionEmpty": "Som ein del av oppfølginga di frå Nav kan du ha fått vilkår. Vilkår er aktivitetar eller dokumentasjonskrav du må oppfylle. <lenke>Les vedtaksbrevet ditt</lenke> for å sjå om du har fått vilkår.",
-            "description": "Som ein del av oppfølginga di frå Nav har du fått aktivitetar eller dokumentasjonskrav du må oppfylle:",
+            "description": "Som ein del av oppfølginga di frå Nav har du fått vilkår (aktivitetar) du må oppfylle:",
             "vilkar": "<bold>{name}</bold> ({frist, date, ::ddMMyyyy})",
             "kanHaFlere": "Du kan ha fått fleire vilkår enn dei som visast her. <lenke>Les vedtaksbrevet ditt</lenke> for å sjå om du har fått fleire vilkår."
         },
@@ -165,12 +168,10 @@
             "beskrivelse": "Sjå dine utbetalingar"
         },
         "DokumentasjonskravEvent": {
-            "tittel": "Du har fått eitt krav om dokumentasjon",
-            "seBrevet": "Last ned brevet her"
+            "tittel": "Du har fått eitt krav om dokumentasjon"
         },
         "SendtEvent": {
-            "tittel": "Søknaden er send til <norsk>{navKontor}</norsk>",
-            "visSoknaden": "Vis søknaden (blir opna i ny fane)"
+            "tittel": "Søknaden er send til <norsk>{navKontor}</norsk>"
         },
         "MottattEvent": {
             "tittel": "Søknaden er motteken <norsk>{navKontor}</norsk>"
@@ -195,22 +196,19 @@
             "beskrivelse": "Søknaden din vert behandla, men vi kan ikkje vise status på søknaden på nav.no."
         },
         "FerdigBehandletEvent": {
-            "tittel": "Søknaden din er ferdig behandla",
-            "visVedtaket": "Vis vedtaket (blir opna i ny fane)"
+            "tittel": "Søknaden din er ferdig behandla"
         },
         "ForelopigSvarEvent": {
             "tittel": "<norsk>{navKontor}</norsk> har sendt deg eit brev om saksbehandlingstida for søknaden din"
         },
         "EtterspurtDokumentasjonEvent": {
-            "tittel": "<norsk>{navKontor}</norsk> treng fleire opplysningar i saka di",
-            "visBrevet": "Vis brevet (blir opna i ei ny fane)"
+            "tittel": "<norsk>{navKontor}</norsk> treng fleire opplysningar i saka di"
         },
         "EtterspurtDokumentasjonLevertEvent": {
             "tittel": "Du sende inn dokumentasjon"
         },
         "VedtakFattetEvent": {
             "tittel": "Du har fått eit{nytt, select, true { nytt} other {}} vedtak",
-            "visVedtaket": "Vis vedtaket (blir opna i ei ny fane)",
             "withSakstittel": {
                 "tittel": "<norsk>{sakstittel}</norsk> er ferdig behandla"
             }

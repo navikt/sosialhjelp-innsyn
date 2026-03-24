@@ -1,9 +1,9 @@
 "use client";
 
 import { BodyLong, BodyShort, Link } from "@navikt/ds-react";
+import { Link as NextLink } from "@i18n/navigation";
 import { useTranslations } from "next-intl";
 import React from "react";
-import { ExternalLinkIcon } from "@navikt/aksel-icons";
 
 interface Props {
     navKontor: string;
@@ -35,9 +35,8 @@ const ForlengetBehandlingstid = ({ navKontor, forelopigSvarUrl }: Props) => {
                     </BodyShort>
                 ),
                 lenke: (chunks) => (
-                    <Link inlineText href={forelopigSvarUrl} target="_blank" rel="noopener noreferrer">
+                    <Link as={NextLink} inlineText href={"#forlenget-saksbehandlingstid"}>
                         {chunks}
-                        <ExternalLinkIcon aria-hidden />
                     </Link>
                 ),
                 navKontor: navKontor,

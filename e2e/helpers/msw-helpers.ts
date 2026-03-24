@@ -2,6 +2,7 @@ import { APIRequestContext } from "@playwright/test";
 import * as R from "remeda";
 import { max, formatISO } from "date-fns";
 import {
+    Brev,
     type DokumentasjonkravDto,
     HendelseDto,
     KlageDto,
@@ -110,6 +111,7 @@ export async function mockSoknadEndpoints(
         hendelser?: HendelseDto[];
         detaljer?: Partial<SaksDetaljerResponse>;
         vedleggForOppgave?: Record<string, OppgaveVedleggFil[]>;
+        brev?: Brev[];
     }
 ) {
     const defaultSoknadsStatus: SoknadsStatusResponse = {
@@ -174,6 +176,7 @@ export async function mockSoknadEndpoints(
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/saksStatus`, overrides?.saksStatus ?? []);
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/klager`, overrides?.klager ?? []);
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/hendelser/beta`, overrides?.hendelser ?? []);
+    await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/brev`, overrides?.brev ?? []);
     await msw.mockDetaljer(soknadId, overrides?.detaljer ?? defaultDetaljer);
     overrides?.oppgaver?.forEach((oppgave) => {
         if (oppgave.hendelsereferanse) {

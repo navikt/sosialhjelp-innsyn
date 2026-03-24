@@ -38,9 +38,12 @@
         "tittel": "Mine søknader om økonomisk sosialhjelp",
         "htmlTitle": "Mine søknader om økonomisk sosialhjelp"
     },
-    "ForelopigSvar": {
+    "BrevFraNav": {
         "tittel": "Brev fra Nav",
-        "lastNed": "Last ned brev om saksbehandlingstid"
+        "mottatt": "Mottatt {dato, date, ::ddMMyyyy}",
+        "VEDTAK": "Vedtaksbrev",
+        "FORELOPIG_SVAR": "Brev om saksbehandlingstid",
+        "DOKUMENTASJON_ETTERSPURT": "Brev om etterspurt dokumentasjon"
     },
     "VilkarListe": {
         "tittel": "Vilkår",
@@ -52,7 +55,7 @@
         }
     },
     "ForlengetBehandlingstid": {
-        "medBrev": "<norsk>{navKontor}</norsk> ser at de ikke klarer å behandle søknaden din innen rimelig tid, og har sendt deg et brev. <lenke>Åpne brevet om saksbehandlingstid</lenke> for å se når du kan forvente svar på søknaden din.",
+        "medBrev": "<norsk>{navKontor}</norsk> ser at de ikke klarer å behandle søknaden din innen rimelig tid, og har sendt deg et brev. <lenke>Les brevet om saksbehandlingstid</lenke> for å se når du kan forvente svar på søknaden din.",
         "utenBrev": "<norsk>{navKontor}</norsk> ser at de ikke klarer å behandle søknaden din innen rimelig tid, og har sendt deg et brev. Les brevet om saksbehandlingstid for å se når du kan forvente svar på søknaden din."
     },
     "SoknadInfoCard": {
@@ -83,7 +86,7 @@
             "title": "Du har fått vilkår",
             "titleEmpty": "Du kan ha fått vilkår",
             "descriptionEmpty": "Som en del av oppfølgingen din fra Nav kan du ha fått vilkår. Vilkår er aktiviteter eller dokumentasjonskrav du må oppfylle. <lenke>Les vedtaksbrevet ditt</lenke> for å se om du har fått vilkår.",
-            "description": "Som en del av oppfølgingen din fra Nav har du fått aktiviteter eller dokumentasjonskrav du må oppfylle:",
+            "description": "Som en del av oppfølgingen din fra Nav har du fått vilkår (aktiviteter) du må oppfylle:",
             "vilkar": "<bold>{name}</bold> ({frist, date, ::ddMMyyyy})",
             "kanHaFlere": "Du kan ha fått flere vilkår enn de som vises her. <lenke>Les vedtaksbrevet ditt</lenke> for å se om du har fått flere vilkår."
         },
@@ -178,12 +181,10 @@
             "beskrivelse": "Se dine utbetalinger"
         },
         "DokumentasjonskravEvent": {
-            "tittel": "Du har fått et dokumentasjonskrav",
-            "seBrevet": "Last ned brevet her"
+            "tittel": "Du har fått et dokumentasjonskrav"
         },
         "SendtEvent": {
-            "tittel": "Søknaden din er sendt til <norsk>{navKontor}</norsk>",
-            "visSoknaden": "Vis søknaden (åpnes i ny fane)"
+            "tittel": "Søknaden din er sendt til <norsk>{navKontor}</norsk>"
         },
         "MottattEvent": {
             "tittel": "Søknaden din er mottatt hos <norsk>{navKontor}</norsk>"
@@ -214,15 +215,13 @@
             "tittel": "<norsk>{navKontor}</norsk> har sendt deg et brev om saksbehandlingstiden for søknaden din"
         },
         "EtterspurtDokumentasjonEvent": {
-            "tittel": "<norsk>{navKontor}</norsk> trenger flere opplysninger i saken din",
-            "visBrevet": "Vis brevet (åpnes i ny fane)"
+            "tittel": "<norsk>{navKontor}</norsk> trenger flere opplysninger i saken din"
         },
         "EtterspurtDokumentasjonLevertEvent": {
             "tittel": "Du sendte inn dokumentasjon"
         },
         "VedtakFattetEvent": {
             "tittel": "Du har fått et{nytt, select, true { nytt} other {}} vedtak",
-            "visVedtaket": "Vis vedtaket (åpnes i ny fane)",
             "withSakstittel": {
                 "tittel": "<norsk>{sakstittel}</norsk> er ferdig behandlet"
             }
