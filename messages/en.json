@@ -147,6 +147,10 @@
         "frist": "Due: {frist, date, ::ddMMyyyy}",
         "completed": "Submitted"
     },
+    "SoknadsoppgaverReadMore": {
+        "title": "What is meant by missing documentation?",
+        "description": "Here you can see which documentation you did not submit with your application. We recommend that you submit the documentation as soon as possible. If you have delivered it directly to your Nav office, you can disregard this message."
+    },
     "Oppgaver": {
         "tittel": "Tasks",
         "missingInformationTitle": "We are missing some information for your application",

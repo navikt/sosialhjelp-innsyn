@@ -147,6 +147,10 @@
         "frist": "Frist: {frist, date, ::ddMMyyyy}",
         "completed": "Sendt inn"
     },
+    "SoknadsoppgaverReadMore": {
+        "title": "Kva meiner vi med manglande dokumentasjon?",
+        "description": "Her ser du kva dokumentasjon du ikkje sende inn saman med søknaden. Vi tilrår at du sender inn dokumentasjonen så fort som mogleg. Har du levert det direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
+    },
     "Oppgaver": {
         "tittel": "Oppgåver",
         "missingInformationTitle": "Vi manglar nokre opplysningar til søknaden din",

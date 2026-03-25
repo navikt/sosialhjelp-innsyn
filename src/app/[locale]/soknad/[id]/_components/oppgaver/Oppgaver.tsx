@@ -19,6 +19,7 @@ import ExpandableList from "@components/showmore/ExpandableList";
 import { TasklistIcon } from "@navikt/aksel-icons";
 import useIkkeInnsyn from "@hooks/useIkkeInnsyn";
 import { useGetSaksDetaljerSuspense } from "@generated/saks-oversikt-controller/saks-oversikt-controller";
+import SoknadsoppgaverReadMore from "./soknadsoppgaver/SoknadsoppgaverReadMore";
 
 const withWarningColor = (text: string | undefined) => <span className="text-ax-text-warning">{text}</span>;
 
@@ -61,7 +62,8 @@ const Oppgaver = () => {
                 )}
                 {isFetching && <Loader />}
             </HStack>
-            {hasUncompletedOppgaver && <TipsReadMore />}
+            {isAllOppgaverFromSoknad && <SoknadsoppgaverReadMore />}
+            {!isAllOppgaverFromSoknad && hasUncompletedOppgaver && <TipsReadMore />}
             <NavigationGuardProvider>
                 <ExpandableList
                     items={oppgaver}
