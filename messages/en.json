@@ -25,9 +25,12 @@
         "tittel": "My applications for financial assistance",
         "htmlTitle": "My applications for financial assistance"
     },
-    "ForelopigSvar": {
+    "BrevFraNav": {
         "tittel": "Letter from Nav",
-        "lastNed": "Download letter regarding processing time"
+        "mottatt": "Received {dato, date, ::ddMMyyyy}",
+        "Vedtaksbrev": "Notice of decision",
+        "saksbehandlingstid": "Letter regarding processing time",
+        "etterspurtDokumentasjon": "Letter regarding requested documentation"
     },
     "VilkarListe": {
         "tittel": "Conditions",
@@ -70,11 +73,11 @@
             "title": "You have received conditions",
             "titleEmpty": "You may have received conditions",
             "descriptionEmpty": "As part of your follow-up from Nav, you may have received conditions. Conditions are activities or documentation requirements you must fulfil. <lenke>Read your decision letter</lenke> to see if you have received conditions.",
-            "description": "As part of your follow-up from Nav, you have received activities or documentation requirements you must fulfil:",
+            "description": "As part of your follow-up from Nav, you have been given conditions (activities) that you must fulfill:",
             "vilkar": "<bold>{name}</bold> ({frist, date, ::ddMMyyyy})",
             "kanHaFlere": "You may have received more conditions than those shown here. <lenke>Read your decision letter</lenke> to see if you have received more conditions."
         },
-        "FsoknadsOppgaver": {
+        "soknadsOppgaver": {
             "title": "Remember to complete your application",
             "description": "Here you can see which information you did not submit with your application. We recommend that you submit this information as soon as possible.",
             "disregardInfo": "If you have delivered the information directly to your local Nav office, you can disregard this message."
@@ -165,12 +168,10 @@
             "beskrivelse": "See your payments"
         },
         "DokumentasjonskravEvent": {
-            "tittel": "You have received a documentation requirement",
-            "seBrevet": "Download the letter here"
+            "tittel": "You have received a documentation requirement"
         },
         "SendtEvent": {
-            "tittel": "The application has been sent to <norsk>{navKontor}</norsk>",
-            "visSoknaden": "View application (opens in a new tab)"
+            "tittel": "The application has been sent to <norsk>{navKontor}</norsk>"
         },
         "MottattEvent": {
             "tittel": "The application has been received at <norsk>{navKontor}</norsk>"
@@ -195,22 +196,19 @@
             "beskrivelse": "Your application is being processed, but we cannot show the status of the application on nav.no."
         },
         "FerdigBehandletEvent": {
-            "tittel": "Your application has been processed.",
-            "visVedtaket": "View the decision (opens in new tab)"
+            "tittel": "Your application has been processed."
         },
         "ForelopigSvarEvent": {
             "tittel": "<norsk>{navKontor}</norsk> has sent you a letter about the processing time for your application"
         },
         "EtterspurtDokumentasjonEvent": {
-            "tittel": "<norsk>{navKontor}</norsk> needs more information on your case",
-            "visBrevet": "View the letter (opens in new tab)"
+            "tittel": "<norsk>{navKontor}</norsk> needs more information on your case"
         },
         "EtterspurtDokumentasjonLevertEvent": {
             "tittel": "You submitted documentation"
         },
         "VedtakFattetEvent": {
             "tittel": "You have received a{nytt, select, true { new} other {}} decision",
-            "visVedtaket": "View the decision (opens in new tab)",
             "withSakstittel": {
                 "tittel": "<norsk>{sakstittel}</norsk> is processed"
             }

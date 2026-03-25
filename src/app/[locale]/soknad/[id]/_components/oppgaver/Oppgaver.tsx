@@ -42,6 +42,10 @@ const Oppgaver = () => {
 
     const isAllOppgaverFromSoknad = oppgaver.every((oppgave) => oppgave.erFraInnsyn === false);
 
+    if (isAllOppgaverFromSoknad && !hasUncompletedOppgaver) {
+        return null;
+    }
+
     return (
         <VStack gap="space-8" as="section" aria-labelledby="oppgaver-tittel">
             <HStack align="center" gap="space-8">

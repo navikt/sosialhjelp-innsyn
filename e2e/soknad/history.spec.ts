@@ -58,7 +58,6 @@ test.describe("History", () => {
 
         const sendtEvent = page.getByRole("listitem").filter({ hasText: /Søknaden din er sendt til NAV Sagene/ });
         await expect(sendtEvent).toBeVisible();
-        await expect(sendtEvent.getByRole("link", { name: "Vis søknaden (åpnes i ny fane)" })).toBeVisible();
 
         await expect(
             page.getByRole("listitem").filter({ hasText: /Søknaden din er mottatt hos NAV Sagene/ })
@@ -79,7 +78,6 @@ test.describe("History", () => {
         // Single vedtak: no "nytt" label
         const vedtakEvent = page.getByRole("listitem").filter({ hasText: /Du har fått et vedtak/ });
         await expect(vedtakEvent).toBeVisible();
-        await expect(vedtakEvent.getByRole("link", { name: "Vis vedtaket (åpnes i ny fane)" })).toBeVisible();
         await expect(page.getByRole("listitem").filter({ hasText: /Du har fått et nytt vedtak/ })).not.toBeVisible();
     });
 
@@ -114,19 +112,16 @@ test.describe("History", () => {
             .getByRole("listitem")
             .filter({ hasText: /Du har fått et dokumentasjonskrav/ });
         await expect(dokumentasjonskravEvent).toBeVisible();
-        await expect(dokumentasjonskravEvent.getByRole("link", { name: "Last ned brevet her" })).toBeVisible();
 
         const etterspurtMedLink = page
             .getByRole("listitem")
             .filter({ hasText: /NAV Sagene trenger flere opplysninger/ });
         await expect(etterspurtMedLink).toBeVisible();
-        await expect(etterspurtMedLink.getByRole("link", { name: "Vis brevet (åpnes i ny fane)" })).toBeVisible();
 
         const etterspurtUtenLink = page
             .getByRole("listitem")
             .filter({ hasText: /NAV Grünerløkka trenger flere opplysninger/ });
         await expect(etterspurtUtenLink).toBeVisible();
-        await expect(etterspurtUtenLink.getByRole("link", { name: "Vis brevet (åpnes i ny fane)" })).not.toBeVisible();
 
         await expect(page.getByRole("listitem").filter({ hasText: /Du sendte inn dokumentasjon/ })).toBeVisible();
 

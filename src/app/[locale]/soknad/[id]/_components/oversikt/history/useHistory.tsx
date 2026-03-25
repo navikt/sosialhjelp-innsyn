@@ -93,7 +93,6 @@ const useHistory = (ref: RefObject<HTMLLIElement | null>, refIndex: number) => {
                             key={key}
                             ref={index === refIndex ? ref : undefined}
                             tidspunkt={new Date(hendelse.tidspunkt)}
-                            url={hendelse.link ?? ""}
                         />
                     );
                 case "Sendt":
@@ -103,7 +102,6 @@ const useHistory = (ref: RefObject<HTMLLIElement | null>, refIndex: number) => {
                             ref={index === refIndex ? ref : undefined}
                             tidspunkt={new Date(hendelse.tidspunkt)}
                             navKontor={hendelse.navKontor ?? ""}
-                            url={hendelse.url}
                         />
                     );
                 case "Mottatt":
@@ -146,7 +144,6 @@ const useHistory = (ref: RefObject<HTMLLIElement | null>, refIndex: number) => {
                         <VedtakFattetEvent
                             ref={index === refIndex ? ref : undefined}
                             key={key}
-                            url={hendelse.url}
                             tidspunkt={tidspunkt}
                             isNew={isNew}
                             sakstittel={hasMultipleCases ? hendelse.sakstittel : undefined}
@@ -167,7 +164,6 @@ const useHistory = (ref: RefObject<HTMLLIElement | null>, refIndex: number) => {
                             key={key}
                             ref={index === refIndex ? ref : undefined}
                             tidspunkt={new Date(hendelse.tidspunkt)}
-                            url={hendelse.link}
                             navKontor={hendelse.navKontor ?? "Nav-kontoret ditt"}
                         />
                     );

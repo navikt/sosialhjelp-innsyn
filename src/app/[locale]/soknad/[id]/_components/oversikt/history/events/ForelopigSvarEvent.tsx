@@ -10,6 +10,7 @@ interface Props {
 
 const ForelopigSvarEvent = ({ tidspunkt, navKontor }: Props, ref: Ref<HTMLLIElement>) => {
     const t = useTranslations("History.ForelopigSvarEvent");
+
     return (
         <Event
             ref={ref}

@@ -14,6 +14,7 @@ import {
 } from "./utbetalinger-utils";
 
 const utb = (overrides: Partial<UtbetalingDto> = {}): UtbetalingDto => ({
+    tilknyttedeSoknader: [],
     referanse: "ref",
     tittel: "tittel",
     belop: 1000,
