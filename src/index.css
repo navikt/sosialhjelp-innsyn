@@ -8,7 +8,7 @@
 @import "./components/ellaBlunk/EllaBlunk.css";
 @import "./App.css";
 
-@config '../tailwind.config.ts';
+@config '../tailwind.config.mts';
 
 [data-theme="sosialhjelp-innsyn"] {
     --ac-guide-panel-border: none;
