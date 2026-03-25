@@ -25,7 +25,6 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
     const { data: dokKrav } = useGetDokumentasjonkravBetaSuspense(id);
 
     const relevanteOppgaver = oppgaver.filter((oppgave) => !oppgave.erLastetOpp && oppgave.erFraInnsyn);
-    const soknadsOppgaver = oppgaver.filter((oppgave) => !oppgave.erLastetOpp && !oppgave.erFraInnsyn);
     const harSakMedFlereVedtak = saksdetaljer.saker?.some((s) => s.antallVedtak > 1) ?? false;
     const harFattVedtakMedPositivtUtfall = saksdetaljer.saker
         .map((sak) =>
@@ -105,17 +104,6 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
          * Da vet vi at fagsystemet støtte vilkår/dokkrav, og kan derfor regne med at nye vilkår/dokkrav vil vises i innsyn.
          */
         cards.push(<SoknadInfoCard key="kan-ha-vilkar" state={{ type: "kanHaVilkar" }} />);
-    }
-
-    if (soknadsOppgaver.length > 0) {
-        cards.push(
-            <SoknadInfoCard
-                key="soknadsOppgaver"
-                state={{
-                    type: "soknadsOppgaver",
-                }}
-            />
-        );
     }
 
     if (harSakMedFlereVedtak) {

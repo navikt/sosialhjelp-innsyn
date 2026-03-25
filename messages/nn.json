@@ -28,9 +28,9 @@
     "BrevFraNav": {
         "tittel": "Brev frå Nav",
         "mottatt": "Motteken {dato, date, ::ddMMyyyy}",
-        "Vedtaksbrev": "Vedtaksbrev",
-        "saksbehandlingstid": "Brev om saksbehandlingstid",
-        "etterspurtDokumentasjon": "Brev om etterspurd dokumentasjon"
+        "VEDTAK": "Vedtaksbrev",
+        "FORELOPIG_SVAR": "Brev om saksbehandlingstid",
+        "DOKUMENTASJON_ETTERSPURT": "Brev om etterspurd dokumentasjon"
     },
     "VilkarListe": {
         "tittel": "Vilkår",
@@ -76,11 +76,6 @@
             "description": "Som ein del av oppfølginga di frå Nav har du fått vilkår (aktivitetar) du må oppfylle:",
             "vilkar": "<bold>{name}</bold> ({frist, date, ::ddMMyyyy})",
             "kanHaFlere": "Du kan ha fått fleire vilkår enn dei som visast her. <lenke>Les vedtaksbrevet ditt</lenke> for å sjå om du har fått fleire vilkår."
-        },
-        "soknadsOppgaver": {
-            "title": "Hugs å fullføre søknaden",
-            "description": "Her ser du kva opplysningar du ikkje sende inn saman med søknaden. Vi tilrår at du sender inn desse opplysningane så snart som mogleg.",
-            "disregardInfo": "Har du levert opplysningane direkte til Nav-kontoret ditt, kan du sjå bort frå denne meldinga."
         },
         "nyttVedtak": {
             "title": "Du har fått eit nytt vedtak",

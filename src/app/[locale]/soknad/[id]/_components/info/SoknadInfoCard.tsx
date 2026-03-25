@@ -12,7 +12,6 @@ import VilkarReadMore from "../vilkar/readmore/VilkarReadMore";
 type AlertState =
     | { type: "status"; navKontor?: string; status: "under_behandling" | "mottatt" | "sendt" }
     | { type: "oppgaver"; oppgaver: { name: string; frist?: Date }[]; navKontor?: string }
-    | { type: "soknadsOppgaver" }
     | { type: "nyttVedtak" }
     | { type: "forelopigSvar"; navKontor?: string; forelopigSvarUrl?: string }
     | { type: "vilkar"; vilkar: { name: string; frist?: Date }[] }
@@ -132,15 +131,6 @@ const SoknadInfoCard = ({ state }: Props) => {
                             <OppgaveListe oppgaver={state.oppgaver} />
                         </VStack>
                         <BodyLong size="small">{t("oppgaver.warning")}</BodyLong>
-                    </VStack>
-                </Info>
-            );
-        case "soknadsOppgaver":
-            return (
-                <Info variant="reminder" title={t("soknadsOppgaver.title")} titleId="soknads-oppgaver-info-card-title">
-                    <VStack gap="space-16">
-                        <BodyLong>{t("soknadsOppgaver.description")}</BodyLong>
-                        <BodyLong size="small">{t("soknadsOppgaver.disregardInfo")}</BodyLong>
                     </VStack>
                 </Info>
             );

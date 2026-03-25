@@ -28,9 +28,9 @@
     "BrevFraNav": {
         "tittel": "Letter from Nav",
         "mottatt": "Received {dato, date, ::ddMMyyyy}",
-        "Vedtaksbrev": "Notice of decision",
-        "saksbehandlingstid": "Letter regarding processing time",
-        "etterspurtDokumentasjon": "Letter regarding requested documentation"
+        "VEDTAK": "Notice of decision",
+        "FORELOPIG_SVAR": "Letter regarding processing time",
+        "DOKUMENTASJON_ETTERSPURT": "Letter regarding requested documentation"
     },
     "VilkarListe": {
         "tittel": "Conditions",
@@ -76,11 +76,6 @@
             "description": "As part of your follow-up from Nav, you have been given conditions (activities) that you must fulfill:",
             "vilkar": "<bold>{name}</bold> ({frist, date, ::ddMMyyyy})",
             "kanHaFlere": "You may have received more conditions than those shown here. <lenke>Read your decision letter</lenke> to see if you have received more conditions."
-        },
-        "soknadsOppgaver": {
-            "title": "Remember to complete your application",
-            "description": "Here you can see which information you did not submit with your application. We recommend that you submit this information as soon as possible.",
-            "disregardInfo": "If you have delivered the information directly to your local Nav office, you can disregard this message."
         },
         "nyttVedtak": {
             "title": "You have received a new decision",

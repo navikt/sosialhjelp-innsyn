@@ -90,11 +90,6 @@
             "vilkar": "<bold>{name}</bold> ({frist, date, ::ddMMyyyy})",
             "kanHaFlere": "Du kan ha fått flere vilkår enn de som vises her. <lenke>Les vedtaksbrevet ditt</lenke> for å se om du har fått flere vilkår."
         },
-        "soknadsOppgaver": {
-            "title": "Husk å fullføre søknaden",
-            "description": "Her ser du hvilke opplysninger du ikke sendte inn sammen med søknaden. Vi anbefaler at du sender inn disse opplysningene så snart som mulig.",
-            "disregardInfo": "Har du levert opplysningene direkte til Nav-kontoret ditt, kan du se bort fra denne meldingen."
-        },
         "nyttVedtak": {
             "title": "Du har fått et nytt vedtak",
             "description": "Les det nyeste vedtaksbrevet for mer informasjon"
