@@ -164,15 +164,6 @@
         "title": "Hva menes med manglende dokumentasjon?",
         "description": "Her ser du hvilken dokumentasjon du ikke sendte inn sammen med søknaden. Vi anbefaler at du sender inn dokumentasjonen så fort som mulig. Har du levert det direkte til Nav-kontoret ditt, kan du se bort fra denne meldingen."
     },
-    "Oppgaver": {
-        "tittel": "Oppgaver",
-        "missingInformationTitle": "Vi mangler noen opplysninger til søknaden din",
-        "visFullforte": "Vis fullførte oppgaver",
-        "suffix": "oppgaver",
-        "lastetOpp": "Levert {dato, date, ::ddMMyyyy}",
-        "xAvYFullfort": "{fullfort, number}/{total, number} fullført",
-        "alleFullfort": "Fullført"
-    },
     "History": {
         "suffix": "steg",
         "UtbetalingerOppdatertEvent": {
@@ -928,5 +919,18 @@
         "beskrivelse": "Nav kan be deg om å levere dokumenter som opplyser saken din i forbindelse med søknaden. Det kan for eksempel være husleiekontrakt eller strømfaktura. Du kan levere dokumentene digitalt eller fysisk på Nav-kontoret.",
         "frist": "Frist: {frist, date, ::ddMMyyyy}",
         "løst": "Sendt inn"
+    },
+    "OppgaverSkeleton": {
+        "tittel": "Oppgaver"
+    },
+    "InnsynsoppgaverSection": {
+        "tittel": "Oppgaver",
+        "suffix": "oppgaver",
+        "xAvYFullfort": "{fullfort, number}/{total, number} fullført",
+        "alleFullfort": "Fullført"
+    },
+    "SoknadsoppgaverSection": {
+        "title": "Vi mangler noe dokumentasjon til søknaden din",
+        "suffix": "oppgaver"
     }
 }

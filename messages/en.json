@@ -151,15 +151,6 @@
         "title": "What is meant by missing documentation?",
         "description": "Here you can see which documentation you did not submit with your application. We recommend that you submit the documentation as soon as possible. If you have delivered it directly to your Nav office, you can disregard this message."
     },
-    "Oppgaver": {
-        "tittel": "Tasks",
-        "missingInformationTitle": "We are missing some information for your application",
-        "suffix": "tasks",
-        "visFullforte": "Show completed tasks",
-        "lastetOpp": "Submitted {dato, date, ::ddMMyyyy}",
-        "xAvYFullfort": "{fullfort, number}/{total, number} completed",
-        "alleFullfort": "Completed"
-    },
     "History": {
         "suffix": "steps",
         "UtbetalingerOppdatertEvent": {
@@ -927,5 +918,18 @@
         "beskrivelse": "Nav may ask you to submit documents that provide information about your case in connection with your application. This could be, for example, a rental contract or electricity bill. You can submit the documents digitally or physically at the Nav office.",
         "frist": "Due: {frist, date, ::ddMMyyyy}",
         "løst": "Submitted"
+    },
+    "OppgaverSkeleton": {
+        "tittel": "Tasks"
+    },
+    "InnsynsoppgaverSection": {
+        "tittel": "Tasks",
+        "suffix": "tasks",
+        "xAvYFullfort": "{fullfort, number}/{total, number} completed",
+        "alleFullfort": "Completed"
+    },
+    "SoknadsoppgaverSection": {
+        "title": "We are missing some documentation for your application.",
+        "suffix": "tasks"
     }
 }
