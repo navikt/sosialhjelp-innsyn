@@ -22,7 +22,7 @@ export enum ValidationCode {
 }
 
 export type DocumentState = {
-    documentId?: string;
+    submissionId?: string;
     error?: string;
     uploads?: UploadState[];
 };
@@ -34,8 +34,8 @@ export type DocumentStateUpdate = {
 
 const documentStateReducer = (state: DocumentState, { newState, type }: DocumentStateUpdate) => {
     if (type == "update") {
-        if (state.documentId && state.documentId !== newState.documentId) {
-            logger.error("documentId has changed");
+        if (state.submissionId && state.submissionId !== newState.submissionId) {
+            logger.error("submissionId has changed");
         }
 
         return { ...state, ...newState };

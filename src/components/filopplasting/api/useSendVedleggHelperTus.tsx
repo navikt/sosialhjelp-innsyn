@@ -27,13 +27,13 @@ const getQueryKeysForInvalidation = (fiksDigisosId: string, oppgaveId?: string):
     ].flat();
 
 const submitUpload = async ({
-    documentId,
+    submissionId,
     body,
 }: {
     body: { fiksDigisosId: string; metadata: Metadata };
-    documentId: string;
+    submissionId: string;
 }) =>
-    fetch(`${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/document/${documentId}/submit`, {
+    fetch(`${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/submission/${submissionId}/submit`, {
         method: "post",
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
@@ -94,8 +94,8 @@ const useSendVedleggHelper = (metadata: Metadata) => {
         reset();
     };
 
-    const upload = async (documentId: string) => {
-        mutate({ body: { metadata, fiksDigisosId }, documentId });
+    const upload = async (submissionId: string) => {
+        mutate({ body: { metadata, fiksDigisosId }, submissionId });
     };
 
     return {

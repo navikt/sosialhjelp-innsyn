@@ -79,7 +79,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
             <FileSelectNew label={label} description={description} tag={tag} docState={docState} uploadId={id} />
             {!!docState.uploads?.length && (
                 <Button
-                    onClick={() => upload(docState.documentId!)}
+                    onClick={() => upload(docState.submissionId!)}
                     loading={isPending}
                     className="self-start"
                     disabled={
