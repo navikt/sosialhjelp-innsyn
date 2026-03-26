@@ -1039,9 +1039,18 @@
                     "mottaker": { "type": "string" },
                     "annenMottaker": { "type": "boolean" },
                     "kontonummer": { "type": "string", "pattern": "^[0-9]{11}$" },
-                    "utbetalingsmetode": { "type": "string" }
+                    "utbetalingsmetode": { "type": "string" },
+                    "tilknyttedeSoknader": { "type": "array", "items": { "type": "string" } }
                 },
-                "required": ["annenMottaker", "belop", "fiksDigisosId", "referanse", "status", "tittel"]
+                "required": [
+                    "annenMottaker",
+                    "belop",
+                    "fiksDigisosId",
+                    "referanse",
+                    "status",
+                    "tilknyttedeSoknader",
+                    "tittel"
+                ]
             },
             "VedleggResponse": {
                 "type": "object",

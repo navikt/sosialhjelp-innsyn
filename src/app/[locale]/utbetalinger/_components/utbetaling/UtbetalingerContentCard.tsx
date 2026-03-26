@@ -4,7 +4,7 @@ import { useFormatter, useTranslations } from "next-intl";
 import { ArrowRightIcon } from "@navikt/aksel-icons";
 import cx from "classnames";
 import { Link as NextLink } from "@i18n/navigation";
-import { ManedUtbetaling } from "@generated/ssr/model";
+import { UtbetalingDto } from "@generated/model";
 import { useFlag } from "@featuretoggles/context";
 
 import styles from "../../../../../utbetalinger/utbetalinger.module.css";
@@ -12,7 +12,7 @@ import styles from "../../../../../utbetalinger/utbetalinger.module.css";
 import { Utbetalingsmetode } from "./Utbetalingsmetode";
 
 interface Props {
-    manedUtbetaling: ManedUtbetaling;
+    manedUtbetaling: UtbetalingDto;
     index: number;
     count: number;
 }
@@ -105,17 +105,39 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                             <Utbetalingsmetode utbetaling={manedUtbetaling} />
                         </BodyShort>
                     </VStack>
-                    <Link
-                        as={NextLink}
-                        href={
-                            toggle.enabled
-                                ? `/soknad/${manedUtbetaling.fiksDigisosId}`
-                                : `/${manedUtbetaling.fiksDigisosId}/status`
-                        }
-                    >
-                        <BodyShort>{t("lenke")}</BodyShort>
-                        <ArrowRightIcon fontSize="1.75rem" className="navds-link-anchor__arrow pointer-events-none" />
-                    </Link>
+                    {manedUtbetaling.tilknyttedeSoknader.length > 1 ? (
+                        <VStack gap="space-8">
+                            <BodyShort>{t("flereSoknader")}</BodyShort>
+                            {manedUtbetaling.tilknyttedeSoknader.map((soknadId) => (
+                                <Link
+                                    key={soknadId}
+                                    as={NextLink}
+                                    href={toggle.enabled ? `/soknad/${soknadId}` : `/${soknadId}/status`}
+                                >
+                                    <BodyShort>{t("lenkeSoknad")}</BodyShort>
+                                    <ArrowRightIcon
+                                        fontSize="1.75rem"
+                                        className="navds-link-anchor__arrow pointer-events-none"
+                                    />
+                                </Link>
+                            ))}
+                        </VStack>
+                    ) : (
+                        <Link
+                            as={NextLink}
+                            href={
+                                toggle.enabled
+                                    ? `/soknad/${manedUtbetaling.fiksDigisosId}`
+                                    : `/${manedUtbetaling.fiksDigisosId}/status`
+                            }
+                        >
+                            <BodyShort>{t("lenke")}</BodyShort>
+                            <ArrowRightIcon
+                                fontSize="1.75rem"
+                                className="navds-link-anchor__arrow pointer-events-none"
+                            />
+                        </Link>
+                    )}
                 </VStack>
             </ExpansionCard.Content>
         </ExpansionCard>

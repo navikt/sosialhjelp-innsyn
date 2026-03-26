@@ -27,6 +27,7 @@ const utb = (overrides: Partial<UtbetalingDto> = {}): UtbetalingDto => ({
     annenMottaker: false,
     kontonummer: "12345678901",
     utbetalingsmetode: "BANKKONTO",
+    tilknyttedeSoknader: ["id1"],
     ...overrides,
 });
 
