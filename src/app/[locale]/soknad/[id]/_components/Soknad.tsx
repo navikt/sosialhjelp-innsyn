@@ -9,7 +9,7 @@ import {
     hentSoknadsStatus,
     prefetchHentOriginalSoknadQuery,
 } from "@generated/ssr/soknads-status-controller/soknads-status-controller";
-import { hentKlager, prefetchHentKlagerQuery } from "@generated/ssr/klage-controller/klage-controller";
+import { prefetchHentKlagerQuery } from "@generated/ssr/klage-controller/klage-controller";
 import {
     prefetchGetDokumentasjonkravBetaQuery,
     prefetchGetOppgaverBetaQuery,
@@ -49,8 +49,10 @@ export const Soknad = async ({ id }: Props) => {
     const mottattOrSendt = ["SENDT", "MOTTATT"].includes(status);
 
     // Fetch feature flag flyttet ut av FIlopplasting komponenten
-    const toggle = getFlag("sosialhjelp.innsyn.ny_upload", await getToggles());
-    const newUploadEnabled = toggle?.enabled ?? false;
+    const toggles = await getToggles();
+    const nyUploadToggle = getFlag("sosialhjelp.innsyn.ny_upload", toggles);
+    const klageToggle = getFlag("sosialhjelp.innsyn.klage", toggles);
+    const newUploadEnabled = nyUploadToggle?.enabled ?? false;
 
     // Prefetcher her og putter det i HydrationBoundary slik at det er tilgjengelig i browseren
     prefetchHentVedleggQuery(vedleggQueryClient, id);
@@ -58,11 +60,12 @@ export const Soknad = async ({ id }: Props) => {
     prefetchGetOppgaverBetaQuery(oppgaverQueryClient, id);
     prefetchGetDokumentasjonkravBetaQuery(dokumentasjonkravQueryClient, id);
     prefetchGetVilkarQuery(dokumentasjonkravQueryClient, id);
-    prefetchHentKlagerQuery(klageQueryClient, id, { query: { enabled: !mottattOrSendt } });
     prefetchHentSaksStatuserQuery(sakerQueryClient, id);
     prefetchGetSaksDetaljerQuery(saksdetaljerQueryClient, id);
     prefetchHentBrevQuery(brevQueryClient, id);
-    const klagerPromise = !mottattOrSendt && hentKlager(id);
+    if (klageToggle.enabled) {
+        prefetchHentKlagerQuery(klageQueryClient, id, { query: { enabled: !mottattOrSendt } });
+    }
 
     return (
         <VStack gap={{ xs: "space-48", md: "space-80" }} className="mt-20">
@@ -83,15 +86,13 @@ export const Soknad = async ({ id }: Props) => {
                     </HydrationBoundary>
                 </HydrationBoundary>
             </Suspense>
-            {klagerPromise && (
-                <Suspense fallback={null}>
-                    <HydrationBoundary state={dehydrate(klageQueryClient)}>
-                        <HydrationBoundary state={dehydrate(sakerQueryClient)}>
-                            <Saker />
-                        </HydrationBoundary>
+            <Suspense fallback={null}>
+                <HydrationBoundary state={dehydrate(klageQueryClient)}>
+                    <HydrationBoundary state={dehydrate(sakerQueryClient)}>
+                        <Saker />
                     </HydrationBoundary>
-                </Suspense>
-            )}
+                </HydrationBoundary>
+            </Suspense>
             {status !== "FERDIGBEHANDLET" && status !== "BEHANDLES_IKKE" && (
                 <Suspense fallback={<OppgaverSkeleton />}>
                     <HydrationBoundary state={dehydrate(oppgaverQueryClient)}>
