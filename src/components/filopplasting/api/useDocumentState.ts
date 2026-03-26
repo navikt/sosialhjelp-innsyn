@@ -1,6 +1,7 @@
 import { useEffect, useReducer } from "react";
 import { logger } from "@navikt/next-logger";
 import { eventstreamUrl, openEventChannel } from "@components/filopplasting/api/openEventChannel";
+import { useParams } from "next/navigation";
 
 export type UploadState = {
     originalFilename: string;
@@ -45,12 +46,13 @@ const documentStateReducer = (state: DocumentState, { newState, type }: Document
 
 export const useDocumentState = (id: string): DocumentState => {
     const [state, dispatch] = useReducer(documentStateReducer, {});
+    const { id: fiksDigisosId } = useParams<{ id: string }>();
 
     // Subscribe to server-sent events and send any state updates to the reducer
     const onUpdate = (payload: Partial<DocumentState>) => dispatch({ type: "update", newState: payload });
     useEffect(() => {
-        return openEventChannel(eventstreamUrl(id), onUpdate);
-    }, [id]);
+        return openEventChannel(eventstreamUrl(id, fiksDigisosId), onUpdate);
+    }, [id, fiksDigisosId]);
 
     return state;
 };

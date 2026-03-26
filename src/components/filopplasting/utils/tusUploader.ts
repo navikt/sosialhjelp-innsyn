@@ -9,11 +9,9 @@ export const getTusUploader = ({
     onProgress,
     onSuccess,
     onUploadUrlAvailable,
-    fiksDigisosId,
 }: {
     id: string;
     file: FileObject;
-    fiksDigisosId: string;
 } & Pick<UploadOptions, "onUploadUrlAvailable" | "onProgress" | "onSuccess">): Upload => {
     const uploadOptions = (file: File): UploadOptions => ({
         endpoint: `${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/tus/files`,
@@ -21,7 +19,6 @@ export const getTusUploader = ({
         metadata: {
             filename: file.name,
             contextId: id,
-            fiksDigisosId,
         },
         uploadSize: file.size,
         onError: (error: unknown) => logger.error(`Upload failed: ${error}`),

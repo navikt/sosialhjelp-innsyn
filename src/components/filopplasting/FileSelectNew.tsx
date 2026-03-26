@@ -10,7 +10,6 @@ import { DocumentState } from "@components/filopplasting/api/useDocumentState";
 import FileUploadItem from "./FileUploadItem";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
 import { browserEnv } from "@config/env";
-import { useParams } from "next/navigation";
 
 interface Props {
     id?: string;
@@ -25,7 +24,6 @@ interface Props {
 
 const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uploadId }: Props) => {
     const t = useTranslations("Opplastingsboks");
-    const { id: fiksDigisosId } = useParams<{ id: string }>();
 
     // Starter opplasting umiddelbart ved filvalg
     const onSelect = (files: FileObject[]) => {
@@ -37,7 +35,6 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                     logger.info(progress);
                 },
                 file,
-                fiksDigisosId,
             })
         );
         uploads.forEach((upload) => upload.start());

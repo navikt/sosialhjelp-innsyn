@@ -2,7 +2,8 @@ import { logger } from "@navikt/next-logger";
 import { browserEnv } from "@config/env";
 import { DocumentState } from "@components/filopplasting/api/useDocumentState";
 
-export const eventstreamUrl = (id: string) => `${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/status/${id}` as const;
+export const eventstreamUrl = (contextId: string, fiksDigisosId: string) =>
+    `${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/status/${contextId}?fiksDigisosId=${fiksDigisosId}` as const;
 
 const isUpdateMessage = (payload: unknown): payload is DocumentState => {
     return typeof payload === "object" && payload !== null && !Object.hasOwn(payload, "heartbeat");
