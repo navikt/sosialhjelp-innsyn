@@ -18,7 +18,7 @@ export const getTusUploader = ({
         retryDelays: [0, 1000, 3000, 5000],
         metadata: {
             filename: file.name,
-            externalId: id,
+            contextId: id,
         },
         uploadSize: file.size,
         onError: (error: unknown) => logger.error(`Upload failed: ${error}`),
