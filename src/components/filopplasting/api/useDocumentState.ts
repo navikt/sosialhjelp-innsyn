@@ -3,6 +3,8 @@ import { logger } from "@navikt/next-logger";
 import { eventstreamUrl, openEventChannel } from "@components/filopplasting/api/openEventChannel";
 import { useParams } from "next/navigation";
 
+export type UploadStatus = "PROCESSING" | "FAILED" | "COMPLETE" | "PENDING";
+
 export type UploadState = {
     originalFilename: string;
     finalFilename?: string;
@@ -11,6 +13,7 @@ export type UploadState = {
     filId?: string;
     validations?: ValidationCode[];
     url?: string;
+    status: UploadStatus;
 };
 
 export enum ValidationCode {
