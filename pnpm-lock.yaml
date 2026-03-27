@@ -83,9 +83,6 @@ importers:
       react:
         specifier: 19.2.4
         version: 19.2.4
-      react-collapse:
-        specifier: ^5.1.0
-        version: 5.1.1(react@19.2.4)
       react-dom:
         specifier: 19.2.4
         version: 19.2.4(react@19.2.4)
@@ -138,9 +135,6 @@ importers:
       '@types/react':
         specifier: 19.2.14
         version: 19.2.14
-      '@types/react-collapse':
-        specifier: ^5.0.4
-        version: 5.0.4
       '@types/react-dom':
         specifier: 19.2.3
         version: 19.2.3(@types/react@19.2.14)
@@ -2215,9 +2209,6 @@ packages:
 
   '@types/node@25.5.0':
     resolution: {integrity: sha512-jp2P3tQMSxWugkCUKLRPVUpGaL5MVFwF8RDuSRztfwgN1wmqJeMSbKlnEtQqU8UrhTmzEmZdu2I6v2dpp7XIxw==}
-
-  '@types/react-collapse@5.0.4':
-    resolution: {integrity: sha512-tM5cVB6skGLneNYnRK2E3R56VOHguSeJQHslGPTIMC58ytL3oelT8L/l1onkwHGn5vSEs2BEq2Olzrur+YdliA==}
 
   '@types/react-dom@19.2.3':
     resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
@@ -4423,11 +4414,6 @@ packages:
   quick-lru@7.3.0:
     resolution: {integrity: sha512-k9lSsjl36EJdK7I06v7APZCbyGT2vMTsYSRX1Q2nbYmnkBqgUhRkAuzH08Ciotteu/PLJmIF2+tti7o3C/ts2g==}
     engines: {node: '>=18'}
-
-  react-collapse@5.1.1:
-    resolution: {integrity: sha512-k6cd7csF1o9LBhQ4AGBIdxB60SUEUMQDAnL2z1YvYNr9KoKr+nDkhN6FK7uGaBd/rYrYfrMpzpmJEIeHRYogBw==}
-    peerDependencies:
-      react: '>=16.3.0'
 
   react-day-picker@9.7.0:
     resolution: {integrity: sha512-urlK4C9XJZVpQ81tmVgd2O7lZ0VQldZeHzNejbwLWZSkzHH498KnArT0EHNfKBOWwKc935iMLGZdxXPRISzUxQ==}
@@ -7120,10 +7106,6 @@ snapshots:
     dependencies:
       undici-types: 7.18.2
 
-  '@types/react-collapse@5.0.4':
-    dependencies:
-      '@types/react': 19.2.14
-
   '@types/react-dom@19.2.3(@types/react@19.2.14)':
     dependencies:
       '@types/react': 19.2.14
@@ -9651,10 +9633,6 @@ snapshots:
   quick-format-unescaped@4.0.4: {}
 
   quick-lru@7.3.0: {}
-
-  react-collapse@5.1.1(react@19.2.4):
-    dependencies:
-      react: 19.2.4
 
   react-day-picker@9.7.0(react@19.2.4):
     dependencies:
