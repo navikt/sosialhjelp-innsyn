@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Heading, VStack } from "@navikt/ds-react";
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Metadata } from "next";
 import { getQueryClient } from "@api/queryClient";
