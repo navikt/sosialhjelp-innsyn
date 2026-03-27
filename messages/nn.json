@@ -1,7 +1,8 @@
 {
     "Tilgangskontrollside": {
         "header": "Hei, {fornavn}",
-        "info": "Du kan diverre ikkje bruke den digitale søknaden om økonomisk sosialhjelp. Kontakt det lokale Nav-kontoret for å få hjelp til å søkje."
+        "info": "Du kan diverre ikkje bruke den digitale søknaden om økonomisk sosialhjelp. Kontakt det lokale Nav-kontoret for å få hjelp til å søkje.",
+        "tittel": "Økonomisk sosialhjelp"
     },
     "Landingsside": {
         "tittel": "Økonomisk sosialhjelp"

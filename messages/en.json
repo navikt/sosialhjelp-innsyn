@@ -1,7 +1,8 @@
 {
     "Tilgangskontrollside": {
         "header": "Hi {fornavn}",
-        "info": "We are sorry, you cannot use the digital application for financial assistance. Please contact your local Nav office for assistance with the application."
+        "info": "We are sorry, you cannot use the digital application for financial assistance. Please contact your local Nav office for assistance with the application.",
+        "tittel": "Financial assistance"
     },
     "Landingsside": {
         "tittel": "Financial assistance"

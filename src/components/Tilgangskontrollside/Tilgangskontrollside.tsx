@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { BodyLong, Box, Heading } from "@navikt/ds-react";
+import { Bleed, BodyLong, Box, Heading, Show, Stack, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { logger } from "@navikt/next-logger";
 import { useRouter } from "next/navigation";
@@ -12,6 +12,7 @@ import EllaBlunk from "../ellaBlunk";
 import { TilgangResponse } from "@generated/model";
 import { browserEnv } from "@config/env";
 import { getSessionMetadata } from "@generated/session-metadata-controller/session-metadata-controller";
+import OkonomiskSosialhjelpIcon from "@components/ikoner/OkonomiskSosialhjelp";
 
 export interface TilgangskontrollsideProps {
     children: React.ReactNode;
@@ -112,19 +113,34 @@ const Tilgangskontrollside = ({ children, harTilgang }: TilgangskontrollsideProp
         }
 
         return (
-            <div className="mb-16">
+            <VStack gap={{ xs: "space-48", md: "space-80" }} className="mt-6 ax-md:mt-20">
+                <Bleed marginInline={{ lg: "space-24" }} asChild>
+                    <Stack
+                        gap="space-16"
+                        direction={{ sm: "row-reverse", lg: "row" }}
+                        justify={{ sm: "space-between", lg: "start" }}
+                        wrap={false}
+                    >
+                        <Show above="sm">
+                            <OkonomiskSosialhjelpIcon className="mr-4" aria-hidden />
+                        </Show>
+                        <Heading size="xlarge" level="1">
+                            {t("tittel")}
+                        </Heading>
+                    </Stack>
+                </Bleed>
+                <div className="flex items-center justify-center">
+                    <EllaBlunk size="175" />
+                </div>
                 <Box>
-                    <div className="flex items-center justify-center">
-                        <EllaBlunk size="175" />
-                    </div>
-                    <Heading as="p" size="large" spacing>
+                    <Heading as="h2" size="large" spacing>
                         {t("header", {
                             fornavn,
                         })}
                     </Heading>
-                    <BodyLong spacing>{t("info")}</BodyLong>
+                    <BodyLong>{t("info")}</BodyLong>
                 </Box>
-            </div>
+            </VStack>
         );
     }
 
