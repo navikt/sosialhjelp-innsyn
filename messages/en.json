@@ -463,9 +463,9 @@
         "tittel": "My payments for financial assistance",
         "breadcrumbTitle": "My payments"
     },
-  "AndreUtbetalingerPage": {
-        "tittel": "Do you receive financial assistance? ",
-        "beskrivelse": "On this page you can find your payments from Nav. If you only want to see your payments for financial assistance, <lenke>you can view them under My payments for financial assistance.</lenke>"
+  "AndreUtbetalingerInfo": {
+        "tittel": "Do you receive other payments from Nav?",
+        "beskrivelse": "On this page you will only find your payments for financial assistance. If you receive other payments from Nav, you can view them on the <lenke>Payments on My pages.</lenke>"
     },
     "ErrorPage": {
         "htmlTitle": "Technical error - nav.no",

@@ -478,7 +478,7 @@
     },
   "AndreUtbetalingerInfo": {
     "tittel": "Mottar du andre utbetalinger fra Nav?",
-    "beskrivelse": "På Denne siden finner du dine utbetalinger for økonomisk sosialhjelp. Har du andre utbetalinger fra Nav, <lenke> kan du se disse under Utbetalinger på Mine sider.</lenke>"
+    "beskrivelse": "På denne siden finner du kun dine utbetalinger for økonomisk sosialhjelp. Hvis du mottar andre utbetalinger fra Nav, kan du se disse under siden <lenke>Utbetalinger på Min side.</lenke>"
   },
     "ErrorPage": {
         "htmlTitle": "Teknisk feil - nav.no",
