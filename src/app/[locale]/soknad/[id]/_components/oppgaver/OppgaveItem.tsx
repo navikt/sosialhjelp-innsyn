@@ -1,11 +1,11 @@
 "use client";
 
 import { forwardRef, Ref } from "react";
-import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
-import OpplastingsboksTus from "@components/filopplasting/new/OpplastingsboksTus";
+import Opplastingsboks from "@components/filopplasting/Opplastingsboks";
+import OpplastingsboksTus from "@components/filopplasting/OpplastingsboksTus";
 import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
 import { useFlag } from "@featuretoggles/context";
-import { Metadata } from "@components/filopplasting/new/types";
+import { Metadata } from "@components/filopplasting/types";
 import { OppgaveResponseBeta } from "@generated/model";
 import TaskListItem from "../tasklistitem/TaskListItem";
 import OppgaveTag from "../tasklistitem/OppgaveTag";

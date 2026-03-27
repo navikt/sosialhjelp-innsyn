@@ -1,29 +1,18 @@
 "use client";
+
 import * as React from "react";
-import { BodyLong, Heading } from "@navikt/ds-react";
-import styled from "styled-components";
+import { BodyLong, Box, Heading } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { logger } from "@navikt/next-logger";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-import Banner from "../banner/Banner";
-import { UthevetPanel } from "../paneler/UthevetPanel";
 import { ApplicationSpinner } from "../applicationSpinner/ApplicationSpinner";
 import EllaBlunk from "../ellaBlunk";
-import { TilgangResponse } from "../../generated/model";
-import { browserEnv } from "../../config/env";
-import { getSessionMetadata } from "../../generated/session-metadata-controller/session-metadata-controller";
+import { TilgangResponse } from "@generated/model";
+import { browserEnv } from "@config/env";
+import { getSessionMetadata } from "@generated/session-metadata-controller/session-metadata-controller";
 
-const StyledElla = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`;
-
-const Wrapper = styled.div`
-    margin-top: 2rem;
-`;
 export interface TilgangskontrollsideProps {
     children: React.ReactNode;
     harTilgang?: TilgangResponse;
@@ -70,8 +59,7 @@ const fetchDekoratorSession = async () => {
 
 const Tilgangskontrollside = ({ children, harTilgang }: TilgangskontrollsideProps) => {
     const router = useRouter();
-    const pathname = usePathname();
-    const t = useTranslations("common");
+    const t = useTranslations("Tilgangskontrollside");
     const [isLoading, setIsLoading] = React.useState(false);
 
     useEffect(() => {
@@ -109,8 +97,7 @@ const Tilgangskontrollside = ({ children, harTilgang }: TilgangskontrollsideProp
 
     if (isLoading) {
         return (
-            <div className="informasjon-side">
-                {pathname.includes("/utbetaling") && <Banner>{t("app.tittel")}</Banner>}
+            <div className="mb-16">
                 <ApplicationSpinner />
             </div>
         );
@@ -125,21 +112,18 @@ const Tilgangskontrollside = ({ children, harTilgang }: TilgangskontrollsideProp
         }
 
         return (
-            <div className="informasjon-side">
-                <Banner>{t("app.tittel")}</Banner>
-                <Wrapper className="blokk-center">
-                    <UthevetPanel className="panel-glippe-over">
-                        <StyledElla>
-                            <EllaBlunk size="175" />
-                        </StyledElla>
-                        <Heading as="p" size="large" spacing>
-                            {t("tilgang.header", {
-                                fornavn,
-                            })}
-                        </Heading>
-                        <BodyLong spacing>{t("tilgang.info")}</BodyLong>
-                    </UthevetPanel>
-                </Wrapper>
+            <div className="mb-16">
+                <Box>
+                    <div className="flex items-center justify-center">
+                        <EllaBlunk size="175" />
+                    </div>
+                    <Heading as="p" size="large" spacing>
+                        {t("header", {
+                            fornavn,
+                        })}
+                    </Heading>
+                    <BodyLong spacing>{t("info")}</BodyLong>
+                </Box>
             </div>
         );
     }

@@ -1,9 +1,9 @@
 "use client";
 
 import { Tag } from "@navikt/ds-react";
-import OpplastingsboksTus from "@components/filopplasting/new/OpplastingsboksTus";
+import OpplastingsboksTus from "@components/filopplasting/OpplastingsboksTus";
 import TaskListItem from "../../tasklistitem/TaskListItem";
-import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
+import Opplastingsboks from "@components/filopplasting/Opplastingsboks";
 import { useTranslations } from "next-intl";
 import { DokumentasjonkravDto } from "@generated/model";
 import { useFlag } from "@featuretoggles/context";
