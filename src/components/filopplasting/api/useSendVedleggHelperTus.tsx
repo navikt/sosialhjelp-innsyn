@@ -43,7 +43,7 @@ const submitUpload = async ({
         }
     });
 
-const useSendVedleggHelper = (metadata: Metadata) => {
+const useSendVedleggHelper = (metadata: Required<Metadata>) => {
     const queryClient = useQueryClient();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
     const { mutate, isPending, isSuccess, reset, error } = useMutation({

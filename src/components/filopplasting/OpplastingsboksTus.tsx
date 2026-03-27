@@ -35,7 +35,13 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
         isPending,
         isUploadSuccess,
         error: mutationError,
-    } = useSendVedleggHelperTus(metadata);
+    } = useSendVedleggHelperTus({
+        ...metadata,
+        hendelsereferanse: metadata?.hendelsereferanse ?? "",
+        hendelsetype: metadata?.hendelsetype ?? "bruker",
+        tilleggsinfo: metadata?.tilleggsinfo ?? "annet",
+        innsendelsesfrist: "",
+    });
     const liveRegionRef = useRef<HTMLDivElement>(null);
 
     // Move focus to live region when upload completes to prevent "leaving main content" announcement
