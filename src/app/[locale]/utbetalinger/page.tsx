@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Heading, VStack } from "@navikt/ds-react";
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Metadata } from "next";
 import { getQueryClient } from "@api/queryClient";
@@ -12,6 +12,7 @@ import { UtbetalingerSkeleton } from "./_components/UtbetalingerSkeleton";
 import Snarveier from "@components/snarveier/Snarveier";
 import SoknaderSnarvei from "@components/snarveier/SoknaderSnarvei";
 import LandingssideSnarvei from "@components/snarveier/LandingssideSnarvei";
+import AndreUtbetalingerInfo from "./_components/AndreUtbetalingerInfo";
 
 const Page = async () => {
     const t = await getTranslations("UtbetalingerPage");
@@ -31,6 +32,7 @@ const Page = async () => {
                         <Utbetalinger />
                     </HydrationBoundary>
                 </Suspense>
+                <AndreUtbetalingerInfo />
                 <Snarveier>
                     <SoknaderSnarvei />
                     <LandingssideSnarvei />
