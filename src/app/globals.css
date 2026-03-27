@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "@navikt/ds-css" layer(components);
 
+@import "src/components/ellaBlunk/EllaBlunk.css";
+
 @config '../../tailwind.config.mts';
 
 html {
