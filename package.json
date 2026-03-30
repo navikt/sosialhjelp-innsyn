@@ -90,7 +90,7 @@
         "eslint-plugin-testing-library": "^7.16.1",
         "husky": "^9.1.7",
         "jsdom": "^27.4.0",
-        "knip": "^5.85.0",
+        "knip": "^6.0.2",
         "lint-staged": "^16.4.0",
         "msw": "^2.12.14",
         "next-router-mock": "^1.0.5",
