@@ -41,7 +41,8 @@
         "zod": "^4.3.6"
     },
     "scripts": {
-        "dev": "next dev -p 3002 -H 0.0.0.0 | pino-pretty --messageKey=message",
+        "dev": "pnpm run orval && next dev -p 3002 -H 0.0.0.0 | pino-pretty --messageKey=message",
+        "dev-no-orval": "next dev -p 3002 -H 0.0.0.0 | pino-pretty --messageKey=message",
         "build": "next build --webpack",
         "build:e2e": "NEXT_PUBLIC_ASSET_PREFIX= NEXT_PUBLIC_RUNTIME_ENVIRONMENT=e2e pnpm build && cp -R .next/static .next/standalone/.next",
         "start": "next start",
