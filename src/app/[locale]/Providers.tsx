@@ -9,7 +9,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { FlagProvider } from "@featuretoggles/context";
 import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "@faro/faro";
 import { TilgangResponse } from "@generated/model";
-import TilgangskontrollsideApp from "@components/Tilgangskontrollside/TilgangskontrollsideApp";
+import TilgangskontrollsideApp from "@components/Tilgangskontrollside/Tilgangskontrollside";
 import { getQueryClient } from "@api/queryClient";
 
 initInstrumentation();

@@ -38,7 +38,6 @@ export default async function RootLayout({ children }: PropsWithChildren) {
                 <NextIntlClientProvider locale={locale} messages={pick(messages, ["ErrorPage", "TrengerDuRaskHjelp"])}>
                     <Theme theme="light">
                         <Page
-                            footerPosition="belowFold"
                             footer={
                                 <>
                                     <PageBlock width="md" gutters>

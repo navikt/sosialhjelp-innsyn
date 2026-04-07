@@ -1,11 +1,3 @@
-.utbetalinger_side {
-    padding: 4rem 32px 32px 32px;
-    margin-bottom: -4rem;
-    display: flex;
-    flex-direction: column;
-    background-color: #d4e6d8;
-}
-
 /*Finner ingen grei  måte å midtstille beløp og chevron mellom dato/status og tittel når de  er i samme kolonne, jukser frem noe*/
 .chevronTight :global(.aksel-expansioncard__header-button) {
     align-self: stretch;

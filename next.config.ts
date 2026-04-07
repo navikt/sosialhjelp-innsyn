@@ -72,9 +72,5 @@ const nextConfig: NextConfig = {
 const withNextIntl = createNextIntlPlugin();
 
 module.exports = withNextIntl({
-    compiler: {
-        // see https://styled-components.com/docs/tooling#babel-plugin for more info on the options.
-        styledComponents: { ssr: true, displayName: true },
-    },
     ...nextConfig,
 });

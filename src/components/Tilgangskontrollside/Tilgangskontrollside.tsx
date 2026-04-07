@@ -1,31 +1,22 @@
+"use client";
+
 import * as React from "react";
-import { BodyLong, Heading } from "@navikt/ds-react";
-import styled from "styled-components";
+import { Bleed, BodyLong, Box, Heading, Show, Stack, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { logger } from "@navikt/next-logger";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-import Banner from "../banner/Banner";
-import { UthevetPanel } from "../paneler/UthevetPanel";
 import { ApplicationSpinner } from "../applicationSpinner/ApplicationSpinner";
 import EllaBlunk from "../ellaBlunk";
-import { TilgangResponse } from "../../generated/model";
-import { browserEnv } from "../../config/env";
-import { getSessionMetadata } from "../../generated/session-metadata-controller/session-metadata-controller";
+import { TilgangResponse } from "@generated/model";
+import { browserEnv } from "@config/env";
+import { getSessionMetadata } from "@generated/session-metadata-controller/session-metadata-controller";
+import OkonomiskSosialhjelpIcon from "@components/ikoner/OkonomiskSosialhjelp";
 
-const StyledElla = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`;
-
-const Wrapper = styled.div`
-    margin-top: 2rem;
-`;
 export interface TilgangskontrollsideProps {
     children: React.ReactNode;
-    harTilgang: TilgangResponse | null;
+    harTilgang?: TilgangResponse;
 }
 
 const sessionUrl = process.env.NEXT_PUBLIC_LOGIN_BASE_URL + "/oauth2/session";
@@ -69,7 +60,7 @@ const fetchDekoratorSession = async () => {
 
 const Tilgangskontrollside = ({ children, harTilgang }: TilgangskontrollsideProps) => {
     const router = useRouter();
-    const t = useTranslations("common");
+    const t = useTranslations("Tilgangskontrollside");
     const [isLoading, setIsLoading] = React.useState(false);
 
     useEffect(() => {
@@ -81,8 +72,8 @@ const Tilgangskontrollside = ({ children, harTilgang }: TilgangskontrollsideProp
                     if (result.status === 401 || result.data?.session.active === false) {
                         return window.location.replace(loginUrl + "?redirect=" + window.location.href);
                     }
-                    Promise.all([fetchDekoratorAuth(), getSessionMetadata()]).then(
-                        ([decoratorSession, innsynSession]) => {
+                    Promise.all([fetchDekoratorAuth(), getSessionMetadata()])
+                        .then(([decoratorSession, innsynSession]) => {
                             if (decoratorSession.data?.userId !== innsynSession.personId) {
                                 if (decoratorSession.error) {
                                     logger.warn(
@@ -94,8 +85,10 @@ const Tilgangskontrollside = ({ children, harTilgang }: TilgangskontrollsideProp
                                 );
                                 return window.location.replace(logoutUrl);
                             }
-                        }
-                    );
+                        })
+                        .catch((e) => {
+                            logger.warn(`Fikk feil under innhenting av dekorator- eller innsynsession. Error: ${e}`);
+                        });
                 })
                 .finally(() => {
                     setIsLoading(false);
@@ -105,8 +98,7 @@ const Tilgangskontrollside = ({ children, harTilgang }: TilgangskontrollsideProp
 
     if (isLoading) {
         return (
-            <div className="informasjon-side">
-                {!router.pathname.includes("/utbetaling") && <Banner>{t("app.tittel")}</Banner>}
+            <div className="mb-16">
                 <ApplicationSpinner />
             </div>
         );
@@ -121,22 +113,34 @@ const Tilgangskontrollside = ({ children, harTilgang }: TilgangskontrollsideProp
         }
 
         return (
-            <div className="informasjon-side">
-                <Banner>{t("app.tittel")}</Banner>
-                <Wrapper className="blokk-center">
-                    <UthevetPanel className="panel-glippe-over">
-                        <StyledElla>
-                            <EllaBlunk size="175" />
-                        </StyledElla>
-                        <Heading as="p" size="large" spacing>
-                            {t("tilgang.header", {
-                                fornavn,
-                            })}
+            <VStack gap={{ xs: "space-48", md: "space-80" }} className="mt-6 ax-md:mt-20">
+                <Bleed marginInline={{ lg: "space-24" }} asChild>
+                    <Stack
+                        gap="space-16"
+                        direction={{ sm: "row-reverse", lg: "row" }}
+                        justify={{ sm: "space-between", lg: "start" }}
+                        wrap={false}
+                    >
+                        <Show above="sm">
+                            <OkonomiskSosialhjelpIcon className="mr-4" aria-hidden />
+                        </Show>
+                        <Heading size="xlarge" level="1">
+                            {t("tittel")}
                         </Heading>
-                        <BodyLong spacing>{t("tilgang.info")}</BodyLong>
-                    </UthevetPanel>
-                </Wrapper>
-            </div>
+                    </Stack>
+                </Bleed>
+                <div className="flex items-center justify-center">
+                    <EllaBlunk size="175" />
+                </div>
+                <Box>
+                    <Heading as="h2" size="large" spacing>
+                        {t("header", {
+                            fornavn,
+                        })}
+                    </Heading>
+                    <BodyLong>{t("info")}</BodyLong>
+                </Box>
+            </VStack>
         );
     }
 
