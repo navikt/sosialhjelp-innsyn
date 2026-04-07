@@ -13,6 +13,6 @@
 !package-lock.json
 !.nais.yaml
 !next.config.ts
-!next-logger.config.js
+!next-logger.config.mjs
 !.env
 !.env.production

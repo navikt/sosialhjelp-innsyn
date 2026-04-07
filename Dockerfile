@@ -3,7 +3,7 @@ FROM gcr.io/distroless/nodejs24-debian12 AS runtime
 WORKDIR /app
 
 COPY package.json /app/
-COPY next-logger.config.js /app/
+COPY next-logger.config.mjs /app/
 COPY .env /app/
 COPY .env.production /app/
 COPY .next/standalone /app/

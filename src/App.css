@@ -1,8 +1,0 @@
-/* Overstyr css fra dekoratør:*/
-a.lenke:not(.knapp) {
-    border-bottom: none;
-}
-
-.informasjon-side {
-    margin-bottom: 4rem;
-}

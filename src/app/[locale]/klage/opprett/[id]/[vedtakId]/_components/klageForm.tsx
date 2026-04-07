@@ -10,10 +10,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { logger } from "@navikt/next-logger";
 import { getHentKlagerQueryKey, useUploadDocuments, useSendKlage } from "@generated/klage-controller/klage-controller";
-import useFiles from "@components/filopplasting/new/useFiles";
-import { createMetadataFile, formatFilesForUpload } from "@components/filopplasting/new/utils/formatFiles";
-import FileSelect from "@components/filopplasting/new/FileSelect";
-import { Metadata } from "@components/filopplasting/new/types";
+import useFiles from "@components/filopplasting/useFiles";
+import { createMetadataFile, formatFilesForUpload } from "@components/filopplasting/utils/formatFiles";
+import FileSelect from "@components/filopplasting/FileSelect";
+import { Metadata } from "@components/filopplasting/types";
 
 import { MAX_LEN_BACKGROUND, MAX_FILES } from "../_consts/consts";
 
