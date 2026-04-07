@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import createMiddleware from "next-intl/middleware";
 import { routing } from "@i18n/routing";
-import { getFlag, getToggles, UNLEASH_COOKIE_NAME } from "@featuretoggles/unleash";
+import { UNLEASH_COOKIE_NAME } from "@featuretoggles/unleash";
 
 const PUBLIC_FILE = /\.(.*)$/;
 
@@ -30,14 +30,11 @@ export async function proxy(request: NextRequest) {
         const pathname = "/" + rest.join("/");
 
         if (pathname.includes("/status") && !pathname.includes("/klage")) {
-            const soknadToggle = getFlag("sosialhjelp.innsyn.ny_soknadside", await getToggles());
-            if (soknadToggle.enabled) {
-                const id = pathname.split("/")[1];
-                // Keeping for backwards compatibility for old status links
-                response = NextResponse.rewrite(new URL(`/sosialhjelp/innsyn/${locale}/soknad/${id}`, request.url), {
-                    headers: response.headers,
-                });
-            }
+            const id = pathname.split("/")[1];
+            // Keeping for backwards compatibility for old status links
+            response = NextResponse.rewrite(new URL(`/sosialhjelp/innsyn/${locale}/soknad/${id}`, request.url), {
+                headers: response.headers,
+            });
         }
 
         if (pathname === "/utbetaling") {

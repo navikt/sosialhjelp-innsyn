@@ -2,7 +2,6 @@
 
 import { PropsWithChildren } from "react";
 import DigisosLinkCard, { Props } from "@components/statusCard/DigisosLinkCard";
-import { useFlag } from "@featuretoggles/context";
 
 type StatusCardProps = Omit<PropsWithChildren<Props>, "href"> & {
     id: string;
@@ -12,9 +11,8 @@ type StatusCardProps = Omit<PropsWithChildren<Props>, "href"> & {
 
 const StatusCard = (props: PropsWithChildren<StatusCardProps>) => {
     const { tittel, ariaTittel, children } = props;
-    const nySoknadSideToggle = useFlag("sosialhjelp.innsyn.ny_soknadside");
 
-    const href = nySoknadSideToggle.enabled ? `/soknad/${props.id}` : `/${props.id}/status`;
+    const href = `/soknad/${props.id}`;
 
     return (
         <DigisosLinkCard href={href} footer={children} {...props}>
