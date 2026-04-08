@@ -5,7 +5,6 @@ import { ArrowRightIcon } from "@navikt/aksel-icons";
 import cx from "classnames";
 import { Link as NextLink } from "@i18n/navigation";
 import { ManedUtbetaling } from "@generated/ssr/model";
-import { useFlag } from "@featuretoggles/context";
 
 import styles from "../../../../../utbetalinger/utbetalinger.module.css";
 
@@ -24,7 +23,6 @@ export const cardBorder = (id: number, count: number) => {
 
 export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props) => {
     const format = useFormatter();
-    const toggle = useFlag("sosialhjelp.innsyn.ny_soknadside"); // lenken til søknadensiden byttes basert på denne flaggen, kan bli fjernet når ny søknadsside er lansert
 
     const t = useTranslations("UtbetalingerContentCard");
 
@@ -105,14 +103,7 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                             <Utbetalingsmetode utbetaling={manedUtbetaling} />
                         </BodyShort>
                     </VStack>
-                    <Link
-                        as={NextLink}
-                        href={
-                            toggle.enabled
-                                ? `/soknad/${manedUtbetaling.fiksDigisosId}`
-                                : `/${manedUtbetaling.fiksDigisosId}/status`
-                        }
-                    >
+                    <Link as={NextLink} href={`/soknad/${manedUtbetaling.fiksDigisosId}`}>
                         <BodyShort>{t("lenke")}</BodyShort>
                         <ArrowRightIcon fontSize="1.75rem" className="navds-link-anchor__arrow pointer-events-none" />
                     </Link>
