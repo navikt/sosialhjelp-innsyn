@@ -566,7 +566,7 @@
         "utbetalesTilUkjent": "Blir utbetalt til annan mottakar",
         "bankkonto": "Di bankkonto: {konto}",
         "lenke": "Se søknaden og vedtaket du fikk",
-        "flereSoknader": "Denne utbetalinga er knytt til fleire søknader",
+        "flereSoknader": "Denne utbetalinga er knytt til fleire søknader:",
         "lenkeSoknad": "Sjå søknaden",
         "STOPPET": "Stoppa",
         "PLANLAGT_UTBETALING": "Planlagt",

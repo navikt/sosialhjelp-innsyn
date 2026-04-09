@@ -103,12 +103,12 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                             <Utbetalingsmetode utbetaling={manedUtbetaling} />
                         </BodyShort>
                     </VStack>
-                    {manedUtbetaling.tilknyttedeSoknader.length > 1 ? (
-                        <VStack gap="space-8">
+                    {manedUtbetaling.tilknyttedeSoknader.length > 0 ? (
+                        <VStack gap="space-4">
                             <BodyShort>{t("flereSoknader")}</BodyShort>
-                            {manedUtbetaling.tilknyttedeSoknader.map((soknadId) => (
-                                <Link key={soknadId} as={NextLink} href={`/soknad/${soknadId}`}>
-                                    <BodyShort>{t("lenkeSoknad")}</BodyShort>
+                            {manedUtbetaling.tilknyttedeSoknader.map((soknad) => (
+                                <Link key={soknad.fiksDigisosId} as={NextLink} href={`/soknad/${soknad.fiksDigisosId}`}>
+                                    <BodyShort>{`${soknad.soknadTittel}${soknad.datoSendt ? ` (${new Date(soknad.datoSendt).toLocaleDateString()}).` : ""}`}</BodyShort>
                                     <ArrowRightIcon
                                         fontSize="1.75rem"
                                         className="navds-link-anchor__arrow pointer-events-none"

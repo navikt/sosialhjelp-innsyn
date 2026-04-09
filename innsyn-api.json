@@ -1041,6 +1041,15 @@
                     "utbetalingsReferanse"
                 ]
             },
+            "TilknyttetSoknadDto": {
+                "type": "object",
+                "properties": {
+                    "fiksDigisosId": { "type": "string" },
+                    "soknadTittel": { "type": "string" },
+                    "datoSendt": { "type": "string", "format": "date-time" }
+                },
+                "required": ["fiksDigisosId", "soknadTittel"]
+            },
             "UtbetalingDto": {
                 "type": "object",
                 "properties": {
@@ -1057,7 +1066,10 @@
                     "annenMottaker": { "type": "boolean" },
                     "kontonummer": { "type": "string", "pattern": "^[0-9]{11}$" },
                     "utbetalingsmetode": { "type": "string" },
-                    "tilknyttedeSoknader": { "type": "array", "items": { "type": "string" } }
+                    "tilknyttedeSoknader": {
+                        "type": "array",
+                        "items": { "$ref": "#/components/schemas/TilknyttetSoknadDto" }
+                    }
                 },
                 "required": [
                     "annenMottaker",
