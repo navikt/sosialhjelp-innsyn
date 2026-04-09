@@ -176,7 +176,7 @@ const Opplastingsboks = ({ metadata, label, labelText, description, tag, complet
                             </VStack>
                         </VStack>
                         <Button
-                            disabled={Object.values(files).flat().length === 0}
+                            disabled={isPending || Object.values(files).flat().length === 0}
                             onClick={() => {
                                 umamiTrack("knapp klikket", {
                                     tekst: "Send dokumentasjon",
