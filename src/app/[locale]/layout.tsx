@@ -1,6 +1,5 @@
 import { headers } from "next/headers";
 import { logger } from "@navikt/next-logger";
-import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import React, { PropsWithChildren } from "react";
 import { getTranslations } from "next-intl/server";
@@ -10,6 +9,7 @@ import { getToggles } from "@featuretoggles/unleash";
 import { browserEnv } from "@config/env";
 
 import Providers from "./Providers";
+import { notFound } from "next/navigation";
 
 function buildUrl(path: string) {
     const isLocal = ["local", "e2e"].includes(browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT);

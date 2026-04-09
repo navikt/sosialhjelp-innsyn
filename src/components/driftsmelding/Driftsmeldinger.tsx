@@ -1,4 +1,4 @@
-import { Alert, VStack } from "@navikt/ds-react";
+import { Alert, Link, VStack } from "@navikt/ds-react";
 import Markdown from "markdown-to-jsx/react";
 import { getDriftsmeldinger } from "@components/driftsmelding/getDriftsmeldinger";
 
@@ -11,7 +11,9 @@ export const Driftsmeldinger = async () => {
         <VStack gap="space-16" className="mt-4">
             {driftsmeldinger?.map(({ severity, text, id }) => (
                 <Alert variant={severity} fullWidth key={id} data-testid={`driftsmelding-${id}`}>
-                    <Markdown>{text}</Markdown>
+                    <Markdown options={{ overrides: { a: { component: Link, props: { inlineText: true } } } }}>
+                        {text}
+                    </Markdown>
                 </Alert>
             ))}
         </VStack>

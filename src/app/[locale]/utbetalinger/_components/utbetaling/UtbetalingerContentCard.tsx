@@ -5,7 +5,6 @@ import { ArrowRightIcon } from "@navikt/aksel-icons";
 import cx from "classnames";
 import { Link as NextLink } from "@i18n/navigation";
 import { UtbetalingDto } from "@generated/model";
-import { useFlag } from "@featuretoggles/context";
 
 import styles from "../../../../../utbetalinger/utbetalinger.module.css";
 
@@ -24,7 +23,6 @@ export const cardBorder = (id: number, count: number) => {
 
 export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props) => {
     const format = useFormatter();
-    const toggle = useFlag("sosialhjelp.innsyn.ny_soknadside"); // lenken til søknadensiden byttes basert på denne flaggen, kan bli fjernet når ny søknadsside er lansert
 
     const t = useTranslations("UtbetalingerContentCard");
 
@@ -109,11 +107,7 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                         <VStack gap="space-8">
                             <BodyShort>{t("flereSoknader")}</BodyShort>
                             {manedUtbetaling.tilknyttedeSoknader.map((soknadId) => (
-                                <Link
-                                    key={soknadId}
-                                    as={NextLink}
-                                    href={toggle.enabled ? `/soknad/${soknadId}` : `/${soknadId}/status`}
-                                >
+                                <Link key={soknadId} as={NextLink} href={`/soknad/${soknadId}`}>
                                     <BodyShort>{t("lenkeSoknad")}</BodyShort>
                                     <ArrowRightIcon
                                         fontSize="1.75rem"
@@ -123,14 +117,7 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                             ))}
                         </VStack>
                     ) : (
-                        <Link
-                            as={NextLink}
-                            href={
-                                toggle.enabled
-                                    ? `/soknad/${manedUtbetaling.fiksDigisosId}`
-                                    : `/${manedUtbetaling.fiksDigisosId}/status`
-                            }
-                        >
+                        <Link as={NextLink} href={`/soknad/${manedUtbetaling.fiksDigisosId}`}>
                             <BodyShort>{t("lenke")}</BodyShort>
                             <ArrowRightIcon
                                 fontSize="1.75rem"

@@ -12,7 +12,6 @@ import * as R from "remeda";
 import { JSX } from "react";
 import { VStack } from "@navikt/ds-react";
 import { DokumentasjonkravDto, VilkarResponse } from "@generated/model";
-import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
 
 interface Props {
     navKontor?: string;
@@ -26,7 +25,6 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
     const { data: dokKrav } = useGetDokumentasjonkravBetaSuspense(id);
 
     const relevanteOppgaver = oppgaver.filter((oppgave) => !oppgave.erLastetOpp && oppgave.erFraInnsyn);
-    const soknadsOppgaver = oppgaver.filter((oppgave) => !oppgave.erLastetOpp && !oppgave.erFraInnsyn);
     const harSakMedFlereVedtak = saksdetaljer.saker?.some((s) => s.antallVedtak > 1) ?? false;
     const harFattVedtakMedPositivtUtfall = saksdetaljer.saker
         .map((sak) =>
@@ -47,7 +45,7 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
     const cards: JSX.Element[] = [];
 
     if (saksdetaljer.status === "SENDT") {
-        cards.push(<SoknadInfoCard key="sendt" state={{ type: "sendt" }} />);
+        cards.push(<SoknadInfoCard key="sendt" state={{ type: "status", navKontor, status: "sendt" }} />);
     }
 
     if (behandlesIkke) {
@@ -108,20 +106,6 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
         cards.push(<SoknadInfoCard key="kan-ha-vilkar" state={{ type: "kanHaVilkar" }} />);
     }
 
-    if (soknadsOppgaver.length > 0) {
-        cards.push(
-            <SoknadInfoCard
-                key="soknadsOppgaver"
-                state={{
-                    type: "soknadsOppgaver",
-                    oppgaver: soknadsOppgaver.map((oppgave) => ({
-                        name: getVisningstekster(oppgave.dokumenttype, oppgave.tilleggsinformasjon).typeTekst,
-                    })),
-                }}
-            />
-        );
-    }
-
     if (harSakMedFlereVedtak) {
         cards.push(<SoknadInfoCard key="nyttVedtak" state={{ type: "nyttVedtak" }} />);
     }
@@ -134,7 +118,16 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
                 />
             );
         } else if (cards.length === 0) {
-            cards.push(<SoknadInfoCard key="saksbehandlingstid" state={{ type: "saksbehandlingstid" }} />);
+            cards.push(
+                <SoknadInfoCard
+                    key="saksbehandlingstid"
+                    state={{
+                        type: "status",
+                        navKontor,
+                        status: saksdetaljer.status === "UNDER_BEHANDLING" ? "under_behandling" : "mottatt",
+                    }}
+                />
+            );
         }
     }
 
@@ -144,7 +137,7 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
     if (cards.length === 1) {
         return cards[0];
     }
-    return <VStack gap="space-8">{cards}</VStack>;
+    return <VStack gap={{ md: "space-16", xs: "space-8" }}>{cards}</VStack>;
 };
 
 export default SoknadInfoCards;

@@ -64,7 +64,7 @@ const nextConfig: NextConfig = {
     experimental: {
         scrollRestoration: true,
         optimizePackageImports: ["@navikt/ds-react", "@navikt/aksel-icons"],
-        proxyClientMaxBodySize: "100mb",
+        proxyClientMaxBodySize: "150mb",
     },
     productionBrowserSourceMaps: true,
 };
@@ -72,9 +72,5 @@ const nextConfig: NextConfig = {
 const withNextIntl = createNextIntlPlugin();
 
 module.exports = withNextIntl({
-    compiler: {
-        // see https://styled-components.com/docs/tooling#babel-plugin for more info on the options.
-        styledComponents: { ssr: true, displayName: true },
-    },
     ...nextConfig,
 });

@@ -10,6 +10,7 @@ import { server } from "../../../../../mocks/server";
 import { useUtbetalinger } from "./useUtbetalingerListe";
 
 const utb = (overrides: Partial<UtbetalingDto> = {}): UtbetalingDto => ({
+    tilknyttedeSoknader: [],
     referanse: "ref",
     tittel: "Livsopphold",
     belop: 1000,

@@ -14,6 +14,7 @@ import decoratorParams from "@config/decoratorConfig";
 import { Driftsmeldinger } from "@components/driftsmelding/Driftsmeldinger";
 
 import Preload from "./preload";
+import Footer from "@components/footer/Footer";
 
 export const dynamic = "force-dynamic";
 
@@ -36,7 +37,16 @@ export default async function RootLayout({ children }: PropsWithChildren) {
             <body>
                 <NextIntlClientProvider locale={locale} messages={pick(messages, ["ErrorPage", "TrengerDuRaskHjelp"])}>
                     <Theme theme="light">
-                        <Page footerPosition="belowFold" footer={<Decorator.Footer />}>
+                        <Page
+                            footer={
+                                <>
+                                    <PageBlock width="md" gutters>
+                                        <Footer />
+                                    </PageBlock>
+                                    <Decorator.Footer />
+                                </>
+                            }
+                        >
                             <Decorator.Header />
                             <PageBlock as="main" width="md" gutters id="maincontent" tabIndex={-1}>
                                 <Driftsmeldinger />

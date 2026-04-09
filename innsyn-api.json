@@ -740,6 +740,23 @@
                 "deprecated": true
             }
         },
+        "/api/v1/innsyn/{fiksDigisosId}/brev": {
+            "get": {
+                "tags": ["brev-controller"],
+                "operationId": "hentBrev",
+                "parameters": [
+                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Brev" } } }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/innsyn/utbetalinger": {
             "get": {
                 "tags": ["utbetalinger-controller"],
@@ -1456,6 +1473,15 @@
                 },
                 "required": ["dokumentasjonkravElementer", "dokumentasjonkravId"]
             },
+            "Brev": {
+                "type": "object",
+                "properties": {
+                    "type": { "type": "string", "enum": ["FORELOPIG_SVAR", "DOKUMENTASJON_ETTERSPURT", "VEDTAK"] },
+                    "url": { "type": "string" },
+                    "timestamp": { "type": "string", "format": "date-time" }
+                },
+                "required": ["type", "url"]
+            },
             "ManedUtbetaling": {
                 "type": "object",
                 "properties": {
@@ -1530,7 +1556,11 @@
             },
             "ForelopigSvar": {
                 "type": "object",
-                "properties": { "harMottattForelopigSvar": { "type": "boolean" }, "link": { "type": "string" } },
+                "properties": {
+                    "harMottattForelopigSvar": { "type": "boolean" },
+                    "link": { "type": "string" },
+                    "timestamp": { "type": "string", "format": "date-time" }
+                },
                 "required": ["harMottattForelopigSvar"]
             },
             "Sak": {

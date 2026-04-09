@@ -6,8 +6,8 @@ import { useTranslations } from "next-intl";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { VedtakDto } from "@generated/model";
 
-import React, { useEffect, useRef } from "react";
-import { useSearchParams } from "next/navigation";
+import React from "react";
+import useFocusRef from "@hooks/useFocusRef";
 
 interface Props {
     sortedVedtak: VedtakDto[];
@@ -16,20 +16,8 @@ interface Props {
 
 const Vedtak = ({ sortedVedtak, latestVedtak }: Props) => {
     const t = useTranslations("Vedtak");
-    const latestItemRef = useRef<HTMLAnchorElement>(null);
-    // Denne trigger rerendring på hash change (#vedtak), selv om den ikke brukes
-    const params = useSearchParams();
 
-    useEffect(() => {
-        const link = latestItemRef.current;
-        if (window.location.hash === "#vedtak" && link) {
-            requestAnimationFrame(() => {
-                link.scrollIntoView({ behavior: "smooth", block: "center" });
-                // focusVisible tvinger :focus-visible pseudoclass på elementet. Funker ikke i alle browsere
-                link.focus({ preventScroll: true, focusVisible: true });
-            });
-        }
-    }, [params]);
+    const ref = useFocusRef<HTMLAnchorElement>("#vedtak");
 
     const isAnyInnvilget = sortedVedtak.some(
         (vedtak) => vedtak.utfall && ["INNVILGET", "DELVIS_INNVILGET"].includes(vedtak.utfall)
@@ -47,7 +35,7 @@ const Vedtak = ({ sortedVedtak, latestVedtak }: Props) => {
                                 <DigisosLinkCard
                                     cardIcon="external-link"
                                     openInNewTab
-                                    ref={isLatest ? latestItemRef : undefined}
+                                    ref={isLatest ? ref : undefined}
                                     href={vedtak.vedtaksFilUrl ?? ""}
                                     icon={<EnvelopeClosedIcon aria-hidden />}
                                     description={

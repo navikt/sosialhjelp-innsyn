@@ -3,9 +3,9 @@
 import { Heading, VStack, Box, BodyLong } from "@navikt/ds-react";
 import { NavigationGuardProvider } from "next-navigation-guard";
 import { useTranslations } from "next-intl";
-import OpplastingsboksTus from "@components/filopplasting/new/OpplastingsboksTus";
-import Opplastingsboks from "@components/filopplasting/new/Opplastingsboks";
-import { Metadata } from "@components/filopplasting/new/types";
+import OpplastingsboksTus from "@components/filopplasting/OpplastingsboksTus";
+import Opplastingsboks from "@components/filopplasting/Opplastingsboks";
+import { Metadata } from "@components/filopplasting/types";
 import { useHentVedleggSuspense } from "@generated/vedlegg-controller/vedlegg-controller";
 import useIsMobile from "@utils/useIsMobile";
 

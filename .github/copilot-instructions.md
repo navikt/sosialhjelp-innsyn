@@ -52,7 +52,6 @@ Two fetch mutators are used by orval:
 ### Styling
 
 - **Tailwind 4** via `@tailwindcss/postcss` with the `@navikt/ds-tailwind` preset (NAV design tokens as utility classes, e.g. `text-ax-*`, `bg-ax-*`, `ax-md:` breakpoint)
-- **Styled-components 6** (with Next.js SSR compiler) for dynamic or complex styles. To be removed with the pages router migration.
 - **@navikt/ds-react** is the NAV design system component library — prefer it over building custom UI
 
 ### State management

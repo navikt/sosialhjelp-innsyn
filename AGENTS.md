@@ -63,7 +63,6 @@ Toggles can be overridden locally via cookies: set a cookie named after the togg
 
 - **Tailwind 4** via `@tailwindcss/postcss` with NAV design tokens (`text-ax-*`, `bg-ax-*`, `ax-md:` breakpoint)
 - **`@navikt/ds-react`** — NAV design system component library; prefer it over custom UI
-- Styled-components 6 exists in Pages Router pages (being removed with migration)
 
 ### i18n
 
