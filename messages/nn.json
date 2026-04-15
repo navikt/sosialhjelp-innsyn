@@ -222,10 +222,7 @@
         "valgteFiler": "Valde filer ({antall_filer})",
         "filerTilOpplasting": "Filer til opplasting",
         "antallFiler": "{count, plural, one {# fil klar til opplasting} other {# filer klare til opplasting}}",
-        "konvertert": {
-            "tittel": "Nokre filer kan ha blitt endra",
-            "beskrivelse": "Enkelte filer kan ha blitt konverterte fordi det originale filformatet ikkje er støtta. Du må sjå gjennom og godkjenne filene før du kan fortsette."
-        },
+        "konvertert": "Ein eller fleire filer vart endra til eit anna format (PDF) slik at det kan sendast inn.",
         "error": "Det skjedde ein feil ved innsending",
         "suksess": "Takk! Dokumentasjonen din vart sendt inn.",
         "forlater_siden_uten_aa_sende_inn_vedlegg": "Denne sidan ber deg bekrefta at du ønskjer å forlata sidan — informasjon som du allereie har skrive inn vil kanskje ikkje lagrast.",

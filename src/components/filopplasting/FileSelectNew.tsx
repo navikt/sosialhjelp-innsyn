@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Alert, BodyShort, FileObject, FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
+import { BodyShort, FileObject, FileUpload, Heading, InlineMessage, VStack } from "@navikt/ds-react";
 import { ReactNode } from "react";
 import { logger } from "@navikt/next-logger";
 import { getTusUploader } from "@components/filopplasting/utils/tusUploader";
@@ -84,14 +84,12 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                             {filesLabel ?? t("valgteFiler", { antall_filer: docState.uploads.length })}
                         </Heading>
                         {converted && (
-                            <Alert variant="warning">
-                                <HStack gap="space-8">
-                                    <Heading size="small" level="4">
-                                        {t("konvertert.tittel")}
-                                    </Heading>
-                                    <BodyShort>{t("konvertert.beskrivelse")}</BodyShort>
-                                </HStack>
-                            </Alert>
+                            <InlineMessage
+                                status={"info"}
+                                className="border border-ax-border-info-subtle bg-ax-bg-info-moderate p-2 rounded-xl"
+                            >
+                                {t("konvertert")}
+                            </InlineMessage>
                         )}
                         <VStack as="ul" gap="space-8">
                             {docState.uploads?.map((upload) => (
