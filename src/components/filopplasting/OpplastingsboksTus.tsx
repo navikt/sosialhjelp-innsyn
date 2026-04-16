@@ -35,7 +35,13 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
         isPending,
         isUploadSuccess,
         error: mutationError,
-    } = useSendVedleggHelperTus(metadata);
+    } = useSendVedleggHelperTus({
+        ...metadata,
+        hendelsereferanse: metadata?.hendelsereferanse ?? "",
+        hendelsetype: metadata?.hendelsetype ?? "bruker",
+        tilleggsinfo: metadata?.tilleggsinfo ?? "annet",
+        innsendelsesfrist: "",
+    });
     const liveRegionRef = useRef<HTMLDivElement>(null);
 
     // Move focus to live region when upload completes to prevent "leaving main content" announcement
@@ -75,16 +81,23 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
     }
 
     return (
-        <>
-            <FileSelectNew label={label} description={description} tag={tag} docState={docState} uploadId={id} />
+        <VStack gap="space-8">
+            <FileSelectNew
+                label={label}
+                description={description}
+                tag={tag}
+                docState={docState}
+                uploadId={id}
+                errors={mutationError && "errors" in mutationError ? mutationError.errors : undefined}
+            />
             {!!docState.uploads?.length && (
                 <Button
-                    onClick={() => upload(docState.documentId!)}
+                    onClick={() => upload(docState.submissionId!)}
                     loading={isPending}
-                    className="self-start mt-4"
+                    className="self-start"
                     disabled={
                         isPending ||
-                        docState.uploads?.some((upload) => (upload.validations?.length ?? 0) > 0 || !upload.signedUrl)
+                        docState.uploads?.some((upload) => (upload.validations?.length ?? 0) > 0 || !upload.filId)
                     }
                 >
                     {t("sendInn")}
@@ -100,7 +113,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
                     {t("error")}
                 </Alert>
             )}
-        </>
+        </VStack>
     );
 };
 

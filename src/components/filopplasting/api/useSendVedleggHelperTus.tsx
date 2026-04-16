@@ -27,26 +27,41 @@ const getQueryKeysForInvalidation = (fiksDigisosId: string, oppgaveId?: string):
     ].flat();
 
 const submitUpload = async ({
-    documentId,
+    submissionId,
     body,
 }: {
     body: { fiksDigisosId: string; metadata: Metadata };
-    documentId: string;
+    submissionId: string;
 }) =>
-    fetch(`${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/document/${documentId}/submit`, {
+    fetch(`${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/submission/${submissionId}/submit`, {
         method: "post",
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
-    }).then((res) => {
+    }).then(async (res) => {
         if (!res.ok) {
+            if (res.status === 422) {
+                throw await res.json();
+            }
             throw new Error(`Feil ved opplasting av vedlegg: ${res.status} ${res.statusText}`);
         }
     });
 
-const useSendVedleggHelper = (metadata: Metadata) => {
+export const SubmissionError = ["TOO_MANY_FILES", "TOTAL_SIZE_TOO_LARGE"] as const;
+
+const useSendVedleggHelper = (metadata: Required<Metadata>) => {
     const queryClient = useQueryClient();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
-    const { mutate, isPending, isSuccess, reset, error } = useMutation({
+    const { mutate, isPending, isSuccess, reset, error } = useMutation<
+        void,
+        { errors: (typeof SubmissionError)[] } | Error,
+        {
+            body: {
+                fiksDigisosId: string;
+                metadata: Metadata;
+            };
+            submissionId: string;
+        }
+    >({
         mutationFn: submitUpload,
         onSuccess: async () => {
             // Setter manuelt for å ikke flytte på rekkefølgen i oppgavelisten
@@ -94,8 +109,8 @@ const useSendVedleggHelper = (metadata: Metadata) => {
         reset();
     };
 
-    const upload = async (documentId: string) => {
-        mutate({ body: { metadata, fiksDigisosId }, documentId });
+    const upload = async (submissionId: string) => {
+        mutate({ body: { metadata, fiksDigisosId }, submissionId }, { onError: () => {} });
     };
 
     return {

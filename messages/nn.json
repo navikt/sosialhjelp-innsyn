@@ -15,6 +15,7 @@
         "deltSoknadInfo": "Søknaden din har vorte delt i {n} saker sidan det er behov for å behandle delar av søknaden separat."
     },
     "FileUploadItem": {
+        "uploadFailed": "Opplasting feila. Prøv på nytt seinare.",
         "validation": {
             "ENCRYPTED_PDF": "PDFen er passordbeskytta og vi kan ikkje behandle henne",
             "FILETYPE_NOT_SUPPORTED": "Filtypen er ikkje støtta",
@@ -222,13 +223,14 @@
         "valgteFiler": "Valde filer ({antall_filer})",
         "filerTilOpplasting": "Filer til opplasting",
         "antallFiler": "{count, plural, one {# fil klar til opplasting} other {# filer klare til opplasting}}",
-        "konvertert": {
-            "tittel": "Nokre filer kan ha blitt endra",
-            "beskrivelse": "Enkelte filer kan ha blitt konverterte fordi det originale filformatet ikkje er støtta. Du må sjå gjennom og godkjenne filene før du kan fortsette."
-        },
+        "konvertert": "Ein eller fleire filer vart endra til eit anna format (PDF) slik at det kan sendast inn.",
         "error": "Det skjedde ein feil ved innsending",
         "suksess": "Takk! Dokumentasjonen din vart sendt inn.",
         "forlater_siden_uten_aa_sende_inn_vedlegg": "Denne sidan ber deg bekrefta at du ønskjer å forlata sidan — informasjon som du allereie har skrive inn vil kanskje ikkje lagrast.",
+        "submissionError": {
+            "TOO_MANY_FILES": "Du har valt for mange filer. Maks tal på filer er 30.",
+            "TOTAL_SIZE_TOO_LARGE": "Total storleik på filene du har valt er for stor. Maks total storleik er 150 MB."
+        },
         "feil": {
             "minst_ett_vedlegg": "Du må først velje dokumentet du vil sende.",
             "opplasting_feilmelding": "Vi kan ikkje sende dokumentena. Fjern og korriger filene over",
