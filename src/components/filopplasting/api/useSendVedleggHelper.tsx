@@ -24,7 +24,7 @@ const getQueryKeysForInvalidation = (fiksDigisosId: string, oppgaveId?: string):
         getHentVedleggQueryKey(fiksDigisosId),
         getHentHendelserQueryKey(fiksDigisosId),
         getHentHendelserBetaQueryKey(fiksDigisosId),
-        getGetVedleggForOppgaveQueryKey(fiksDigisosId, oppgaveId),
+        oppgaveId ? getGetVedleggForOppgaveQueryKey(fiksDigisosId, oppgaveId) : [],
         getGetSaksDetaljerQueryKey(fiksDigisosId),
     ].flat();
 
