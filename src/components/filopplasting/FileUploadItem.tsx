@@ -55,7 +55,7 @@ const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validat
                 description={isConverted ? <SeOverDescription /> : undefined}
                 error={
                     status === "FAILED" ? (
-                        "Det skjedde noe galt. Prøv å last oppfilen på nytt"
+                        t("uploadFailed")
                     ) : validations?.length ? (
                         <List>
                             {validations.map((val) => (

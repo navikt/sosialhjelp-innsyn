@@ -21,13 +21,12 @@ export const openEventChannel = (url: string, onUpdate: (payload: Partial<Docume
     const connect = () => {
         eventSource = new EventSource(url);
 
-        eventSource.onopen = (event) => {
-            logger.info(`upload status channel opened: ${event}`);
+        eventSource.onopen = () => {
+            logger.info(`upload status channel opened`);
             retryDelayMs = INITIAL_RETRY_DELAY_MS;
         };
 
         eventSource.onmessage = (event) => {
-
             try {
                 const data = JSON.parse(event.data) as DocumentState;
                 if (isUpdateMessage(data)) onUpdate(data);

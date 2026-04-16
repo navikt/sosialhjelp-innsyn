@@ -15,6 +15,7 @@
         "deltSoknadInfo": "Your application has been split into {n} cases because there is a need to process parts of the application separately."
     },
     "FileUploadItem": {
+        "uploadFailed": "Upload failed. Please try again later.",
         "validation": {
             "ENCRYPTED_PDF": "The PDF is password protected and we cannot process it",
             "FILETYPE_NOT_SUPPORTED": "The file type is not supported",

@@ -15,6 +15,7 @@
         "deltSoknadInfo": "Søknaden din har blitt delt i {n} saker siden det er behov for å behandle deler av søknaden separat."
     },
     "FileUploadItem": {
+        "uploadFailed": "Opplasting feilet. Prøv på nytt senere.",
         "validation": {
             "ENCRYPTED_PDF": "PDFen er passordbeskyttet og vi kan ikke behandle den",
             "FILETYPE_NOT_SUPPORTED": "Filtypen støttes ikke",
