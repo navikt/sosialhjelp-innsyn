@@ -226,6 +226,10 @@
         "error": "An error occurred while uploading the files. Please try again.",
         "suksess": "Thank you! Your documentation have been submitted.",
         "forlater_siden_uten_aa_sende_inn_vedlegg": "This page is asking you to confirm that you want to leave — information you’ve entered may not be saved.",
+        "submissionError": {
+            "TOO_MANY_FILES": "You have selected too many files. The maximum number of files is 30.",
+            "TOTAL_SIZE_TOO_LARGE": "The total size of the files you have selected is too large. The maximum total size is 150 MB."
+        },
         "feil": {
             "minst_ett_vedlegg": "You must first select the document you want to submit.",
             "opplasting_feilmelding": "We cannot forward your documentation. Please remove and correct the above files",

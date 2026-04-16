@@ -226,6 +226,10 @@
         "error": "Det skjedde ein feil ved innsending",
         "suksess": "Takk! Dokumentasjonen din vart sendt inn.",
         "forlater_siden_uten_aa_sende_inn_vedlegg": "Denne sidan ber deg bekrefta at du ønskjer å forlata sidan — informasjon som du allereie har skrive inn vil kanskje ikkje lagrast.",
+        "submissionError": {
+            "TOO_MANY_FILES": "Du har valt for mange filer. Maks tal på filer er 30.",
+            "TOTAL_SIZE_TOO_LARGE": "Total storleik på filene du har valt er for stor. Maks total storleik er 150 MB."
+        },
         "feil": {
             "minst_ett_vedlegg": "Du må først velje dokumentet du vil sende.",
             "opplasting_feilmelding": "Vi kan ikkje sende dokumentena. Fjern og korriger filene over",

@@ -82,7 +82,14 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
 
     return (
         <VStack gap="space-8">
-            <FileSelectNew label={label} description={description} tag={tag} docState={docState} uploadId={id} />
+            <FileSelectNew
+                label={label}
+                description={description}
+                tag={tag}
+                docState={docState}
+                uploadId={id}
+                errors={mutationError && "errors" in mutationError ? mutationError.errors : undefined}
+            />
             {!!docState.uploads?.length && (
                 <Button
                     onClick={() => upload(docState.submissionId!)}

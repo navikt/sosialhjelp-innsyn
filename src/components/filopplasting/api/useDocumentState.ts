@@ -14,6 +14,7 @@ export type UploadState = {
     validations?: ValidationCode[];
     url?: string;
     status: UploadStatus;
+    size?: number;
 };
 
 export enum ValidationCode {

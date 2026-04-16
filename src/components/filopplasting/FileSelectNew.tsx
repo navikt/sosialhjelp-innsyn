@@ -11,6 +11,7 @@ import FileUploadItem from "./FileUploadItem";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
 import { browserEnv } from "@config/env";
 import { useParams } from "next/navigation";
+import { SubmissionError } from "@components/filopplasting/api/useSendVedleggHelperTus";
 
 interface Props {
     id?: string;
@@ -21,9 +22,10 @@ interface Props {
     isPending?: boolean;
     docState: DocumentState;
     uploadId: string;
+    errors?: (typeof SubmissionError)[];
 }
 
-const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uploadId }: Props) => {
+const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uploadId, errors }: Props) => {
     const t = useTranslations("Opplastingsboks");
     const { id: fiksDigisosId } = useParams<{ id: string }>();
 
@@ -91,6 +93,19 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                                 {t("konvertert")}
                             </InlineMessage>
                         )}
+                        {(errors?.length ?? 0) > 0 && (
+                            <>
+                                {errors?.map((error) => (
+                                    <InlineMessage
+                                        key={`${error}`}
+                                        status={"error"}
+                                        className="border border-ax-border-error-subtle bg-ax-bg-error-moderate p-2 rounded-xl"
+                                    >
+                                        {t(`submissionError.${error}`)}
+                                    </InlineMessage>
+                                ))}
+                            </>
+                        )}
                         <VStack as="ul" gap="space-8">
                             {docState.uploads?.map((upload) => (
                                 <FileUploadItem
@@ -105,6 +120,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                                     originalFilename={upload.originalFilename}
                                     validations={upload.validations}
                                     status={upload.status}
+                                    size={upload.size}
                                 />
                             ))}
                         </VStack>

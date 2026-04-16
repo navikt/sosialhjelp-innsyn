@@ -37,16 +37,31 @@ const submitUpload = async ({
         method: "post",
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
-    }).then((res) => {
+    }).then(async (res) => {
         if (!res.ok) {
+            if (res.status === 422) {
+                throw await res.json();
+            }
             throw new Error(`Feil ved opplasting av vedlegg: ${res.status} ${res.statusText}`);
         }
     });
 
+export const SubmissionError = ["TOO_MANY_FILES", "TOTAL_SIZE_TOO_LARGE"] as const;
+
 const useSendVedleggHelper = (metadata: Required<Metadata>) => {
     const queryClient = useQueryClient();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
-    const { mutate, isPending, isSuccess, reset, error } = useMutation({
+    const { mutate, isPending, isSuccess, reset, error } = useMutation<
+        void,
+        { errors: (typeof SubmissionError)[] } | Error,
+        {
+            body: {
+                fiksDigisosId: string;
+                metadata: Metadata;
+            };
+            submissionId: string;
+        }
+    >({
         mutationFn: submitUpload,
         onSuccess: async () => {
             // Setter manuelt for å ikke flytte på rekkefølgen i oppgavelisten
@@ -95,7 +110,7 @@ const useSendVedleggHelper = (metadata: Required<Metadata>) => {
     };
 
     const upload = async (submissionId: string) => {
-        mutate({ body: { metadata, fiksDigisosId }, submissionId });
+        mutate({ body: { metadata, fiksDigisosId }, submissionId }, { onError: () => {} });
     };
 
     return {

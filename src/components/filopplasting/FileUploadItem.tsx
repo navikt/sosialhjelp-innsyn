@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { FileUpload } from "@navikt/ds-react/FileUpload";
 import { Upload } from "tus-js-client";
 import { BodyShort, HStack, List } from "@navikt/ds-react";
-import { ExclamationmarkTriangleFillIcon } from "@navikt/aksel-icons";
+import { InformationSquareFillIcon } from "@navikt/aksel-icons";
 import { browserEnv } from "@config/env";
 import { UploadStatus, ValidationCode } from "@components/filopplasting/api/useDocumentState";
 
@@ -16,6 +16,7 @@ interface Props {
     validations?: ValidationCode[];
     url?: string;
     status: UploadStatus;
+    size?: number;
 }
 
 const FilePreviewModal = dynamic(() => import("./preview/FilePreviewModal"), { ssr: false });
@@ -23,14 +24,14 @@ const FilePreviewModal = dynamic(() => import("./preview/FilePreviewModal"), { s
 const SeOverDescription = () => {
     const t = useTranslations("FileUploadItem");
     return (
-        <HStack align="center" gap="space-8" className="text-ax-text-warning-subtle">
-            <ExclamationmarkTriangleFillIcon aria-hidden />
+        <HStack align="center" gap="space-8" className="text-ax-text-info-subtle">
+            <InformationSquareFillIcon aria-hidden />
             <BodyShort>{t("seOver")}</BodyShort>
         </HStack>
     );
 };
 
-const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validations, url, status }: Props) => {
+const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validations, url, status, size }: Props) => {
     const ref = useRef<HTMLDialogElement>(null);
     const t = useTranslations("FileUploadItem");
     const { mutate, isPending } = useMutation({
@@ -42,8 +43,7 @@ const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validat
         <>
             {/* @ts-expect-error Funker fint med ReactNode som children */}
             <FileUpload.Item
-                className={isConverted ? "border-ax-border-warning-subtle! border rounded-xl *:border-none" : undefined}
-                file={{ name: convertedFilename ?? originalFilename }}
+                file={{ name: convertedFilename ?? originalFilename, size }}
                 as="li"
                 status={
                     (!url && !validations && status !== "FAILED" && status !== "COMPLETE") || isPending
@@ -52,7 +52,7 @@ const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validat
                 }
                 button={{ action: "delete", onClick: () => mutate() }}
                 onFileClick={() => ref.current?.showModal()}
-                description={convertedFilename ? <SeOverDescription /> : undefined}
+                description={isConverted ? <SeOverDescription /> : undefined}
                 error={
                     status === "FAILED" ? (
                         "Det skjedde noe galt. Prøv å last oppfilen på nytt"
