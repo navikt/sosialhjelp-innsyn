@@ -1,5 +1,5 @@
-import { originalSoknadVedleggTekstVisning } from "src/redux/soknadsdata/vedleggskravVisningConfig";
-import { OriginalSoknadVedleggType } from "src/redux/soknadsdata/vedleggTypes";
+import { originalSoknadVedleggTekstVisning } from "../redux/soknadsdata/vedleggskravVisningConfig";
+import { OriginalSoknadVedleggType } from "../redux/soknadsdata/vedleggTypes";
 
 export const getVisningstekster = (type: string, tilleggsinfo: string | undefined) => {
     const sammensattType = type + "|" + tilleggsinfo;
