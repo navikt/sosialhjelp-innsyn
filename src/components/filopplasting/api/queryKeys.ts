@@ -11,6 +11,6 @@ export const getQueryKeysForInvalidation = (fiksDigisosId: string, oppgaveId?: s
         getHentVedleggQueryKey(fiksDigisosId),
         getHentHendelserQueryKey(fiksDigisosId),
         getHentHendelserBetaQueryKey(fiksDigisosId),
-        getGetVedleggForOppgaveQueryKey(fiksDigisosId, oppgaveId),
+        oppgaveId ? getGetVedleggForOppgaveQueryKey(fiksDigisosId, oppgaveId) : [],
         getGetSaksDetaljerQueryKey(fiksDigisosId),
     ].flat();
