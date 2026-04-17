@@ -3,7 +3,6 @@
 import { useTranslations } from "next-intl";
 import { BodyShort, FileObject, FileUpload, Heading, InlineMessage, VStack } from "@navikt/ds-react";
 import { ReactNode } from "react";
-import { logger } from "@navikt/next-logger";
 import { getTusUploader } from "@components/filopplasting/utils/tusUploader";
 import { DocumentState } from "@components/filopplasting/api/useDocumentState";
 
@@ -34,10 +33,6 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
         const uploads = files.map((file: FileObject) =>
             getTusUploader({
                 id: uploadId,
-                onProgress: (bytesSent, bytesTotal) => {
-                    const progress = bytesSent / bytesTotal;
-                    logger.info(progress);
-                },
                 file,
                 fiksDigisosId,
             })

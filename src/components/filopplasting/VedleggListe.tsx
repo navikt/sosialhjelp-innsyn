@@ -2,7 +2,6 @@
 
 import { BodyShort, HStack, Skeleton, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-import React from "react";
 import * as R from "remeda";
 import { OriginalSoknadDto, VedleggResponse } from "@generated/model";
 import { OppgaveVedleggFil } from "@generated/model/oppgaveVedleggFil";

@@ -9,7 +9,7 @@ import { Metadata } from "@components/filopplasting/types";
 import { useHentVedleggSuspense } from "@generated/vedlegg-controller/vedlegg-controller";
 import useIsMobile from "@utils/useIsMobile";
 
-import VedleggListe, { VedleggListeSkeleton } from "./VedleggListe";
+import VedleggListe, { VedleggListeSkeleton } from "@components/filopplasting/VedleggListe";
 import { useHentOriginalSoknadSuspense } from "@generated/soknads-status-controller/soknads-status-controller";
 import { useHentSaksStatuserSuspense } from "@generated/saks-status-controller/saks-status-controller";
 import { SoknadsStatusResponseStatus } from "@generated/model";
@@ -53,13 +53,13 @@ const Filopplasting = ({ id, newUploadEnabled, soknadStatus }: Props) => {
                     {showUpload && (
                         <VStack gap={isMobile ? "space-16" : "space-40"}>
                             {isMobile && <BodyLong>{t("beskrivelse")}</BodyLong>}
-                            <NavigationGuardProvider>
-                                {newUploadEnabled ? (
-                                    <OpplastingsboksTus metadata={metadata} id={id} />
-                                ) : (
+                            {newUploadEnabled ? (
+                                <OpplastingsboksTus metadata={metadata} id={id} />
+                            ) : (
+                                <NavigationGuardProvider>
                                     <Opplastingsboks metadata={metadata} />
-                                )}
-                            </NavigationGuardProvider>
+                                </NavigationGuardProvider>
+                            )}
                         </VStack>
                     )}
                     {(vedlegg.length > 0 || originalSoknad) && (

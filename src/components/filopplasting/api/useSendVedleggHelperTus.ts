@@ -1,30 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import {
-    getHentHendelserQueryKey,
-    getHentHendelserBetaQueryKey,
-} from "@generated/hendelse-controller/hendelse-controller";
-import { getHentVedleggQueryKey } from "@generated/vedlegg-controller/vedlegg-controller";
-import { browserEnv } from "@config/env";
-import {
     GetDokumentasjonkravBetaQueryResult,
     getGetDokumentasjonkravBetaQueryKey,
     getGetOppgaverBetaQueryKey,
-    getGetVedleggForOppgaveQueryKey,
     GetOppgaverBetaQueryResult,
 } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
+import { browserEnv } from "@config/env";
 
 import { Metadata } from "../types";
-import { getGetSaksDetaljerQueryKey } from "@generated/saks-oversikt-controller/saks-oversikt-controller";
-
-const getQueryKeysForInvalidation = (fiksDigisosId: string, oppgaveId?: string): string[] =>
-    [
-        getHentVedleggQueryKey(fiksDigisosId),
-        getHentHendelserQueryKey(fiksDigisosId),
-        getHentHendelserBetaQueryKey(fiksDigisosId),
-        getGetVedleggForOppgaveQueryKey(fiksDigisosId, oppgaveId),
-        getGetSaksDetaljerQueryKey(fiksDigisosId),
-    ].flat();
+import { getQueryKeysForInvalidation } from "./queryKeys";
 
 const submitUpload = async ({
     submissionId,
@@ -48,10 +33,16 @@ const submitUpload = async ({
 
 export const SubmissionError = ["TOO_MANY_FILES", "TOTAL_SIZE_TOO_LARGE"] as const;
 
-const useSendVedleggHelper = (metadata: Required<Metadata>) => {
+const useSendVedleggHelperTus = (metadata: Required<Metadata>) => {
     const queryClient = useQueryClient();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
-    const { mutate, isPending, isSuccess, reset, error } = useMutation<
+    const {
+        mutate,
+        isPending,
+        isSuccess,
+        reset: resetMutation,
+        error,
+    } = useMutation<
         void,
         { errors: (typeof SubmissionError)[] } | Error,
         {
@@ -63,6 +54,7 @@ const useSendVedleggHelper = (metadata: Required<Metadata>) => {
         }
     >({
         mutationFn: submitUpload,
+        throwOnError: false,
         onSuccess: async () => {
             // Setter manuelt for å ikke flytte på rekkefølgen i oppgavelisten
             queryClient.setQueryData<GetOppgaverBetaQueryResult>(getGetOppgaverBetaQueryKey(fiksDigisosId), (prev) => {
@@ -105,22 +97,18 @@ const useSendVedleggHelper = (metadata: Required<Metadata>) => {
             });
         },
     });
-    const resetMutation = () => {
-        reset();
-    };
 
-    const upload = async (submissionId: string) => {
-        mutate({ body: { metadata, fiksDigisosId }, submissionId }, { onError: () => {} });
+    const upload = (submissionId: string) => {
+        mutate({ body: { metadata, fiksDigisosId }, submissionId });
     };
 
     return {
         upload,
         resetMutation,
-        errors: [],
         isPending,
         isUploadSuccess: isSuccess,
         error,
     };
 };
 
-export default useSendVedleggHelper;
+export default useSendVedleggHelperTus;
