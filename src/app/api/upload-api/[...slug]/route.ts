@@ -27,3 +27,4 @@ export const GET = uploadApiProxy;
 export const OPTIONS = uploadApiProxy;
 export const POST = uploadApiProxy;
 export const PUT = uploadApiProxy;
+export const PATCH = uploadApiProxy;

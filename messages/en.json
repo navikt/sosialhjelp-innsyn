@@ -15,6 +15,7 @@
         "deltSoknadInfo": "Your application has been split into {n} cases because there is a need to process parts of the application separately."
     },
     "FileUploadItem": {
+        "uploadFailed": "Upload failed. Please try again later.",
         "validation": {
             "ENCRYPTED_PDF": "The PDF is password protected and we cannot process it",
             "FILETYPE_NOT_SUPPORTED": "The file type is not supported",
@@ -222,13 +223,14 @@
         "valgteFiler": "Selected files ({antall_filer})",
         "filerTilOpplasting": "Files for upload",
         "antallFiler": "{count, plural, one {# file ready for upload} other {# files ready for upload}}",
-        "konvertert": {
-            "tittel": "Some files may have been changed",
-            "beskrivelse": "Some files may have been converted because the original file format is not supported. You must review and approve the files before you can continue."
-        },
+        "konvertert": "One or more files were changed to another format (PDF) so that it can be submitted.",
         "error": "An error occurred while uploading the files. Please try again.",
         "suksess": "Thank you! Your documentation have been submitted.",
         "forlater_siden_uten_aa_sende_inn_vedlegg": "This page is asking you to confirm that you want to leave — information you’ve entered may not be saved.",
+        "submissionError": {
+            "TOO_MANY_FILES": "You have selected too many files. The maximum number of files is 30.",
+            "TOTAL_SIZE_TOO_LARGE": "The total size of the files you have selected is too large. The maximum total size is 150 MB."
+        },
         "feil": {
             "minst_ett_vedlegg": "You must first select the document you want to submit.",
             "opplasting_feilmelding": "We cannot forward your documentation. Please remove and correct the above files",

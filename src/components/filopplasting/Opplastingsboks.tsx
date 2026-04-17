@@ -10,7 +10,7 @@ import useFiles from "@components/filopplasting/useFiles";
 import { Metadata } from "@components/filopplasting/types";
 import useIsMobile from "@utils/useIsMobile";
 import { errorStatusToMessage } from "@components/filopplasting/utils/mapErrors";
-import VedleggListe from "../../app/[locale]/soknad/[id]/_components/dokumenter/VedleggListe";
+import VedleggListe from "@components/filopplasting/VedleggListe";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
 import { umamiTrack } from "../../app/umami";
 import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
