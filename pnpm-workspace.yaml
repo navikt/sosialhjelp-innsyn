@@ -1,21 +1,7 @@
 minimumReleaseAge: 10080
+
+overrides:
+    protobufjs: ^7.5.5
+
 minimumReleaseAgeExclude:
-    - next@15.5.9
-    - eslint-config-next@15.5.7
-    - "@next/eslint-plugin-next@15.5.7"
-    - csp-header@6.2.1
-    - "@next/env@15.5.9"
-    - react@19.2.1
-    - react-dom@19.2.1
-    - orval@8.7.0
-    - "@orval/core@8.7.0"
-    - "@orval/fetch@8.7.0"
-    - "@orval/mock@8.7.0"
-    - "@orval/query@8.7.0"
-    - "@orval/zod@8.7.0"
-    - "@orval/hono@8.7.0"
-    - "@orval/angular@8.7.0"
-    - "@orval/swr@8.7.0"
-    - "@orval/axios@8.7.0"
-    - "@orval/mcp@8.7.0"
-    - "@orval/solid-start@8.7.0"
+    - protobufjs@7.5.5

@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "esnext",
-        "lib": ["dom", "dom.iterable", "esnext"],
+        "lib": ["dom", "esnext"],
         "allowJs": true,
         "skipLibCheck": true,
         "esModuleInterop": true,
@@ -16,24 +16,24 @@
         "jsx": "react-jsx",
         "noFallthroughCasesInSwitch": true,
         "incremental": true,
+        "types": ["node"],
         "plugins": [
             {
                 "name": "next"
             }
         ],
-        "baseUrl": "./",
         "paths": {
-            "@api/*": ["src/api/*"],
-            "@components/*": ["src/components/*"],
-            "@config/*": ["src/config/*"],
-            "@faro/*": ["src/faro/*"],
-            "@featuretoggles/*": ["src/featuretoggles/*"],
-            "@generated/*": ["src/generated/*"],
-            "@hooks/*": ["src/hooks/*"],
-            "@i18n/*": ["src/i18n/*"],
-            "@styles/*": ["src/styles/*"],
-            "@test/*": ["src/test/*"],
-            "@utils/*": ["src/utils/*"]
+            "@api/*": ["./src/api/*"],
+            "@components/*": ["./src/components/*"],
+            "@config/*": ["./src/config/*"],
+            "@faro/*": ["./src/faro/*"],
+            "@featuretoggles/*": ["./src/featuretoggles/*"],
+            "@generated/*": ["./src/generated/*"],
+            "@hooks/*": ["./src/hooks/*"],
+            "@i18n/*": ["./src/i18n/*"],
+            "@styles/*": ["./src/styles/*"],
+            "@test/*": ["./src/test/*"],
+            "@utils/*": ["./src/utils/*"]
         }
     },
     "include": [
