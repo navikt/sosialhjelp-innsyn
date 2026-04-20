@@ -103,7 +103,7 @@ export const UtbetalingerContentCard = ({ manedUtbetaling, index, count }: Props
                             <Utbetalingsmetode utbetaling={manedUtbetaling} />
                         </BodyShort>
                     </VStack>
-                    {manedUtbetaling.tilknyttedeSoknader.length > 0 ? (
+                    {manedUtbetaling.tilknyttedeSoknader.length > 1 ? (
                         <VStack gap="space-4">
                             <BodyShort>{t("flereSoknader")}</BodyShort>
                             {manedUtbetaling.tilknyttedeSoknader.map((soknad) => (

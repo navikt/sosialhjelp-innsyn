@@ -20,7 +20,7 @@ test.describe("Utbetalinger - Snarveier", () => {
 });
 
 test.describe("Utbetalinger - Tilknyttede søknader", () => {
-    test("should show tilknyttet søknad link when utbetaling has one tilknyttet søknad", async ({
+    test("should show default søknad link when utbetaling has one or zero tilknyttede søknader", async ({
         page,
         request,
         baseURL,
@@ -46,9 +46,8 @@ test.describe("Utbetalinger - Tilknyttede søknader", () => {
         const card = page.getByRole("region", { name: /Livsopphold/ });
         await card.getByRole("button").click();
 
-        await expect(card.getByText("Denne utbetalingen er knyttet til flere søknader")).toBeVisible();
-        await expect(card.getByText("Søknad om livsopphold")).toBeVisible();
-        await expect(card.getByText("Se søknaden og vedtaket du fikk")).not.toBeVisible();
+        await expect(card.getByText("Se søknaden og vedtaket du fikk")).toBeVisible();
+        await expect(card.getByText("Denne utbetalingen er knyttet til flere søknader")).not.toBeVisible();
     });
 
     test("should show both søknad titles when utbetaling has multiple tilknyttede søknader", async ({
