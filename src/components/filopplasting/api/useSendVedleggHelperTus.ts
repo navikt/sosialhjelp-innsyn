@@ -1,53 +1,60 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import {
-    getHentHendelserQueryKey,
-    getHentHendelserBetaQueryKey,
-} from "@generated/hendelse-controller/hendelse-controller";
-import { getHentVedleggQueryKey } from "@generated/vedlegg-controller/vedlegg-controller";
-import { browserEnv } from "@config/env";
-import {
     GetDokumentasjonkravBetaQueryResult,
     getGetDokumentasjonkravBetaQueryKey,
     getGetOppgaverBetaQueryKey,
-    getGetVedleggForOppgaveQueryKey,
     GetOppgaverBetaQueryResult,
 } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
+import { browserEnv } from "@config/env";
 
 import { Metadata } from "../types";
-import { getGetSaksDetaljerQueryKey } from "@generated/saks-oversikt-controller/saks-oversikt-controller";
-
-const getQueryKeysForInvalidation = (fiksDigisosId: string, oppgaveId?: string): string[] =>
-    [
-        getHentVedleggQueryKey(fiksDigisosId),
-        getHentHendelserQueryKey(fiksDigisosId),
-        getHentHendelserBetaQueryKey(fiksDigisosId),
-        getGetVedleggForOppgaveQueryKey(fiksDigisosId, oppgaveId),
-        getGetSaksDetaljerQueryKey(fiksDigisosId),
-    ].flat();
+import { getQueryKeysForInvalidation } from "./queryKeys";
 
 const submitUpload = async ({
-    documentId,
+    submissionId,
     body,
 }: {
     body: { fiksDigisosId: string; metadata: Metadata };
-    documentId: string;
+    submissionId: string;
 }) =>
-    fetch(`${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/document/${documentId}/submit`, {
+    fetch(`${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/submission/${submissionId}/submit`, {
         method: "post",
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
-    }).then((res) => {
+    }).then(async (res) => {
         if (!res.ok) {
+            if (res.status === 422) {
+                throw await res.json();
+            }
             throw new Error(`Feil ved opplasting av vedlegg: ${res.status} ${res.statusText}`);
         }
     });
 
-const useSendVedleggHelper = (metadata: Metadata) => {
+export const SubmissionError = ["TOO_MANY_FILES", "TOTAL_SIZE_TOO_LARGE"] as const;
+
+const useSendVedleggHelperTus = (metadata: Required<Metadata>) => {
     const queryClient = useQueryClient();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
-    const { mutate, isPending, isSuccess, reset, error } = useMutation({
+    const {
+        mutate,
+        isPending,
+        isSuccess,
+        reset: resetMutation,
+        error,
+    } = useMutation<
+        void,
+        { errors: (typeof SubmissionError)[] } | Error,
+        {
+            body: {
+                fiksDigisosId: string;
+                metadata: Metadata;
+            };
+            submissionId: string;
+        }
+    >({
         mutationFn: submitUpload,
+        throwOnError: false,
         onSuccess: async () => {
             // Setter manuelt for å ikke flytte på rekkefølgen i oppgavelisten
             queryClient.setQueryData<GetOppgaverBetaQueryResult>(getGetOppgaverBetaQueryKey(fiksDigisosId), (prev) => {
@@ -90,22 +97,18 @@ const useSendVedleggHelper = (metadata: Metadata) => {
             });
         },
     });
-    const resetMutation = () => {
-        reset();
-    };
 
-    const upload = async (documentId: string) => {
-        mutate({ body: { metadata, fiksDigisosId }, documentId });
+    const upload = (submissionId: string) => {
+        mutate({ body: { metadata, fiksDigisosId }, submissionId });
     };
 
     return {
         upload,
         resetMutation,
-        errors: [],
         isPending,
         isUploadSuccess: isSuccess,
         error,
     };
 };
 
-export default useSendVedleggHelper;
+export default useSendVedleggHelperTus;

@@ -1,7 +1,6 @@
 import { buildCspHeader } from "@navikt/nav-dekoratoren-moduler/ssr";
 import createNextIntlPlugin from "next-intl/plugin";
 import { NextConfig } from "next";
-import { RemotePattern } from "next/dist/shared/lib/image-config";
 
 /** Content security policy */
 const [SELF, UNSAFE_INLINE, UNSAFE_EVAL] = ["'self'", "'unsafe-inline'", "'unsafe-eval'"];
@@ -11,10 +10,9 @@ const isLocal = process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "local";
 const isProd = process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === "prod";
 
 const localServer = process.env.NEXT_PUBLIC_INNSYN_ORIGIN ?? "";
-const fileStorageOrigin = isLocal ? "http://localhost:3007" : "https://storage.googleapis.com";
 const innsynApiLocalhost = "http://localhost:8989";
 const uxsignalsScriptSrc = "https://uxsignals-frontend.uxsignals.app.iterate.no";
-const pdfjsDistCdnOrigin = "https://cdnjs.cloudflare.com";
+const pdfjsDistCdnOrigin = "https://unpkg.com";
 
 const appDirectives = {
     "default-src": [SELF],
@@ -22,24 +20,11 @@ const appDirectives = {
     "script-src-elem": [SELF, uxsignalsScriptSrc, pdfjsDistCdnOrigin],
     "style-src": [SELF, UNSAFE_INLINE, localServer],
     "style-src-elem": [SELF, UNSAFE_INLINE, localServer],
-    "img-src": [SELF, DATA, BLOB, uxsignalsScriptSrc, fileStorageOrigin],
+    "img-src": [SELF, DATA, BLOB, uxsignalsScriptSrc],
     "font-src": [SELF],
-    "worker-src": [SELF, fileStorageOrigin, pdfjsDistCdnOrigin],
-    "connect-src": [SELF, fileStorageOrigin, ...(isLocal ? [innsynApiLocalhost, localServer] : [])],
+    "worker-src": [SELF, pdfjsDistCdnOrigin],
+    "connect-src": [SELF, ...(isLocal ? [innsynApiLocalhost, localServer] : [])],
 };
-
-const imageRemotePattern: RemotePattern = localServer
-    ? {
-          hostname: "localhost",
-          protocol: "http",
-          port: "3007",
-          pathname: "/sosialhjelp/upload/files/**",
-      }
-    : {
-          hostname: "storage.googleapis.com",
-          protocol: "https",
-          pathname: "/**",
-      };
 
 const nextConfig: NextConfig = {
     headers: async () => [
@@ -54,9 +39,6 @@ const nextConfig: NextConfig = {
         },
     ],
     output: "standalone",
-    images: {
-        remotePatterns: [imageRemotePattern],
-    },
     assetPrefix: process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_ASSET_PREFIX : undefined,
     reactStrictMode: true,
     basePath: process.env.NEXT_PUBLIC_BASE_PATH,

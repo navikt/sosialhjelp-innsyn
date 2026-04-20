@@ -1,14 +1,16 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Alert, BodyShort, FileObject, FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
+import { BodyShort, FileObject, FileUpload, Heading, InlineMessage, VStack } from "@navikt/ds-react";
 import { ReactNode } from "react";
-import { logger } from "@navikt/next-logger";
 import { getTusUploader } from "@components/filopplasting/utils/tusUploader";
 import { DocumentState } from "@components/filopplasting/api/useDocumentState";
 
 import FileUploadItem from "./FileUploadItem";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
+import { browserEnv } from "@config/env";
+import { useParams } from "next/navigation";
+import { SubmissionError } from "@components/filopplasting/api/useSendVedleggHelperTus";
 
 interface Props {
     id?: string;
@@ -19,30 +21,30 @@ interface Props {
     isPending?: boolean;
     docState: DocumentState;
     uploadId: string;
+    errors?: (typeof SubmissionError)[];
 }
 
-const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uploadId }: Props) => {
+const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uploadId, errors }: Props) => {
     const t = useTranslations("Opplastingsboks");
+    const { id: fiksDigisosId } = useParams<{ id: string }>();
 
     // Starter opplasting umiddelbart ved filvalg
-    const onSelect = (_files: FileObject[]) => {
-        const uploads = _files.map((file: FileObject) =>
+    const onSelect = (files: FileObject[]) => {
+        const uploads = files.map((file: FileObject) =>
             getTusUploader({
                 id: uploadId,
-                onProgress: (bytesSent, bytesTotal) => {
-                    const progress = bytesSent / bytesTotal;
-                    logger.info(progress);
-                },
                 file,
+                fiksDigisosId,
             })
         );
         uploads.forEach((upload) => upload.start());
     };
-    const converted = docState.uploads?.some((upload) => upload.convertedFilename);
+    const converted = docState.uploads?.some(
+        (upload) => !!upload.finalFilename && upload.finalFilename !== upload.originalFilename
+    );
     return (
         <FileUpload
             id={id}
-            className="mb-4"
             translations={{
                 dropzone: {
                     buttonMultiple: t("button"),
@@ -76,27 +78,44 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                 {!!docState.uploads?.length && (
                     <VStack gap="space-8">
                         <Heading size="xsmall" level="3">
-                            {filesLabel ?? t("Opplastingsboks.valgteFiler", { antall_filer: docState.uploads.length })}
+                            {filesLabel ?? t("valgteFiler", { antall_filer: docState.uploads.length })}
                         </Heading>
                         {converted && (
-                            <Alert variant="warning">
-                                <HStack gap="space-8">
-                                    <Heading size="small" level="4">
-                                        {t("konvertert.tittel")}
-                                    </Heading>
-                                    <BodyShort>{t("konvertert.beskrivelse")}</BodyShort>
-                                </HStack>
-                            </Alert>
+                            <InlineMessage
+                                status={"info"}
+                                className="border border-ax-border-info-subtle bg-ax-bg-info-moderate p-2 rounded-xl"
+                            >
+                                {t("konvertert")}
+                            </InlineMessage>
+                        )}
+                        {(errors?.length ?? 0) > 0 && (
+                            <>
+                                {errors?.map((error) => (
+                                    <InlineMessage
+                                        key={`${error}`}
+                                        status={"error"}
+                                        className="border border-ax-border-error-subtle bg-ax-bg-error-moderate p-2 rounded-xl"
+                                    >
+                                        {t(`submissionError.${error}`)}
+                                    </InlineMessage>
+                                ))}
+                            </>
                         )}
                         <VStack as="ul" gap="space-8">
                             {docState.uploads?.map((upload) => (
                                 <FileUploadItem
                                     key={upload.originalFilename}
-                                    url={upload.signedUrl}
+                                    url={
+                                        upload.url
+                                            ? `${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`
+                                            : undefined
+                                    }
                                     uploadId={upload.id}
-                                    convertedFilename={upload.convertedFilename}
+                                    convertedFilename={upload.finalFilename}
                                     originalFilename={upload.originalFilename}
                                     validations={upload.validations}
+                                    status={upload.status}
+                                    size={upload.size}
                                 />
                             ))}
                         </VStack>

@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { BodyShort, FileUpload, Heading, HStack, VStack } from "@navikt/ds-react";
+import { ReactNode } from "react";
 import { FancyFile, Error } from "@components/filopplasting/types";
 import { errorStatusToMessage } from "@components/filopplasting/utils/mapErrors";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
@@ -9,9 +10,9 @@ import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
 interface Props {
     id?: string;
     label?: string;
-    description?: React.ReactNode;
+    description?: ReactNode;
     filesLabel?: string;
-    tag?: React.ReactNode;
+    tag?: ReactNode;
     files: FancyFile[];
     addFiler: (files: File[]) => void;
     removeFil: (file: FancyFile) => void;

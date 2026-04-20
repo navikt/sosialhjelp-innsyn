@@ -1,6 +1,9 @@
 import { useParams } from "next/navigation";
 import * as R from "remeda";
-import { useHentHendelserBetaSuspense } from "@generated/hendelse-controller/hendelse-controller";
+import {
+    useHentHendelserBetaSuspense,
+    HentHendelserBetaQueryResult,
+} from "@generated/hendelse-controller/hendelse-controller";
 
 import SendtEvent from "./events/SendtEvent";
 import MottattEvent from "./events/MottattEvent";
@@ -15,8 +18,9 @@ import DokumentasjonskravEvent from "./events/DokumentasjonskravEvent";
 import UtbetalingerOppdatertEvent from "./events/UtbetalingerOppdatertEvent";
 import VideresendtEvent from "./events/VideresendtEvent";
 import DeltSoknadEvent from "./events/DeltSoknadEvent";
-import { HentHendelserBeta200Item } from "@generated/model";
 import BehandlesIkkeEvent from "./events/BehandlesIkkeEvent";
+
+type HentHendelserBeta200Item = HentHendelserBetaQueryResult[number];
 import KanIkkeViseStatusEvent from "./events/KanIkkeViseStatusEvent";
 
 type Hendelse =

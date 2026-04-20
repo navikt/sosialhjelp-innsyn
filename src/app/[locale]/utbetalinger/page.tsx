@@ -12,6 +12,7 @@ import { UtbetalingerSkeleton } from "./_components/UtbetalingerSkeleton";
 import Snarveier from "@components/snarveier/Snarveier";
 import SoknaderSnarvei from "@components/snarveier/SoknaderSnarvei";
 import LandingssideSnarvei from "@components/snarveier/LandingssideSnarvei";
+import AndreUtbetalingerInfo from "./_components/AndreUtbetalingerInfo";
 
 const Page = async () => {
     const t = await getTranslations("UtbetalingerPage");
@@ -31,6 +32,7 @@ const Page = async () => {
                         <Utbetalinger />
                     </HydrationBoundary>
                 </Suspense>
+                <AndreUtbetalingerInfo />
                 <Snarveier>
                     <SoknaderSnarvei />
                     <LandingssideSnarvei />

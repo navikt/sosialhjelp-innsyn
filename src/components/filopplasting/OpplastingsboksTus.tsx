@@ -2,13 +2,13 @@
 
 import { useTranslations } from "next-intl";
 import { Alert, BodyShort, Button, Heading, HStack, VStack } from "@navikt/ds-react";
-import { ReactNode, useRef, useEffect } from "react";
+import { ReactNode } from "react";
 import { useParams } from "next/navigation";
 import { Metadata } from "@components/filopplasting/types";
 import { useDocumentState } from "@components/filopplasting/api/useDocumentState";
 import useSendVedleggHelperTus from "@components/filopplasting/api/useSendVedleggHelperTus";
 import FileSelectNew from "@components/filopplasting/FileSelectNew";
-import VedleggListe from "../../app/[locale]/soknad/[id]/_components/dokumenter/VedleggListe";
+import VedleggListe from "@components/filopplasting/VedleggListe";
 import useIsMobile from "@utils/useIsMobile";
 import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 
@@ -35,15 +35,14 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
         isPending,
         isUploadSuccess,
         error: mutationError,
-    } = useSendVedleggHelperTus(metadata);
-    const liveRegionRef = useRef<HTMLDivElement>(null);
-
-    // Move focus to live region when upload completes to prevent "leaving main content" announcement
-    useEffect(() => {
-        if (isUploadSuccess && liveRegionRef.current) {
-            liveRegionRef.current.focus();
-        }
-    }, [isUploadSuccess]);
+    } = useSendVedleggHelperTus({
+        dokumentKontekst: metadata.dokumentKontekst,
+        type: metadata.type,
+        hendelsereferanse: metadata.hendelsereferanse ?? "",
+        hendelsetype: metadata.hendelsetype ?? "bruker",
+        tilleggsinfo: metadata.tilleggsinfo ?? "annet",
+        innsendelsesfrist: "",
+    });
 
     if (completed) {
         return (
@@ -75,16 +74,23 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
     }
 
     return (
-        <>
-            <FileSelectNew label={label} description={description} tag={tag} docState={docState} uploadId={id} />
+        <VStack gap="space-8">
+            <FileSelectNew
+                label={label}
+                description={description}
+                tag={tag}
+                docState={docState}
+                uploadId={id}
+                errors={mutationError && "errors" in mutationError ? mutationError.errors : undefined}
+            />
             {!!docState.uploads?.length && (
                 <Button
-                    onClick={() => upload(docState.documentId!)}
+                    onClick={() => upload(docState.submissionId!)}
                     loading={isPending}
-                    className="self-start mt-4"
+                    className="self-start"
                     disabled={
                         isPending ||
-                        docState.uploads?.some((upload) => (upload.validations?.length ?? 0) > 0 || !upload.signedUrl)
+                        docState.uploads?.some((upload) => (upload.validations?.length ?? 0) > 0 || !upload.filId)
                     }
                 >
                     {t("sendInn")}
@@ -100,7 +106,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
                     {t("error")}
                 </Alert>
             )}
-        </>
+        </VStack>
     );
 };
 

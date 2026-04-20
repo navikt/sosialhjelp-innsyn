@@ -2,31 +2,17 @@ import { logger } from "@navikt/next-logger";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 import {
-    getHentHendelserQueryKey,
-    getHentHendelserBetaQueryKey,
-} from "@generated/hendelse-controller/hendelse-controller";
-import { useSendVedlegg, getHentVedleggQueryKey } from "@generated/vedlegg-controller/vedlegg-controller";
-import {
     GetDokumentasjonkravBetaQueryResult,
     getGetDokumentasjonkravBetaQueryKey,
     getGetOppgaverBetaQueryKey,
-    getGetVedleggForOppgaveQueryKey,
     GetOppgaverBetaQueryResult,
 } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
+import { useSendVedlegg } from "@generated/vedlegg-controller/vedlegg-controller";
 
 import { FancyFile, Error as FileError, Metadata, Feil } from "../types";
 import { determineErrorType } from "../utils/mapErrors";
 import { createMetadataFile, formatFilesForUpload } from "../utils/formatFiles";
-import { getGetSaksDetaljerQueryKey } from "@generated/saks-oversikt-controller/saks-oversikt-controller";
-
-const getQueryKeysForInvalidation = (fiksDigisosId: string, oppgaveId?: string): string[] =>
-    [
-        getHentVedleggQueryKey(fiksDigisosId),
-        getHentHendelserQueryKey(fiksDigisosId),
-        getHentHendelserBetaQueryKey(fiksDigisosId),
-        getGetVedleggForOppgaveQueryKey(fiksDigisosId, oppgaveId),
-        getGetSaksDetaljerQueryKey(fiksDigisosId),
-    ].flat();
+import { getQueryKeysForInvalidation } from "./queryKeys";
 
 const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: () => void) => {
     const { isPending, mutate, isSuccess, reset } = useSendVedlegg();
