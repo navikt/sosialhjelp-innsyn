@@ -20,7 +20,7 @@ test.describe("Utbetalinger - Snarveier", () => {
 });
 
 test.describe("Utbetalinger - Tilknyttede søknader", () => {
-    test("should show single søknad link when utbetaling has one tilknyttet søknad", async ({
+    test("should show tilknyttet søknad link when utbetaling has one tilknyttet søknad", async ({
         page,
         request,
         baseURL,
@@ -36,7 +36,7 @@ test.describe("Utbetalinger - Tilknyttede søknader", () => {
                 status: "UTBETALT",
                 fiksDigisosId: "soknad-1",
                 annenMottaker: false,
-                tilknyttedeSoknader: ["soknad-1"],
+                tilknyttedeSoknader: [{ fiksDigisosId: "soknad-1", soknadTittel: "Søknad om livsopphold" }],
             },
         ]);
 
@@ -46,11 +46,12 @@ test.describe("Utbetalinger - Tilknyttede søknader", () => {
         const card = page.getByRole("region", { name: /Livsopphold/ });
         await card.getByRole("button").click();
 
-        await expect(card.getByText("Se søknaden og vedtaket du fikk")).toBeVisible();
-        await expect(card.getByText("Denne utbetalingen er knyttet til flere søknader")).not.toBeVisible();
+        await expect(card.getByText("Denne utbetalingen er knyttet til flere søknader")).toBeVisible();
+        await expect(card.getByText("Søknad om livsopphold")).toBeVisible();
+        await expect(card.getByText("Se søknaden og vedtaket du fikk")).not.toBeVisible();
     });
 
-    test("should show multiple søknad links when utbetaling has several tilknyttede søknader", async ({
+    test("should show both søknad titles when utbetaling has multiple tilknyttede søknader", async ({
         page,
         request,
         baseURL,
@@ -66,7 +67,10 @@ test.describe("Utbetalinger - Tilknyttede søknader", () => {
                 status: "UTBETALT",
                 fiksDigisosId: "soknad-a",
                 annenMottaker: false,
-                tilknyttedeSoknader: ["soknad-a", "soknad-b"],
+                tilknyttedeSoknader: [
+                    { fiksDigisosId: "soknad-a", soknadTittel: "Søknad om livsopphold", datoSendt: "2025-01-15" },
+                    { fiksDigisosId: "soknad-b", soknadTittel: "Søknad om boutgifter" },
+                ],
             },
         ]);
 
@@ -79,7 +83,9 @@ test.describe("Utbetalinger - Tilknyttede søknader", () => {
         await expect(card.getByText("Denne utbetalingen er knyttet til flere søknader")).toBeVisible();
         await expect(card.getByText("Se søknaden og vedtaket du fikk")).not.toBeVisible();
 
-        const soknadLinks = card.getByRole("link", { name: "Se søknaden" });
-        await expect(soknadLinks).toHaveCount(2);
+        await expect(card.getByText(/Søknad om livsopphold/)).toBeVisible();
+        await expect(card.getByText("Søknad om boutgifter")).toBeVisible();
+
+        await expect(card.getByRole("link")).toHaveCount(2);
     });
 });
