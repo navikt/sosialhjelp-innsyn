@@ -150,6 +150,7 @@ const Opplastingsboks = ({ metadata, label, labelText, description, tag, complet
                             </ul>
                         ) : null
                     }
+                    currentCount={files.length}
                 />
                 {files.length > 0 && (
                     <VStack gap="space-16">

@@ -10,7 +10,6 @@ import FileUploadItem from "./FileUploadItem";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
 import { browserEnv } from "@config/env";
 import { useParams } from "next/navigation";
-import { SubmissionError } from "@components/filopplasting/api/useSendVedleggHelperTus";
 
 interface Props {
     id?: string;
@@ -21,10 +20,9 @@ interface Props {
     isPending?: boolean;
     docState: DocumentState;
     uploadId: string;
-    errors?: (typeof SubmissionError)[];
 }
 
-const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uploadId, errors }: Props) => {
+const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uploadId }: Props) => {
     const t = useTranslations("Opplastingsboks");
     const { id: fiksDigisosId } = useParams<{ id: string }>();
 
@@ -42,6 +40,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
     const converted = docState.uploads?.some(
         (upload) => !!upload.finalFilename && upload.finalFilename !== upload.originalFilename
     );
+
     return (
         <FileUpload
             id={id}
@@ -72,7 +71,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                     description={description}
                     buttonText={t("lastOppFiler")}
                     onSelect={onSelect}
-                    disabled={(docState.uploads?.length ?? 0) >= 30}
+                    currentCount={docState.uploads?.length ?? 0}
                 />
 
                 {!!docState.uploads?.length && (
@@ -88,13 +87,13 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                                 {t("konvertert")}
                             </InlineMessage>
                         )}
-                        {(errors?.length ?? 0) > 0 && (
+                        {(docState.validations?.length ?? 0) > 0 && (
                             <>
-                                {errors?.map((error) => (
+                                {docState.validations?.map((error) => (
                                     <InlineMessage
                                         key={`${error}`}
-                                        status={"error"}
-                                        className="border border-ax-border-error-subtle bg-ax-bg-error-moderate p-2 rounded-xl"
+                                        status="error"
+                                        className="bg-ax-bg-danger-moderate border border-ax-border-error-subtle p-2 rounded-xl text-ax-text-danger"
                                     >
                                         {t(`submissionError.${error}`)}
                                     </InlineMessage>
@@ -104,7 +103,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                         <VStack as="ul" gap="space-8">
                             {docState.uploads?.map((upload) => (
                                 <FileUploadItem
-                                    key={upload.originalFilename}
+                                    key={upload.id}
                                     url={
                                         upload.url
                                             ? `${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`

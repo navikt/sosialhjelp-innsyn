@@ -24,12 +24,15 @@ export enum ValidationCode {
     FILETYPE_NOT_SUPPORTED = "FILETYPE_NOT_SUPPORTED",
     ENCRYPTED_PDF = "ENCRYPTED_PDF",
     INVALID_PDF = "INVALID_PDF",
+    TOO_MANY_FILES = "TOO_MANY_FILES",
+    TOTAL_TOO_LARGE = "TOTAL_TOO_LARGE",
 }
 
 export type DocumentState = {
     submissionId?: string;
     error?: string;
     uploads?: UploadState[];
+    validations?: ValidationCode[];
 };
 
 export type DocumentStateUpdate = {

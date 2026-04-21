@@ -72,6 +72,7 @@ const FileSelect = ({
                         ) : null
                     }
                     onSelect={(_files) => addFiler(_files.map((it) => it.file))}
+                    currentCount={files.length}
                 />
 
                 {files.length > 0 && (

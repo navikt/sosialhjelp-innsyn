@@ -12,6 +12,7 @@ interface ResponsiveFileUploadSimpleProps {
     error?: ReactNode;
     onSelect: (files: FileObject[]) => void;
     disabled?: boolean;
+    currentCount: number;
 }
 
 export const FileSelectUpload = ({
@@ -21,7 +22,8 @@ export const FileSelectUpload = ({
     buttonText,
     error,
     onSelect,
-    disabled = false,
+    disabled,
+    currentCount,
 }: ResponsiveFileUploadSimpleProps) => {
     const isMobile = useIsMobile();
 
@@ -45,6 +47,7 @@ export const FileSelectUpload = ({
                     onSelect={onSelect}
                     accept={allowedFileTypes}
                     maxSizeInBytes={10 * 1024 * 1024}
+                    fileLimit={{ max: 30, current: currentCount }}
                     multiple
                     disabled={disabled}
                     error={error}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Alert, BodyShort, Button, Heading, HStack, VStack } from "@navikt/ds-react";
+import { Alert, BodyShort, Button, Heading, HStack, InlineMessage, LocalAlert, VStack } from "@navikt/ds-react";
 import { ReactNode } from "react";
 import { useParams } from "next/navigation";
 import { Metadata } from "@components/filopplasting/types";
@@ -11,6 +11,7 @@ import FileSelectNew from "@components/filopplasting/FileSelectNew";
 import VedleggListe from "@components/filopplasting/VedleggListe";
 import useIsMobile from "@utils/useIsMobile";
 import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
+import { XMarkIcon } from "@navikt/aksel-icons";
 
 interface Props {
     metadata: Metadata;
@@ -75,14 +76,24 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
 
     return (
         <VStack gap="space-8">
-            <FileSelectNew
-                label={label}
-                description={description}
-                tag={tag}
-                docState={docState}
-                uploadId={id}
-                errors={mutationError && "errors" in mutationError ? mutationError.errors : undefined}
-            />
+            <FileSelectNew label={label} description={description} tag={tag} docState={docState} uploadId={id} />
+            {mutationError && (
+                <InlineMessage
+                    status="error"
+                    className="bg-ax-bg-danger-moderate border border-ax-border-error-subtle p-1 rounded-xl text-ax-text-danger [&>span]:w-full"
+                >
+                    <HStack justify="space-between" align="start">
+                        <div>{t("error")}</div>
+                        <Button
+                            icon={<XMarkIcon aria-hidden />}
+                            size="small"
+                            onClick={resetMutation}
+                            data-color="neutral"
+                            variant="tertiary-neutral"
+                        />
+                    </HStack>
+                </InlineMessage>
+            )}
             {!!docState.uploads?.length && (
                 <Button
                     onClick={() => upload(docState.submissionId!)}
@@ -90,21 +101,19 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
                     className="self-start"
                     disabled={
                         isPending ||
-                        docState.uploads?.some((upload) => (upload.validations?.length ?? 0) > 0 || !upload.filId)
+                        docState.uploads?.some((upload) => (upload.validations?.length ?? 0) > 0 || !upload.filId) ||
+                        (docState.validations?.length ?? 0) > 0
                     }
                 >
                     {t("sendInn")}
                 </Button>
             )}
             {isUploadSuccess && (
-                <Alert role="alert" variant="success">
-                    {t("suksess")}
-                </Alert>
-            )}
-            {mutationError && (
-                <Alert role="alert" variant="error">
-                    {t("error")}
-                </Alert>
+                <LocalAlert role="alert" status="success">
+                    <LocalAlert.Header>
+                        <LocalAlert.Title>{t("suksess")}</LocalAlert.Title>
+                    </LocalAlert.Header>
+                </LocalAlert>
             )}
         </VStack>
     );
