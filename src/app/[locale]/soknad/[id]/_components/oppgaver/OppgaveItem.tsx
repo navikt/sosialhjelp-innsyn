@@ -9,6 +9,7 @@ import { Metadata } from "@components/filopplasting/types";
 import { OppgaveResponseBeta } from "@generated/model";
 import TaskListItem from "../tasklistitem/TaskListItem";
 import OppgaveTag from "../tasklistitem/OppgaveTag";
+import { useParams } from "next/navigation";
 
 interface Props {
     oppgave: OppgaveResponseBeta;
@@ -30,11 +31,13 @@ const OppgaveItem = ({ oppgave }: Props, ref: Ref<HTMLLIElement>) => {
         hendelsetype: oppgave.hendelsetype,
     };
 
+    const { id: fiksDigisosId } = useParams<{ id: string }>();
+
     return (
         <TaskListItem ref={ref} variant={oppgave.erLastetOpp || !oppgave.erFraInnsyn ? "normal" : "warning"}>
             {newUploadEnabled ? (
                 <OpplastingsboksTus
-                    id={oppgave.oppgaveId}
+                    id={fiksDigisosId + oppgave.dokumenttype + oppgave.tilleggsinformasjon}
                     completed={oppgave.erLastetOpp}
                     label={typeTekst}
                     description={tilleggsinfoTekst}
