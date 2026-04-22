@@ -558,6 +558,8 @@
         "utbetalesTilUkjent": "Paid to another recipient",
         "bankkonto": "Your bank account: {konto}",
         "lenke": "View the application and the decision letter you received",
+        "flereSoknader": "This payment is linked to multiple applications:",
+        "lenkeSoknad": "View application",
         "STOPPET": "Stopped",
         "PLANLAGT_UTBETALING": "Scheduled",
         "UTBETALT": "Paid",

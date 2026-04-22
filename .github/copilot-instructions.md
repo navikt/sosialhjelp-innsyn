@@ -34,17 +34,20 @@ Both coexist and share the `[locale]` dynamic segment for i18n (Norwegian bokmå
 - `src/app/[locale]/` — App Router pages (newer features)
 - `src/pages/[locale]/` — Pages Router pages (legacy, being migrated)
 - `src/app/[locale]/Providers.tsx` — wraps the app in QueryClientProvider, NextIntlClientProvider, etc.
+- `src/proxy.ts` — middleware handling i18n routing and feature-flag-driven rewrites (e.g. old `/status` URLs → `/soknad/[id]`)
 
 ### API layer — Orval-generated React Query hooks
 
-All server state goes through TanStack React Query. Hooks are **auto-generated** from `innsyn-api.json` into `src/generated/innsyn-api.ts` — do not edit that file manually.
+All server state goes through TanStack React Query. Hooks are **auto-generated** from `innsyn-api.json` — do not edit `src/generated/` manually.
+
+Generated hooks live in controller-named subdirectories, e.g. `src/generated/saks-oversikt-controller/`. Each controller directory also exports `.msw.ts` files with mock factories for testing.
 
 Two fetch mutators are used by orval:
 
 - `src/custom-fetch.ts` → `customFetch` (client-side, proxied via `/api/innsyn-api`)
 - `src/api/ssr/authenticatedFetch.ts` (server-side SSR fetching with token exchange)
 
-`src/api/queryClient.ts` exports `getQueryClient()` — singleton on the client, fresh instance on the server (Next.js HMR-safe pattern).
+`src/api/queryClient.ts` exports `getQueryClient()` — singleton on the client, fresh instance on the server (Next.js HMR-safe pattern). In E2E environments `staleTime` is set to `Infinity` to prevent background refetches during tests.
 
 ### Styling
 
@@ -56,11 +59,35 @@ Two fetch mutators are used by orval:
 - **React Query** for all server/async state
 - **Context API** for feature flags (`src/featuretoggles/`), file upload state, tag sizing
 
+### Feature toggles
+
+Toggles are fetched server-side via Unleash (`src/featuretoggles/unleash.ts`) and passed to `FlagProvider` in `Providers.tsx`. All expected toggle names are defined in `src/featuretoggles/toggles.ts`.
+
+```ts
+const toggle = useFlag("sosialhjelp.innsyn.klage");
+if (toggle.enabled) { ... }
+```
+
+Toggles can be overridden locally via cookies: set a cookie named after the toggle with value `"true"` or `"false"`.
+
 ### i18n
 
 `next-intl` with translation files in `messages/nb.json`. Use `useTranslations()` in client components, `getTranslations()` in server components/RSCs.
 
 ## Key Conventions
+
+### Path aliases
+
+| Alias               | Path                   |
+| ------------------- | ---------------------- |
+| `@api/*`            | `src/api/*`            |
+| `@components/*`     | `src/components/*`     |
+| `@config/*`         | `src/config/*`         |
+| `@featuretoggles/*` | `src/featuretoggles/*` |
+| `@generated/*`      | `src/generated/*`      |
+| `@hooks/*`          | `src/hooks/*`          |
+| `@test/*`           | `src/test/*`           |
+| `@utils/*`          | `src/utils/*`          |
 
 ### React hooks
 
@@ -79,7 +106,7 @@ React.useState(...)
 #### Unit tests with Vitest + React Testing Library
 
 - Tests are colocated with source files as `*.test.ts(x)`
-- Import `render`, `renderHook`, `screen`, etc. from `@/test/test-utils` (not directly from `@testing-library/react`) — this wrapper provides QueryClient + NextIntlClientProvider
+- Import `render`, `renderHook`, `screen`, etc. from `@test/test-utils` (not directly from `@testing-library/react`) — this wrapper provides QueryClient + NextIntlClientProvider
 - MSW (`src/mocks/`) handles API mocking in tests; the server is started in `src/setupTests.ts`
 
 #### E2E tests with Playwright
@@ -95,7 +122,7 @@ API responses are controlled via MSW running inside the Next.js server process (
 - **`src/app/api/test/msw/route.ts`** — `POST /api/test/msw` Next.js route that lets tests dynamically add or reset MSW handlers at runtime. Only active when `NEXT_PUBLIC_RUNTIME_ENVIRONMENT` is `test`, `e2e`, or `local`.
 - **`e2e/helpers/msw-helpers.ts`** — `MswHelper` class (create with `createMswHelper(request, baseURL)`) that wraps the control API. Use `mockEndpoint(path, response)` to override a handler, `reset()` to restore defaults, and convenience methods like `mockEmptyState()` or `mockSoknadEndpoints(msw, soknadId, overrides?)` for common scenarios.
 
-Playwright is configured with `workers: 1` because `e2eServer` is shared via `globalThis` — parallel workers would interfere with each other's mocks.
+Playwright is configured with `workers: 1` because `e2eServer` is shared via `globalThis.__E2E_MSW_SERVER__` — parallel workers would interfere with each other's mocks.
 
 ```ts
 // Example usage in a test
