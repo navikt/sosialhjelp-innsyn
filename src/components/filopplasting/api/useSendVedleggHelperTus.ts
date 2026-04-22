@@ -31,7 +31,7 @@ const submitUpload = async ({
         }
     });
 
-export const SubmissionError = ["TOO_MANY_FILES", "TOTAL_SIZE_TOO_LARGE"] as const;
+type SubmissionError = "TOO_MANY_FILES" | "TOTAL_SIZE_TOO_LARGE";
 
 const useSendVedleggHelperTus = (metadata: Required<Metadata>) => {
     const queryClient = useQueryClient();
@@ -44,7 +44,7 @@ const useSendVedleggHelperTus = (metadata: Required<Metadata>) => {
         error,
     } = useMutation<
         void,
-        { errors: (typeof SubmissionError)[] } | Error,
+        { errors: SubmissionError[] } | Error,
         {
             body: {
                 fiksDigisosId: string;
