@@ -50,6 +50,7 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveBeskrivels
                                 <li key="soknad" ref={ref} tabIndex={-1}>
                                     <DigisosLinkCard
                                         href={fil.url}
+                                        openInNewTab
                                         cardIcon="external-link"
                                         dataColor="accent"
                                         description={
@@ -70,6 +71,7 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveBeskrivels
                                         href={fil.url}
                                         cardIcon="external-link"
                                         dataColor="accent"
+                                        openInNewTab
                                         description={
                                             <BodyShort>
                                                 {oppgaveBeskrivelse} (
@@ -86,6 +88,7 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveBeskrivels
                             <li key={fil.filnavn + fil.originalIndex} ref={ref} tabIndex={-1}>
                                 <DigisosLinkCard
                                     href={fil.url}
+                                    openInNewTab
                                     cardIcon="external-link"
                                     dataColor="accent"
                                     description={
