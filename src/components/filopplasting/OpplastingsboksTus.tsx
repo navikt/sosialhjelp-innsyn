@@ -20,10 +20,9 @@ interface Props {
     tag?: ReactNode;
     completed?: boolean;
     id: string;
-    variant?: "normal" | "warning";
 }
 
-const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, variant }: Props) => {
+const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }: Props) => {
     const t = useTranslations("Opplastingsboks");
     const isMobile = useIsMobile();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
@@ -77,14 +76,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, 
 
     return (
         <VStack gap="space-8">
-            <FileSelectNew
-                label={label}
-                description={description}
-                tag={tag}
-                docState={docState}
-                uploadId={id}
-                variant={variant}
-            />
+            <FileSelectNew label={label} description={description} tag={tag} docState={docState} uploadId={id} />
             {mutationError && (
                 <InlineMessage
                     status="error"
