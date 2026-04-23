@@ -2,8 +2,8 @@ import { useTranslations } from "next-intl";
 import { useMutation } from "@tanstack/react-query";
 import { FileUpload } from "@navikt/ds-react/FileUpload";
 import { Upload } from "tus-js-client";
-import { BodyShort, HStack, List } from "@navikt/ds-react";
-import { InformationSquareFillIcon } from "@navikt/aksel-icons";
+import { BodyShort, Button, HStack, List } from "@navikt/ds-react";
+import { InformationSquareFillIcon, TrashIcon } from "@navikt/aksel-icons";
 import { browserEnv } from "@config/env";
 import { UploadStatus, ValidationCode } from "@components/filopplasting/api/useDocumentState";
 
@@ -41,12 +41,16 @@ const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validat
             <FileUpload.Item
                 file={{ name: convertedFilename ?? originalFilename, size }}
                 as="li"
-                status={
-                    (!url && !validations && status !== "FAILED" && status !== "COMPLETE") || isPending
-                        ? "uploading"
-                        : "idle"
+                status={!url && !validations && status !== "FAILED" && status !== "COMPLETE" ? "uploading" : "idle"}
+                button={
+                    <Button
+                        variant="tertiary"
+                        data-color="neutral"
+                        icon={<TrashIcon title={t("slett")} />}
+                        onClick={() => mutate()}
+                        loading={isPending}
+                    />
                 }
-                button={{ action: "delete", onClick: () => mutate() }}
                 onFileClick={url ? () => window.open(url, "_blank", "noopener,noreferrer") : undefined}
                 description={isConverted ? <SeOverDescription /> : undefined}
                 error={
