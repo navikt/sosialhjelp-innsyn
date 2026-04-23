@@ -40,12 +40,7 @@
     },
     "VilkarListe": {
         "tittel": "Conditions",
-        "beskrivelse": "Conditions are activities you must participate in as part of your follow-up from Nav.",
-        "readMore": {
-            "tittel": "How do conditions work?",
-            "beskrivelse": "Conditions can be used if they help you to support yourself in a way other than through financial social assistance. When conditions are set, they should help you get out of a difficult life situation. As a general rule, the condition should be set in cooperation with you.",
-            "beskrivelse2": "If the condition is not met, Nav may make a new decision to reduce your social assistance, but this must be stated in your decision. <link>Read more about conditions here</link>."
-        }
+        "beskrivelse": "Conditions are activities you must participate in as part of your follow-up from Nav."
     },
     "ForlengetBehandlingstid": {
         "medBrev": "<norsk>{navKontor}</norsk> has found that they cannot process your application within a reasonable time, and has sent you a letter. <lenke>Open the letter about processing time</lenke> to see when you can expect a response to your application.",
@@ -597,8 +592,9 @@
     },
     "VilkarReadMore": {
         "header": "How do conditions work?",
-        "beskrivelse": "Conditions can be used if they help you to support yourself in a way other than through financial social assistance. When conditions are set, they should help you get out of a difficult life situation. As a general rule, the condition should be set in cooperation with you.",
-        "beskrivelse2": "If the conditions are not met, the Nav office may make a new decision to reduce your social assistance, but this must be stated in your decision. <lenke>Read more about conditions here</lenke>."
+        "beskrivelse": "Nav may require you to take an activity or action that will help you out of a difficult life situation and enable you to support yourself. As a general rule, Nav will set the condition in cooperation with you.",
+        "beskrivelse2": "The decision you have received contains information about the condition and what can happen if you do not meet it. <lenke>Read more about the conditions here</lenke>.",
+        "beskrivelse3": "If Nav asks you to provide documentation, it is because it is necessary to follow up on you and the activities you carry out."
     },
     "Dokumentasjonkrav": {
         "tittel": "Documentation requirements",

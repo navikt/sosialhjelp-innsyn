@@ -1,4 +1,4 @@
-import { BodyLong, BodyShort, Link, ReadMore } from "@navikt/ds-react";
+import { BodyLong, Link, ReadMore } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 
 const VilkarReadMore = () => {
@@ -6,7 +6,7 @@ const VilkarReadMore = () => {
     return (
         <ReadMore header={t("header")}>
             <BodyLong spacing>{t("beskrivelse")}</BodyLong>
-            <BodyShort>
+            <BodyLong spacing>
                 {t.rich("beskrivelse2", {
                     lenke: (chunks) => (
                         <Link href="https://www.nav.no/okonomisk-sosialhjelp#vilkar" inlineText>
@@ -14,7 +14,8 @@ const VilkarReadMore = () => {
                         </Link>
                     ),
                 })}
-            </BodyShort>
+            </BodyLong>
+            <BodyLong>{t("beskrivelse3")}</BodyLong>
         </ReadMore>
     );
 };
