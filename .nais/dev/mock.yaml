@@ -36,6 +36,7 @@ spec:
         - application: sosialhjelp-innsyn-api-mock
         - application: sosialhjelp-soknad-api-mock
         - application: sosialhjelp-upload-mock
+        - application: sosialhjelp-texas-mock
       external:
         - host: dekoratoren.ekstern.dev.nav.no
         - host: digisos.ekstern.dev.nav.no
