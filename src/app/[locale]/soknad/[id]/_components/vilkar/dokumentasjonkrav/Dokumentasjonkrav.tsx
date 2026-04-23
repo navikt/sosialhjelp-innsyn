@@ -36,6 +36,7 @@ const Dokumentasjonkrav = ({ dokKrav }: Props) => {
                     label={dokKrav.tittel}
                     description={dokKrav.beskrivelse}
                     completed={dokKrav.erLastetOpp}
+                    variant={dokKrav.erLastetOpp ? undefined : "warning"}
                     tag={
                         dokKrav.opplastetDato ? (
                             <Tag variant="success">{t("løst")}</Tag>
