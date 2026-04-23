@@ -20,10 +20,9 @@ interface Props {
     isPending?: boolean;
     docState: DocumentState;
     uploadId: string;
-    variant?: "normal" | "warning";
 }
 
-const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uploadId, variant }: Props) => {
+const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uploadId }: Props) => {
     const t = useTranslations("Opplastingsboks");
     const { id: fiksDigisosId } = useParams<{ id: string }>();
 
@@ -61,12 +60,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                 <FileSelectUpload
                     label={
                         label ? (
-                            <BodyShort
-                                as="span"
-                                lang="no"
-                                className="font-bold"
-                                data-color={variant === "warning" ? "warning" : undefined}
-                            >
+                            <BodyShort as="span" lang="no">
                                 {label}
                             </BodyShort>
                         ) : (
@@ -74,15 +68,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                         )
                     }
                     tag={tag}
-                    description={
-                        description && variant === "warning" ? (
-                            <BodyShort as="span" data-color="warning">
-                                {description}
-                            </BodyShort>
-                        ) : (
-                            description
-                        )
-                    }
+                    description={description}
                     buttonText={t("lastOppFiler")}
                     onSelect={onSelect}
                     currentCount={docState.uploads?.length ?? 0}
