@@ -55,10 +55,7 @@ export const FileSelectUpload = ({
             ) : (
                 <VStack gap="space-16">
                     {tag && <HStack>{tag}</HStack>}
-                    <VStack gap="space-4">
-                        {label && <div>{label}</div>}
-                        {description && <BodyLong as="div">{description}</BodyLong>}
-                    </VStack>
+                    {description && <BodyLong>{description}</BodyLong>}
                     <FileUpload.Trigger
                         accept={allowedFileTypes}
                         maxSizeInBytes={10 * 1024 * 1024}
