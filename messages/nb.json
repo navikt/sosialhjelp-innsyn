@@ -53,12 +53,7 @@
     },
     "VilkarListe": {
         "tittel": "Vilkår",
-        "beskrivelse": "Vilkår er aktiviteter du skal gjøre som en del av oppfølgingen din fra Nav.",
-        "readMore": {
-            "tittel": "Hvordan fungerer vilkår?",
-            "beskrivelse": "Vilkår kan brukes hvis det bidrar til å gjøre deg i stand til å sørge for ditt livsopphold på en annen måte enn ved økonomisk sosialhjelp. Når det settes vilkår, skal det bidra til å hjelpe deg med å komme ut av en vanskelig livssituasjon. Som hovedregel skal vilkåret settes i samarbeid med deg.",
-            "beskrivelse2": "Hvis vilkåret ikke oppfylles, kan Nav fatte nytt vedtak om reduksjon i sosialhjelpen, men det må være informert om i vedtaket ditt. <lenke>Les mer om vilkår her</lenke>."
-        }
+        "beskrivelse": "Vilkår er aktiviteter du skal gjøre som en del av oppfølgingen din fra Nav."
     },
     "ForlengetBehandlingstid": {
         "medBrev": "<norsk>{navKontor}</norsk> ser at de ikke klarer å behandle søknaden din innen rimelig tid, og har sendt deg et brev. <lenke>Les brevet om saksbehandlingstid</lenke> for å se når du kan forvente svar på søknaden din.",
@@ -598,8 +593,9 @@
     },
     "VilkarReadMore": {
         "header": "Hvordan fungerer vilkår?",
-        "beskrivelse": "Vilkår kan brukes hvis det bidrar til å gjøre deg i stand til å sørge for ditt livsopphold på en annen måte enn ved økonomisk sosialhjelp. Når det settes vilkår, skal det bidra til å hjelpe deg med å komme ut av en vanskelig livssituasjon. Som hovedregel skal vilkåret settes i samarbeid med deg.",
-        "beskrivelse2": "Hvis vilkårene ikke oppfylles, kan Nav-kontoret fatte nytt vedtak om reduksjon i sosialhjelpen, men det må være informert om i vedtaket ditt. <lenke>Les mer om vilkår her</lenke>."
+        "beskrivelse": "Nav kan stille krav om aktivitet eller handling som skal hjelpe deg ut av en vanskelig livssituasjon og gjøre deg i stand til å forsørge deg selv. Som hovedregel skal Nav sette vilkåret i samarbeid med deg.",
+        "beskrivelse2": "Vedtaket du har fått inneholder informasjon om vilkåret og hva som kan skje hvis du ikke oppfyller det. <lenke>Les mer om vilkår her</lenke>.",
+        "beskrivelse3": "Hvis Nav ber deg om å levere dokumentasjon, er det fordi det er nødvendig for å følge opp deg og de aktivitetene du gjennomfører."
     },
     "Dokumentasjonkrav": {
         "tittel": "Dokumentasjonkrav",
