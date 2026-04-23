@@ -9,6 +9,7 @@ import { Metadata } from "@components/filopplasting/types";
 import { OppgaveResponseBeta } from "@generated/model";
 import TaskListItem from "../tasklistitem/TaskListItem";
 import OppgaveTag from "../tasklistitem/OppgaveTag";
+import { useParams } from "next/navigation";
 
 interface Props {
     oppgave: OppgaveResponseBeta;
@@ -18,6 +19,8 @@ const withWarningColor = (text: string | undefined) => <span className="text-ax-
 
 const OppgaveItem = ({ oppgave }: Props, ref: Ref<HTMLLIElement>) => {
     const toggle = useFlag("sosialhjelp.innsyn.ny_upload");
+    const { id: fiksDigisosId } = useParams<{ id: string }>();
+
     const newUploadEnabled = toggle?.enabled ?? false;
 
     const { typeTekst, tilleggsinfoTekst } = getVisningstekster(oppgave.dokumenttype, oppgave.tilleggsinformasjon);
@@ -34,7 +37,10 @@ const OppgaveItem = ({ oppgave }: Props, ref: Ref<HTMLLIElement>) => {
         <TaskListItem ref={ref} variant={oppgave.erLastetOpp || !oppgave.erFraInnsyn ? "normal" : "warning"}>
             {newUploadEnabled ? (
                 <OpplastingsboksTus
-                    id={oppgave.oppgaveId}
+                    id={
+                        oppgave.hendelsereferanse ??
+                        `${fiksDigisosId}-${oppgave.dokumenttype}-${oppgave.tilleggsinformasjon}`
+                    }
                     completed={oppgave.erLastetOpp}
                     label={typeTekst}
                     description={tilleggsinfoTekst}
