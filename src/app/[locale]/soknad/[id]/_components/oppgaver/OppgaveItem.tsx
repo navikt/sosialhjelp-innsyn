@@ -40,6 +40,7 @@ const OppgaveItem = ({ oppgave }: Props, ref: Ref<HTMLLIElement>) => {
                     description={tilleggsinfoTekst}
                     tag={<OppgaveTag frist={oppgave.innsendelsesfrist} completed={oppgave.erLastetOpp} />}
                     metadata={metadata}
+                    variant={!oppgave.erLastetOpp && oppgave.erFraInnsyn ? "warning" : undefined}
                 />
             ) : (
                 <Opplastingsboks
