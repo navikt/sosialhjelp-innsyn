@@ -33,7 +33,7 @@ const submitUpload = async ({
 
 type SubmissionError = "TOO_MANY_FILES" | "TOTAL_SIZE_TOO_LARGE";
 
-const useSendVedleggHelperTus = (metadata: Required<Metadata>) => {
+const useSendVedleggHelperTus = (metadata: Required<Metadata>, resetState: () => void) => {
     const queryClient = useQueryClient();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
     const {
@@ -56,6 +56,7 @@ const useSendVedleggHelperTus = (metadata: Required<Metadata>) => {
         mutationFn: submitUpload,
         throwOnError: false,
         onSuccess: async () => {
+            resetState();
             // Setter manuelt for å ikke flytte på rekkefølgen i oppgavelisten
             queryClient.setQueryData<GetOppgaverBetaQueryResult>(getGetOppgaverBetaQueryKey(fiksDigisosId), (prev) => {
                 return prev?.map((oppgave) => {

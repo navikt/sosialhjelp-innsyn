@@ -29,21 +29,24 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
     const { data: oppgaveVedlegg } = useGetVedleggForOppgave(fiksDigisosId, metadata.hendelsereferanse!, {
         query: { enabled: !!metadata.hendelsereferanse },
     });
-    const docState = useDocumentState(id);
+    const { state: docState, resetState } = useDocumentState(id);
     const {
         upload,
         resetMutation,
         isPending,
         isUploadSuccess,
         error: mutationError,
-    } = useSendVedleggHelperTus({
-        dokumentKontekst: metadata.dokumentKontekst,
-        type: metadata.type,
-        hendelsereferanse: metadata.hendelsereferanse ?? "",
-        hendelsetype: metadata.hendelsetype ?? "bruker",
-        tilleggsinfo: metadata.tilleggsinfo ?? "annet",
-        innsendelsesfrist: "",
-    });
+    } = useSendVedleggHelperTus(
+        {
+            dokumentKontekst: metadata.dokumentKontekst,
+            type: metadata.type,
+            hendelsereferanse: metadata.hendelsereferanse ?? "",
+            hendelsetype: metadata.hendelsetype ?? "bruker",
+            tilleggsinfo: metadata.tilleggsinfo ?? "annet",
+            innsendelsesfrist: "",
+        },
+        resetState
+    );
 
     if (completed) {
         return (
@@ -76,7 +79,14 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
 
     return (
         <VStack gap="space-8">
-            <FileSelectNew label={label} description={description} tag={tag} docState={docState} uploadId={id} />
+            <FileSelectNew
+                label={label}
+                description={description}
+                tag={tag}
+                docState={docState}
+                uploadId={id}
+                onSelect={() => resetMutation()}
+            />
             {mutationError && (
                 <InlineMessage
                     status="error"
