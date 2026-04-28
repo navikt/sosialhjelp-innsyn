@@ -62,11 +62,10 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                     label={
                         label ? (
                             <Heading
-                                level="4"
+                                level="3"
                                 size="small"
                                 lang="no"
                                 data-color={variant === "warning" ? "warning" : undefined}
-                                className="font-bold"
                             >
                                 {label}
                             </Heading>
