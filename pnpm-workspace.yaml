@@ -1,4 +1,4 @@
-minimumReleaseAge: 10080
+minimumReleaseAge: 2880 # 2 days (in minutes)
 
 overrides:
     protobufjs: ^7.5.5
