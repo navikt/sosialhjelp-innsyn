@@ -1,4 +1,4 @@
-minimumReleaseAge: 2880
+minimumReleaseAge: 2880 # 2 days in minutes
 
 minimumReleaseAgeExclude:
   - protobufjs@7.5.5
