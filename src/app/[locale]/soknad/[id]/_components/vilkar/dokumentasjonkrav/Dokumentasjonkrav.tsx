@@ -39,9 +39,9 @@ const Dokumentasjonkrav = ({ dokKrav }: Props) => {
                     variant={dokKrav.erLastetOpp ? undefined : "warning"}
                     tag={
                         dokKrav.opplastetDato ? (
-                            <Tag variant="success">{t("løst")}</Tag>
+                            <Tag variant="success-moderate">{t("løst")}</Tag>
                         ) : dokKrav.frist ? (
-                            <Tag variant="warning">{t("frist", { frist: new Date(dokKrav.frist) })}</Tag>
+                            <Tag variant="warning-moderate">{t("frist", { frist: new Date(dokKrav.frist) })}</Tag>
                         ) : undefined
                     }
                 />
