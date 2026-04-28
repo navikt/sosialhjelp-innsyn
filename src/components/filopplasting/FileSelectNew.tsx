@@ -61,14 +61,15 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                 <FileSelectUpload
                     label={
                         label ? (
-                            <BodyShort
-                                as="span"
+                            <Heading
+                                level="4"
+                                size="small"
                                 lang="no"
-                                className="font-bold"
                                 data-color={variant === "warning" ? "warning" : undefined}
+                                className="font-bold"
                             >
                                 {label}
-                            </BodyShort>
+                            </Heading>
                         ) : (
                             t("tittel")
                         )
