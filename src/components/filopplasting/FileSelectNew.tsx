@@ -86,6 +86,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                     buttonText={t("lastOppFiler")}
                     onSelect={onSelect}
                     currentCount={docState.uploads?.length ?? 0}
+                    showLabelOnMobile={!!label}
                 />
 
                 {!!docState.uploads?.length && (
