@@ -11,7 +11,7 @@ import FileSelectNew from "@components/filopplasting/FileSelectNew";
 import VedleggListe from "@components/filopplasting/VedleggListe";
 import useIsMobile from "@utils/useIsMobile";
 import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
-import { XMarkIcon } from "@navikt/aksel-icons";
+import { PaperplaneIcon, XMarkIcon } from "@navikt/aksel-icons";
 
 interface Props {
     metadata: Metadata;
@@ -30,21 +30,24 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, 
     const { data: oppgaveVedlegg } = useGetVedleggForOppgave(fiksDigisosId, metadata.hendelsereferanse!, {
         query: { enabled: !!metadata.hendelsereferanse },
     });
-    const docState = useDocumentState(id);
+    const { state: docState, resetState } = useDocumentState(id);
     const {
         upload,
         resetMutation,
         isPending,
         isUploadSuccess,
         error: mutationError,
-    } = useSendVedleggHelperTus({
-        dokumentKontekst: metadata.dokumentKontekst,
-        type: metadata.type,
-        hendelsereferanse: metadata.hendelsereferanse ?? "",
-        hendelsetype: metadata.hendelsetype ?? "bruker",
-        tilleggsinfo: metadata.tilleggsinfo ?? "annet",
-        innsendelsesfrist: "",
-    });
+    } = useSendVedleggHelperTus(
+        {
+            dokumentKontekst: metadata.dokumentKontekst,
+            type: metadata.type,
+            hendelsereferanse: metadata.hendelsereferanse ?? "",
+            hendelsetype: metadata.hendelsetype ?? "bruker",
+            tilleggsinfo: metadata.tilleggsinfo ?? "annet",
+            innsendelsesfrist: "",
+        },
+        resetState
+    );
 
     if (completed) {
         return (
@@ -83,6 +86,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, 
                 tag={tag}
                 docState={docState}
                 uploadId={id}
+                onSelect={() => resetMutation()}
                 variant={variant}
             />
             {mutationError && (
@@ -112,6 +116,8 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, 
                         docState.uploads?.some((upload) => (upload.validations?.length ?? 0) > 0 || !upload.filId) ||
                         (docState.validations?.length ?? 0) > 0
                     }
+                    icon={<PaperplaneIcon />}
+                    iconPosition={"right"}
                 >
                     {t("sendInn")}
                 </Button>

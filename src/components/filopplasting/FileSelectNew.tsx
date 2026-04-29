@@ -20,15 +20,17 @@ interface Props {
     isPending?: boolean;
     docState: DocumentState;
     uploadId: string;
+    onSelect?: (files: FileObject[]) => void;
     variant?: "normal" | "warning";
 }
 
-const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uploadId, variant }: Props) => {
+const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uploadId, variant, onSelect }: Props) => {
     const t = useTranslations("Opplastingsboks");
     const { id: fiksDigisosId } = useParams<{ id: string }>();
 
     // Starter opplasting umiddelbart ved filvalg
-    const onSelect = (files: FileObject[]) => {
+    const _onSelect = (files: FileObject[]) => {
+        onSelect?.(files);
         const uploads = files.map((file: FileObject) =>
             getTusUploader({
                 id: uploadId,
@@ -84,7 +86,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                         )
                     }
                     buttonText={t("lastOppFiler")}
-                    onSelect={onSelect}
+                    onSelect={_onSelect}
                     currentCount={docState.uploads?.length ?? 0}
                     showLabelOnMobile={!!label}
                 />

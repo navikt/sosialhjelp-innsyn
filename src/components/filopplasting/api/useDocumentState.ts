@@ -1,5 +1,4 @@
 import { useEffect, useReducer } from "react";
-import { logger } from "@navikt/next-logger";
 import { eventstreamUrl, openEventChannel } from "@components/filopplasting/api/openEventChannel";
 import { useParams } from "next/navigation";
 
@@ -35,25 +34,34 @@ export type DocumentState = {
     validations?: ValidationCode[];
 };
 
-export type DocumentStateUpdate = {
-    type: "update";
-    newState: Partial<DocumentState>;
-};
+export type DocumentStateUpdate =
+    | {
+          type: "update";
+          newState: Partial<DocumentState>;
+      }
+    | { type: "clear" };
 
-const documentStateReducer = (state: DocumentState, { newState, type }: DocumentStateUpdate) => {
+const documentStateReducer = (state: DocumentState, payload: DocumentStateUpdate) => {
+    const { type } = payload;
     if (type == "update") {
+        const { newState } = payload;
         if (state.submissionId && state.submissionId !== newState.submissionId) {
-            logger.error("submissionId has changed");
+            return newState;
         }
 
         return { ...state, ...newState };
     }
-    return newState;
+    if (type == "clear") {
+        return { ...state, error: undefined, uploads: [], validations: [] };
+    }
+    throw new Error("Unsupported type");
 };
 
-export const useDocumentState = (id: string): DocumentState => {
+export const useDocumentState = (id: string): { state: DocumentState; resetState: () => void } => {
     const [state, dispatch] = useReducer(documentStateReducer, {});
     const { id: fiksDigisosId } = useParams<{ id: string }>();
+
+    const resetState = () => dispatch({ type: "clear" });
 
     // Subscribe to server-sent events and send any state updates to the reducer
     const onUpdate = (payload: Partial<DocumentState>) => dispatch({ type: "update", newState: payload });
@@ -61,5 +69,5 @@ export const useDocumentState = (id: string): DocumentState => {
         return openEventChannel(eventstreamUrl(id, fiksDigisosId), onUpdate);
     }, [id, fiksDigisosId]);
 
-    return state;
+    return { state, resetState };
 };

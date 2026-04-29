@@ -54,9 +54,7 @@ const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validat
                 onFileClick={url ? () => window.open(url, "_blank", "noopener,noreferrer") : undefined}
                 description={isConverted ? <SeOverDescription /> : undefined}
                 error={
-                    status === "FAILED" ? (
-                        t("uploadFailed")
-                    ) : validations?.length ? (
+                    validations?.length ? (
                         <List>
                             {validations.map((val) => (
                                 <List.Item key={val} className="text-ax-text-warning-subtle">
@@ -64,6 +62,8 @@ const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validat
                                 </List.Item>
                             ))}
                         </List>
+                    ) : status === "FAILED" ? (
+                        t("uploadFailed")
                     ) : undefined
                 }
             />
