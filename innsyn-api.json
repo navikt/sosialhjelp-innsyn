@@ -1210,9 +1210,10 @@
                     "url": { "type": "string" },
                     "size": { "type": "integer", "format": "int64" },
                     "filename": { "type": "string" },
-                    "date": { "type": "string", "format": "date-time" }
+                    "date": { "type": "string", "format": "date-time" },
+                    "skjult": { "type": "boolean" }
                 },
-                "required": ["url"]
+                "required": ["url", "skjult"]
             },
             "OppgaveElement": {
                 "type": "object",

@@ -268,7 +268,8 @@
         "soknadFilename": "Søknad om økonomisk sosialhjelp",
         "sendt": "Sendt {dato, date, ::ddMMyyyy}",
         "ettersendt": "Ettersendt dokumentasjon",
-        "visFlereDokumenter": "dokumenter"
+        "visFlereDokumenter": "dokumenter",
+        "skjultSoknadPdf": "På grunn av en teknisk feil kan vi ikke vise kopi (PDF) av søknaden din. Dette vil ikke påvirke søknaden din."
     },
     "Metadata": {
         "tittel": "Økonomisk sosialhjelp - nav.no",
