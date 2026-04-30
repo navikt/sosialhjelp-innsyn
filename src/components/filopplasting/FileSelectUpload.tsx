@@ -56,14 +56,16 @@ export const FileSelectUpload = ({
                 />
             ) : (
                 <VStack gap="space-16">
-                    {showLabelOnMobile && (
-                        <HStack justify="space-between" align="center">
-                            {label}
-                            {tag}
-                        </HStack>
-                    )}
-                    {!showLabelOnMobile && tag && <HStack>{tag}</HStack>}
-                    {description && <BodyLong>{description}</BodyLong>}
+                    <VStack gap="space-2">
+                        {showLabelOnMobile && (
+                            <VStack gap="space-4" justify="space-between" align="start">
+                                {tag}
+                                {label}
+                            </VStack>
+                        )}
+                        {!showLabelOnMobile && tag && <HStack>{tag}</HStack>}
+                        {description && <BodyLong>{description}</BodyLong>}
+                    </VStack>
                     <FileUpload.Trigger
                         accept={allowedFileTypes}
                         maxSizeInBytes={10 * 1024 * 1024}
