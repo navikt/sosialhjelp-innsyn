@@ -12,6 +12,7 @@ import useIsMobile from "@utils/useIsMobile";
 import { errorStatusToMessage } from "@components/filopplasting/utils/mapErrors";
 import VedleggListe from "@components/filopplasting/VedleggListe";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
+import { allowedFileTypesLegacy } from "@components/filopplasting/consts";
 import { umamiTrack } from "../../app/umami";
 import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 
@@ -151,6 +152,7 @@ const Opplastingsboks = ({ metadata, label, labelText, description, tag, complet
                         ) : null
                     }
                     currentCount={files.length}
+                    accept={allowedFileTypesLegacy}
                 />
                 {files.length > 0 && (
                     <VStack gap="space-16">
