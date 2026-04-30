@@ -1,6 +1,6 @@
 "use client";
 
-import { BodyShort, HStack, Skeleton, VStack } from "@navikt/ds-react";
+import { BodyShort, HStack, InlineMessage, Skeleton, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import * as R from "remeda";
 import { OriginalSoknadDto, VedleggResponse } from "@generated/model";
@@ -20,8 +20,12 @@ interface Props {
 const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveBeskrivelse }: Props) => {
     const t = useTranslations("VedleggListe");
 
+    const originalSoknadErSkjult = originalSoknad?.skjult ?? false;
+
     const alleVedlegg = [
-        ...(originalSoknad ? [{ soknad: true as const, ...originalSoknad, datoLagtTil: originalSoknad.date }] : []),
+        ...(originalSoknad && !originalSoknad.skjult
+            ? [{ soknad: true as const, ...originalSoknad, datoLagtTil: originalSoknad.date }]
+            : []),
         ...vedlegg.map((v, index) => ({ ...v, originalIndex: index })),
     ];
 
@@ -35,7 +39,15 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveBeskrivels
     );
 
     return (
-        <>
+        <VStack gap="space-8">
+            {originalSoknadErSkjult && (
+                <InlineMessage
+                    status={"info"}
+                    className="border border-ax-border-info-subtle bg-ax-bg-info-moderate p-2 rounded-xl"
+                >
+                    {t("skjultSoknadPdf")}
+                </InlineMessage>
+            )}
             {sortedVedlegg.length > 0 && (
                 <ExpandableList
                     items={sortedVedlegg}
@@ -107,7 +119,7 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveBeskrivels
                     }}
                 </ExpandableList>
             )}
-        </>
+        </VStack>
     );
 };
 
