@@ -60,7 +60,7 @@ export const FileSelectUpload = ({
                 <VStack gap="space-16">
                     <VStack gap="space-2">
                         {showLabelOnMobile && (
-                            <VStack gap="space-4" justify="space-between" align="start">
+                            <VStack gap="space-16" justify="space-between" align="start">
                                 {tag}
                                 {label}
                             </VStack>

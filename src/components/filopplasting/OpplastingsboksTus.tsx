@@ -52,7 +52,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, 
     if (completed) {
         return (
             <VStack gap="space-24">
-                <VStack gap="space-4">
+                <VStack gap="space-16">
                     {isMobile && tag && <HStack>{tag}</HStack>}
                     <HStack align="center" justify="space-between">
                         <Heading size="small" level="3" lang="no">
