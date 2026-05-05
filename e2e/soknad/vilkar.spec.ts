@@ -195,7 +195,7 @@ test.describe("Vilkår", () => {
         await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
-        await expect(page.getByRole("heading", { name: "Møte med Nav", level: 4 })).toBeVisible();
+        await expect(page.getByRole("heading", { name: "Møte med Nav", level: 3 })).toBeVisible();
         await expect(page.getByText("Beskrivelse for vilkår v1")).toBeVisible();
     });
 });
