@@ -21,9 +21,10 @@ interface Props {
     docState: DocumentState;
     uploadId: string;
     onSelect?: (files: FileObject[]) => void;
+    variant?: "normal" | "warning";
 }
 
-const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uploadId, onSelect }: Props) => {
+const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uploadId, variant, onSelect }: Props) => {
     const t = useTranslations("Opplastingsboks");
     const { id: fiksDigisosId } = useParams<{ id: string }>();
 
@@ -62,18 +63,32 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                 <FileSelectUpload
                     label={
                         label ? (
-                            <BodyShort as="span" lang="no">
+                            <Heading
+                                level="3"
+                                size="small"
+                                lang="no"
+                                data-color={variant === "warning" ? "warning" : undefined}
+                            >
                                 {label}
-                            </BodyShort>
+                            </Heading>
                         ) : (
                             t("tittel")
                         )
                     }
                     tag={tag}
-                    description={description}
+                    description={
+                        description && variant === "warning" ? (
+                            <BodyShort as="span" data-color="warning">
+                                {description}
+                            </BodyShort>
+                        ) : (
+                            description
+                        )
+                    }
                     buttonText={t("lastOppFiler")}
                     onSelect={_onSelect}
                     currentCount={docState.uploads?.length ?? 0}
+                    showLabelOnMobile={!!label}
                 />
 
                 {!!docState.uploads?.length && (

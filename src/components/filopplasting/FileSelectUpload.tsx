@@ -14,6 +14,7 @@ interface ResponsiveFileUploadSimpleProps {
     disabled?: boolean;
     currentCount: number;
     accept?: string;
+    showLabelOnMobile?: boolean;
 }
 
 export const FileSelectUpload = ({
@@ -26,6 +27,7 @@ export const FileSelectUpload = ({
     disabled,
     currentCount,
     accept = allowedFileTypes,
+    showLabelOnMobile = false,
 }: ResponsiveFileUploadSimpleProps) => {
     const isMobile = useIsMobile();
 
@@ -45,7 +47,7 @@ export const FileSelectUpload = ({
                             label
                         )
                     }
-                    description={description}
+                    description={<VStack className="mb-2">{description}</VStack>}
                     onSelect={onSelect}
                     accept={accept}
                     maxSizeInBytes={10 * 1024 * 1024}
@@ -56,8 +58,16 @@ export const FileSelectUpload = ({
                 />
             ) : (
                 <VStack gap="space-16">
-                    {tag && <HStack>{tag}</HStack>}
-                    {description && <BodyLong>{description}</BodyLong>}
+                    <VStack gap="space-2">
+                        {showLabelOnMobile && (
+                            <VStack gap="space-16" justify="space-between" align="start">
+                                {tag}
+                                {label}
+                            </VStack>
+                        )}
+                        {!showLabelOnMobile && tag && <HStack>{tag}</HStack>}
+                        {description && <BodyLong>{description}</BodyLong>}
+                    </VStack>
                     <FileUpload.Trigger accept={accept} maxSizeInBytes={10 * 1024 * 1024} multiple onSelect={onSelect}>
                         <Button
                             className="self-start"
