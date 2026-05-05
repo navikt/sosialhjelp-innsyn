@@ -60,7 +60,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, 
                         </Heading>
                         {!isMobile && tag}
                     </HStack>
-                    <BodyShort>{description ?? t("beskrivelse")}</BodyShort>
+                    <BodyShort lang="no">{description ?? t("beskrivelse")}</BodyShort>
                 </VStack>
                 {metadata.hendelsereferanse && (
                     <VedleggListe

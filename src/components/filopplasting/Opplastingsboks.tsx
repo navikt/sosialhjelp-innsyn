@@ -80,7 +80,7 @@ const Opplastingsboks = ({ metadata, label, labelText, description, tag, complet
                                     {label}
                                 </Heading>
                             ) : (
-                                <Heading size="small" level="3">
+                                <Heading size="small" level="3" lang="no">
                                     {t("tittel")}
                                 </Heading>
                             )}
@@ -135,7 +135,7 @@ const Opplastingsboks = ({ metadata, label, labelText, description, tag, complet
                     description={
                         description ? (
                             <HStack justify="space-between">
-                                <BodyLong>{description}</BodyLong>
+                                <BodyLong lang="no">{description}</BodyLong>
                             </HStack>
                         ) : undefined
                     }

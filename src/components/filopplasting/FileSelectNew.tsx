@@ -78,7 +78,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                     tag={tag}
                     description={
                         description && variant === "warning" ? (
-                            <BodyShort as="span" data-color="warning">
+                            <BodyShort as="span" data-color="warning" lang="no">
                                 {description}
                             </BodyShort>
                         ) : (
