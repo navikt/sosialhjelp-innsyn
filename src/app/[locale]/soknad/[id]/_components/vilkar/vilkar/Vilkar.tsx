@@ -1,4 +1,4 @@
-import { BodyShort, Heading } from "@navikt/ds-react";
+import { BodyShort, Heading, VStack } from "@navikt/ds-react";
 import { VilkarResponse } from "@generated/model";
 import TaskListItem from "../../tasklistitem/TaskListItem";
 
@@ -8,12 +8,14 @@ interface Props {
 
 const Vilkar = ({ vilkar }: Props) => (
     <TaskListItem variant="warning">
-        <Heading level="4" size="small" lang="no" data-color="warning">
-            {vilkar.tittel}
-        </Heading>
-        <BodyShort lang="no" data-color="warning">
-            {vilkar.beskrivelse}
-        </BodyShort>
+        <VStack gap="space-6">
+            <Heading level="4" size="small" lang="no" data-color="warning">
+                {vilkar.tittel}
+            </Heading>
+            <BodyShort lang="no" data-color="warning">
+                {vilkar.beskrivelse}
+            </BodyShort>
+        </VStack>
     </TaskListItem>
 );
 

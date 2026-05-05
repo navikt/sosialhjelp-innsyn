@@ -20,9 +20,10 @@ interface Props {
     tag?: ReactNode;
     completed?: boolean;
     id: string;
+    variant?: "normal" | "warning";
 }
 
-const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }: Props) => {
+const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, variant }: Props) => {
     const t = useTranslations("Opplastingsboks");
     const isMobile = useIsMobile();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
@@ -51,8 +52,8 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
     if (completed) {
         return (
             <VStack gap="space-24">
-                <VStack gap="space-8">
-                    {isMobile && tag}
+                <VStack gap="space-16">
+                    {isMobile && tag && <HStack>{tag}</HStack>}
                     <HStack align="center" justify="space-between">
                         <Heading size="small" level="3" lang="no">
                             {label ?? t("tittel")}
@@ -86,6 +87,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id }
                 docState={docState}
                 uploadId={id}
                 onSelect={() => resetMutation()}
+                variant={variant}
             />
             {mutationError && (
                 <InlineMessage
