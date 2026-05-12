@@ -53,7 +53,7 @@
         "prepare": "husky",
         "e2e": "playwright test",
         "e2e:ui": "playwright test --ui",
-        "preinstall": "npx -y only-allow pnpm",
+        "preinstall": "pnpm dlx only-allow pnpm",
         "knip": "knip"
     },
     "browserslist": {
