@@ -1,4 +1,4 @@
-elallowBuilds:
+allowBuilds:
   '@parcel/watcher': false
   '@swc/core': false
   esbuild: false
