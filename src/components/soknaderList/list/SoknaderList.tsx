@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import ExpandableList from "@components/showmore/ExpandableList";
 
-import { umamiTrack } from "../../../app/umami";
+import { umamiTrack, Events } from "../../../app/umami";
 
 import SoknadCard from "./soknadCard/SoknadCard";
 import PaabegyntCard from "./soknadCard/status/PaabegyntCard";
@@ -38,7 +38,7 @@ const SoknaderList = ({ soknader, labelledById }: Props) => {
         ).length;
 
         if (antallMedDokumentasjonEtterspurt > 0) {
-            umamiTrack("Side rendret", {
+            umamiTrack(Events.BESOK, {
                 tekst: "Søknad med dokumentasjonetterspurt",
                 antall: antallMedDokumentasjonEtterspurt,
             });

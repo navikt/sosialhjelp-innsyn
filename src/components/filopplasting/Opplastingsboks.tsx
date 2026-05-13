@@ -13,7 +13,7 @@ import { errorStatusToMessage } from "@components/filopplasting/utils/mapErrors"
 import VedleggListe from "@components/filopplasting/VedleggListe";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
 import { allowedFileTypesLegacy } from "@components/filopplasting/consts";
-import { umamiTrack } from "../../app/umami";
+import { umamiTrack, Events } from "../../app/umami";
 import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 
 interface Props {
@@ -58,8 +58,7 @@ const Opplastingsboks = ({ metadata, label, labelText, description, tag, complet
     }, [isUploadSuccess]);
 
     const onFilesSelect = (newFiles: FileObject[]) => {
-        umamiTrack("knapp klikket", {
-            tekst: "Last opp",
+        umamiTrack(Events.KNAPP_KLIKKET, {
             antallDokumenter: newFiles.length,
             dokumentKontekst: metadata.dokumentKontekst,
             digisosId: fiksDigisosId,
@@ -181,7 +180,7 @@ const Opplastingsboks = ({ metadata, label, labelText, description, tag, complet
                         <Button
                             disabled={isPending || Object.values(files).flat().length === 0}
                             onClick={() => {
-                                umamiTrack("knapp klikket", {
+                                umamiTrack(Events.KNAPP_KLIKKET, {
                                     tekst: "Send dokumentasjon",
                                     antallDokumenter: files.length,
                                     dokumentKontekst: metadata.dokumentKontekst,
