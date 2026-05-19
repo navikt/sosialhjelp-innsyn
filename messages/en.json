@@ -219,6 +219,8 @@
         "filerTilOpplasting": "Files for upload",
         "antallFiler": "{count, plural, one {# file ready for upload} other {# files ready for upload}}",
         "konvertert": "One or more files were changed to another format (PDF) so that it can be submitted.",
+        "mappeIkkeTillatt": "Folders cannot be uploaded. Please select individual files instead.",
+        "processingWarning": "Upload may take some time. The upload will be cancelled automatically after 3 minutes.",
         "error": "An error occurred while uploading the files. Please try again.",
         "suksess": "Thank you! Your documentation have been submitted.",
         "forlater_siden_uten_aa_sende_inn_vedlegg": "This page is asking you to confirm that you want to leave — information you’ve entered may not be saved.",
