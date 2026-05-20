@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Alert, BodyShort, Button, Heading, HStack, InlineMessage, LocalAlert, VStack } from "@navikt/ds-react";
-import { ReactNode } from "react";
+import { ReactNode, useRef, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { Metadata } from "@components/filopplasting/types";
 import { useDocumentState } from "@components/filopplasting/api/useDocumentState";
@@ -12,6 +12,7 @@ import VedleggListe from "@components/filopplasting/VedleggListe";
 import useIsMobile from "@utils/useIsMobile";
 import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 import { PaperplaneIcon, XMarkIcon } from "@navikt/aksel-icons";
+import { umamiTrack } from "../../app/umami";
 
 interface Props {
     metadata: Metadata;
@@ -31,6 +32,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, 
         query: { enabled: !!metadata.hendelsereferanse },
     });
     const { state: docState, resetState } = useDocumentState(id);
+    const opplastingId = useRef<string | null>(null);
     const {
         upload,
         resetMutation,
@@ -48,6 +50,19 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, 
         },
         resetState
     );
+
+    useEffect(() => {
+        if (isUploadSuccess && opplastingId.current) {
+            umamiTrack("opplasting fullført", {
+                uploadVariant: "tus",
+                dokumentKontekst: metadata.dokumentKontekst,
+                digisosId: fiksDigisosId,
+                opplastingId: opplastingId.current,
+                antallDokumenter: docState.uploads?.length ?? 0,
+            });
+            opplastingId.current = null;
+        }
+    }, [isUploadSuccess, metadata.dokumentKontekst, fiksDigisosId, docState.uploads?.length]);
 
     if (completed) {
         return (
@@ -86,7 +101,19 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, 
                 tag={tag}
                 docState={docState}
                 uploadId={id}
-                onSelect={() => resetMutation()}
+                onSelect={(files) => {
+                    resetMutation();
+                    if (!opplastingId.current) {
+                        opplastingId.current = crypto.randomUUID();
+                        umamiTrack("opplasting startet", {
+                            uploadVariant: "tus",
+                            dokumentKontekst: metadata.dokumentKontekst,
+                            digisosId: fiksDigisosId,
+                            opplastingId: opplastingId.current,
+                            antallDokumenter: files.length,
+                        });
+                    }
+                }}
                 variant={variant}
             />
             {mutationError && (

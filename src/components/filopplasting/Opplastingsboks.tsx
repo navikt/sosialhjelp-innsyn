@@ -42,6 +42,7 @@ const Opplastingsboks = ({ metadata, label, labelText, description, tag, complet
         feedbackRef,
     } = useSendVedleggHelper(fiksDigisosId, resetFilOpplastningData);
     const liveRegionRef = useRef<HTMLDivElement>(null);
+    const opplastingId = useRef<string | null>(null);
 
     useNavigationGuard({
         enabled: files.length > 0,
@@ -57,7 +58,30 @@ const Opplastingsboks = ({ metadata, label, labelText, description, tag, complet
         }
     }, [isUploadSuccess]);
 
+    useEffect(() => {
+        if (isUploadSuccess && opplastingId.current) {
+            umamiTrack("opplasting fullført", {
+                uploadVariant: "legacy",
+                dokumentKontekst: metadata.dokumentKontekst,
+                digisosId: fiksDigisosId,
+                opplastingId: opplastingId.current,
+                antallDokumenter: files.length,
+            });
+            opplastingId.current = null;
+        }
+    }, [isUploadSuccess, metadata.dokumentKontekst, fiksDigisosId, files.length]);
+
     const onFilesSelect = (newFiles: FileObject[]) => {
+        if (files.length === 0) {
+            opplastingId.current = crypto.randomUUID();
+            umamiTrack("opplasting startet", {
+                uploadVariant: "legacy",
+                dokumentKontekst: metadata.dokumentKontekst,
+                digisosId: fiksDigisosId,
+                opplastingId: opplastingId.current,
+                antallDokumenter: newFiles.length,
+            });
+        }
         umamiTrack("knapp klikket", {
             tekst: "Last opp",
             antallDokumenter: newFiles.length,
