@@ -1,20 +1,23 @@
-name: 'Restart test-environments'
+name: "Restart all environments"
 on:
   schedule:
     - cron: '0 2 * * *'
   workflow_dispatch:
 
 permissions:
-  contents: write
-  packages: write
+  contents: read
   id-token: write
 
 jobs:
   deploy-to-dev-environment:
     strategy:
       matrix:
-        target: ['mock', 'dev']
+        target: ['mock', 'dev', "preprod"]
     uses: navikt/sosialhjelp-innsyn/.github/workflows/build_deploy_dev.yml@main
     with:
       config-file-name: ${{ matrix.target }}
+    secrets: inherit
+
+  deploy-to-prod-environment:
+    uses: navikt/sosialhjelp-innsyn/.github/workflows/build_deploy_prod.yml@main
     secrets: inherit
