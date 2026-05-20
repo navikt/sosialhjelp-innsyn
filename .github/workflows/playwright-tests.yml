@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: navikt/sosialhjelp-ci/actions/playwright/build@v19
+      - uses: navikt/sosialhjelp-ci/actions/playwright/build@v20
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           run-orval: "true"
@@ -52,7 +52,7 @@ jobs:
           pnpm orval
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: navikt/sosialhjelp-ci/actions/playwright/run@v19
+      - uses: navikt/sosialhjelp-ci/actions/playwright/run@v20
         with:
           shardIndex: ${{ matrix.shardIndex }}
           shardTotal: ${{ matrix.shardTotal }}
@@ -64,5 +64,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: navikt/sosialhjelp-ci/actions/playwright/report@v19
+      - uses: navikt/sosialhjelp-ci/actions/playwright/report@v20
 
