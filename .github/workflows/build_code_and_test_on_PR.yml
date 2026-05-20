@@ -12,7 +12,7 @@ jobs:
         name: "Build Code and run Tests"
         runs-on: ubuntu-latest
         permissions:
-            packages: read
+            packages: write
             contents: read
             id-token: write
         steps:
