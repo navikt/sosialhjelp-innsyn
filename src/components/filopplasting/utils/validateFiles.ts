@@ -2,6 +2,7 @@ import { logger } from "@navikt/next-logger";
 
 import { Feil, FancyFile, Error } from "../types";
 import { allowedFileTypes, maxCombinedFileSize, maxFileCount, maxFileSize } from "../consts";
+import { FileObject } from "@navikt/ds-react";
 
 export const containsIllegalCharacters = (filename: string) => {
     /* Filsystemet på macos lagrer fil med 'å' i navnet som 'a\u030A' (a + ring). Dette blir ikke konvertert tilbake før regexen under kjøres. Vi replacer derfor manuelt */
@@ -53,3 +54,5 @@ export const getOuterErrors = (files: FancyFile[]): Error[] => {
 
     return outerErrors;
 };
+
+export const isFolder = (f: FileObject) => f.file.size === 0 && f.file.type === "";

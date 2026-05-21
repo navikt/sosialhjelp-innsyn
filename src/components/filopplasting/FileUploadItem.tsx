@@ -44,17 +44,15 @@ const FileUploadItem = ({
         retry: false,
     });
     const isConverted = !!convertedFilename && convertedFilename !== originalFilename;
+    const isUploading = !url && !validations && status !== "FAILED" && status !== "COMPLETE" && !showCancelButton;
+    const uploadStatus = isUploading ? "uploading" : "idle";
     return (
         <>
             {/* @ts-expect-error Funker fint med ReactNode som children */}
             <FileUpload.Item
                 file={{ name: convertedFilename ?? originalFilename, size }}
                 as="li"
-                status={
-                    !url && !validations && status !== "FAILED" && status !== "COMPLETE" && !showCancelButton
-                        ? "uploading"
-                        : "idle"
-                }
+                status={uploadStatus}
                 button={
                     <Button
                         variant="tertiary"
