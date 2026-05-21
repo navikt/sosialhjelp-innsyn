@@ -33,6 +33,7 @@ const Opplastingsboks = ({ metadata, label, labelText, description, tag, complet
         query: { enabled: !!metadata.hendelsereferanse },
     });
     const { addFiler, files, removeFil, outerErrors, reset: resetFilOpplastningData } = useFiles();
+    const opplastingId = useRef<string | null>(null);
     const {
         upload,
         resetMutation,
@@ -40,9 +41,20 @@ const Opplastingsboks = ({ metadata, label, labelText, description, tag, complet
         isPending,
         isUploadSuccess,
         feedbackRef,
-    } = useSendVedleggHelper(fiksDigisosId, resetFilOpplastningData);
+    } = useSendVedleggHelper(fiksDigisosId, () => {
+        if (opplastingId.current) {
+            umamiTrack("opplasting fullført", {
+                uploadVariant: "legacy",
+                dokumentKontekst: metadata.dokumentKontekst,
+                digisosId: fiksDigisosId,
+                opplastingId: opplastingId.current,
+                antallDokumenter: files.length,
+            });
+            opplastingId.current = null;
+        }
+        resetFilOpplastningData();
+    });
     const liveRegionRef = useRef<HTMLDivElement>(null);
-    const opplastingId = useRef<string | null>(null);
 
     useNavigationGuard({
         enabled: files.length > 0,
@@ -57,19 +69,6 @@ const Opplastingsboks = ({ metadata, label, labelText, description, tag, complet
             liveRegionRef.current.focus();
         }
     }, [isUploadSuccess]);
-
-    useEffect(() => {
-        if (isUploadSuccess && opplastingId.current) {
-            umamiTrack("opplasting fullført", {
-                uploadVariant: "legacy",
-                dokumentKontekst: metadata.dokumentKontekst,
-                digisosId: fiksDigisosId,
-                opplastingId: opplastingId.current,
-                antallDokumenter: files.length,
-            });
-            opplastingId.current = null;
-        }
-    }, [isUploadSuccess, metadata.dokumentKontekst, fiksDigisosId, files.length]);
 
     const onFilesSelect = (newFiles: FileObject[]) => {
         if (files.length === 0) {

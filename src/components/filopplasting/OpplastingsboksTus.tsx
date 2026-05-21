@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Alert, BodyShort, Button, Heading, HStack, InlineMessage, LocalAlert, VStack } from "@navikt/ds-react";
-import { ReactNode, useRef, useEffect } from "react";
+import { ReactNode, useRef } from "react";
 import { useParams } from "next/navigation";
 import { Metadata } from "@components/filopplasting/types";
 import { useDocumentState } from "@components/filopplasting/api/useDocumentState";
@@ -48,11 +48,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, 
             tilleggsinfo: metadata.tilleggsinfo ?? "annet",
             innsendelsesfrist: "",
         },
-        resetState
-    );
-
-    useEffect(() => {
-        if (isUploadSuccess && opplastingId.current) {
+        async () => {
             umamiTrack("opplasting fullført", {
                 uploadVariant: "tus",
                 dokumentKontekst: metadata.dokumentKontekst,
@@ -61,8 +57,9 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, 
                 antallDokumenter: docState.uploads?.length ?? 0,
             });
             opplastingId.current = null;
+            resetState();
         }
-    }, [isUploadSuccess, metadata.dokumentKontekst, fiksDigisosId, docState.uploads?.length]);
+    );
 
     if (completed) {
         return (

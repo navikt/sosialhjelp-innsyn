@@ -14,7 +14,7 @@ import { determineErrorType } from "../utils/mapErrors";
 import { createMetadataFile, formatFilesForUpload } from "../utils/formatFiles";
 import { getQueryKeysForInvalidation } from "./queryKeys";
 
-const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: () => void) => {
+const useSendVedleggHelper = (fiksDigisosId: string, onSuccess: () => void) => {
     const { isPending, mutate, isSuccess, reset } = useSendVedlegg();
     const queryClient = useQueryClient();
     const feedbackRef = useRef<HTMLDivElement>(null);
@@ -43,7 +43,7 @@ const useSendVedleggHelper = (fiksDigisosId: string, resetFilOpplastningData: ()
                     setErrors(errors);
 
                     if (errors.length === 0) {
-                        resetFilOpplastningData();
+                        onSuccess();
 
                         // Setter manuelt for å ikke flytte på rekkefølgen i oppgavelisten
                         queryClient.setQueryData<GetOppgaverBetaQueryResult>(
