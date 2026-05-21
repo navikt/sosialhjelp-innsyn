@@ -237,7 +237,7 @@
         "forlater_siden_uten_aa_sende_inn_vedlegg": "Denne siden ber deg bekrefte at du ønsker å forlate siden — informasjon som du allerede har skrevet inn vil kanskje ikke lagres.",
         "submissionError": {
             "TOO_MANY_FILES": "Du har valgt for mange filer. Maks antall filer er 30.",
-            "TOTAL_SIZE_TOO_LARGE": "Total størrelse på filene du har valgt er for stor. Maks total størrelse er 150 MB."
+            "TOTAL_SIZE_TOO_LARGE": "Filene er for store. (maks 150 MB), fjern filer og prøv igjen."
         },
         "feil": {
             "minst_ett_vedlegg": "Du må først velge dokumentet du vil sende.",
@@ -249,7 +249,7 @@
             "opplasting_feilmelding_PDF_IS_ENCRYPTED": "PDFen er passordbeskyttet og vi kan ikke behandle den",
             "opplasting_feilmelding_ILLEGAL_FILE_TYPE": "Filer må være av typen JPG, PNG eller PDF",
             "opplasting_feilmelding_ILLEGAL_FILENAME": "Filnavn kan kun inneholde a-å, 0-9 og tegnene - _ . , ( )",
-            "opplasting_feilmelding_FILE_TOO_LARGE": "Størrelsen på filer må være under 10 Mb",
+            "opplasting_feilmelding_FILE_TOO_LARGE": "Filen er for stor (maks 10 MB)",
             "opplasting_feilmelding_COMBINED_FILES_TOO_LARGE": "Vi kan ikke motta dokumentene dine hvis de til sammen er over 150 Mb",
             "opplasting_feilmelding_TOO_MANY_FILES": "Vi tillater kun opplasting av opp til 20 filer om gangen"
         }

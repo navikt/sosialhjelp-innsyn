@@ -224,7 +224,7 @@
         "forlater_siden_uten_aa_sende_inn_vedlegg": "This page is asking you to confirm that you want to leave — information you’ve entered may not be saved.",
         "submissionError": {
             "TOO_MANY_FILES": "You have selected too many files. The maximum number of files is 30.",
-            "TOTAL_SIZE_TOO_LARGE": "The total size of the files you have selected is too large. The maximum total size is 150 MB."
+            "TOTAL_SIZE_TOO_LARGE": "The files are too large (max 150 MB), remove files and try again."
         },
         "feil": {
             "minst_ett_vedlegg": "You must first select the document you want to submit.",
@@ -236,7 +236,7 @@
             "opplasting_feilmelding_PDF_IS_ENCRYPTED": "This PDF is password-protected, and we cannot process it.",
             "opplasting_feilmelding_ILLEGAL_FILE_TYPE": "The file type must be JPG, PNG or PDF.",
             "opplasting_feilmelding_ILLEGAL_FILENAME": "The file name may only contain the letters a–å, the numbers 0–9 and the characters - _ . , ( )",
-            "opplasting_feilmelding_FILE_TOO_LARGE": "The file size must be under 10 MB",
+            "opplasting_feilmelding_FILE_TOO_LARGE": "The file is too large (max 10 MB)",
             "opplasting_feilmelding_COMBINED_FILES_TOO_LARGE": "We cannot accept your documentation if their combined size exceeds 150 MB",
             "opplasting_feilmelding_TOO_MANY_FILES": "We only accept up to 20 files at a time"
         }
