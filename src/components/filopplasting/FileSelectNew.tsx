@@ -123,6 +123,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                         {converted && (
                             <InlineMessage
                                 status={"info"}
+                                role={"alert"}
                                 className="border border-ax-border-info-subtle bg-ax-bg-info-moderate p-2 rounded-xl"
                             >
                                 {t("konvertert")}
@@ -131,7 +132,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                         {showSlowProcessingWarning && (
                             <InlineMessage
                                 status="info"
-                                role="info"
+                                role="alert"
                                 className="border border-ax-border-info-subtle bg-ax-bg-info-moderate p-2 rounded-xl"
                             >
                                 {t("processingWarning")}
@@ -143,6 +144,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                                     <InlineMessage
                                         key={`${error}`}
                                         status="error"
+                                        role={"alert"}
                                         className="bg-ax-bg-danger-moderate border border-ax-border-error-subtle p-2 rounded-xl text-ax-text-danger"
                                     >
                                         {t(`submissionError.${error}`)}
