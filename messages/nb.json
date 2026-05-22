@@ -20,7 +20,7 @@
             "ENCRYPTED_PDF": "PDFen er passordbeskyttet og vi kan ikke behandle den",
             "FILETYPE_NOT_SUPPORTED": "Filtypen støttes ikke",
             "FILE_TOO_LARGE": "Filen er for stor (maks 10 MB)",
-            "INVALID_FILENAME": "Filnavnet er ikke gyldig",
+            "INVALID_FILENAME": "Filnavn kan kun inneholde a-å, 0-9 og tegnene - _ . , ( )",
             "INVALID_PDF": "PDFen er ikke gyldig",
             "POSSIBLY_INFECTED": "Filen kan være virusinfisert"
         },
