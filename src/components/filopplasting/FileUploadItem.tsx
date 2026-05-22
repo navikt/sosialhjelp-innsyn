@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import { useMutation } from "@tanstack/react-query";
 import { FileUpload } from "@navikt/ds-react/FileUpload";
 import { Upload } from "tus-js-client";
-import { BodyShort, Button, HStack, List } from "@navikt/ds-react";
+import { BodyShort, Button, HStack } from "@navikt/ds-react";
 import { InformationSquareFillIcon, TrashIcon } from "@navikt/aksel-icons";
 import { browserEnv } from "@config/env";
 import { UploadStatus, ValidationCode } from "@components/filopplasting/api/useDocumentState";
@@ -37,7 +37,6 @@ const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validat
 
     return (
         <>
-            {/* @ts-expect-error Funker fint med ReactNode som children */}
             <FileUpload.Item
                 file={{ name: convertedFilename ?? originalFilename, size }}
                 as="li"
@@ -52,19 +51,14 @@ const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validat
                     />
                 }
                 onFileClick={url ? () => window.open(url, "_blank", "noopener,noreferrer") : undefined}
+                /* @ts-expect-error Funker fint med ReactNode */
                 description={isConverted ? <SeOverDescription /> : undefined}
                 error={
-                    validations?.length ? (
-                        <List>
-                            {validations.map((val) => (
-                                <List.Item key={val} className="text-ax-text-warning-subtle">
-                                    {t(`validation.${val}`)}
-                                </List.Item>
-                            ))}
-                        </List>
-                    ) : status === "FAILED" ? (
-                        t("uploadFailed")
-                    ) : undefined
+                    validations?.length
+                        ? t(`validation.${validations[0]}`)
+                        : status === "FAILED"
+                          ? t("uploadFailed")
+                          : undefined
                 }
             />
         </>
