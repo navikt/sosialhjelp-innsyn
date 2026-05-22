@@ -219,6 +219,8 @@
         "filerTilOpplasting": "Filer til opplasting",
         "antallFiler": "{count, plural, one {# fil klar til opplasting} other {# filer klare til opplasting}}",
         "konvertert": "Ein eller fleire filer vart endra til eit anna format (PDF) slik at det kan sendast inn.",
+        "mappeIkkeTillatt": "Mapper kan ikkje lastast opp. Vel enkeltfiler i staden.",
+        "processingWarning": "Opplasting kan ta litt tid. Opplastinga vert avbroten automatisk etter 3 minutt.",
         "error": "Det oppstod ein feil ved opplastinga. Ver vennleg og prøv igjen.",
         "suksess": "Takk! Dokumentasjonen din vart sendt inn.",
         "forlater_siden_uten_aa_sende_inn_vedlegg": "Denne sidan ber deg bekrefta at du ønskjer å forlata sidan — informasjon som du allereie har skrive inn vil kanskje ikkje lagrast.",

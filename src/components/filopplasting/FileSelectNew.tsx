@@ -1,8 +1,9 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import * as R from "remeda";
 import { BodyShort, FileObject, FileUpload, Heading, InlineMessage, VStack } from "@navikt/ds-react";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { getTusUploader } from "@components/filopplasting/utils/tusUploader";
 import { DocumentState } from "@components/filopplasting/api/useDocumentState";
 
@@ -10,6 +11,8 @@ import FileUploadItem from "./FileUploadItem";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
 import { browserEnv } from "@config/env";
 import { useParams } from "next/navigation";
+import useSlowProcessingWarning from "@components/filopplasting/useSlowProcessingWarning";
+import { isFolder } from "@components/filopplasting/utils/validateFiles";
 
 interface Props {
     id?: string;
@@ -28,10 +31,21 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
     const t = useTranslations("Opplastingsboks");
     const { id: fiksDigisosId } = useParams<{ id: string }>();
 
+    const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
+
+    const [folderDropError, setFolderDropError] = useState(false);
+
+    const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
+
     // Starter opplasting umiddelbart ved filvalg
     const _onSelect = (files: FileObject[]) => {
-        onSelect?.(files);
-        const uploads = files.map((file: FileObject) =>
+        const [folders, valid] = R.partition(files, (f) => isFolder(f));
+
+        setFolderDropError(folders.length > 0);
+
+        if (valid.length === 0) return;
+        onSelect?.(valid);
+        const uploads = valid.map((file: FileObject) =>
             getTusUploader({
                 id: uploadId,
                 file,
@@ -91,6 +105,16 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                     showLabelOnMobile={!!label}
                 />
 
+                {folderDropError && (
+                    <InlineMessage
+                        role="alert"
+                        status="error"
+                        className="bg-ax-bg-danger-moderate border border-ax-border-error-subtle p-2 rounded-xl text-ax-text-danger"
+                    >
+                        {t("mappeIkkeTillatt")}
+                    </InlineMessage>
+                )}
+
                 {!!docState.uploads?.length && (
                     <VStack gap="space-8">
                         <Heading size="xsmall" level="3">
@@ -102,6 +126,15 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                                 className="border border-ax-border-info-subtle bg-ax-bg-info-moderate p-2 rounded-xl"
                             >
                                 {t("konvertert")}
+                            </InlineMessage>
+                        )}
+                        {showSlowProcessingWarning && (
+                            <InlineMessage
+                                status="info"
+                                role="info"
+                                className="border border-ax-border-info-subtle bg-ax-bg-info-moderate p-2 rounded-xl"
+                            >
+                                {t("processingWarning")}
                             </InlineMessage>
                         )}
                         {(docState.validations?.length ?? 0) > 0 && (
@@ -132,6 +165,10 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                                     validations={upload.validations}
                                     status={upload.status}
                                     size={upload.size}
+                                    showCancelButton={
+                                        showSlowProcessingWarning &&
+                                        (upload.status === "PENDING" || upload.status === "PROCESSING")
+                                    }
                                 />
                             ))}
                         </VStack>

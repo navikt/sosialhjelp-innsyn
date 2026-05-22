@@ -15,6 +15,7 @@ interface Props {
     url?: string;
     status: UploadStatus;
     size?: number;
+    showCancelButton?: boolean;
 }
 
 const SeOverDescription = () => {
@@ -27,20 +28,30 @@ const SeOverDescription = () => {
     );
 };
 
-const FileUploadItem = ({ convertedFilename, originalFilename, uploadId, validations, url, status, size }: Props) => {
+const FileUploadItem = ({
+    convertedFilename,
+    originalFilename,
+    uploadId,
+    validations,
+    url,
+    status,
+    size,
+    showCancelButton,
+}: Props) => {
     const t = useTranslations("FileUploadItem");
     const { mutate, isPending } = useMutation({
         mutationFn: () => Upload.terminate(`${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/tus/files/${uploadId}`, {}),
         retry: false,
     });
     const isConverted = !!convertedFilename && convertedFilename !== originalFilename;
-
+    const isUploading = !url && !validations && status !== "FAILED" && status !== "COMPLETE" && !showCancelButton;
+    const uploadStatus = isUploading ? "uploading" : "idle";
     return (
         <>
             <FileUpload.Item
                 file={{ name: convertedFilename ?? originalFilename, size }}
                 as="li"
-                status={!url && !validations && status !== "FAILED" && status !== "COMPLETE" ? "uploading" : "idle"}
+                status={uploadStatus}
                 button={
                     <Button
                         variant="tertiary"
