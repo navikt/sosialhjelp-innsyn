@@ -12,9 +12,7 @@ jobs:
         name: "Build Code and run Tests"
         runs-on: ubuntu-latest
         permissions:
-            packages: write
             contents: read
-            id-token: write
         steps:
             - uses: actions/checkout@v4
 
@@ -45,4 +43,5 @@ jobs:
         uses: ./.github/workflows/playwright-tests.yml
         permissions:
             contents: read
+            packages: write
             id-token: write
