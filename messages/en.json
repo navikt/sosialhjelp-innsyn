@@ -19,7 +19,7 @@
         "validation": {
             "ENCRYPTED_PDF": "The PDF is password protected and we cannot process it",
             "FILETYPE_NOT_SUPPORTED": "The file type is not supported",
-            "FILE_TOO_LARGE": "Maximum file size is 10 MB",
+            "FILE_TOO_LARGE": "The file is too large (max 10 MB)",
             "INVALID_FILENAME": "The file name is not valid",
             "INVALID_PDF": "The PDF is not valid",
             "POSSIBLY_INFECTED": "The file may be infected with a virus"
