@@ -96,7 +96,8 @@
         "breadcrumbs": {
             "soknader": "My applications",
             "soknad": "My application"
-        }
+        },
+        "htmlTitle": "My application for financial assistance"
     },
     "Soknad": {
         "defaultTittel": "Application for financial assistance"

@@ -96,7 +96,8 @@
         "breadcrumbs": {
             "soknader": "Mine søknader",
             "soknad": "Min søknad"
-        }
+        },
+        "htmlTitle": "Min søknad om økonomisk sosialhjelp"
     },
     "Soknad": {
         "defaultTittel": "Søknad om økonomisk sosialhjelp"
