@@ -145,7 +145,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                                         key={`${error}`}
                                         status="error"
                                         role={"alert"}
-                                        className="bg-ax-bg-danger-moderate border border-ax-border-error p-2 rounded-xl text-ax-text-danger"
+                                        className="bg-ax-bg-danger-moderate border border-ax-border-danger p-2 rounded-xl text-ax-text-danger"
                                     >
                                         {t(`submissionError.${error}`)}
                                     </InlineMessage>
