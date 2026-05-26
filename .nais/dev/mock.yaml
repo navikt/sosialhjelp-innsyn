@@ -43,11 +43,10 @@ spec:
         - host: teamdigisos-unleash-api.nav.cloud.nais.io
   resources:
     limits:
-      cpu: 200m
       memory: 256Mi
     requests:
-      cpu: 1m
-      memory: 32Mi
+      cpu: 50m
+      memory: 160Mi
   env:
     - name: UNLEASH_SERVER_API_URL
       value: 'https://teamdigisos-unleash-api.nav.cloud.nais.io/api'
