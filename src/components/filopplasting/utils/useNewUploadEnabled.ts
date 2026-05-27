@@ -3,7 +3,7 @@ import { useHentKommuneInfoSuspense } from "@generated/kommune-controller/kommun
 import { useParams } from "next/navigation";
 import { browserEnv } from "@config/env";
 
-const AKTIVE_KOMMUNER = ["1410"];
+const AKTIVE_KOMMUNER: string[] = [];
 
 const useNewUploadEnabled = () => {
     const toggle = useFlag("sosialhjelp.innsyn.ny_upload");
