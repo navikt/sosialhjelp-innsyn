@@ -14,16 +14,16 @@ import { useHentOriginalSoknadSuspense } from "@generated/soknads-status-control
 import { useHentSaksStatuserSuspense } from "@generated/saks-status-controller/saks-status-controller";
 import { SoknadsStatusResponseStatus } from "@generated/model";
 import TipsReadMore from "../TipsReadMore";
+import useNewUploadEnabled from "@components/filopplasting/utils/useNewUploadEnabled";
 
 const metadata = { dokumentKontekst: "ettersendelse", type: "annet", tilleggsinfo: "annet" } satisfies Metadata;
 
 interface Props {
     id: string;
-    newUploadEnabled: boolean;
     soknadStatus: SoknadsStatusResponseStatus;
 }
 
-const Filopplasting = ({ id, newUploadEnabled, soknadStatus }: Props) => {
+const Filopplasting = ({ id, soknadStatus }: Props) => {
     const t = useTranslations("Filopplasting");
     const isMobile = useIsMobile();
 
@@ -36,6 +36,7 @@ const Filopplasting = ({ id, newUploadEnabled, soknadStatus }: Props) => {
 
     const showUpload = !enSakIkkeInnsyn && !behandlesIkke;
 
+    const newUploadEnabled = useNewUploadEnabled();
     return (
         <VStack gap="space-8">
             <Heading size="medium" level="2">

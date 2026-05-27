@@ -4,8 +4,8 @@ import OpplastingsboksTus from "@components/filopplasting/OpplastingsboksTus";
 import TaskListItem from "../../tasklistitem/TaskListItem";
 import Opplastingsboks from "@components/filopplasting/Opplastingsboks";
 import { DokumentasjonkravDto } from "@generated/model";
-import { useFlag } from "@featuretoggles/context";
 import OppgaveTag from "../../tasklistitem/OppgaveTag";
+import useNewUploadEnabled from "@components/filopplasting/utils/useNewUploadEnabled";
 
 interface Props {
     dokKrav: DokumentasjonkravDto;
@@ -15,8 +15,7 @@ const withWarningColor = (text: string | undefined, isUncompleted: boolean) =>
     isUncompleted && text ? <span className="text-ax-text-warning">{text}</span> : text;
 
 const Dokumentasjonkrav = ({ dokKrav }: Props) => {
-    const toggle = useFlag("sosialhjelp.innsyn.ny_upload");
-    const newUploadEnabled = toggle?.enabled ?? false;
+    const newUploadEnabled = useNewUploadEnabled();
     return (
         <TaskListItem variant={dokKrav.erLastetOpp ? "normal" : "warning"}>
             {newUploadEnabled ? (

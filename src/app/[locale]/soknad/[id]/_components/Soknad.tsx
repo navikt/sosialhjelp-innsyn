@@ -52,9 +52,7 @@ export const Soknad = async ({ id }: Props) => {
 
     // Fetch feature flag flyttet ut av FIlopplasting komponenten
     const toggles = await getToggles();
-    const nyUploadToggle = getFlag("sosialhjelp.innsyn.ny_upload", toggles);
     const klageToggle = getFlag("sosialhjelp.innsyn.klage", toggles);
-    const newUploadEnabled = nyUploadToggle?.enabled ?? false;
 
     // Prefetcher her og putter det i HydrationBoundary slik at det er tilgjengelig i browseren
     prefetchHentVedleggQuery(vedleggQueryClient, id);
@@ -107,13 +105,17 @@ export const Soknad = async ({ id }: Props) => {
             )}
             <Suspense fallback={null}>
                 <HydrationBoundary state={dehydrate(dokumentasjonkravQueryClient)}>
-                    <VilkarListe />
+                    <HydrationBoundary state={dehydrate(kommuneQueryClient)}>
+                        <VilkarListe />
+                    </HydrationBoundary>
                 </HydrationBoundary>
             </Suspense>
             <Suspense fallback={<FilopplastingSkeleton />}>
                 <HydrationBoundary state={dehydrate(vedleggQueryClient)}>
                     <HydrationBoundary state={dehydrate(sakerQueryClient)}>
-                        <Filopplasting id={id} newUploadEnabled={newUploadEnabled} soknadStatus={status} />
+                        <HydrationBoundary state={dehydrate(kommuneQueryClient)}>
+                            <Filopplasting id={id} soknadStatus={status} />
+                        </HydrationBoundary>
                     </HydrationBoundary>
                 </HydrationBoundary>
             </Suspense>
