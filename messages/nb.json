@@ -236,7 +236,7 @@
         "mappeIkkeTillatt": "Mapper kan ikke lastes opp. Velg enkeltfiler i stedet.",
         "processingWarning": "Opplasting kan ta litt tid. Opplastingen avbrytes automatisk etter 3 minutter.",
         "error": "Det oppstod en feil under opplastingen. Vennligst prøv igjen.",
-        "suksess": "Takk! Dokumentasjonen din ble sendt inn.",
+        "suksess": "Dokumentasjonen din ble sendt inn.",
         "forlater_siden_uten_aa_sende_inn_vedlegg": "Denne siden ber deg bekrefte at du ønsker å forlate siden — informasjon som du allerede har skrevet inn vil kanskje ikke lagres.",
         "submissionError": {
             "TOO_MANY_FILES": "Du har valgt for mange filer. Maks antall filer er 30.",
@@ -497,10 +497,10 @@
         "tittel": "Mine utbetalinger av økonomisk sosialhjelp",
         "breadcrumbTitle": "Mine utbetalinger"
     },
-  "AndreUtbetalingerInfo": {
-    "tittel": "Mottar du andre utbetalinger fra Nav?",
-    "beskrivelse": "På denne siden finner du kun dine utbetalinger for økonomisk sosialhjelp. Hvis du mottar andre utbetalinger fra Nav, kan du se disse under siden <lenke>Utbetalinger på Min side.</lenke>"
-  },
+    "AndreUtbetalingerInfo": {
+        "tittel": "Mottar du andre utbetalinger fra Nav?",
+        "beskrivelse": "På denne siden finner du kun dine utbetalinger for økonomisk sosialhjelp. Hvis du mottar andre utbetalinger fra Nav, kan du se disse under siden <lenke>Utbetalinger på Min side.</lenke>"
+    },
     "ErrorPage": {
         "htmlTitle": "Teknisk feil - nav.no",
         "tittel": "Beklager, noe gikk galt",

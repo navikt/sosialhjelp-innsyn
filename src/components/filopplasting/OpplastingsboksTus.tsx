@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Alert, BodyShort, Button, Heading, HStack, InlineMessage, LocalAlert, VStack } from "@navikt/ds-react";
+import { Alert, BodyShort, Button, Heading, HStack, InlineMessage, VStack } from "@navikt/ds-react";
 import { ReactNode, useRef } from "react";
 import { useParams } from "next/navigation";
 import { Metadata } from "@components/filopplasting/types";
@@ -147,11 +147,13 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, 
                 </Button>
             )}
             {isUploadSuccess && (
-                <LocalAlert role="alert" status="success">
-                    <LocalAlert.Header>
-                        <LocalAlert.Title>{t("suksess")}</LocalAlert.Title>
-                    </LocalAlert.Header>
-                </LocalAlert>
+                <InlineMessage
+                    role="status"
+                    status="success"
+                    className="bg-ax-bg-success-moderate border border-ax-border-success-subtle px-4 py-3 rounded-xl text-ax-text-success [&>span]:w-full"
+                >
+                    {t("suksess")}
+                </InlineMessage>
             )}
         </VStack>
     );

@@ -223,7 +223,7 @@
         "mappeIkkeTillatt": "Mapper kan ikkje lastast opp. Vel enkeltfiler i staden.",
         "processingWarning": "Opplasting kan ta litt tid. Opplastinga vert avbroten automatisk etter 3 minutt.",
         "error": "Det oppstod ein feil ved opplastinga. Ver vennleg og prøv igjen.",
-        "suksess": "Takk! Dokumentasjonen din vart sendt inn.",
+        "suksess": "Dokumentasjonen din vart sendt inn.",
         "forlater_siden_uten_aa_sende_inn_vedlegg": "Denne sidan ber deg bekrefta at du ønskjer å forlata sidan — informasjon som du allereie har skrive inn vil kanskje ikkje lagrast.",
         "submissionError": {
             "TOO_MANY_FILES": "Du har valt for mange filer. Maks tal på filer er 30.",
@@ -484,7 +484,7 @@
         "tittel": "Mine utbetalingar av økonomisk sosialhjelp",
         "breadcrumbTitle": "Mine utbetalingar"
     },
-  "AndreUtbetalingerInfo": {
+    "AndreUtbetalingerInfo": {
         "tittel": "Mottek du andre utbetalingar frå Nav?",
         "beskrivelse": "På denne sida finn du berre utbetalingane dine for økonomisk sosialhjelp. Viss du mottek andre utbetalingar frå Nav, kan du sjå desse på sida <lenke>Utbetalingar på Min side.</lenke>"
     },
