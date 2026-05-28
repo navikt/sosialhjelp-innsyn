@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Alert, BodyLong, BodyShort, Button, Heading, HStack, InlineMessage, VStack } from "@navikt/ds-react";
+import { Alert, BodyLong, Button, Heading, HStack, InlineMessage, VStack } from "@navikt/ds-react";
 import { ReactNode, useRef } from "react";
 import { useParams } from "next/navigation";
 import { Metadata } from "@components/filopplasting/types";
@@ -72,7 +72,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, 
                         </Heading>
                         {!isMobile && tag}
                     </HStack>
-                    <BodyShort lang="no">{description ?? t("beskrivelse")}</BodyShort>
+                    <BodyLong lang="no">{description ?? t("beskrivelse")}</BodyLong>
                 </VStack>
                 {metadata.hendelsereferanse && (
                     <VedleggListe

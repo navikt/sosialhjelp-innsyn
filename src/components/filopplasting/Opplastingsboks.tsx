@@ -146,22 +146,8 @@ const Opplastingsboks = ({ metadata, label, labelText, description, tag, complet
         >
             <VStack gap="space-24">
                 <FileSelectUpload
-                    label={
-                        label ? (
-                            <Heading size="small" level="3" lang="no">
-                                {label}
-                            </Heading>
-                        ) : isMobile ? undefined : (
-                            t("tittel")
-                        )
-                    }
-                    description={
-                        description ? (
-                            <HStack justify="space-between">
-                                <BodyLong lang="no">{description}</BodyLong>
-                            </HStack>
-                        ) : undefined
-                    }
+                    label={label ?? t("tittel")}
+                    description={description}
                     tag={tag}
                     buttonText={t("lastOppFiler")}
                     onSelect={onFilesSelect}
