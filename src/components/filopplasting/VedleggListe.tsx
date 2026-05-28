@@ -1,6 +1,7 @@
 "use client";
 
-import { BodyShort, HStack, InlineMessage, Skeleton, VStack } from "@navikt/ds-react";
+import { BodyShort, HStack, Skeleton, VStack } from "@navikt/ds-react";
+import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
 import { useTranslations } from "next-intl";
 import * as R from "remeda";
 import { OriginalSoknadDto, VedleggResponse } from "@generated/model";
@@ -40,14 +41,7 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveBeskrivels
 
     return (
         <VStack gap="space-8">
-            {originalSoknadErSkjult && (
-                <InlineMessage
-                    status={"info"}
-                    className="border border-ax-border-info-subtle bg-ax-bg-info-moderate p-2 rounded-xl"
-                >
-                    {t("skjultSoknadPdf")}
-                </InlineMessage>
-            )}
+            {originalSoknadErSkjult && <InlineStatusMessage variant="info">{t("skjultSoknadPdf")}</InlineStatusMessage>}
             {sortedVedlegg.length > 0 && (
                 <ExpandableList
                     items={sortedVedlegg}
