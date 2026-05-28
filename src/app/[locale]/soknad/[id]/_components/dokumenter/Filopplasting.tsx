@@ -1,6 +1,6 @@
 "use client";
 
-import { Heading, VStack, Box, BodyLong } from "@navikt/ds-react";
+import { Heading, VStack, Box } from "@navikt/ds-react";
 import { NavigationGuardProvider } from "next-navigation-guard";
 import { useTranslations } from "next-intl";
 import OpplastingsboksTus from "@components/filopplasting/OpplastingsboksTus";
@@ -53,9 +53,8 @@ const Filopplasting = ({ id, soknadStatus }: Props) => {
                 <VStack gap="space-40">
                     {showUpload && (
                         <VStack gap={isMobile ? "space-16" : "space-40"}>
-                            {isMobile && <BodyLong>{t("beskrivelse")}</BodyLong>}
                             {newUploadEnabled ? (
-                                <OpplastingsboksTus metadata={metadata} id={id} />
+                                <OpplastingsboksTus metadata={metadata} id={id} description={t("beskrivelse")} />
                             ) : (
                                 <NavigationGuardProvider>
                                     <Opplastingsboks metadata={metadata} />
