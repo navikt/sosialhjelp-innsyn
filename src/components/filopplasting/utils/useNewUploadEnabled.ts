@@ -3,7 +3,8 @@ import { useHentKommuneInfoSuspense } from "@generated/kommune-controller/kommun
 import { useParams } from "next/navigation";
 import { browserEnv } from "@config/env";
 
-const AKTIVE_KOMMUNER: string[] = [];
+// Lillestrøm kommune
+const INNRULLERTE_KOMMUNER: string[] = ["3205"];
 
 const useNewUploadEnabled = () => {
     const toggle = useFlag("sosialhjelp.innsyn.ny_upload");
@@ -14,7 +15,7 @@ const useNewUploadEnabled = () => {
 
     if (!toggle?.enabled) return false;
     if (browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT !== "prod") return true;
-    return AKTIVE_KOMMUNER.includes(kommunenummer ?? "");
+    return INNRULLERTE_KOMMUNER.includes(kommunenummer ?? "");
 };
 
 export default useNewUploadEnabled;
