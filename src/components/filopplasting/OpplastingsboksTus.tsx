@@ -1,7 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Alert, BodyLong, Button, Heading, HStack, InlineMessage, VStack } from "@navikt/ds-react";
+import { Alert, BodyLong, Button, Heading, HStack, VStack } from "@navikt/ds-react";
+import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
 import { ReactNode, useRef } from "react";
 import { useParams } from "next/navigation";
 import { Metadata } from "@components/filopplasting/types";
@@ -114,10 +115,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, 
                 variant={variant}
             />
             {mutationError && (
-                <InlineMessage
-                    status="error"
-                    className="bg-ax-bg-danger-moderate border border-ax-border-danger px-4 py-3 rounded-xl text-ax-text-danger [&>span]:w-full"
-                >
+                <InlineStatusMessage variant="error" padding="large" fullWidth>
                     <HStack justify="space-between" align="start" wrap={false}>
                         <BodyLong>{t("error")}</BodyLong>
                         <Button
@@ -128,7 +126,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, 
                             variant="tertiary-neutral"
                         />
                     </HStack>
-                </InlineMessage>
+                </InlineStatusMessage>
             )}
             {!!docState.uploads?.length && (
                 <Button
@@ -147,14 +145,14 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, 
                 </Button>
             )}
             {isUploadSuccess && (
-                <InlineMessage
+                <InlineStatusMessage
                     role="status"
-                    status="success"
+                    variant="success"
+                    padding="large"
                     size={isMobile ? "small" : "medium"}
-                    className="bg-ax-bg-success-moderate border border-ax-border-success-subtle px-4 py-3 rounded-xl text-ax-text-success [&>span]:w-full"
                 >
                     {t("suksess")}
-                </InlineMessage>
+                </InlineStatusMessage>
             )}
         </VStack>
     );
