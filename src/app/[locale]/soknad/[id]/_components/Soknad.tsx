@@ -30,6 +30,7 @@ import { prefetchGetSaksDetaljerQuery } from "@generated/ssr/saks-oversikt-contr
 import { TagsSkeleton } from "@components/tags/Tags";
 import SoknadInfoCards from "./info/SoknadInfoCards";
 import { prefetchHentBrevQuery } from "@generated/ssr/brev-controller/brev-controller";
+import { prefetchHentKommuneInfoQuery } from "@generated/ssr/kommune-controller/kommune-controller";
 
 interface Props {
     id: string;
@@ -44,15 +45,14 @@ export const Soknad = async ({ id }: Props) => {
     const saksdetaljerQueryClient = getQueryClient();
     const sakerQueryClient = getQueryClient();
     const brevQueryClient = getQueryClient();
+    const kommuneQueryClient = getQueryClient();
 
     const { status, navKontor, tittel } = await hentSoknadsStatus(id);
     const mottattOrSendt = ["SENDT", "MOTTATT"].includes(status);
 
     // Fetch feature flag flyttet ut av FIlopplasting komponenten
     const toggles = await getToggles();
-    const nyUploadToggle = getFlag("sosialhjelp.innsyn.ny_upload", toggles);
     const klageToggle = getFlag("sosialhjelp.innsyn.klage", toggles);
-    const newUploadEnabled = nyUploadToggle?.enabled ?? false;
 
     // Prefetcher her og putter det i HydrationBoundary slik at det er tilgjengelig i browseren
     prefetchHentVedleggQuery(vedleggQueryClient, id);
@@ -63,6 +63,7 @@ export const Soknad = async ({ id }: Props) => {
     prefetchHentSaksStatuserQuery(sakerQueryClient, id);
     prefetchGetSaksDetaljerQuery(saksdetaljerQueryClient, id);
     prefetchHentBrevQuery(brevQueryClient, id);
+    prefetchHentKommuneInfoQuery(kommuneQueryClient, id);
     if (klageToggle.enabled) {
         prefetchHentKlagerQuery(klageQueryClient, id, { query: { enabled: !mottattOrSendt } });
     }
@@ -96,19 +97,25 @@ export const Soknad = async ({ id }: Props) => {
             {status !== "FERDIGBEHANDLET" && status !== "BEHANDLES_IKKE" && (
                 <Suspense fallback={<OppgaverSkeleton />}>
                     <HydrationBoundary state={dehydrate(oppgaverQueryClient)}>
-                        <Oppgaver />
+                        <HydrationBoundary state={dehydrate(kommuneQueryClient)}>
+                            <Oppgaver />
+                        </HydrationBoundary>
                     </HydrationBoundary>
                 </Suspense>
             )}
             <Suspense fallback={null}>
                 <HydrationBoundary state={dehydrate(dokumentasjonkravQueryClient)}>
-                    <VilkarListe />
+                    <HydrationBoundary state={dehydrate(kommuneQueryClient)}>
+                        <VilkarListe />
+                    </HydrationBoundary>
                 </HydrationBoundary>
             </Suspense>
             <Suspense fallback={<FilopplastingSkeleton />}>
                 <HydrationBoundary state={dehydrate(vedleggQueryClient)}>
                     <HydrationBoundary state={dehydrate(sakerQueryClient)}>
-                        <Filopplasting id={id} newUploadEnabled={newUploadEnabled} soknadStatus={status} />
+                        <HydrationBoundary state={dehydrate(kommuneQueryClient)}>
+                            <Filopplasting id={id} soknadStatus={status} />
+                        </HydrationBoundary>
                     </HydrationBoundary>
                 </HydrationBoundary>
             </Suspense>

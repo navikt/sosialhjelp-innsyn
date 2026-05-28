@@ -4,12 +4,12 @@ import { forwardRef, Ref } from "react";
 import Opplastingsboks from "@components/filopplasting/Opplastingsboks";
 import OpplastingsboksTus from "@components/filopplasting/OpplastingsboksTus";
 import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
-import { useFlag } from "@featuretoggles/context";
 import { Metadata } from "@components/filopplasting/types";
 import { OppgaveResponseBeta } from "@generated/model";
 import TaskListItem from "../tasklistitem/TaskListItem";
 import OppgaveTag from "../tasklistitem/OppgaveTag";
 import { useParams } from "next/navigation";
+import useNewUploadEnabled from "@components/filopplasting/utils/useNewUploadEnabled";
 
 interface Props {
     oppgave: OppgaveResponseBeta;
@@ -18,10 +18,8 @@ interface Props {
 const withWarningColor = (text: string | undefined) => <span className="text-ax-text-warning">{text}</span>;
 
 const OppgaveItem = ({ oppgave }: Props, ref: Ref<HTMLLIElement>) => {
-    const toggle = useFlag("sosialhjelp.innsyn.ny_upload");
     const { id: fiksDigisosId } = useParams<{ id: string }>();
-
-    const newUploadEnabled = toggle?.enabled ?? false;
+    const newUploadEnabled = useNewUploadEnabled();
 
     const { typeTekst, tilleggsinfoTekst } = getVisningstekster(oppgave.dokumenttype, oppgave.tilleggsinformasjon);
     const metadata: Metadata = {
