@@ -132,7 +132,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                         {showSlowProcessingWarning && (
                             <InlineMessage
                                 status="info"
-                                role="alert"
+                                role="status"
                                 className="border border-ax-border-info-subtle bg-ax-bg-info-moderate p-2 rounded-xl"
                             >
                                 {t("processingWarning")}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Alert, BodyShort, Button, Heading, HStack, InlineMessage, VStack } from "@navikt/ds-react";
+import { Alert, BodyLong, BodyShort, Button, Heading, HStack, InlineMessage, VStack } from "@navikt/ds-react";
 import { ReactNode, useRef } from "react";
 import { useParams } from "next/navigation";
 import { Metadata } from "@components/filopplasting/types";
@@ -116,10 +116,10 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, 
             {mutationError && (
                 <InlineMessage
                     status="error"
-                    className="bg-ax-bg-danger-moderate border border-ax-border-error-subtle p-1 rounded-xl text-ax-text-danger [&>span]:w-full"
+                    className="bg-ax-bg-danger-moderate border border-ax-border-danger px-4 py-3 rounded-xl text-ax-text-danger [&>span]:w-full"
                 >
-                    <HStack justify="space-between" align="start">
-                        <div>{t("error")}</div>
+                    <HStack justify="space-between" align="start" wrap={false}>
+                        <BodyLong>{t("error")}</BodyLong>
                         <Button
                             icon={<XMarkIcon aria-hidden />}
                             size="small"
@@ -150,6 +150,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, 
                 <InlineMessage
                     role="status"
                     status="success"
+                    size={isMobile ? "small" : "medium"}
                     className="bg-ax-bg-success-moderate border border-ax-border-success-subtle px-4 py-3 rounded-xl text-ax-text-success [&>span]:w-full"
                 >
                     {t("suksess")}
