@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import * as R from "remeda";
 import { FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useState } from "react";
 import { getTusUploader } from "@components/filopplasting/utils/tusUploader";
 import { DocumentState } from "@components/filopplasting/api/useDocumentState";
 
@@ -35,16 +35,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
     const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
 
     const [folderDropError, setFolderDropError] = useState(false);
-    const [deletionMessage, setDeletionMessage] = useState("");
-    const prevCountRef = useRef<number | undefined>(undefined);
-
-    useEffect(() => {
-        const currentCount = docState.uploads?.length ?? 0;
-        if (prevCountRef.current !== undefined && currentCount < prevCountRef.current) {
-            setDeletionMessage(t("filSlettet", { count: currentCount }));
-        }
-        prevCountRef.current = currentCount;
-    }, [docState.uploads?.length, t]);
+    const [fileWasDeleted, setFileWasDeleted] = useState(false);
 
     const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
 
@@ -53,6 +44,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
         const [folders, valid] = R.partition(files, (f) => isFolder(f));
 
         setFolderDropError(folders.length > 0);
+        setFileWasDeleted(false);
 
         if (valid.length === 0) return;
         onSelect?.(valid);
@@ -84,6 +76,9 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                 },
             }}
         >
+            <div role="status" aria-live="polite" className="sr-only">
+                {fileWasDeleted && t("filSlettet", { count: docState.uploads?.length ?? 0 })}
+            </div>
             <VStack gap="space-24">
                 <FileSelectUpload
                     label={label ?? t("tittel")}
@@ -100,10 +95,6 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                         {t("mappeIkkeTillatt")}
                     </InlineStatusMessage>
                 )}
-
-                <div role="status" aria-live="polite" className="sr-only">
-                    {deletionMessage}
-                </div>
 
                 {!!docState.uploads?.length && (
                     <VStack gap="space-8">
@@ -148,6 +139,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                                         showSlowProcessingWarning &&
                                         (upload.status === "PENDING" || upload.status === "PROCESSING")
                                     }
+                                    onTerminate={() => setFileWasDeleted(true)}
                                 />
                             ))}
                         </VStack>
