@@ -6,6 +6,7 @@ import {
     type DokumentasjonkravDto,
     HendelseDto,
     KlageDto,
+    KommuneResponse,
     OppgaveResponseBeta,
     OppgaveVedleggFil,
     OriginalSoknadDto,
@@ -112,6 +113,7 @@ export async function mockSoknadEndpoints(
         detaljer?: Partial<SaksDetaljerResponse>;
         vedleggForOppgave?: Record<string, OppgaveVedleggFil[]>;
         brev?: Brev[];
+        kommuneInfo?: Partial<KommuneResponse>;
     }
 ) {
     const defaultSoknadsStatus: SoknadsStatusResponse = {
@@ -129,6 +131,7 @@ export async function mockSoknadEndpoints(
         date: new Date().toISOString(),
         size: 1000,
         filename: "soknad.pdf",
+        skjult: false,
         ...overrides?.originalSoknad,
     };
 
@@ -177,6 +180,15 @@ export async function mockSoknadEndpoints(
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/klager`, overrides?.klager ?? []);
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/hendelser/beta`, overrides?.hendelser ?? []);
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/brev`, overrides?.brev ?? []);
+    await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/kommune`, {
+        erInnsynDeaktivert: false,
+        erInnsynMidlertidigDeaktivert: false,
+        erInnsendingEttersendelseDeaktivert: false,
+        erInnsendingEttersendelseMidlertidigDeaktivert: false,
+        tidspunkt: new Date().toISOString(),
+        kommunenummer: "0301",
+        ...overrides?.kommuneInfo,
+    } satisfies KommuneResponse);
     await msw.mockDetaljer(soknadId, overrides?.detaljer ?? defaultDetaljer);
     overrides?.oppgaver?.forEach((oppgave) => {
         if (oppgave.hendelsereferanse) {

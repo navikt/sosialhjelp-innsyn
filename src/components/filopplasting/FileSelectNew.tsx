@@ -2,7 +2,8 @@
 
 import { useTranslations } from "next-intl";
 import * as R from "remeda";
-import { BodyShort, FileObject, FileUpload, Heading, InlineMessage, VStack } from "@navikt/ds-react";
+import { FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
+import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { getTusUploader } from "@components/filopplasting/utils/tusUploader";
 import { DocumentState } from "@components/filopplasting/api/useDocumentState";
@@ -85,44 +86,19 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
         >
             <VStack gap="space-24">
                 <FileSelectUpload
-                    label={
-                        label ? (
-                            <Heading
-                                level="3"
-                                size="small"
-                                lang="no"
-                                data-color={variant === "warning" ? "warning" : undefined}
-                            >
-                                {label}
-                            </Heading>
-                        ) : (
-                            t("tittel")
-                        )
-                    }
+                    label={label ?? t("tittel")}
+                    description={description}
                     tag={tag}
-                    description={
-                        description && variant === "warning" ? (
-                            <BodyShort as="span" data-color="warning" lang="no">
-                                {description}
-                            </BodyShort>
-                        ) : (
-                            description
-                        )
-                    }
+                    variant={variant === "warning" ? "warning" : "default"}
                     buttonText={t("lastOppFiler")}
                     onSelect={_onSelect}
                     currentCount={docState.uploads?.length ?? 0}
-                    showLabelOnMobile={!!label}
                 />
 
                 {folderDropError && (
-                    <InlineMessage
-                        role="alert"
-                        status="error"
-                        className="bg-ax-bg-danger-moderate border border-ax-border-error-subtle p-2 rounded-xl text-ax-text-danger"
-                    >
+                    <InlineStatusMessage variant="error" role="alert">
                         {t("mappeIkkeTillatt")}
-                    </InlineMessage>
+                    </InlineStatusMessage>
                 )}
 
                 <div role="status" aria-live="polite" className="sr-only">
@@ -135,34 +111,21 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                             {filesLabel ?? t("valgteFiler", { antall_filer: docState.uploads.length })}
                         </Heading>
                         {converted && (
-                            <InlineMessage
-                                status={"info"}
-                                role={"alert"}
-                                className="border border-ax-border-info-subtle bg-ax-bg-info-moderate p-2 rounded-xl"
-                            >
+                            <InlineStatusMessage variant="info" role="status">
                                 {t("konvertert")}
-                            </InlineMessage>
+                            </InlineStatusMessage>
                         )}
                         {showSlowProcessingWarning && (
-                            <InlineMessage
-                                status="info"
-                                role="alert"
-                                className="border border-ax-border-info-subtle bg-ax-bg-info-moderate p-2 rounded-xl"
-                            >
+                            <InlineStatusMessage variant="info" role="status">
                                 {t("processingWarning")}
-                            </InlineMessage>
+                            </InlineStatusMessage>
                         )}
                         {(docState.validations?.length ?? 0) > 0 && (
                             <>
                                 {docState.validations?.map((error) => (
-                                    <InlineMessage
-                                        key={`${error}`}
-                                        status="error"
-                                        role={"alert"}
-                                        className="bg-ax-bg-danger-moderate border border-ax-border-danger p-2 rounded-xl text-ax-text-danger"
-                                    >
+                                    <InlineStatusMessage key={error} variant="error" role="alert">
                                         {t(`submissionError.${error}`)}
-                                    </InlineMessage>
+                                    </InlineStatusMessage>
                                 ))}
                             </>
                         )}
