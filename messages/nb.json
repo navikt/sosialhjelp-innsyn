@@ -232,7 +232,6 @@
         "valgteFiler": "Valgte filer ({antall_filer})",
         "filerTilOpplasting": "Filer til opplasting",
         "antallFiler": "{count, plural, one {# fil klar til opplasting} other {# filer klare til opplasting}}",
-        "antallFilerValgt": "{count, plural, zero {Ingen filer gjenstår} one {# fil gjenstår} other {# filer gjenstår}}",
         "filSlettet": "{count, plural, =0 {Fil slettet. Ingen filer gjenstår.} one {Fil slettet. # fil gjenstår.} other {Fil slettet. # filer gjenstår.}}",
         "konvertert": "En eller flere filer ble endret til et annet format (PDF) slik at det kan sendes inn.",
         "mappeIkkeTillatt": "Mapper kan ikke lastes opp. Velg enkeltfiler i stedet.",
