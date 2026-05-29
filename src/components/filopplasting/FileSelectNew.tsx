@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import * as R from "remeda";
 import { BodyShort, FileObject, FileUpload, Heading, InlineMessage, VStack } from "@navikt/ds-react";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { getTusUploader } from "@components/filopplasting/utils/tusUploader";
 import { DocumentState } from "@components/filopplasting/api/useDocumentState";
 
@@ -34,6 +34,16 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
     const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
 
     const [folderDropError, setFolderDropError] = useState(false);
+    const [deletionMessage, setDeletionMessage] = useState("");
+    const prevCountRef = useRef<number | undefined>(undefined);
+
+    useEffect(() => {
+        const currentCount = docState.uploads?.length ?? 0;
+        if (prevCountRef.current !== undefined && currentCount < prevCountRef.current) {
+            setDeletionMessage(t("filSlettet", { count: currentCount }));
+        }
+        prevCountRef.current = currentCount;
+    }, [docState.uploads?.length, t]);
 
     const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
 
@@ -114,6 +124,10 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                         {t("mappeIkkeTillatt")}
                     </InlineMessage>
                 )}
+
+                <div role="status" aria-live="polite" className="sr-only">
+                    {deletionMessage}
+                </div>
 
                 {!!docState.uploads?.length && (
                     <VStack gap="space-8">

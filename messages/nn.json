@@ -219,6 +219,8 @@
         "valgteFiler": "Valde filer ({antall_filer})",
         "filerTilOpplasting": "Filer til opplasting",
         "antallFiler": "{count, plural, one {# fil klar til opplasting} other {# filer klare til opplasting}}",
+        "antallFilerValgt": "{count, plural, zero {Ingen filer att} one {# fil att} other {# filer att}}",
+        "filSlettet": "{count, plural, =0 {Fil sletta. Ingen filer att.} one {Fil sletta. # fil att.} other {Fil sletta. # filer att.}}",
         "konvertert": "Ein eller fleire filer vart endra til eit anna format (PDF) slik at det kan sendast inn.",
         "mappeIkkeTillatt": "Mapper kan ikkje lastast opp. Vel enkeltfiler i staden.",
         "processingWarning": "Opplasting kan ta litt tid. Opplastinga vert avbroten automatisk etter 3 minutt.",
