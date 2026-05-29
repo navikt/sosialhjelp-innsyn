@@ -35,6 +35,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
     const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
 
     const [folderDropError, setFolderDropError] = useState(false);
+    const [fileWasDeleted, setFileWasDeleted] = useState(false);
 
     const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
 
@@ -43,6 +44,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
         const [folders, valid] = R.partition(files, (f) => isFolder(f));
 
         setFolderDropError(folders.length > 0);
+        setFileWasDeleted(false);
 
         if (valid.length === 0) return;
         onSelect?.(valid);
@@ -74,6 +76,9 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                 },
             }}
         >
+            <div role="status" aria-live="polite" className="sr-only">
+                {fileWasDeleted && t("filSlettet", { count: docState.uploads?.length ?? 0 })}
+            </div>
             <VStack gap="space-24">
                 <FileSelectUpload
                     label={label ?? t("tittel")}
@@ -134,6 +139,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                                         showSlowProcessingWarning &&
                                         (upload.status === "PENDING" || upload.status === "PROCESSING")
                                     }
+                                    onTerminate={() => setFileWasDeleted(true)}
                                 />
                             ))}
                         </VStack>

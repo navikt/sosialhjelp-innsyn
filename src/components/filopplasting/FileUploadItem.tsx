@@ -16,6 +16,7 @@ interface Props {
     status: UploadStatus;
     size?: number;
     showCancelButton?: boolean;
+    onTerminate?: () => void;
 }
 
 const SeOverDescription = () => {
@@ -37,10 +38,12 @@ const FileUploadItem = ({
     status,
     size,
     showCancelButton,
+    onTerminate,
 }: Props) => {
     const t = useTranslations("FileUploadItem");
     const { mutate, isPending } = useMutation({
         mutationFn: () => Upload.terminate(`${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/tus/files/${uploadId}`, {}),
+        onSuccess: () => onTerminate?.(),
         retry: false,
     });
     const isConverted = !!convertedFilename && convertedFilename !== originalFilename;
