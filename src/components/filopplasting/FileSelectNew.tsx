@@ -35,7 +35,12 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
     const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
 
     const [folderDropError, setFolderDropError] = useState(false);
-    const [fileWasDeleted, setFileWasDeleted] = useState(false);
+    const [announcement, setAnnouncement] = useState("");
+
+    const announce = (message: string) => {
+        setAnnouncement(message);
+        setTimeout(() => setAnnouncement(""), 500);
+    };
 
     const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
 
@@ -44,9 +49,9 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
         const [folders, valid] = R.partition(files, (f) => isFolder(f));
 
         setFolderDropError(folders.length > 0);
-        setFileWasDeleted(false);
 
         if (valid.length === 0) return;
+        announce(t("filLagtTil", { count: valid.length }));
         onSelect?.(valid);
         const uploads = valid.map((file: FileObject) =>
             getTusUploader({
@@ -77,7 +82,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
             }}
         >
             <div role="status" aria-live="polite" className="sr-only">
-                {fileWasDeleted && t("filSlettet", { count: docState.uploads?.length ?? 0 })}
+                {announcement}
             </div>
             <VStack gap="space-24">
                 <FileSelectUpload
@@ -139,7 +144,9 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                                         showSlowProcessingWarning &&
                                         (upload.status === "PENDING" || upload.status === "PROCESSING")
                                     }
-                                    onTerminate={() => setFileWasDeleted(true)}
+                                    onTerminate={() =>
+                                        announce(t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 }))
+                                    }
                                 />
                             ))}
                         </VStack>
