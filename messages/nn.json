@@ -228,7 +228,7 @@
         "forlater_siden_uten_aa_sende_inn_vedlegg": "Denne sidan ber deg bekrefta at du ønskjer å forlata sidan — informasjon som du allereie har skrive inn vil kanskje ikkje lagrast.",
         "submissionError": {
             "TOO_MANY_FILES": "Du har valt for mange filer. Maks tal på filer er 30.",
-            "TOTAL_SIZE_TOO_LARGE": "Filene er for store. (maks 150 MB), fjern filer og prøv igjen."
+            "TOTAL_SIZE_TOO_LARGE": "Filene er for store (maks 150 MB), fjern filer og prøv igjen."
         },
         "feil": {
             "minst_ett_vedlegg": "Du må først velje dokumentet du vil sende.",
