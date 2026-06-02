@@ -151,7 +151,9 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                                         (upload.status === "PENDING" || upload.status === "PROCESSING")
                                     }
                                     onTerminate={() =>
-                                        announceForSkjermleser(t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 }))
+                                        announceForSkjermleser(
+                                            t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 })
+                                        )
                                     }
                                 />
                             ))}
