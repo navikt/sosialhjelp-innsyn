@@ -28,6 +28,8 @@ interface Props {
     variant?: "normal" | "warning";
 }
 
+const liveRegionIndexes = [0, 1] as const;
+
 const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uploadId, variant, onSelect }: Props) => {
     const t = useTranslations("Opplastingsboks");
     const { id: fiksDigisosId } = useParams<{ id: string }>();
@@ -35,9 +37,16 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
     const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
 
     const [folderDropError, setFolderDropError] = useState(false);
-    const [skjermleserBeskjed, setSkjermleserBeskjed] = useState("");
+    const [skjermleserBeskjed, setSkjermleserBeskjed] = useState({ text: "", activeRegion: 0 });
 
     const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
+
+    const announceForSkjermleser = (text: string) => {
+        setSkjermleserBeskjed(({ activeRegion }) => ({
+            text,
+            activeRegion: activeRegion === 0 ? 1 : 0,
+        }));
+    };
 
     // Starter opplasting umiddelbart ved filvalg
     const _onSelect = (files: FileObject[]) => {
@@ -46,9 +55,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
         setFolderDropError(folders.length > 0);
 
         if (valid.length === 0) return;
-        setSkjermleserBeskjed(t("filLagtTil", { count: valid.length }));
-        // bruker setTimeout for å nullstille slik at samme antall kan kunngjøres igjen ved neste opplasting
-        setTimeout(() => setSkjermleserBeskjed(""), 500);
+        announceForSkjermleser(t("filLagtTil", { count: valid.length }));
         onSelect?.(valid);
         const uploads = valid.map((file: FileObject) =>
             getTusUploader({
@@ -78,9 +85,11 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                 },
             }}
         >
-            <div role="status" aria-live="polite" className="sr-only">
-                {skjermleserBeskjed}
-            </div>
+            {liveRegionIndexes.map((index) => (
+                <div key={index} role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+                    {skjermleserBeskjed.activeRegion === index ? skjermleserBeskjed.text : ""}
+                </div>
+            ))}
             <VStack gap="space-24">
                 <FileSelectUpload
                     label={label ?? t("tittel")}
@@ -142,9 +151,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                                         (upload.status === "PENDING" || upload.status === "PROCESSING")
                                     }
                                     onTerminate={() =>
-                                        setSkjermleserBeskjed(
-                                            t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 })
-                                        )
+                                        announceForSkjermleser(t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 }))
                                     }
                                 />
                             ))}
