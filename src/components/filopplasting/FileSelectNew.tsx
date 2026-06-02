@@ -35,11 +35,11 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
     const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
 
     const [folderDropError, setFolderDropError] = useState(false);
-    const [announcement, setAnnouncement] = useState("");
+    const [skjermleserBeskjed, setSkjermleserBeskjed] = useState("");
 
-    const announce = (message: string) => {
-        setAnnouncement(message);
-        setTimeout(() => setAnnouncement(""), 500);
+    const oppdaterSkjermleserBeskjed = (message: string) => {
+        setSkjermleserBeskjed(message);
+        setTimeout(() => setSkjermleserBeskjed(""), 500);
     };
 
     const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
@@ -51,7 +51,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
         setFolderDropError(folders.length > 0);
 
         if (valid.length === 0) return;
-        announce(t("filLagtTil", { count: valid.length }));
+        oppdaterSkjermleserBeskjed(t("filLagtTil", { count: valid.length }));
         onSelect?.(valid);
         const uploads = valid.map((file: FileObject) =>
             getTusUploader({
@@ -82,7 +82,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
             }}
         >
             <div role="status" aria-live="polite" className="sr-only">
-                {announcement}
+                {skjermleserBeskjed}
             </div>
             <VStack gap="space-24">
                 <FileSelectUpload
@@ -145,7 +145,9 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                                         (upload.status === "PENDING" || upload.status === "PROCESSING")
                                     }
                                     onTerminate={() =>
-                                        announce(t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 }))
+                                        oppdaterSkjermleserBeskjed(
+                                            t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 })
+                                        )
                                     }
                                 />
                             ))}
