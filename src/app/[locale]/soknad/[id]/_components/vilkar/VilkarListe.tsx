@@ -60,7 +60,7 @@ const VilkarListe = () => {
     return (
         <VStack gap="space-8" as="section" aria-labelledby="vilkar-tittel">
             <HStack align="center" gap="space-8">
-                <Heading size="medium" level="2" id="vilkar-tittel" lang="no">
+                <Heading size="medium" level="2" id="vilkar-tittel">
                     {t("tittel")}
                 </Heading>
                 {isFetching && <Loader />}

@@ -109,7 +109,7 @@ const Opplastingsboks = ({ metadata, label, labelText, description, tag, complet
                             )}
                             {!isMobile && tag}
                         </HStack>
-                        {description && <BodyLong lang="no">{description}</BodyLong>}
+                        {description && <BodyLong>{description}</BodyLong>}
                     </VStack>
                 </VStack>
                 {metadata.hendelsereferanse && (
