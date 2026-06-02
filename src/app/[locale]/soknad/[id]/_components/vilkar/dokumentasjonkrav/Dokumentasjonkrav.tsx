@@ -6,21 +6,28 @@ import Opplastingsboks from "@components/filopplasting/Opplastingsboks";
 import { DokumentasjonkravDto } from "@generated/model";
 import OppgaveTag from "../../tasklistitem/OppgaveTag";
 import useNewUploadEnabled from "@components/filopplasting/utils/useNewUploadEnabled";
+import { useParams } from "next/navigation";
 
 interface Props {
     dokKrav: DokumentasjonkravDto;
 }
+
+// Must be unique per context. Example: One oppgave
+const getContextId = (oppgave: DokumentasjonkravDto, fiksDigisosId: string): string => {
+    return `${fiksDigisosId}-${oppgave.dokumentasjonkravId}`;
+};
 
 const withWarningColor = (text: string | undefined, isUncompleted: boolean) =>
     isUncompleted && text ? <span className="text-ax-text-warning">{text}</span> : text;
 
 const Dokumentasjonkrav = ({ dokKrav }: Props) => {
     const newUploadEnabled = useNewUploadEnabled();
+    const { id: fiksDigisosId } = useParams<{ id: string }>();
     return (
         <TaskListItem variant={dokKrav.erLastetOpp ? "normal" : "warning"}>
             {newUploadEnabled ? (
                 <OpplastingsboksTus
-                    id={dokKrav.dokumentasjonkravId}
+                    uploadContextId={getContextId(dokKrav, fiksDigisosId)}
                     metadata={{
                         dokumentKontekst: "dokumentasjonkrav",
                         type: dokKrav.tittel ?? "dokumentasjonkrav",

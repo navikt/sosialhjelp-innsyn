@@ -15,6 +15,14 @@ interface Props {
     oppgave: OppgaveResponseBeta;
 }
 
+// Must be unique per context. Example: One oppgave
+const getContextId = (oppgave: OppgaveResponseBeta, fiksDigisosId: string): string => {
+    if (oppgave.hendelsereferanse) {
+        return `${fiksDigisosId}-${oppgave.hendelsereferanse}`;
+    }
+    return `${fiksDigisosId}-${encodeURIComponent(oppgave.dokumenttype ?? "")}-${encodeURIComponent(oppgave.tilleggsinformasjon ?? "")}`;
+};
+
 const withWarningColor = (text: string | undefined) => <span className="text-ax-text-warning">{text}</span>;
 
 const OppgaveItem = ({ oppgave }: Props, ref: Ref<HTMLLIElement>) => {
@@ -35,10 +43,7 @@ const OppgaveItem = ({ oppgave }: Props, ref: Ref<HTMLLIElement>) => {
         <TaskListItem ref={ref} variant={oppgave.erLastetOpp || !oppgave.erFraInnsyn ? "normal" : "warning"}>
             {newUploadEnabled ? (
                 <OpplastingsboksTus
-                    id={
-                        oppgave.hendelsereferanse ??
-                        `${fiksDigisosId}-${oppgave.dokumenttype}-${oppgave.tilleggsinformasjon}`
-                    }
+                    uploadContextId={getContextId(oppgave, fiksDigisosId)}
                     completed={oppgave.erLastetOpp}
                     label={typeTekst}
                     description={tilleggsinfoTekst}
