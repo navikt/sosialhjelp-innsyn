@@ -25,7 +25,7 @@ const SoknadsoppgaverSection = ({ oppgaver, isFetching }: Props) => {
     return (
         <VStack gap="space-8" as="section" aria-labelledby="oppgaver-tittel">
             <HStack align="center" gap="space-8">
-                <Heading size="medium" level="2" id="oppgaver-tittel">
+                <Heading size="medium" level="2" id="oppgaver-tittel" lang="no">
                     {t("title")}
                 </Heading>
                 {isFetching && <Loader />}
