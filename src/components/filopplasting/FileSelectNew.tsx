@@ -37,11 +37,6 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
     const [folderDropError, setFolderDropError] = useState(false);
     const [skjermleserBeskjed, setSkjermleserBeskjed] = useState("");
 
-    const oppdaterSkjermleserBeskjed = (message: string) => {
-        setSkjermleserBeskjed(message);
-        setTimeout(() => setSkjermleserBeskjed(""), 500);
-    };
-
     const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
 
     // Starter opplasting umiddelbart ved filvalg
@@ -51,7 +46,9 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
         setFolderDropError(folders.length > 0);
 
         if (valid.length === 0) return;
-        oppdaterSkjermleserBeskjed(t("filLagtTil", { count: valid.length }));
+        setSkjermleserBeskjed(t("filLagtTil", { count: valid.length }));
+        // bruker setTimeout for å nullstille slik at samme antall kan kunngjøres igjen ved neste opplasting
+        setTimeout(() => setSkjermleserBeskjed(""), 500);
         onSelect?.(valid);
         const uploads = valid.map((file: FileObject) =>
             getTusUploader({
@@ -145,7 +142,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                                         (upload.status === "PENDING" || upload.status === "PROCESSING")
                                     }
                                     onTerminate={() =>
-                                        oppdaterSkjermleserBeskjed(
+                                        setSkjermleserBeskjed(
                                             t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 })
                                         )
                                     }
