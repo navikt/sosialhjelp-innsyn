@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { browserEnv } from "@config/env";
 
 // Lillestrøm kommune
-const INNRULLERTE_KOMMUNER: string[] = ["3205"];
+const INNRULLERTE_KOMMUNER: string[] = ["3205", "0301", "4204"];
 
 const useNewUploadEnabled = () => {
     const toggle = useFlag("sosialhjelp.innsyn.ny_upload");
