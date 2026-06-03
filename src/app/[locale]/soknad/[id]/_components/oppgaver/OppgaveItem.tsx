@@ -18,7 +18,7 @@ interface Props {
 // Must be unique per context. Example: One oppgave
 const getContextId = (oppgave: OppgaveResponseBeta, fiksDigisosId: string): string => {
     if (oppgave.hendelsereferanse) {
-        return `${fiksDigisosId}-${oppgave.hendelsereferanse}`;
+        return `${fiksDigisosId}-${encodeURIComponent(oppgave.hendelsereferanse)}`;
     }
     return `${fiksDigisosId}-${encodeURIComponent(oppgave.dokumenttype ?? "")}-${encodeURIComponent(oppgave.tilleggsinformasjon ?? "")}`;
 };
