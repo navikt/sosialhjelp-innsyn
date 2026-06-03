@@ -73,7 +73,7 @@
         "vilkar": {
             "title": "You have received conditions",
             "titleEmpty": "You may have received conditions",
-            "descriptionEmpty": "As part of your follow-up from Nav, you may have received conditions. Conditions are activities or documentation requirements you must fulfil. <lenke>Read your decision letter</lenke> to see if you have received conditions.",
+            "descriptionEmpty": "As part of your follow-up from Nav, you may have received conditions. Conditions are activities or documentation requirements you must fulfil. Read your decision letter to see if you have received conditions.",
             "description": "As part of your follow-up from Nav, you have been given conditions (activities) that you must fulfill:",
             "vilkar": "<bold>{name}</bold> ({frist, date, ::ddMMyyyy})",
             "kanHaFlere": "You may have received more conditions than those shown here. <lenke>Read your decision letter</lenke> to see if you have received more conditions."

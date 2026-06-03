@@ -73,7 +73,7 @@
         "vilkar": {
             "title": "Du har fått vilkår",
             "titleEmpty": "Du kan ha fått vilkår",
-            "descriptionEmpty": "Som ein del av oppfølginga di frå Nav kan du ha fått vilkår. Vilkår er aktivitetar eller dokumentasjonskrav du må oppfylle. <lenke>Les vedtaksbrevet ditt</lenke> for å sjå om du har fått vilkår.",
+            "descriptionEmpty": "Som ein del av oppfølginga di frå Nav kan du ha fått vilkår. Vilkår er aktivitetar eller dokumentasjonskrav du må oppfylle. Les vedtaksbrevet ditt for å sjå om du har fått vilkår.",
             "description": "Som ein del av oppfølginga di frå Nav har du fått vilkår (aktivitetar) du må oppfylle:",
             "vilkar": "<bold>{name}</bold> ({frist, date, ::ddMMyyyy})",
             "kanHaFlere": "Du kan ha fått fleire vilkår enn dei som visast her. <lenke>Les vedtaksbrevet ditt</lenke> for å sjå om du har fått fleire vilkår."
