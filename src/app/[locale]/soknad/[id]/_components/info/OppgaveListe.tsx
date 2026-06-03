@@ -17,7 +17,7 @@ const OppgaveListe = ({ oppgaver }: Props) => {
                     {frist ? (
                         t.rich("oppgave", {
                             bold: (chunks: ReactNode) => (
-                                <BodyShort as="span" weight="semibold">
+                                <BodyShort as="span" weight="semibold" lang="no">
                                     {chunks}
                                 </BodyShort>
                             ),
@@ -25,7 +25,9 @@ const OppgaveListe = ({ oppgaver }: Props) => {
                             frist: new Date(frist),
                         })
                     ) : (
-                        <BodyShort weight="semibold">{name}</BodyShort>
+                        <BodyShort weight="semibold" lang="no">
+                            {name}
+                        </BodyShort>
                     )}
                 </ListItem>
             ))}
