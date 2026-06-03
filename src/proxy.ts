@@ -26,22 +26,6 @@ export async function proxy(request: NextRequest) {
         return;
     }
 
-    // I testmiljøene mangler F5 BIG-IP-laget som prod har, og dette fører til at
-    // Next.js inkluderer den interne containerporten (8080) i request.url.
-    // next-intl bruker denne URL-en til å bygge locale-redirects, som da feilaktig
-    // peker til :8080 — en port som ikke er tilgjengelig eksternt.
-    //
-    // Løsning: hvis x-forwarded-host er satt uten port, vet vi at den korrekte
-    // eksterne URL-en ikke har en eksplisitt port. Vi renser da bort intern port.
-    const forwardedHost = request.headers.get("x-forwarded-host");
-    if (forwardedHost && !forwardedHost.includes(":")) {
-        const url = new URL(request.url);
-        if (url.port !== "") {
-            url.port = "";
-            request = new NextRequest(url.toString(), request);
-        }
-    }
-
     // If the URL contains an unsupported, but locale-like segment where the locale
     // would normally appear (e.g. /sosialhjelp/innsyn/ru),
     // strip it so next-intl adds the default locale instead of treating it as a path segment.
@@ -53,6 +37,27 @@ export async function proxy(request: NextRequest) {
     }
 
     let response = handleI18nRouting(request);
+
+    // I testmiljøene mangler F5 BIG-IP-laget som prod har. BIG-IP normaliserer
+    // x-forwarded-port til 443, slik at Next.js vet at ekstern URL ikke har
+    // eksplisitt port. Uten dette inkluderer Next.js intern containerport (8080)
+    // i nextUrl, og next-intl arver den i Location-headeren på locale-redirects.
+    //
+    // Løsning: hvis vi er bak en HTTPS-proxy (x-forwarded-proto: https) og
+    // Location-headeren inneholder en ikke-standard port, fjerner vi den.
+    // Ekstern HTTPS bruker alltid port 443 (implisitt), så dette er alltid riktig.
+    const location = response.headers.get("location");
+    if (location && request.headers.get("x-forwarded-proto") === "https") {
+        try {
+            const locationUrl = new URL(location);
+            if (locationUrl.port !== "" && locationUrl.port !== "443") {
+                locationUrl.port = "";
+                response = NextResponse.redirect(locationUrl.toString(), response.status);
+            }
+        } catch {
+            // Relativ URL — ingen port å fjerne
+        }
+    }
 
     if (response.ok) {
         const [, , , locale, ...rest] = new URL(
