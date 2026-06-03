@@ -21,18 +21,18 @@ interface Props {
     description?: string;
     tag?: ReactNode;
     completed?: boolean;
-    id: string;
+    uploadContextId: string;
     variant?: "normal" | "warning";
 }
 
-const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, variant }: Props) => {
+const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uploadContextId, variant }: Props) => {
     const t = useTranslations("Opplastingsboks");
     const isMobile = useIsMobile();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
     const { data: oppgaveVedlegg } = useGetVedleggForOppgave(fiksDigisosId, metadata.hendelsereferanse!, {
         query: { enabled: !!metadata.hendelsereferanse },
     });
-    const { state: docState, resetState } = useDocumentState(id);
+    const { state: docState, resetState } = useDocumentState(uploadContextId);
     const opplastingId = useRef<string | null>(null);
     const {
         upload,
@@ -98,7 +98,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, id, 
                 description={description}
                 tag={tag}
                 docState={docState}
-                uploadId={id}
+                uploadId={uploadContextId}
                 onSelect={(files) => {
                     resetMutation();
                     if (!opplastingId.current) {

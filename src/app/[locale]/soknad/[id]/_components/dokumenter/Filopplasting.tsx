@@ -54,7 +54,11 @@ const Filopplasting = ({ id, soknadStatus }: Props) => {
                     {showUpload && (
                         <VStack gap={isMobile ? "space-16" : "space-40"}>
                             {newUploadEnabled ? (
-                                <OpplastingsboksTus metadata={metadata} id={id} description={t("beskrivelse")} />
+                                <OpplastingsboksTus
+                                    metadata={metadata}
+                                    uploadContextId={id}
+                                    description={t("beskrivelse")}
+                                />
                             ) : (
                                 <NavigationGuardProvider>
                                     <Opplastingsboks metadata={metadata} />

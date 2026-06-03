@@ -22,7 +22,7 @@ export const openEventChannel = (url: string, onUpdate: (payload: Partial<Docume
         eventSource = new EventSource(url);
 
         eventSource.onopen = () => {
-            logger.info(`upload status channel opened`);
+            logger.debug(`upload status channel opened`);
             retryDelayMs = INITIAL_RETRY_DELAY_MS;
         };
 
@@ -36,7 +36,7 @@ export const openEventChannel = (url: string, onUpdate: (payload: Partial<Docume
         };
 
         eventSource.onerror = (event) => {
-            logger.warn(`upload status channel error, reconnecting in ${retryDelayMs}ms: ${event}`);
+            logger.debug(`upload status channel error, reconnecting in ${retryDelayMs}ms: ${event}`);
             eventSource.close();
             if (!closed) {
                 reconnectTimer = setTimeout(() => {
