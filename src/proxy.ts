@@ -26,6 +26,22 @@ export async function proxy(request: NextRequest) {
         return;
     }
 
+    // I testmiljøene mangler F5 BIG-IP-laget som prod har, og dette fører til at
+    // Next.js inkluderer den interne containerporten (8080) i request.url.
+    // next-intl bruker denne URL-en til å bygge locale-redirects, som da feilaktig
+    // peker til :8080 — en port som ikke er tilgjengelig eksternt.
+    //
+    // Løsning: hvis x-forwarded-host er satt uten port, vet vi at den korrekte
+    // eksterne URL-en ikke har en eksplisitt port. Vi renser da bort intern port.
+    const forwardedHost = request.headers.get("x-forwarded-host");
+    if (forwardedHost && !forwardedHost.includes(":")) {
+        const url = new URL(request.url);
+        if (url.port !== "") {
+            url.port = "";
+            request = new NextRequest(url.toString(), request);
+        }
+    }
+
     // If the URL contains an unsupported, but locale-like segment where the locale
     // would normally appear (e.g. /sosialhjelp/innsyn/ru),
     // strip it so next-intl adds the default locale instead of treating it as a path segment.
