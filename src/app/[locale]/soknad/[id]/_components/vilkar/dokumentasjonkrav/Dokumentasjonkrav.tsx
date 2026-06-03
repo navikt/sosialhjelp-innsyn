@@ -14,7 +14,7 @@ interface Props {
 
 // Must be unique per context. Example: One oppgave
 const getContextId = (oppgave: DokumentasjonkravDto, fiksDigisosId: string): string => {
-    return `${fiksDigisosId}-${oppgave.dokumentasjonkravId}`;
+    return `${fiksDigisosId}-${encodeURIComponent(oppgave.dokumentasjonkravId)}`;
 };
 
 const withWarningColor = (text: string | undefined, isUncompleted: boolean) =>
