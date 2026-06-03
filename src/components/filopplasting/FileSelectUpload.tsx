@@ -52,7 +52,10 @@ export const FileSelectUpload = ({
 
     // Mobile: tag on top, label below (flex-col); Desktop: label left, tag right (flex-row)
     const headerSection = (
-        <div className="flex flex-col ax-md:flex-row ax-md:justify-between ax-md:items-center gap-2">
+        <div
+            className="flex flex-col ax-md:flex-row ax-md:justify-between ax-md:items-center gap-2"
+            id="file-upload-header"
+        >
             <div className="order-2 ax-md:order-1">{labelContent}</div>
             {tag && <div className="order-1 ax-md:order-2">{tag}</div>}
         </div>
@@ -88,6 +91,7 @@ export const FileSelectUpload = ({
                             variant="secondary"
                             icon={<UploadIcon aria-hidden />}
                             disabled={disabled}
+                            aria-describedby="file-upload-header"
                             aria-label={buttonText}
                         >
                             {buttonText}
