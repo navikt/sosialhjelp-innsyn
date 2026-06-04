@@ -11,7 +11,7 @@ interface Props {
 
 const Sakstittel = ({ tittel, latestVedtakUtfall, status }: Props) => (
     <HStack gap="space-8" align="center">
-        <Heading size="small" level="3">
+        <Heading size="small" level="3" lang="no">
             {tittel}
         </Heading>
         <StatusTag vedtakUtfall={latestVedtakUtfall} className="self-start" status={status} />
