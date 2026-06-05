@@ -23,7 +23,12 @@ const getContextId = (oppgave: OppgaveResponseBeta, fiksDigisosId: string): stri
     return `${fiksDigisosId}-${encodeURIComponent(oppgave.dokumenttype ?? "")}-${encodeURIComponent(oppgave.tilleggsinformasjon ?? "")}`;
 };
 
-const withWarningColor = (text: string | undefined) => <span className="text-ax-text-warning">{text}</span>;
+const withWarningColor = (text: string | undefined) =>
+    text ? (
+        <span lang="no" className="text-ax-text-warning">
+            {text}
+        </span>
+    ) : undefined;
 
 const OppgaveItem = ({ oppgave }: Props, ref: Ref<HTMLLIElement>) => {
     const { id: fiksDigisosId } = useParams<{ id: string }>();

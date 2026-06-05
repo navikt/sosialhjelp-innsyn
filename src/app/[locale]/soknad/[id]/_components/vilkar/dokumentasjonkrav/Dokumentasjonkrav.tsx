@@ -18,7 +18,13 @@ const getContextId = (oppgave: DokumentasjonkravDto, fiksDigisosId: string): str
 };
 
 const withWarningColor = (text: string | undefined, isUncompleted: boolean) =>
-    isUncompleted && text ? <span className="text-ax-text-warning">{text}</span> : text;
+    isUncompleted && text ? (
+        <span lang="no" className="text-ax-text-warning">
+            {text}
+        </span>
+    ) : (
+        text
+    );
 
 const Dokumentasjonkrav = ({ dokKrav }: Props) => {
     const newUploadEnabled = useNewUploadEnabled();
