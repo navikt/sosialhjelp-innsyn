@@ -59,6 +59,9 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveBeskrivels
                                         openInNewTab
                                         cardIcon="external-link"
                                         dataColor="accent"
+                                        ariaLabel={t("forhandsvisning", {
+                                            filnavn: fil.filename || t("soknadFilename"),
+                                        })}
                                         description={
                                             fil.date && (
                                                 <BodyShort>{t.rich("sendt", { dato: new Date(fil.date) })}</BodyShort>
@@ -78,6 +81,7 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveBeskrivels
                                         cardIcon="external-link"
                                         dataColor="accent"
                                         openInNewTab
+                                        ariaLabel={t("forhandsvisning", { filnavn: fil.filnavn })}
                                         description={
                                             <BodyShort>
                                                 {oppgaveBeskrivelse} (
@@ -97,6 +101,7 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveBeskrivels
                                     openInNewTab
                                     cardIcon="external-link"
                                     dataColor="accent"
+                                    ariaLabel={t("forhandsvisning", { filnavn: fil.filnavn })}
                                     description={
                                         <BodyShort>
                                             {fil.type === "annet" && fil.tilleggsinfo === "annet"

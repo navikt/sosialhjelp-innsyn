@@ -261,7 +261,8 @@
         "sendt": "Sent {dato, date, ::ddMMyyyy}",
         "ettersendt": "Submitted documentation",
         "visFlereDokumenter": "documents",
-        "skjultSoknadPdf": "Due to a technical error, we are unable to display a copy (PDF) of your application. This will not affect your application."
+        "skjultSoknadPdf": "Due to a technical error, we are unable to display a copy (PDF) of your application. This will not affect your application.",
+        "forhandsvisning": "Your attachment {filnavn}. Preview opens in a new tab."
     },
     "Metadata": {
         "tittel": "Financial assistance - nav.no",

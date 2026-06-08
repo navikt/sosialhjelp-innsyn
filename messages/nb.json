@@ -274,7 +274,8 @@
         "sendt": "Sendt {dato, date, ::ddMMyyyy}",
         "ettersendt": "Ettersendt dokumentasjon",
         "visFlereDokumenter": "dokumenter",
-        "skjultSoknadPdf": "På grunn av en teknisk feil kan vi ikke vise kopi (PDF) av søknaden din. Dette vil ikke påvirke søknaden din."
+        "skjultSoknadPdf": "På grunn av en teknisk feil kan vi ikke vise kopi (PDF) av søknaden din. Dette vil ikke påvirke søknaden din.",
+        "forhandsvisning": "Ditt vedlegg {filnavn}. Forhåndsvisning åpnes i ny fane."
     },
     "Metadata": {
         "tittel": "Økonomisk sosialhjelp - nav.no",
