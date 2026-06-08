@@ -18,6 +18,7 @@ export interface Props {
     footer?: ReactNode;
     openInNewTab?: boolean;
     dataColor?: "neutral" | "accent";
+    ariaLabel?: string;
 }
 
 interface IconProps {
@@ -51,6 +52,7 @@ const DigisosLinkCard = (
         footer,
         openInNewTab,
         dataColor = "neutral",
+        ariaLabel,
     }: PropsWithChildren<Props>,
     ref: Ref<HTMLAnchorElement>
 ) => {
@@ -77,6 +79,7 @@ const DigisosLinkCard = (
                         className="min-w-0 flex-1 break-all whitespace-normal"
                         {...dataAttrs}
                         {...(openInNewTab ? { rel: "noopener noreferrer", target: "_blank" } : {})}
+                        {...(ariaLabel ? { "aria-label": ariaLabel } : {})}
                     >
                         {children}
                     </Link>
