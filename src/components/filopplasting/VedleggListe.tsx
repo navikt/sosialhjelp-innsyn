@@ -111,8 +111,7 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveBeskrivels
                                         </BodyShort>
                                     }
                                 >
-                                    <span className="sr-only">Ditt vedlegg</span> {fil.filnavn}{" "}
-                                    <span className="sr-only">. Forhåndsvisning åpnes i ny fane.</span>
+                                    {fil.filnavn}
                                 </DigisosLinkCard>
                             </li>
                         );
