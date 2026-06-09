@@ -25,7 +25,7 @@ interface Props {
     completed?: boolean;
 }
 
-const Opplastingsboks = ({ metadata, label, labelText, description, tag, completed }: Props) => {
+const OpplastingsboksOld = ({ metadata, label, labelText, description, tag, completed }: Props) => {
     const t = useTranslations("Opplastingsboks");
     const isMobile = useIsMobile();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
@@ -147,6 +147,7 @@ const Opplastingsboks = ({ metadata, label, labelText, description, tag, complet
             <VStack gap="space-24">
                 <FileSelectUpload
                     label={label ?? t("tittel")}
+                    headerId={`upload-header-${metadata.hendelsereferanse ?? fiksDigisosId}`}
                     description={description}
                     tag={tag}
                     buttonText={t("lastOppFiler")}
@@ -226,4 +227,4 @@ const Opplastingsboks = ({ metadata, label, labelText, description, tag, complet
     );
 };
 
-export default Opplastingsboks;
+export default OpplastingsboksOld;
