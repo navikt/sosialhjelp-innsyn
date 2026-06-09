@@ -16,6 +16,8 @@
     },
     "FileUploadItem": {
         "uploadFailed": "Upload failed. Please try again later.",
+        "lasterOpp": "Uploading...",
+        "cancel": "Cancel",
         "validation": {
             "ENCRYPTED_PDF": "The PDF is password protected and we cannot process it",
             "FILETYPE_NOT_SUPPORTED": "The file type is not supported",

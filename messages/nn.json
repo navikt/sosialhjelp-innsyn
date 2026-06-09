@@ -16,6 +16,8 @@
     },
     "FileUploadItem": {
         "uploadFailed": "Opplasting feila. Prøv på nytt seinare.",
+        "lasterOpp": "Lastar opp...",
+        "cancel": "Avbryt",
         "validation": {
             "ENCRYPTED_PDF": "PDFen er passordbeskytta og vi kan ikkje behandle henne",
             "FILETYPE_NOT_SUPPORTED": "Filtypen er ikkje støtta",
