@@ -2,7 +2,7 @@
 
 import OpplastingsboksTus from "@components/filopplasting/OpplastingsboksTus";
 import TaskListItem from "../../tasklistitem/TaskListItem";
-import Opplastingsboks from "@components/filopplasting/Opplastingsboks";
+import OpplastingsboksOld from "@components/filopplasting/OpplastingsboksOld";
 import { DokumentasjonkravDto } from "@generated/model";
 import OppgaveTag from "../../tasklistitem/OppgaveTag";
 import useNewUploadEnabled from "@components/filopplasting/utils/useNewUploadEnabled";
@@ -49,7 +49,7 @@ const Dokumentasjonkrav = ({ dokKrav }: Props) => {
                     tag={<OppgaveTag frist={dokKrav.frist} completed={!!dokKrav.opplastetDato} />}
                 />
             ) : (
-                <Opplastingsboks
+                <OpplastingsboksOld
                     metadata={{
                         dokumentKontekst: "dokumentasjonkrav",
                         type: dokKrav.tittel ?? "dokumentasjonkrav",

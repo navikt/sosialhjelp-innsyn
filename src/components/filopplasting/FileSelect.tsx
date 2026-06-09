@@ -53,6 +53,7 @@ const FileSelect = ({
             <VStack gap="space-24">
                 <FileSelectUpload
                     label={label ?? t("tittel")}
+                    headerId={`upload-header-${id}`}
                     description={description ?? t("beskrivelse")}
                     tag={tag}
                     buttonText={t("lastOppFiler")}

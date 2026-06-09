@@ -4,7 +4,7 @@ import { Heading, VStack, Box } from "@navikt/ds-react";
 import { NavigationGuardProvider } from "next-navigation-guard";
 import { useTranslations } from "next-intl";
 import OpplastingsboksTus from "@components/filopplasting/OpplastingsboksTus";
-import Opplastingsboks from "@components/filopplasting/Opplastingsboks";
+import OpplastingsboksOld from "@components/filopplasting/OpplastingsboksOld";
 import { Metadata } from "@components/filopplasting/types";
 import { useHentVedleggSuspense } from "@generated/vedlegg-controller/vedlegg-controller";
 import useIsMobile from "@utils/useIsMobile";
@@ -61,7 +61,7 @@ const Filopplasting = ({ id, soknadStatus }: Props) => {
                                 />
                             ) : (
                                 <NavigationGuardProvider>
-                                    <Opplastingsboks metadata={metadata} />
+                                    <OpplastingsboksOld metadata={metadata} />
                                 </NavigationGuardProvider>
                             )}
                         </VStack>

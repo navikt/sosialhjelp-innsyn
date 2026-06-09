@@ -1,7 +1,7 @@
 "use client";
 
 import { forwardRef, Ref } from "react";
-import Opplastingsboks from "@components/filopplasting/Opplastingsboks";
+import OpplastingsboksOld from "@components/filopplasting/OpplastingsboksOld";
 import OpplastingsboksTus from "@components/filopplasting/OpplastingsboksTus";
 import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
 import { Metadata } from "@components/filopplasting/types";
@@ -57,7 +57,7 @@ const OppgaveItem = ({ oppgave }: Props, ref: Ref<HTMLLIElement>) => {
                     variant={!oppgave.erLastetOpp && oppgave.erFraInnsyn ? "warning" : undefined}
                 />
             ) : (
-                <Opplastingsboks
+                <OpplastingsboksOld
                     metadata={metadata}
                     completed={oppgave.erLastetOpp}
                     label={!oppgave.erLastetOpp && oppgave.erFraInnsyn ? withWarningColor(typeTekst) : typeTekst}

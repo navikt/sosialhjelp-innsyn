@@ -99,6 +99,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
             <VStack gap="space-24">
                 <FileSelectUpload
                     label={label ?? t("tittel")}
+                    headerId={`header-id-${uploadId}`}
                     description={description}
                     tag={tag}
                     variant={variant === "warning" ? "warning" : "default"}
