@@ -13,8 +13,9 @@ jobs:
         runs-on: ubuntu-latest
         permissions:
             contents: read
+            packages: read
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v6
 
             - name: "Build npm project and run Tests"
               uses: navikt/sosialhjelp-ci/actions/build-node@v21
