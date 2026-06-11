@@ -21,7 +21,6 @@ const getRouteHandlerProxyTarget = async (
         bearerToken,
         https,
         port,
-        forwardedHost: true,
         forwardedPrefix: "/sosialhjelp/innsyn/api/upload-api",
     };
 };
