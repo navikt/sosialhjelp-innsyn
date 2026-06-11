@@ -13,11 +13,12 @@ jobs:
         runs-on: ubuntu-latest
         permissions:
             contents: read
+            packages: read
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v6
 
             - name: "Build npm project and run Tests"
-              uses: navikt/sosialhjelp-ci/actions/build-node@v20
+              uses: navikt/sosialhjelp-ci/actions/build-node@v21
               env:
                   NEXT_PUBLIC_RUNTIME_ENVIRONMENT: mock
                   NEXT_PUBLIC_INNSYN_ORIGIN: http://whatever.com

@@ -1,6 +1,6 @@
 import apiProxy, { RouteHandlerProxyTarget } from "@api/proxy/apiProxy";
 
-import { getServerEnv } from "../../../../config/env";
+import { getServerEnv } from "@config/env";
 
 const getRouteHandlerProxyTarget = async (
     bearerToken: string | undefined,
@@ -15,7 +15,15 @@ const getRouteHandlerProxyTarget = async (
 
     const path = `${basePath}/${requestPath.join("/")}`;
     const port = getServerEnv().UPLOAD_API_PORT;
-    return { hostname, path: encodeURI(path), bearerToken, https, port };
+    return {
+        hostname,
+        path: encodeURI(path),
+        bearerToken,
+        https,
+        port,
+        forwardedHost: true,
+        forwardedPrefix: "/sosialhjelp/innsyn/api/upload-api",
+    };
 };
 
 const uploadApiProxy = await apiProxy(async (params, bearerToken) =>

@@ -11,7 +11,7 @@
         "@navikt/ds-react": "^8.10.5",
         "@navikt/ds-tailwind": "^8.10.5",
         "@navikt/nav-dekoratoren-moduler": "^3.6.3",
-        "@navikt/next-api-proxy": "^5.0.2",
+        "@navikt/next-api-proxy": "^5.0.5",
         "@navikt/next-logger": "^5.0.0",
         "@navikt/oasis": "^4.1.4",
         "@next/env": "16.2.6",
@@ -112,5 +112,6 @@
         "next-navigation-guard": {
             "next": "^16.0.0"
         }
-    }
+    },
+    "packageManager": "pnpm@11.5.3+sha512.7ac1c919341c213a34dc0d02afb7143c5c26ac26ee8c4782deea821b8ac64d2134a081fd8941dae6e29bbb48f58dfc2b7fbceeccc07cb2f09d219d342a4969ed"
 }
