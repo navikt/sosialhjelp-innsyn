@@ -7,6 +7,8 @@ export type RouteHandlerProxyTarget = {
     https: boolean;
     bearerToken?: string;
     port?: string;
+    forwardedHost?: boolean;
+    forwardedPrefix?: string;
 };
 type ProxyRequestHandler = (request: Request, context: ProxyRequestContext) => Promise<Response>;
 type ProxyRequestContext = { params: Promise<{ slug: string[] }> };

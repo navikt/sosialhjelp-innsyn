@@ -11,6 +11,7 @@ minimumReleaseAge: 2880 # 2 days in minutes
 
 minimumReleaseAgeExclude:
   - protobufjs@7.5.5
+  - '@navikt/next-api-proxy@5.0.5'
 
 overrides:
   postcss@<8.5.10: '>=8.5.10'
