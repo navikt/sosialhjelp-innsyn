@@ -7,6 +7,9 @@ allowBuilds:
   sharp: false
   unrs-resolver: false
 
+trustPolicyExclude:
+  - '@navikt'
+
 minimumReleaseAge: 2880 # 2 days in minutes
 
 minimumReleaseAgeExclude:
