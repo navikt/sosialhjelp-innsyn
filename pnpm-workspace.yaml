@@ -7,8 +7,7 @@ allowBuilds:
   sharp: false
   unrs-resolver: false
 
-trustPolicyExclude:
-  - '@navikt'
+trustLockfile: true # GitHub Packages tarball URLs change format; treat committed lockfile as trusted
 
 minimumReleaseAge: 2880 # 2 days in minutes
 
