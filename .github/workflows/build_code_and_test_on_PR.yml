@@ -17,7 +17,7 @@ jobs:
             - uses: actions/checkout@v4
 
             - name: "Build npm project and run Tests"
-              uses: navikt/sosialhjelp-ci/actions/build-node@v20
+              uses: navikt/sosialhjelp-ci/actions/build-node@v21
               env:
                   NEXT_PUBLIC_RUNTIME_ENVIRONMENT: mock
                   NEXT_PUBLIC_INNSYN_ORIGIN: http://whatever.com
