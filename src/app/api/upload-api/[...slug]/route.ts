@@ -8,7 +8,7 @@ const getRouteHandlerProxyTarget = async (
 ): Promise<RouteHandlerProxyTarget> => {
     const hostname = getServerEnv().UPLOAD_API_HOSTNAME;
     if (!hostname) {
-        throw new Error("Missing innsyn-api hostname config");
+        throw new Error("Missing upload-api hostname config");
     }
     const basePath = "/sosialhjelp/upload";
     const https = false;
@@ -21,7 +21,6 @@ const getRouteHandlerProxyTarget = async (
         bearerToken,
         https,
         port,
-        forwardedPrefix: "/sosialhjelp/innsyn/api/upload-api",
     };
 };
 
