@@ -38,27 +38,6 @@ export async function proxy(request: NextRequest) {
 
     let response = handleI18nRouting(request);
 
-    // I testmiljøene mangler F5 BIG-IP-laget som prod har. BIG-IP normaliserer
-    // x-forwarded-port til 443, slik at Next.js vet at ekstern URL ikke har
-    // eksplisitt port. Uten dette inkluderer Next.js intern containerport (8080)
-    // i nextUrl, og next-intl arver den i Location-headeren på locale-redirects.
-    //
-    // Løsning: hvis vi er bak en HTTPS-proxy (x-forwarded-proto: https) og
-    // Location-headeren inneholder en ikke-standard port, fjerner vi den.
-    // Ekstern HTTPS bruker alltid port 443 (implisitt), så dette er alltid riktig.
-    const location = response.headers.get("location");
-    if (location && request.headers.get("x-forwarded-proto") === "https") {
-        try {
-            const locationUrl = new URL(location);
-            if (locationUrl.port !== "" && locationUrl.port !== "443") {
-                locationUrl.port = "";
-                response = NextResponse.redirect(locationUrl.toString(), response.status);
-            }
-        } catch {
-            // Relativ URL — ingen port å fjerne
-        }
-    }
-
     if (response.ok) {
         const [, , , locale, ...rest] = new URL(
             response.headers.get("x-middleware-rewrite") || request.url
