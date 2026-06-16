@@ -6,16 +6,12 @@ import OpplastingsboksOld from "@components/filopplasting/OpplastingsboksOld";
 import { DokumentasjonkravDto } from "@generated/model";
 import OppgaveTag from "../../tasklistitem/OppgaveTag";
 import useNewUploadEnabled from "@components/filopplasting/utils/useNewUploadEnabled";
+import { useContextId } from "@components/filopplasting/utils/useContextId";
 import { useParams } from "next/navigation";
 
 interface Props {
     dokKrav: DokumentasjonkravDto;
 }
-
-// Must be unique per context. Example: One oppgave
-const getContextId = (oppgave: DokumentasjonkravDto, fiksDigisosId: string): string => {
-    return `${fiksDigisosId}-${encodeURIComponent(oppgave.dokumentasjonkravId)}`;
-};
 
 const withWarningColor = (text: string | undefined, isUncompleted: boolean) =>
     isUncompleted && text ? (
@@ -29,41 +25,43 @@ const withWarningColor = (text: string | undefined, isUncompleted: boolean) =>
 const Dokumentasjonkrav = ({ dokKrav }: Props) => {
     const newUploadEnabled = useNewUploadEnabled();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
+    const contextId = useContextId(`${fiksDigisosId}-${dokKrav.dokumentasjonkravId}`);
     return (
         <TaskListItem variant={dokKrav.erLastetOpp ? "normal" : "warning"}>
-            {newUploadEnabled ? (
-                <OpplastingsboksTus
-                    uploadContextId={getContextId(dokKrav, fiksDigisosId)}
-                    metadata={{
-                        dokumentKontekst: "dokumentasjonkrav",
-                        type: dokKrav.tittel ?? "dokumentasjonkrav",
-                        tilleggsinfo: dokKrav.beskrivelse,
-                        hendelsereferanse: dokKrav.dokumentasjonkravReferanse,
-                        hendelsetype: dokKrav.hendelsetype,
-                        innsendelsesfrist: dokKrav.frist,
-                    }}
-                    label={dokKrav.tittel}
-                    description={dokKrav.beskrivelse}
-                    completed={dokKrav.erLastetOpp}
-                    variant={dokKrav.erLastetOpp ? undefined : "warning"}
-                    tag={<OppgaveTag frist={dokKrav.frist} completed={!!dokKrav.opplastetDato} />}
-                />
-            ) : (
-                <OpplastingsboksOld
-                    metadata={{
-                        dokumentKontekst: "dokumentasjonkrav",
-                        type: dokKrav.tittel ?? "dokumentasjonkrav",
-                        tilleggsinfo: dokKrav.beskrivelse,
-                        hendelsereferanse: dokKrav.dokumentasjonkravReferanse,
-                        hendelsetype: dokKrav.hendelsetype,
-                        innsendelsesfrist: dokKrav.frist,
-                    }}
-                    label={withWarningColor(dokKrav.tittel, !dokKrav.erLastetOpp)}
-                    description={withWarningColor(dokKrav.beskrivelse, !dokKrav.erLastetOpp)}
-                    completed={dokKrav.erLastetOpp}
-                    tag={<OppgaveTag frist={dokKrav.frist} completed={dokKrav.erLastetOpp} />}
-                />
-            )}
+            {contextId &&
+                (newUploadEnabled ? (
+                    <OpplastingsboksTus
+                        uploadContextId={contextId}
+                        metadata={{
+                            dokumentKontekst: "dokumentasjonkrav",
+                            type: dokKrav.tittel ?? "dokumentasjonkrav",
+                            tilleggsinfo: dokKrav.beskrivelse,
+                            hendelsereferanse: dokKrav.dokumentasjonkravReferanse,
+                            hendelsetype: dokKrav.hendelsetype,
+                            innsendelsesfrist: dokKrav.frist,
+                        }}
+                        label={dokKrav.tittel}
+                        description={dokKrav.beskrivelse}
+                        completed={dokKrav.erLastetOpp}
+                        variant={dokKrav.erLastetOpp ? undefined : "warning"}
+                        tag={<OppgaveTag frist={dokKrav.frist} completed={!!dokKrav.opplastetDato} />}
+                    />
+                ) : (
+                    <OpplastingsboksOld
+                        metadata={{
+                            dokumentKontekst: "dokumentasjonkrav",
+                            type: dokKrav.tittel ?? "dokumentasjonkrav",
+                            tilleggsinfo: dokKrav.beskrivelse,
+                            hendelsereferanse: dokKrav.dokumentasjonkravReferanse,
+                            hendelsetype: dokKrav.hendelsetype,
+                            innsendelsesfrist: dokKrav.frist,
+                        }}
+                        label={withWarningColor(dokKrav.tittel, !dokKrav.erLastetOpp)}
+                        description={withWarningColor(dokKrav.beskrivelse, !dokKrav.erLastetOpp)}
+                        completed={dokKrav.erLastetOpp}
+                        tag={<OppgaveTag frist={dokKrav.frist} completed={dokKrav.erLastetOpp} />}
+                    />
+                ))}
         </TaskListItem>
     );
 };

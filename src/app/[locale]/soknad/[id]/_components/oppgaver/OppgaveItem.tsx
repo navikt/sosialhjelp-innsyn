@@ -10,18 +10,11 @@ import TaskListItem from "../tasklistitem/TaskListItem";
 import OppgaveTag from "../tasklistitem/OppgaveTag";
 import { useParams } from "next/navigation";
 import useNewUploadEnabled from "@components/filopplasting/utils/useNewUploadEnabled";
+import { useContextId } from "@components/filopplasting/utils/useContextId";
 
 interface Props {
     oppgave: OppgaveResponseBeta;
 }
-
-// Must be unique per context. Example: One oppgave
-const getContextId = (oppgave: OppgaveResponseBeta, fiksDigisosId: string): string => {
-    if (oppgave.hendelsereferanse) {
-        return `${fiksDigisosId}-${encodeURIComponent(oppgave.hendelsereferanse)}`;
-    }
-    return `${fiksDigisosId}-${encodeURIComponent(oppgave.dokumenttype ?? "")}-${encodeURIComponent(oppgave.tilleggsinformasjon ?? "")}`;
-};
 
 const withWarningColor = (text: string | undefined) =>
     text ? (
@@ -33,6 +26,11 @@ const withWarningColor = (text: string | undefined) =>
 const OppgaveItem = ({ oppgave }: Props, ref: Ref<HTMLLIElement>) => {
     const { id: fiksDigisosId } = useParams<{ id: string }>();
     const newUploadEnabled = useNewUploadEnabled();
+
+    const rawContextId = oppgave.hendelsereferanse
+        ? `${fiksDigisosId}-${oppgave.hendelsereferanse}`
+        : `${fiksDigisosId}-${oppgave.dokumenttype ?? ""}-${oppgave.tilleggsinformasjon ?? ""}`;
+    const contextId = useContextId(rawContextId);
 
     const { typeTekst, tilleggsinfoTekst } = getVisningstekster(oppgave.dokumenttype, oppgave.tilleggsinformasjon);
     const metadata: Metadata = {
@@ -46,30 +44,31 @@ const OppgaveItem = ({ oppgave }: Props, ref: Ref<HTMLLIElement>) => {
 
     return (
         <TaskListItem ref={ref} variant={oppgave.erLastetOpp || !oppgave.erFraInnsyn ? "normal" : "warning"}>
-            {newUploadEnabled ? (
-                <OpplastingsboksTus
-                    uploadContextId={getContextId(oppgave, fiksDigisosId)}
-                    completed={oppgave.erLastetOpp}
-                    label={typeTekst}
-                    description={tilleggsinfoTekst}
-                    tag={<OppgaveTag frist={oppgave.innsendelsesfrist} completed={oppgave.erLastetOpp} />}
-                    metadata={metadata}
-                    variant={!oppgave.erLastetOpp && oppgave.erFraInnsyn ? "warning" : undefined}
-                />
-            ) : (
-                <OpplastingsboksOld
-                    metadata={metadata}
-                    completed={oppgave.erLastetOpp}
-                    label={!oppgave.erLastetOpp && oppgave.erFraInnsyn ? withWarningColor(typeTekst) : typeTekst}
-                    labelText={typeTekst}
-                    description={
-                        !oppgave.erLastetOpp && oppgave.erFraInnsyn
-                            ? withWarningColor(tilleggsinfoTekst)
-                            : tilleggsinfoTekst
-                    }
-                    tag={<OppgaveTag frist={oppgave.innsendelsesfrist} completed={oppgave.erLastetOpp} />}
-                />
-            )}
+            {contextId &&
+                (newUploadEnabled ? (
+                    <OpplastingsboksTus
+                        uploadContextId={contextId}
+                        completed={oppgave.erLastetOpp}
+                        label={typeTekst}
+                        description={tilleggsinfoTekst}
+                        tag={<OppgaveTag frist={oppgave.innsendelsesfrist} completed={oppgave.erLastetOpp} />}
+                        metadata={metadata}
+                        variant={!oppgave.erLastetOpp && oppgave.erFraInnsyn ? "warning" : undefined}
+                    />
+                ) : (
+                    <OpplastingsboksOld
+                        metadata={metadata}
+                        completed={oppgave.erLastetOpp}
+                        label={!oppgave.erLastetOpp && oppgave.erFraInnsyn ? withWarningColor(typeTekst) : typeTekst}
+                        labelText={typeTekst}
+                        description={
+                            !oppgave.erLastetOpp && oppgave.erFraInnsyn
+                                ? withWarningColor(tilleggsinfoTekst)
+                                : tilleggsinfoTekst
+                        }
+                        tag={<OppgaveTag frist={oppgave.innsendelsesfrist} completed={oppgave.erLastetOpp} />}
+                    />
+                ))}
         </TaskListItem>
     );
 };
