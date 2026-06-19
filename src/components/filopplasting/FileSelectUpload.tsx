@@ -61,15 +61,17 @@ export const FileSelectUpload = ({
     );
 
     return (
-        <>
+        <VStack gap="space-16">
+            <VStack gap="space-2">
+                {headerSection}
+                {descriptionContent}
+            </VStack>
+
             {!isMobile ? (
                 <FileUpload.Dropzone
                     className="flex flex-col"
-                    // @ts-expect-error: Typen på Dropzone er string, men den sendes ned i en komponent som aksepterer ReactNode.
-                    label={headerSection}
-                    description={
-                        descriptionContent ? <VStack className="mb-2">{descriptionContent}</VStack> : undefined
-                    }
+                    label={buttonText}
+                    description={undefined}
                     onSelect={onSelect}
                     accept={accept}
                     maxSizeInBytes={10 * 1024 * 1024}
@@ -79,19 +81,13 @@ export const FileSelectUpload = ({
                     error={error}
                 />
             ) : (
-                <VStack gap="space-16">
-                    <VStack gap="space-2">
-                        {headerSection}
-                        {descriptionContent}
-                    </VStack>
+                <>
                     <FileUpload.Trigger accept={accept} maxSizeInBytes={10 * 1024 * 1024} multiple onSelect={onSelect}>
                         <Button
                             className="self-start"
                             variant="secondary"
                             icon={<UploadIcon aria-hidden />}
                             disabled={disabled}
-                            aria-describedby={headerId}
-                            aria-label={buttonText}
                         >
                             {buttonText}
                         </Button>
@@ -101,8 +97,8 @@ export const FileSelectUpload = ({
                             {error}
                         </Alert>
                     )}
-                </VStack>
+                </>
             )}
-        </>
+        </VStack>
     );
 };
