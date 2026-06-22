@@ -10,6 +10,7 @@ import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import UnderUtviklingInfo from "./_components/UnderUtviklingInfo";
 import ProsessenVidere from "./_components/prosessenVidere";
 import Dokumenter from "./_components/Dokumenter";
+import Ettersendelse from "./_components/Ettersendelse";
 
 const Page = async ({
     params,
@@ -21,6 +22,7 @@ const Page = async ({
 }) => {
     const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());
     const t = await getTranslations("KlagePage");
+
     const { id: fiksDigisosId, klageId } = await params;
 
     if (!toggle.enabled) {
@@ -42,6 +44,7 @@ const Page = async ({
                 </DigisosLinkCard>
                 <ProsessenVidere klagePdf={klage.klagePdf} />
                 <Dokumenter klagePdf={klage.klagePdf} />
+                <Ettersendelse />
             </VStack>
         </>
     );

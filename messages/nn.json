@@ -402,6 +402,9 @@
         },
         "seVedtak": "Se vedtaket du har klaget på"
     },
+    "KlageEttersendelse": {
+        "tittel": "Har du meir dokumentasjon du vil sende inn?"
+    },
     "KlageDokumenter": {
         "tittel": "Dokumenter",
         "klagePdfDefaultTittel": "Klage på vedtak om økonomisk sosialhjelp.pdf"

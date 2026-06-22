@@ -402,6 +402,9 @@
         },
         "seVedtak": "View the decision you have appealed"
     },
+    "KlageEttersendelse": {
+        "tittel": "Do you have more documentation you want to submit?"
+    },
     "KlageDokumenter": {
         "tittel": "Documents",
         "klagePdfDefaultTittel": "Appeal against decision regarding financial assistance.pdf"
