@@ -28,7 +28,7 @@ jobs:
         outputs:
             image: ${{ steps.docker-build-push.outputs.image }}
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v7
 
             - name: "Copy appropriate env file to root"
               shell: bash
@@ -68,7 +68,7 @@ jobs:
         needs: [playwright-tests, build-image]
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v7
             - name: "Deploy til prod"
               uses: nais/deploy/actions/deploy@v2
               env:
