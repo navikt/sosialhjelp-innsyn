@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Alert, BodyLong, Button, Heading, HStack, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
-import { ReactNode, useRef } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { Metadata } from "@components/filopplasting/types";
 import { useDocumentState } from "@components/filopplasting/api/useDocumentState";
@@ -34,6 +34,26 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
     });
     const { state: docState, resetState } = useDocumentState(uploadContextId);
     const opplastingId = useRef<string | null>(null);
+
+    // To alternerende live-regioner med 200ms delay for å  løse to separate problemer:
+    // 1. VoiceOver + Chrome dropper mutasjoner i live-regioner rett etter native OS-filvelger lukkes — delayen gir tid til fokusretur.
+    // 2. Identisk tekst leses ikke opp igjen — veksling mellom regionene sikrer at skjermleseren alltid ser en ny DOM-endring.
+    const [activeRegion, setActiveRegion] = useState<0 | 1>(0);
+    const [statusMessage, setStatusMessage] = useState("");
+    const announceTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+    useEffect(() => {
+        return () => clearTimeout(announceTimerRef.current);
+    }, []);
+
+    const announce = (message: string, delay = 200) => {
+        clearTimeout(announceTimerRef.current);
+        announceTimerRef.current = setTimeout(() => {
+            setActiveRegion((current) => (current === 0 ? 1 : 0));
+            setStatusMessage(message);
+        }, delay);
+    };
+
     const {
         upload,
         resetMutation,
@@ -93,12 +113,26 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
 
     return (
         <VStack gap="space-8">
+            <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+                {activeRegion === 0 ? statusMessage : ""}
+            </div>
+            <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+                {activeRegion === 1 ? statusMessage : ""}
+            </div>
+
             <FileSelectNew
                 label={label}
                 description={description}
                 tag={tag}
                 docState={docState}
                 uploadId={uploadContextId}
+                onFilesSelected={(count) => {
+                    announce(t("filLagtTil", { count }));
+                }}
+                onFileDeleted={() => {
+                    const remainingCount = Math.max((docState.uploads?.length ?? 1) - 1, 0);
+                    announce(t("filSlettet", { count: remainingCount }), 0);
+                }}
                 onSelect={(files) => {
                     resetMutation();
                     if (!opplastingId.current) {
