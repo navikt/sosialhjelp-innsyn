@@ -221,7 +221,6 @@
         "antallFiler": "{count, plural, one {# file ready for upload} other {# files ready for upload}}",
         "filSlettet": "{count, plural, =0 {File deleted. No files remaining.} one {File deleted. # file remaining.} other {File deleted. # files remaining.}}",
         "filLagtTil": "{count, plural, one {# file added} other {# files added}}",
-        "filValgt": "{count, plural, one {# file selected} other {# files selected}}",
         "konvertert": "One or more files were changed to another format (PDF) so that it can be submitted.",
         "mappeIkkeTillatt": "Folders cannot be uploaded. Please select individual files instead.",
         "processingWarning": "Upload may take some time. The upload will be cancelled automatically after 3 minutes.",

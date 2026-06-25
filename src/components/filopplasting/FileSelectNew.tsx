@@ -25,37 +25,34 @@ interface Props {
     docState: DocumentState;
     uploadId: string;
     onSelect?: (files: FileObject[]) => void;
-    /** Kalles med antall gyldige (ikke-mappe) filer som ble valgt */
-    onFilesSelected?: (count: number) => void;
-    /** Kalles når en fil termineres/slettes */
-    onFileDeleted?: () => void;
-    /** Kalles når bruker prøver å laste opp mappe */
-    onFolderRejected?: () => void;
     variant?: "normal" | "warning";
 }
 
-const FileSelectNew = ({
-    label,
-    description,
-    tag,
-    docState,
-    id,
-    filesLabel,
-    uploadId,
-    variant,
-    onSelect,
-    onFilesSelected,
-    onFileDeleted,
-    onFolderRejected,
-}: Props) => {
+const liveRegionIndexes = [0, 1] as const;
+type LiveRegionIndex = (typeof liveRegionIndexes)[number];
+
+const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uploadId, variant, onSelect }: Props) => {
     const t = useTranslations("Opplastingsboks");
     const { id: fiksDigisosId } = useParams<{ id: string }>();
 
     const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
 
     const [folderDropError, setFolderDropError] = useState(false);
+    const [skjermleserBeskjed, setSkjermleserBeskjed] = useState<{ text: string; activeRegion: LiveRegionIndex }>({
+        text: "",
+        activeRegion: 0,
+    });
 
     const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
+
+    // Bytter mellom to live-regioner slik at samme beskjed kan kunngjøres flere ganger på rad.
+    // Skjermlesere leser ikke alltid opp en aria-live-region hvis tekstinnholdet er likt som sist.
+    const oppdaterSkjermleserBeskjed = (text: string) => {
+        setSkjermleserBeskjed(({ activeRegion }) => ({
+            text,
+            activeRegion: activeRegion === 0 ? 1 : 0,
+        }));
+    };
 
     // Starter opplasting umiddelbart ved filvalg
     const _onSelect = (files: FileObject[]) => {
@@ -63,15 +60,9 @@ const FileSelectNew = ({
 
         setFolderDropError(folders.length > 0);
 
-        if (folders.length > 0) {
-            onFolderRejected?.();
-        }
-
         if (valid.length === 0) return;
-
-        onFilesSelected?.(valid.length);
+        oppdaterSkjermleserBeskjed(t("filLagtTil", { count: valid.length }));
         onSelect?.(valid);
-
         const uploads = valid.map((file: FileObject) =>
             getTusUploader({
                 id: uploadId,
@@ -81,7 +72,6 @@ const FileSelectNew = ({
         );
         uploads.forEach((upload) => upload.start());
     };
-
     const converted = docState.uploads?.some(
         (upload) => !!upload.finalFilename && upload.finalFilename !== upload.originalFilename
     );
@@ -101,6 +91,11 @@ const FileSelectNew = ({
                 },
             }}
         >
+            {liveRegionIndexes.map((index) => (
+                <div key={index} role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+                    {skjermleserBeskjed.activeRegion === index ? skjermleserBeskjed.text : ""}
+                </div>
+            ))}
             <VStack gap="space-24">
                 <FileSelectUpload
                     label={label ?? t("tittel")}
@@ -162,7 +157,11 @@ const FileSelectNew = ({
                                         showSlowProcessingWarning &&
                                         (upload.status === "PENDING" || upload.status === "PROCESSING")
                                     }
-                                    onTerminate={() => onFileDeleted?.()}
+                                    onTerminate={() =>
+                                        oppdaterSkjermleserBeskjed(
+                                            t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 })
+                                        )
+                                    }
                                 />
                             ))}
                         </VStack>

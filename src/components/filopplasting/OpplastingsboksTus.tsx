@@ -3,13 +3,12 @@
 import { useTranslations } from "next-intl";
 import { Alert, BodyLong, Button, Heading, HStack, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
-import { ReactNode, useRef, useState } from "react";
+import { ReactNode, useRef } from "react";
 import { useParams } from "next/navigation";
 import { Metadata } from "@components/filopplasting/types";
 import { useDocumentState } from "@components/filopplasting/api/useDocumentState";
 import useSendVedleggHelperTus from "@components/filopplasting/api/useSendVedleggHelperTus";
 import FileSelectNew from "@components/filopplasting/FileSelectNew";
-import UploadAnnouncements, { UploadAnnouncement } from "@components/filopplasting/UploadAnnouncements";
 import VedleggListe from "@components/filopplasting/VedleggListe";
 import useIsMobile from "@utils/useIsMobile";
 import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
@@ -35,24 +34,6 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
     });
     const { state: docState, resetState } = useDocumentState(uploadContextId);
     const opplastingId = useRef<string | null>(null);
-
-    // --- Upload-kunngjøringer ---
-
-    const [announcement, setAnnouncement] = useState<UploadAnnouncement | undefined>();
-    const announcementIdRef = useRef(0);
-
-    const announce = (
-        event:
-            | { type: "files-selected"; count: number }
-            | { type: "file-deleted"; remainingCount: number }
-            | { type: "folder-rejected" }
-    ) => {
-        announcementIdRef.current += 1;
-        setAnnouncement({ id: announcementIdRef.current, ...event });
-    };
-
-    // ---
-
     const {
         upload,
         resetMutation,
@@ -112,23 +93,12 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
 
     return (
         <VStack gap="space-8">
-            <UploadAnnouncements announcement={announcement} />
             <FileSelectNew
                 label={label}
                 description={description}
                 tag={tag}
                 docState={docState}
                 uploadId={uploadContextId}
-                onFilesSelected={(count) => {
-                    announce({ type: "files-selected", count });
-                }}
-                onFileDeleted={() => {
-                    const remainingCount = Math.max((docState.uploads?.length ?? 1) - 1, 0);
-                    announce({ type: "file-deleted", remainingCount });
-                }}
-                onFolderRejected={() => {
-                    announce({ type: "folder-rejected" });
-                }}
                 onSelect={(files) => {
                     resetMutation();
                     if (!opplastingId.current) {
