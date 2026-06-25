@@ -58,14 +58,14 @@ const ShowMoreButton = <R extends HTMLElement>({
             aria-controls={controlsId}
         >
             {!showAll && (
-                <>
+                <span>
                     {t("visFlere")} {suffix} ({items.length - itemsLimit})
-                </>
+                </span>
             )}
             {showAll && (
-                <>
+                <span>
                     {t("visFærre")} {suffix}
-                </>
+                </span>
             )}
         </Button>
     );
