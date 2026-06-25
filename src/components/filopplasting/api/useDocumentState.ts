@@ -64,7 +64,12 @@ export const useDocumentState = (id: string): { state: DocumentState; resetState
     const resetState = () => dispatch({ type: "clear" });
 
     // Subscribe to server-sent events and send any state updates to the reducer
-    const onUpdate = (payload: Partial<DocumentState>) => dispatch({ type: "update", newState: payload });
+    const onUpdate = (payload: Partial<DocumentState>) => {
+        if (payload.error === "forbidden") {
+            dispatch({ type: "clear" });
+        }
+        dispatch({ type: "update", newState: payload });
+    };
     useEffect(() => {
         return openEventChannel(eventstreamUrl(id, fiksDigisosId), onUpdate);
     }, [id, fiksDigisosId]);
