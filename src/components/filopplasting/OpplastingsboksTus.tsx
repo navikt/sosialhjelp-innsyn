@@ -113,6 +113,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
                     }
                 }}
                 variant={variant}
+                isPending={isPending}
             />
             {mutationError && (
                 <InlineStatusMessage variant="error" padding="large" fullWidth>

@@ -31,7 +31,18 @@ interface Props {
 const liveRegionIndexes = [0, 1] as const;
 type LiveRegionIndex = (typeof liveRegionIndexes)[number];
 
-const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uploadId, variant, onSelect }: Props) => {
+const FileSelectNew = ({
+    label,
+    description,
+    tag,
+    docState,
+    id,
+    filesLabel,
+    uploadId,
+    variant,
+    onSelect,
+    isPending,
+}: Props) => {
     const t = useTranslations("Opplastingsboks");
     const { id: fiksDigisosId } = useParams<{ id: string }>();
 
@@ -157,6 +168,7 @@ const FileSelectNew = ({ label, description, tag, docState, id, filesLabel, uplo
                                         showSlowProcessingWarning &&
                                         (upload.status === "PENDING" || upload.status === "PROCESSING")
                                     }
+                                    deleteDisabled={isPending}
                                     onTerminate={() =>
                                         oppdaterSkjermleserBeskjed(
                                             t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 })
