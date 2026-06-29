@@ -34,7 +34,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
         query: { enabled: !!metadata.hendelsereferanse },
     });
     const { state: docState, resetState } = useDocumentState(uploadContextId);
-    const { mutate: startUploads, variables, isPending: tusIsPending } = useFileUpload(uploadContextId, fiksDigisosId);
+    const { startUpload, dismiss } = useFileUpload(uploadContextId, fiksDigisosId);
     const opplastingId = useRef<string | null>(null);
     const {
         upload,
@@ -101,10 +101,10 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
                 tag={tag}
                 docState={docState}
                 uploadId={uploadContextId}
-                variables={variables}
+                dismiss={dismiss}
                 onSelect={(files) => {
                     resetMutation();
-                    startUploads(files);
+                    files.forEach((file) => startUpload(file));
                     if (!opplastingId.current) {
                         opplastingId.current = crypto.randomUUID();
                         umamiTrack("opplasting startet", {
@@ -118,7 +118,6 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
                 }}
                 variant={variant}
                 isPending={isPending}
-                tusPending={tusIsPending}
             />
             {mutationError && (
                 <InlineStatusMessage variant="error" padding="large" fullWidth>

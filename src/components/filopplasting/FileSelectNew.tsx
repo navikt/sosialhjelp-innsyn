@@ -5,6 +5,8 @@ import * as R from "remeda";
 import { FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
 import { ReactNode, useState } from "react";
+import { useMutationState } from "@tanstack/react-query";
+import { UPLOAD_MUTATION_KEY } from "@components/filopplasting/useFileUpload";
 import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
 
 import FileUploadItem from "./FileUploadItem";
@@ -22,10 +24,14 @@ interface Props {
     isPending?: boolean;
     docState: DocumentState;
     uploadId: string;
-    variables?: FileObject[] | null;
     onSelect?: (files: FileObject[]) => void;
     variant?: "normal" | "warning";
-    tusPending?: boolean;
+    dismiss: (mutationId: number) => void;
+}
+
+interface PendingMutation {
+    mutationId: number;
+    file: FileObject;
 }
 
 const liveRegionIndexes = [0, 1] as const;
@@ -42,22 +48,38 @@ const FileSelectNew = ({
     variant,
     onSelect,
     isPending,
-    variables,
-    tusPending,
+    dismiss,
 }: Props) => {
     const t = useTranslations("Opplastingsboks");
 
-    const optimisticUploads: UploadState[] = (tusPending ? (variables ?? []) : [])
-        .filter((f) => !docState.uploads?.some((u) => u.originalFilename === f.file.name))
-        .map((f) => ({
-            id: `optimistic-${f.file.name}`,
-            originalFilename: f.file.name,
-            size: f.file.size,
-            status: "PENDING",
+    const pendingMutations = useMutationState<PendingMutation>({
+        filters: { mutationKey: UPLOAD_MUTATION_KEY, status: "pending" },
+        select: (mutation) => ({
+            mutationId: mutation.mutationId,
+            file: mutation.state.variables as FileObject,
+        }),
+    });
+
+    const errorMutations = useMutationState<PendingMutation>({
+        filters: { mutationKey: UPLOAD_MUTATION_KEY, status: "error" },
+        select: (mutation) => ({
+            mutationId: mutation.mutationId,
+            file: mutation.state.variables as FileObject,
+        }),
+    });
+
+    const optimisticMutations = [...pendingMutations, ...errorMutations];
+
+    const optimisticUploads: UploadState[] = optimisticMutations
+        .filter((m) => !docState.uploads?.some((u) => u.originalFilename === m.file.file.name))
+        .map((m) => ({
+            id: `optimistic-${m.mutationId}`,
+            originalFilename: m.file.file.name,
+            size: m.file.file.size,
+            status: "PENDING" as const,
         }));
 
     const uploads = [...(docState.uploads ?? []), ...optimisticUploads];
-
     const sorted = R.sortBy(uploads, R.prop("originalFilename"));
 
     const hasPendingOrProcessing = sorted.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
@@ -156,30 +178,42 @@ const FileSelectNew = ({
                             </>
                         )}
                         <VStack as="ul" gap="space-8">
-                            {sorted.map((upload) => (
-                                <FileUploadItem
-                                    key={upload.id}
-                                    url={
-                                        upload.url
-                                            ? `${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`
-                                            : undefined
-                                    }
-                                    uploadId={upload.id}
-                                    convertedFilename={upload.finalFilename}
-                                    originalFilename={upload.originalFilename}
-                                    validations={upload.validations}
-                                    status={upload.status}
-                                    size={upload.size}
-                                    showCancelButton={
-                                        showSlowProcessingWarning &&
-                                        (upload.status === "PENDING" || upload.status === "PROCESSING")
-                                    }
-                                    deleteDisabled={isPending}
-                                    onTerminate={() =>
-                                        oppdaterSkjermleserBeskjed(t("filSlettet", { count: (sorted.length ?? 1) - 1 }))
-                                    }
-                                />
-                            ))}
+                            {sorted.map((upload) => {
+                                const optimisticMutation = upload.id.startsWith("optimistic-")
+                                    ? optimisticMutations.find((m) => `optimistic-${m.mutationId}` === upload.id)
+                                    : undefined;
+                                return (
+                                    <FileUploadItem
+                                        key={upload.id}
+                                        url={
+                                            upload.url
+                                                ? `${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`
+                                                : undefined
+                                        }
+                                        uploadId={upload.id}
+                                        convertedFilename={upload.finalFilename}
+                                        originalFilename={upload.originalFilename}
+                                        validations={upload.validations}
+                                        status={upload.status}
+                                        size={upload.size}
+                                        showCancelButton={
+                                            showSlowProcessingWarning &&
+                                            (upload.status === "PENDING" || upload.status === "PROCESSING")
+                                        }
+                                        deleteDisabled={isPending}
+                                        onTerminate={() =>
+                                            oppdaterSkjermleserBeskjed(
+                                                t("filSlettet", { count: (sorted.length ?? 1) - 1 })
+                                            )
+                                        }
+                                        onDelete={
+                                            optimisticMutation
+                                                ? () => dismiss(optimisticMutation.mutationId)
+                                                : undefined
+                                        }
+                                    />
+                                );
+                            })}
                         </VStack>
                     </VStack>
                 )}
