@@ -40,6 +40,7 @@ const FileSelectNew = ({
     uploadId,
     variant,
     onSelect,
+    isPending,
     onFilesSelected,
     onFileDeleted,
 }: Props) => {
@@ -150,6 +151,7 @@ const FileSelectNew = ({
                                         showSlowProcessingWarning &&
                                         (upload.status === "PENDING" || upload.status === "PROCESSING")
                                     }
+                                    deleteDisabled={isPending}
                                     onTerminate={() => onFileDeleted?.()}
                                 />
                             ))}

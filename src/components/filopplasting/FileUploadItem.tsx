@@ -17,6 +17,7 @@ interface Props {
     size?: number;
     showCancelButton?: boolean;
     onTerminate?: () => void;
+    deleteDisabled?: boolean;
 }
 
 const SeOverDescription = () => {
@@ -39,6 +40,7 @@ const FileUploadItem = ({
     size,
     showCancelButton,
     onTerminate,
+    deleteDisabled,
 }: Props) => {
     const t = useTranslations("FileUploadItem");
     const { mutate, isPending } = useMutation({
@@ -61,6 +63,7 @@ const FileUploadItem = ({
                         data-color="neutral"
                         icon={<TrashIcon title={t("slett")} />}
                         onClick={() => mutate()}
+                        disabled={deleteDisabled}
                         loading={isPending}
                     />
                 }
