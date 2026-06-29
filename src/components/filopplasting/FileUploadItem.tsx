@@ -18,6 +18,7 @@ interface Props {
     showCancelButton?: boolean;
     onTerminate?: () => void;
     deleteDisabled?: boolean;
+    onDelete?: () => void;
 }
 
 const SeOverDescription = () => {
@@ -41,6 +42,7 @@ const FileUploadItem = ({
     showCancelButton,
     onTerminate,
     deleteDisabled,
+    onDelete,
 }: Props) => {
     const t = useTranslations("FileUploadItem");
     const { mutate, isPending } = useMutation({
@@ -62,9 +64,9 @@ const FileUploadItem = ({
                         variant="tertiary"
                         data-color="neutral"
                         icon={<TrashIcon title={t("slett")} />}
-                        onClick={() => mutate()}
-                        disabled={deleteDisabled}
-                        loading={isPending}
+                        onClick={() => (onDelete ? onDelete() : mutate())}
+                        disabled={onDelete ? false : deleteDisabled}
+                        loading={onDelete ? false : isPending}
                     />
                 }
                 onFileClick={url ? () => window.open(url, "_blank", "noopener,noreferrer") : undefined}

@@ -5,13 +5,13 @@ import * as R from "remeda";
 import { FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
 import { ReactNode, useState } from "react";
-import { getTusUploader } from "@components/filopplasting/utils/tusUploader";
-import { DocumentState } from "@components/filopplasting/api/useDocumentState";
+import { useMutationState } from "@tanstack/react-query";
+import { UPLOAD_MUTATION_KEY } from "@components/filopplasting/useFileUpload";
+import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
 
 import FileUploadItem from "./FileUploadItem";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
 import { browserEnv } from "@config/env";
-import { useParams } from "next/navigation";
 import useSlowProcessingWarning from "@components/filopplasting/useSlowProcessingWarning";
 import { isFolder } from "@components/filopplasting/utils/validateFiles";
 
@@ -26,6 +26,12 @@ interface Props {
     uploadId: string;
     onSelect?: (files: FileObject[]) => void;
     variant?: "normal" | "warning";
+    dismiss: (mutationId: number) => void;
+}
+
+interface PendingMutation {
+    mutationId: number;
+    file: FileObject;
 }
 
 const liveRegionIndexes = [0, 1] as const;
@@ -42,11 +48,41 @@ const FileSelectNew = ({
     variant,
     onSelect,
     isPending,
+    dismiss,
 }: Props) => {
     const t = useTranslations("Opplastingsboks");
-    const { id: fiksDigisosId } = useParams<{ id: string }>();
 
-    const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
+    const pendingMutations = useMutationState<PendingMutation>({
+        filters: { mutationKey: UPLOAD_MUTATION_KEY, status: "pending" },
+        select: (mutation) => ({
+            mutationId: mutation.mutationId,
+            file: mutation.state.variables as FileObject,
+        }),
+    });
+
+    const errorMutations = useMutationState<PendingMutation>({
+        filters: { mutationKey: UPLOAD_MUTATION_KEY, status: "error" },
+        select: (mutation) => ({
+            mutationId: mutation.mutationId,
+            file: mutation.state.variables as FileObject,
+        }),
+    });
+
+    const optimisticMutations = [...pendingMutations, ...errorMutations];
+
+    const optimisticUploads: UploadState[] = optimisticMutations
+        .filter((m) => !docState.uploads?.some((u) => u.originalFilename === m.file.file.name))
+        .map((m) => ({
+            id: `optimistic-${m.mutationId}`,
+            originalFilename: m.file.file.name,
+            size: m.file.file.size,
+            status: "PENDING" as const,
+        }));
+
+    const uploads = [...(docState.uploads ?? []), ...optimisticUploads];
+    const sorted = R.sortBy(uploads, R.prop("originalFilename"));
+
+    const hasPendingOrProcessing = sorted.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
 
     const [folderDropError, setFolderDropError] = useState(false);
     const [skjermleserBeskjed, setSkjermleserBeskjed] = useState<{ text: string; activeRegion: LiveRegionIndex }>({
@@ -65,7 +101,6 @@ const FileSelectNew = ({
         }));
     };
 
-    // Starter opplasting umiddelbart ved filvalg
     const _onSelect = (files: FileObject[]) => {
         const [folders, valid] = R.partition(files, (f) => isFolder(f));
 
@@ -74,16 +109,9 @@ const FileSelectNew = ({
         if (valid.length === 0) return;
         oppdaterSkjermleserBeskjed(t("filLagtTil", { count: valid.length }));
         onSelect?.(valid);
-        const uploads = valid.map((file: FileObject) =>
-            getTusUploader({
-                id: uploadId,
-                file,
-                fiksDigisosId,
-            })
-        );
-        uploads.forEach((upload) => upload.start());
     };
-    const converted = docState.uploads?.some(
+
+    const converted = sorted.some(
         (upload) => !!upload.finalFilename && upload.finalFilename !== upload.originalFilename
     );
 
@@ -116,7 +144,7 @@ const FileSelectNew = ({
                     variant={variant === "warning" ? "warning" : "default"}
                     buttonText={t("lastOppFiler")}
                     onSelect={_onSelect}
-                    currentCount={docState.uploads?.length ?? 0}
+                    currentCount={sorted.length}
                 />
 
                 {folderDropError && (
@@ -125,10 +153,10 @@ const FileSelectNew = ({
                     </InlineStatusMessage>
                 )}
 
-                {!!docState.uploads?.length && (
+                {!!sorted.length && (
                     <VStack gap="space-8">
                         <Heading size="xsmall" level="3">
-                            {filesLabel ?? t("valgteFiler", { antall_filer: docState.uploads.length })}
+                            {filesLabel ?? t("valgteFiler", { antall_filer: sorted.length })}
                         </Heading>
                         {converted && (
                             <InlineStatusMessage variant="info" role="status">
@@ -150,32 +178,42 @@ const FileSelectNew = ({
                             </>
                         )}
                         <VStack as="ul" gap="space-8">
-                            {docState.uploads?.map((upload) => (
-                                <FileUploadItem
-                                    key={upload.id}
-                                    url={
-                                        upload.url
-                                            ? `${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`
-                                            : undefined
-                                    }
-                                    uploadId={upload.id}
-                                    convertedFilename={upload.finalFilename}
-                                    originalFilename={upload.originalFilename}
-                                    validations={upload.validations}
-                                    status={upload.status}
-                                    size={upload.size}
-                                    showCancelButton={
-                                        showSlowProcessingWarning &&
-                                        (upload.status === "PENDING" || upload.status === "PROCESSING")
-                                    }
-                                    deleteDisabled={isPending}
-                                    onTerminate={() =>
-                                        oppdaterSkjermleserBeskjed(
-                                            t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 })
-                                        )
-                                    }
-                                />
-                            ))}
+                            {sorted.map((upload) => {
+                                const optimisticMutation = upload.id.startsWith("optimistic-")
+                                    ? optimisticMutations.find((m) => `optimistic-${m.mutationId}` === upload.id)
+                                    : undefined;
+                                return (
+                                    <FileUploadItem
+                                        key={upload.id}
+                                        url={
+                                            upload.url
+                                                ? `${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`
+                                                : undefined
+                                        }
+                                        uploadId={upload.id}
+                                        convertedFilename={upload.finalFilename}
+                                        originalFilename={upload.originalFilename}
+                                        validations={upload.validations}
+                                        status={upload.status}
+                                        size={upload.size}
+                                        showCancelButton={
+                                            showSlowProcessingWarning &&
+                                            (upload.status === "PENDING" || upload.status === "PROCESSING")
+                                        }
+                                        deleteDisabled={isPending}
+                                        onTerminate={() =>
+                                            oppdaterSkjermleserBeskjed(
+                                                t("filSlettet", { count: (sorted.length ?? 1) - 1 })
+                                            )
+                                        }
+                                        onDelete={
+                                            optimisticMutation
+                                                ? () => dismiss(optimisticMutation.mutationId)
+                                                : undefined
+                                        }
+                                    />
+                                );
+                            })}
                         </VStack>
                     </VStack>
                 )}

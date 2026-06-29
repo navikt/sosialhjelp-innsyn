@@ -8,6 +8,7 @@ import { useParams } from "next/navigation";
 import { Metadata } from "@components/filopplasting/types";
 import { useDocumentState } from "@components/filopplasting/api/useDocumentState";
 import useSendVedleggHelperTus from "@components/filopplasting/api/useSendVedleggHelperTus";
+import { useFileUpload } from "@components/filopplasting/useFileUpload";
 import FileSelectNew from "@components/filopplasting/FileSelectNew";
 import VedleggListe from "@components/filopplasting/VedleggListe";
 import useIsMobile from "@utils/useIsMobile";
@@ -33,6 +34,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
         query: { enabled: !!metadata.hendelsereferanse },
     });
     const { state: docState, resetState } = useDocumentState(uploadContextId);
+    const { startUpload, dismiss } = useFileUpload(uploadContextId, fiksDigisosId);
     const opplastingId = useRef<string | null>(null);
     const {
         upload,
@@ -99,8 +101,10 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
                 tag={tag}
                 docState={docState}
                 uploadId={uploadContextId}
+                dismiss={dismiss}
                 onSelect={(files) => {
                     resetMutation();
+                    files.forEach((file) => startUpload(file));
                     if (!opplastingId.current) {
                         opplastingId.current = crypto.randomUUID();
                         umamiTrack("opplasting startet", {
