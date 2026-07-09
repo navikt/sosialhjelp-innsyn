@@ -636,5 +636,139 @@
     "SoknadsoppgaverSection": {
         "title": "Vi manglar noko dokumentasjon til søknaden din",
         "suffix": "oppgåver"
+    },
+    "VedleggskravVisning": {
+        "LONNSLIPP_ARBEID": {
+            "tittel": "Lønsslipp",
+            "tilleggsinfo": "Oversikt over løn for siste månad"
+        },
+        "SLUTTOPPGJOR_ARBEID": {
+            "tittel": "Sluttoppgjer",
+            "tilleggsinfo": "Kopi av sluttoppgjer for arbeidsforholdet"
+        },
+        "STUDENT_VEDTAK": {
+            "tittel": "Vedtak frå Lånekassen",
+            "tilleggsinfo": "Last opp vedtak frå Lånekassen"
+        },
+        "BARNEBIDRAG_BETALER": {
+            "tittel": "Barnebidrag",
+            "tilleggsinfo": "Last opp opplysningar om utgifter til barnebidrag"
+        },
+        "BARNEBIDRAG_MOTTAR": {
+            "tittel": "Barnebidrag",
+            "tilleggsinfo": "Opplysningar om motteke bidrag"
+        },
+        "SAMVARSAVTALE_BARN": {
+            "tittel": "Samværsavtale eller avtale om delt bustad",
+            "tilleggsinfo": "Samværsavtale eller avtale om delt bustad"
+        },
+        "HUSLEIEKONTRAKT_HUSLEIEKONTRAKT": {
+            "tittel": "Husleigekontrakt",
+            "tilleggsinfo": "Kopi av gyldig husleigekontrakt"
+        },
+        "HUSLEIEKONTRAKT_KOMMUNAL": {
+            "tittel": "Husleigekontrakt",
+            "tilleggsinfo": "Kopi av gyldig husleigekontrakt for kommunal bustad"
+        },
+        "BOSTOTTE_VEDTAK": {
+            "tittel": "Vedtak om bustøtte",
+            "tilleggsinfo": "Vedtak om bustøtte for siste 2 mnd."
+        },
+        "KONTOOVERSIKT_BRUKSKONTO": {
+            "tittel": "Saldo på brukskonto",
+            "tilleggsinfo": "Last opp saldoutskrift for brukskonto (på søknadstidspunktet)"
+        },
+        "KONTOOVERSIKT_BSU": {
+            "tittel": "Saldo på BSU",
+            "tilleggsinfo": "Last opp saldoutskrift for BSU (på søknadstidspunktet)"
+        },
+        "KONTOOVERSIKT_SPAREKONTO": {
+            "tittel": "Saldo på sparekonto",
+            "tilleggsinfo": "Last opp saldoutskrift for sparekonto (på søknadstidspunktet)"
+        },
+        "KONTOOVERSIKT_LIVSFORSIKRING": {
+            "tittel": "Livsforsikring",
+            "tilleggsinfo": "Last opp dokumentasjon på livsforsikring"
+        },
+        "KONTOOVERSIKT_AKSJER": {
+            "tittel": "Saldo på aksjesparekonto / VPS-konto",
+            "tilleggsinfo": "Last opp saldoutskrift frå VPS-konto"
+        },
+        "KONTOOVERSIKT_ANNET": {
+            "tittel": "Andre bankinnskot eller sparing",
+            "tilleggsinfo": "Last opp opplysningar om andre bankinnskot eller sparing"
+        },
+        "DOKUMENTASJON_UTBYTTE": {
+            "tittel": "Utbyte",
+            "tilleggsinfo": "Last opp opplysningar om utbyte"
+        },
+        "SALGSOPPGJOR_EIENDOM": {
+            "tittel": "Salsoppgjer frå bustadsal",
+            "tilleggsinfo": "Last opp opplysningar om salsoppgjer"
+        },
+        "DOKUMENTASJON_FORSIKRINGSUTBETALING": {
+            "tittel": "Forsikringsutbetaling",
+            "tilleggsinfo": "Dokumentasjon på forsikringsutbetaling"
+        },
+        "DOKUMENTASJON_ANNETINNTEKTER": {
+            "tittel": "Andre utbetalingar",
+            "tilleggsinfo": "Last opp opplysningar om andre utbetalingar"
+        },
+        "FAKTURA_HUSLEIE": {
+            "tittel": "Utgifter til husleige",
+            "tilleggsinfo": "Last opp kvittering/faktura på husleige"
+        },
+        "FAKTURA_STROM": {
+            "tittel": "Utgifter til straum",
+            "tilleggsinfo": "Last opp kvittering/faktura på straum"
+        },
+        "FAKTURA_KOMMUNALEAVGIFTER": {
+            "tittel": "Utgifter til kommunale avgifter",
+            "tilleggsinfo": "Last opp kvittering/faktura på kommunale avgifter"
+        },
+        "FAKTURA_OPPVARMING": {
+            "tittel": "Utgifter til oppvarming",
+            "tilleggsinfo": "Last opp kvittering/faktura på oppvarming"
+        },
+        "NEDBETALINGSPLAN_AVDRAGLAAN": {
+            "tittel": "Nedbetalingsplan for bustadlån",
+            "tilleggsinfo": "Oversikt over nedbetaling av avdrag og renter for bustadlånet ditt"
+        },
+        "DOKUMENTASJON_ANNETBOUTGIFT": {
+            "tittel": "Andre buutgifter",
+            "tilleggsinfo": "Last opp opplysningar om andre buutgifter"
+        },
+        "FAKTURA_FRITIDSAKTIVITET": {
+            "tittel": "Utgifter til fritidsaktivitetar for barn",
+            "tilleggsinfo": "Last opp kvittering/faktura på fritidsaktivitet"
+        },
+        "FAKTURA_BARNEHAGE": {
+            "tittel": "Utgifter til barnehage",
+            "tilleggsinfo": "Last opp kvittering/faktura på barnehage"
+        },
+        "FAKTURA_SFO": {
+            "tittel": "Utgifter til SFO",
+            "tilleggsinfo": "Last opp kvittering/faktura på SFO"
+        },
+        "FAKTURA_TANNBEHANDLING": {
+            "tittel": "Utgifter til tannregulering",
+            "tilleggsinfo": "Last opp kvittering/faktura på tannregulering"
+        },
+        "FAKTURA_ANNETBARNUTGIFT": {
+            "tittel": "Andre utgifter til barn",
+            "tilleggsinfo": "Last opp kvittering/faktura på andre barneutgifter"
+        },
+        "SKATTEMELDING_SKATTEMELDING": {
+            "tittel": "Skattemelding og skatteoppgjer",
+            "tilleggsinfo": "Last opp skattemelding og skatteoppgjer"
+        },
+        "OPPHOLDSTILLATEL_OPPHOLDSTILLATEL": {
+            "tittel": "Registreringsbevis eller opphaldsløyve",
+            "tilleggsinfo": "Last opp registreringsbevis/opphaldsløyve som dokumenterer opphaldet i Noreg"
+        },
+        "ANNET_ANNET": {
+            "tittel": "Anna dokumentasjon",
+            "tilleggsinfo": ""
+        }
     }
 }
