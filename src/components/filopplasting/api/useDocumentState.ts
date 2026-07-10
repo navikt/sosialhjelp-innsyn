@@ -1,6 +1,7 @@
 import { useEffect, useReducer } from "react";
 import { eventstreamUrl, openEventChannel } from "@components/filopplasting/api/openEventChannel";
 import { useParams } from "next/navigation";
+import * as R from "remeda";
 
 export type UploadStatus = "PROCESSING" | "FAILED" | "COMPLETE" | "PENDING";
 
@@ -40,7 +41,8 @@ export type DocumentStateUpdate =
           newState: Partial<DocumentState>;
       }
     | { type: "clear" }
-    | { type: "addOptimistic"; upload: UploadState };
+    | { type: "addOptimistic"; upload: UploadState }
+    | { type: "replaceId"; tempId: string; realId: string };
 
 const mergeUploads = (existing: UploadState[] = [], incoming: UploadState[] = []): UploadState[] => {
     const incomingIds = new Set(incoming.map((u) => u.id));
@@ -49,7 +51,6 @@ const mergeUploads = (existing: UploadState[] = [], incoming: UploadState[] = []
     const incomingMerged = incoming.map((u) => ({ ...existing.find((e) => e.id === u.id), ...u }));
     return [...optimistic, ...incomingMerged];
 };
-
 const documentStateReducer = (state: DocumentState, payload: DocumentStateUpdate) => {
     const { type } = payload;
     if (type == "update") {
@@ -69,12 +70,22 @@ const documentStateReducer = (state: DocumentState, payload: DocumentStateUpdate
         }
         return { ...state, uploads: [...(state.uploads ?? []), payload.upload] };
     }
+    if (type == "replaceId") {
+        const uploads = state.uploads?.map((u) => (u.id === payload.tempId ? { ...u, id: payload.realId } : u));
+        // Drop duplicate if the real id already existed (e.g. SSE arrived before onUploadUrlAvailable)
+        return { ...state, uploads: R.uniqueBy(uploads ?? [], (u) => u.id) };
+    }
     throw new Error("Unsupported type");
 };
 
 export const useDocumentState = (
     id: string
-): { state: DocumentState; resetState: () => void; addOptimistic: (upload: UploadState) => void } => {
+): {
+    state: DocumentState;
+    resetState: () => void;
+    addOptimistic: (upload: UploadState) => void;
+    replaceId: (tempId: string, realId: string) => void;
+} => {
     const [state, dispatch] = useReducer(documentStateReducer, {});
     const { id: fiksDigisosId } = useParams<{ id: string }>();
 
@@ -92,6 +103,7 @@ export const useDocumentState = (
     }, [id, fiksDigisosId]);
 
     const addOptimistic = (upload: UploadState) => dispatch({ type: "addOptimistic", upload });
+    const replaceId = (tempId: string, realId: string) => dispatch({ type: "replaceId", tempId, realId });
 
-    return { state, resetState, addOptimistic };
+    return { state, resetState, addOptimistic, replaceId };
 };

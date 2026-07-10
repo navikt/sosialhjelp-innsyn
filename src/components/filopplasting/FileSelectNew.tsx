@@ -25,6 +25,7 @@ interface Props {
     docState: DocumentState;
     uploadId: string;
     addOptimistic: (upload: UploadState) => void;
+    replaceId: (tempId: string, realId: string) => void;
     onSelect?: (files: FileObject[]) => void;
     variant?: "normal" | "warning";
 }
@@ -44,6 +45,7 @@ const FileSelectNew = ({
     onSelect,
     isPending,
     addOptimistic,
+    replaceId,
 }: Props) => {
     const t = useTranslations("Opplastingsboks");
     const { id: fiksDigisosId } = useParams<{ id: string }>();
@@ -77,18 +79,20 @@ const FileSelectNew = ({
         oppdaterSkjermleserBeskjed(t("filLagtTil", { count: valid.length }));
         onSelect?.(valid);
         const uploaders = valid.map((file: FileObject) => {
+            const tempId = crypto.randomUUID();
+            addOptimistic({
+                id: tempId,
+                originalFilename: file.file.name,
+                size: file.file.size,
+                status: "PENDING",
+            });
             const uploader = getTusUploader({
                 id: uploadId,
                 file,
                 fiksDigisosId,
                 onUploadUrlAvailable() {
                     const tusId = uploader.url!.split("/").at(-1)!;
-                    addOptimistic({
-                        id: tusId,
-                        originalFilename: file.file.name,
-                        size: file.file.size,
-                        status: "PENDING",
-                    });
+                    replaceId(tempId, tusId);
                 },
             });
             return uploader;
