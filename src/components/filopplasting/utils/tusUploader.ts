@@ -9,11 +9,13 @@ export const getTusUploader = ({
     onProgress,
     onSuccess,
     onUploadUrlAvailable,
+    onError,
     fiksDigisosId,
 }: {
     id: string;
     file: FileObject;
     fiksDigisosId: string;
+    onError?: () => void;
 } & Pick<UploadOptions, "onUploadUrlAvailable" | "onProgress" | "onSuccess">): Upload => {
     const uploadOptions = (file: File): UploadOptions => ({
         endpoint: `${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/tus/files`,
@@ -24,7 +26,10 @@ export const getTusUploader = ({
             fiksDigisosId,
         },
         uploadSize: file.size,
-        onError: (error: unknown) => logger.error(`Upload failed: ${error}`),
+        onError: (error: unknown) => {
+            logger.error(`Upload failed: ${error}`);
+            onError?.();
+        },
         onUploadUrlAvailable,
         onProgress,
         onSuccess,

@@ -42,7 +42,8 @@ export type DocumentStateUpdate =
       }
     | { type: "clear" }
     | { type: "addOptimistic"; upload: UploadState }
-    | { type: "replaceId"; tempId: string; realId: string };
+    | { type: "replaceId"; tempId: string; realId: string }
+    | { type: "remove"; id: string };
 
 const mergeUploads = (existing: UploadState[] = [], incoming: UploadState[] = []): UploadState[] => {
     const incomingIds = new Set(incoming.map((u) => u.id));
@@ -75,6 +76,9 @@ const documentStateReducer = (state: DocumentState, payload: DocumentStateUpdate
         // Drop duplicate if the real id already existed (e.g. SSE arrived before onUploadUrlAvailable)
         return { ...state, uploads: R.uniqueBy(uploads ?? [], (u) => u.id) };
     }
+    if (type == "remove") {
+        return { ...state, uploads: state.uploads?.filter((u) => u.id !== payload.id) };
+    }
     throw new Error("Unsupported type");
 };
 
@@ -85,6 +89,7 @@ export const useDocumentState = (
     resetState: () => void;
     addOptimistic: (upload: UploadState) => void;
     replaceId: (tempId: string, realId: string) => void;
+    removeUpload: (id: string) => void;
 } => {
     const [state, dispatch] = useReducer(documentStateReducer, {});
     const { id: fiksDigisosId } = useParams<{ id: string }>();
@@ -104,6 +109,7 @@ export const useDocumentState = (
 
     const addOptimistic = (upload: UploadState) => dispatch({ type: "addOptimistic", upload });
     const replaceId = (tempId: string, realId: string) => dispatch({ type: "replaceId", tempId, realId });
+    const removeUpload = (id: string) => dispatch({ type: "remove", id });
 
-    return { state, resetState, addOptimistic, replaceId };
+    return { state, resetState, addOptimistic, replaceId, removeUpload };
 };

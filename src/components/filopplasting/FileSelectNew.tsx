@@ -26,6 +26,7 @@ interface Props {
     uploadId: string;
     addOptimistic: (upload: UploadState) => void;
     replaceId: (tempId: string, realId: string) => void;
+    removeUpload: (id: string) => void;
     onSelect?: (files: FileObject[]) => void;
     variant?: "normal" | "warning";
 }
@@ -46,6 +47,7 @@ const FileSelectNew = ({
     isPending,
     addOptimistic,
     replaceId,
+    removeUpload,
 }: Props) => {
     const t = useTranslations("Opplastingsboks");
     const { id: fiksDigisosId } = useParams<{ id: string }>();
@@ -90,6 +92,7 @@ const FileSelectNew = ({
                 id: uploadId,
                 file,
                 fiksDigisosId,
+                onError: () => removeUpload(tempId),
                 onUploadUrlAvailable() {
                     const tusId = uploader.url!.split("/").at(-1)!;
                     replaceId(tempId, tusId);
