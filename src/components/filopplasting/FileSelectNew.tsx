@@ -6,7 +6,7 @@ import { FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
 import { ReactNode, useState } from "react";
 import { getTusUploader } from "@components/filopplasting/utils/tusUploader";
-import { DocumentState } from "@components/filopplasting/api/useDocumentState";
+import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
 
 import FileUploadItem from "./FileUploadItem";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
@@ -24,6 +24,7 @@ interface Props {
     isPending?: boolean;
     docState: DocumentState;
     uploadId: string;
+    addOptimistic: (upload: UploadState) => void;
     onSelect?: (files: FileObject[]) => void;
     variant?: "normal" | "warning";
 }
@@ -42,6 +43,7 @@ const FileSelectNew = ({
     variant,
     onSelect,
     isPending,
+    addOptimistic,
 }: Props) => {
     const t = useTranslations("Opplastingsboks");
     const { id: fiksDigisosId } = useParams<{ id: string }>();
@@ -74,14 +76,24 @@ const FileSelectNew = ({
         if (valid.length === 0) return;
         oppdaterSkjermleserBeskjed(t("filLagtTil", { count: valid.length }));
         onSelect?.(valid);
-        const uploads = valid.map((file: FileObject) =>
-            getTusUploader({
+        const uploaders = valid.map((file: FileObject) => {
+            const uploader = getTusUploader({
                 id: uploadId,
                 file,
                 fiksDigisosId,
-            })
-        );
-        uploads.forEach((upload) => upload.start());
+                onUploadUrlAvailable() {
+                    const tusId = uploader.url!.split("/").at(-1)!;
+                    addOptimistic({
+                        id: tusId,
+                        originalFilename: file.file.name,
+                        size: file.file.size,
+                        status: "PENDING",
+                    });
+                },
+            });
+            return uploader;
+        });
+        uploaders.forEach((upload) => upload.start());
     };
     const converted = docState.uploads?.some(
         (upload) => !!upload.finalFilename && upload.finalFilename !== upload.originalFilename

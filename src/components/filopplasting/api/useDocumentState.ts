@@ -39,7 +39,16 @@ export type DocumentStateUpdate =
           type: "update";
           newState: Partial<DocumentState>;
       }
-    | { type: "clear" };
+    | { type: "clear" }
+    | { type: "addOptimistic"; upload: UploadState };
+
+const mergeUploads = (existing: UploadState[] = [], incoming: UploadState[] = []): UploadState[] => {
+    const incomingIds = new Set(incoming.map((u) => u.id));
+    // Keep optimistic entries not yet acknowledged by the server
+    const optimistic = existing.filter((u) => !incomingIds.has(u.id) && !u.filId && u.status === "PENDING");
+    const incomingMerged = incoming.map((u) => ({ ...existing.find((e) => e.id === u.id), ...u }));
+    return [...optimistic, ...incomingMerged];
+};
 
 const documentStateReducer = (state: DocumentState, payload: DocumentStateUpdate) => {
     const { type } = payload;
@@ -49,15 +58,23 @@ const documentStateReducer = (state: DocumentState, payload: DocumentStateUpdate
             return newState;
         }
 
-        return { ...state, ...newState };
+        return { ...state, ...newState, uploads: mergeUploads(state.uploads, newState.uploads) };
     }
     if (type == "clear") {
         return { ...state, error: undefined, uploads: [], validations: [] };
     }
+    if (type == "addOptimistic") {
+        if (state.uploads?.some((u) => u.id === payload.upload.id)) {
+            return state;
+        }
+        return { ...state, uploads: [...(state.uploads ?? []), payload.upload] };
+    }
     throw new Error("Unsupported type");
 };
 
-export const useDocumentState = (id: string): { state: DocumentState; resetState: () => void } => {
+export const useDocumentState = (
+    id: string
+): { state: DocumentState; resetState: () => void; addOptimistic: (upload: UploadState) => void } => {
     const [state, dispatch] = useReducer(documentStateReducer, {});
     const { id: fiksDigisosId } = useParams<{ id: string }>();
 
@@ -74,5 +91,7 @@ export const useDocumentState = (id: string): { state: DocumentState; resetState
         return openEventChannel(eventstreamUrl(id, fiksDigisosId), onUpdate);
     }, [id, fiksDigisosId]);
 
-    return { state, resetState };
+    const addOptimistic = (upload: UploadState) => dispatch({ type: "addOptimistic", upload });
+
+    return { state, resetState, addOptimistic };
 };
