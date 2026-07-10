@@ -1,7 +1,6 @@
 import { useEffect, useReducer } from "react";
 import { eventstreamUrl, openEventChannel } from "@components/filopplasting/api/openEventChannel";
 import { useParams } from "next/navigation";
-import * as R from "remeda";
 
 export type UploadStatus = "PROCESSING" | "FAILED" | "COMPLETE" | "PENDING";
 
@@ -72,9 +71,16 @@ const documentStateReducer = (state: DocumentState, payload: DocumentStateUpdate
         return { ...state, uploads: [...(state.uploads ?? []), payload.upload] };
     }
     if (type == "replaceId") {
-        const uploads = state.uploads?.map((u) => (u.id === payload.tempId ? { ...u, id: payload.realId } : u));
-        // Drop duplicate if the real id already existed (e.g. SSE arrived before onUploadUrlAvailable)
-        return { ...state, uploads: R.uniqueBy(uploads ?? [], (u) => u.id) };
+        const exists = state.uploads?.some((u) => u.id === payload.realId);
+        if (exists) {
+            // SSE already added the real entry — just drop the optimistic placeholder
+            return { ...state, uploads: state.uploads?.filter((u) => u.id !== payload.tempId) };
+        }
+        // No SSE entry yet — rename the optimistic entry in place
+        return {
+            ...state,
+            uploads: state.uploads?.map((u) => (u.id === payload.tempId ? { ...u, id: payload.realId } : u)),
+        };
     }
     if (type == "remove") {
         return { ...state, uploads: state.uploads?.filter((u) => u.id !== payload.id) };
