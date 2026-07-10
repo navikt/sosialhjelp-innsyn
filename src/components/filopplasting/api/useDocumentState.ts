@@ -4,18 +4,6 @@ import { useParams } from "next/navigation";
 
 export type UploadStatus = "PROCESSING" | "FAILED" | "COMPLETE" | "PENDING";
 
-export type UploadState = {
-    originalFilename: string;
-    finalFilename?: string;
-    id: string;
-    // Finished upload mellomlager-id
-    filId?: string;
-    validations?: ValidationCode[];
-    url?: string;
-    status: UploadStatus;
-    size?: number;
-};
-
 export enum ValidationCode {
     FILE_TOO_LARGE = "FILE_TOO_LARGE",
     INVALID_FILENAME = "INVALID_FILENAME",
@@ -27,6 +15,29 @@ export enum ValidationCode {
     TOTAL_TOO_LARGE = "TOTAL_TOO_LARGE",
 }
 
+export type OptimisticUpload = {
+    kind: "optimistic";
+    clientId: string;
+    originalFilename: string;
+    size?: number;
+    status: "PENDING";
+};
+
+export type ConfirmedUpload = {
+    kind: "confirmed";
+    clientId?: string;
+    id: string;
+    originalFilename: string;
+    finalFilename?: string;
+    filId?: string;
+    validations?: ValidationCode[];
+    url?: string;
+    status: UploadStatus;
+    size?: number;
+};
+
+export type UploadState = OptimisticUpload | ConfirmedUpload;
+
 export type DocumentState = {
     submissionId?: string;
     error?: string;
@@ -35,55 +46,73 @@ export type DocumentState = {
 };
 
 export type DocumentStateUpdate =
-    | {
-          type: "update";
-          newState: Partial<DocumentState>;
-      }
+    | { type: "update"; newState: Partial<Omit<DocumentState, "uploads">> & { uploads?: ConfirmedUpload[] } }
     | { type: "clear" }
-    | { type: "addOptimistic"; upload: UploadState }
-    | { type: "replaceId"; tempId: string; realId: string }
-    | { type: "remove"; id: string };
+    | { type: "addOptimistic"; upload: OptimisticUpload }
+    | { type: "confirmUpload"; clientId: string; tusId: string }
+    | { type: "remove"; clientId: string };
 
-const mergeUploads = (existing: UploadState[] = [], incoming: UploadState[] = []): UploadState[] => {
+const mergeUploads = (existing: UploadState[] = [], incoming: ConfirmedUpload[] = []): UploadState[] => {
     const incomingIds = new Set(incoming.map((u) => u.id));
-    // Keep optimistic entries not yet acknowledged by the server
-    const optimistic = existing.filter((u) => !incomingIds.has(u.id) && !u.filId && u.status === "PENDING");
-    const incomingMerged = incoming.map((u) => ({ ...existing.find((e) => e.id === u.id), ...u }));
-    return [...optimistic, ...incomingMerged];
+    const optimistic = existing.filter((u): u is OptimisticUpload => u.kind === "optimistic");
+    const confirmedById = new Map(
+        existing.filter((u): u is ConfirmedUpload => u.kind === "confirmed").map((u) => [u.id, u])
+    );
+    const incomingMerged = incoming.map((u) => {
+        const existing = confirmedById.get(u.id);
+        // Drop clientId once SSE has seen the entry — it's now fully server-owned
+        return { ...existing, clientId: undefined, ...u, kind: "confirmed" as const };
+    });
+    // Keep confirmed entries promoted from optimistic that SSE hasn't caught up with yet
+    const promotedNotYetIncoming = existing.filter(
+        (u): u is ConfirmedUpload => u.kind === "confirmed" && !!u.clientId && !incomingIds.has(u.id)
+    );
+    return [...optimistic, ...promotedNotYetIncoming, ...incomingMerged];
 };
-const documentStateReducer = (state: DocumentState, payload: DocumentStateUpdate) => {
+
+const documentStateReducer = (state: DocumentState, payload: DocumentStateUpdate): DocumentState => {
     const { type } = payload;
-    if (type == "update") {
+    if (type === "update") {
         const { newState } = payload;
         if (state.submissionId && state.submissionId !== newState.submissionId) {
-            return newState;
+            return { ...newState, uploads: mergeUploads([], newState.uploads) };
         }
-
         return { ...state, ...newState, uploads: mergeUploads(state.uploads, newState.uploads) };
     }
-    if (type == "clear") {
+    if (type === "clear") {
         return { ...state, error: undefined, uploads: [], validations: [] };
     }
-    if (type == "addOptimistic") {
-        if (state.uploads?.some((u) => u.id === payload.upload.id)) {
+    if (type === "addOptimistic") {
+        if (state.uploads?.some((u) => u.kind === "optimistic" && u.clientId === payload.upload.clientId)) {
             return state;
         }
         return { ...state, uploads: [...(state.uploads ?? []), payload.upload] };
     }
-    if (type == "replaceId") {
-        const exists = state.uploads?.some((u) => u.id === payload.realId);
-        if (exists) {
-            // SSE already added the real entry — just drop the optimistic placeholder
-            return { ...state, uploads: state.uploads?.filter((u) => u.id !== payload.tempId) };
+    if (type === "confirmUpload") {
+        const optimistic = state.uploads?.find(
+            (u): u is OptimisticUpload => u.kind === "optimistic" && u.clientId === payload.clientId
+        );
+        const alreadyConfirmed = state.uploads?.some((u) => u.kind === "confirmed" && u.id === payload.tusId);
+        const withoutOptimistic =
+            state.uploads?.filter((u) => !(u.kind === "optimistic" && u.clientId === payload.clientId)) ?? [];
+        if (alreadyConfirmed || !optimistic) {
+            return { ...state, uploads: withoutOptimistic };
         }
-        // No SSE entry yet — rename the optimistic entry in place
+        const confirmed: ConfirmedUpload = {
+            kind: "confirmed",
+            clientId: payload.clientId,
+            id: payload.tusId,
+            originalFilename: optimistic.originalFilename,
+            size: optimistic.size,
+            status: "PENDING",
+        };
+        return { ...state, uploads: [...withoutOptimistic, confirmed] };
+    }
+    if (type === "remove") {
         return {
             ...state,
-            uploads: state.uploads?.map((u) => (u.id === payload.tempId ? { ...u, id: payload.realId } : u)),
+            uploads: state.uploads?.filter((u) => !(u.kind === "optimistic" && u.clientId === payload.clientId)),
         };
-    }
-    if (type == "remove") {
-        return { ...state, uploads: state.uploads?.filter((u) => u.id !== payload.id) };
     }
     throw new Error("Unsupported type");
 };
@@ -93,29 +122,32 @@ export const useDocumentState = (
 ): {
     state: DocumentState;
     resetState: () => void;
-    addOptimistic: (upload: UploadState) => void;
-    replaceId: (tempId: string, realId: string) => void;
-    removeUpload: (id: string) => void;
+    addOptimistic: (upload: OptimisticUpload) => void;
+    confirmUpload: (clientId: string, tusId: string) => void;
+    removeUpload: (clientId: string) => void;
 } => {
     const [state, dispatch] = useReducer(documentStateReducer, {});
     const { id: fiksDigisosId } = useParams<{ id: string }>();
 
     const resetState = () => dispatch({ type: "clear" });
 
-    // Subscribe to server-sent events and send any state updates to the reducer
     const onUpdate = (payload: Partial<DocumentState>) => {
         if (payload.error === "forbidden") {
             return dispatch({ type: "clear" });
         }
-        dispatch({ type: "update", newState: payload });
+        const { uploads, ...rest } = payload;
+        dispatch({
+            type: "update",
+            newState: { ...rest, uploads: uploads as ConfirmedUpload[] | undefined },
+        });
     };
     useEffect(() => {
         return openEventChannel(eventstreamUrl(id, fiksDigisosId), onUpdate);
     }, [id, fiksDigisosId]);
 
-    const addOptimistic = (upload: UploadState) => dispatch({ type: "addOptimistic", upload });
-    const replaceId = (tempId: string, realId: string) => dispatch({ type: "replaceId", tempId, realId });
-    const removeUpload = (id: string) => dispatch({ type: "remove", id });
+    const addOptimistic = (upload: OptimisticUpload) => dispatch({ type: "addOptimistic", upload });
+    const confirmUpload = (clientId: string, tusId: string) => dispatch({ type: "confirmUpload", clientId, tusId });
+    const removeUpload = (clientId: string) => dispatch({ type: "remove", clientId });
 
-    return { state, resetState, addOptimistic, replaceId, removeUpload };
+    return { state, resetState, addOptimistic, confirmUpload, removeUpload };
 };

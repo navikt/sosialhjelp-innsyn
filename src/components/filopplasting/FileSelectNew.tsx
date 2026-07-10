@@ -6,7 +6,7 @@ import { FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
 import { ReactNode, useState } from "react";
 import { getTusUploader } from "@components/filopplasting/utils/tusUploader";
-import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
+import { ConfirmedUpload, DocumentState, OptimisticUpload } from "@components/filopplasting/api/useDocumentState";
 
 import FileUploadItem from "./FileUploadItem";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
@@ -24,9 +24,9 @@ interface Props {
     isPending?: boolean;
     docState: DocumentState;
     uploadId: string;
-    addOptimistic: (upload: UploadState) => void;
-    replaceId: (tempId: string, realId: string) => void;
-    removeUpload: (id: string) => void;
+    addOptimistic: (upload: OptimisticUpload) => void;
+    confirmUpload: (clientId: string, tusId: string) => void;
+    removeUpload: (clientId: string) => void;
     onSelect?: (files: FileObject[]) => void;
     variant?: "normal" | "warning";
 }
@@ -46,7 +46,7 @@ const FileSelectNew = ({
     onSelect,
     isPending,
     addOptimistic,
-    replaceId,
+    confirmUpload,
     removeUpload,
 }: Props) => {
     const t = useTranslations("Opplastingsboks");
@@ -81,9 +81,10 @@ const FileSelectNew = ({
         oppdaterSkjermleserBeskjed(t("filLagtTil", { count: valid.length }));
         onSelect?.(valid);
         const uploaders = valid.map((file: FileObject) => {
-            const tempId = crypto.randomUUID();
+            const clientId = crypto.randomUUID();
             addOptimistic({
-                id: tempId,
+                kind: "optimistic",
+                clientId,
                 originalFilename: file.file.name,
                 size: file.file.size,
                 status: "PENDING",
@@ -92,10 +93,10 @@ const FileSelectNew = ({
                 id: uploadId,
                 file,
                 fiksDigisosId,
-                onError: () => removeUpload(tempId),
+                onError: () => removeUpload(clientId),
                 onUploadUrlAvailable() {
                     const tusId = uploader.url!.split("/").at(-1)!;
-                    replaceId(tempId, tusId);
+                    confirmUpload(clientId, tusId);
                 },
             });
             return uploader;
@@ -103,7 +104,8 @@ const FileSelectNew = ({
         uploaders.forEach((upload) => upload.start());
     };
     const converted = docState.uploads?.some(
-        (upload) => !!upload.finalFilename && upload.finalFilename !== upload.originalFilename
+        (upload): upload is ConfirmedUpload =>
+            upload.kind === "confirmed" && !!upload.finalFilename && upload.finalFilename !== upload.originalFilename
     );
 
     return (
@@ -171,16 +173,16 @@ const FileSelectNew = ({
                         <VStack as="ul" gap="space-8">
                             {docState.uploads?.map((upload) => (
                                 <FileUploadItem
-                                    key={upload.id}
+                                    key={upload.kind === "optimistic" ? upload.clientId : upload.id}
                                     url={
-                                        upload.url
+                                        upload.kind === "confirmed" && upload.url
                                             ? `${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`
                                             : undefined
                                     }
-                                    uploadId={upload.id}
-                                    convertedFilename={upload.finalFilename}
+                                    uploadId={upload.kind === "confirmed" ? upload.id : upload.clientId}
+                                    convertedFilename={upload.kind === "confirmed" ? upload.finalFilename : undefined}
                                     originalFilename={upload.originalFilename}
-                                    validations={upload.validations}
+                                    validations={upload.kind === "confirmed" ? upload.validations : undefined}
                                     status={upload.status}
                                     size={upload.size}
                                     showCancelButton={

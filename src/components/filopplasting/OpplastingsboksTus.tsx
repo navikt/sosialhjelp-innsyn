@@ -32,7 +32,13 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
     const { data: oppgaveVedlegg } = useGetVedleggForOppgave(fiksDigisosId, metadata.hendelsereferanse!, {
         query: { enabled: !!metadata.hendelsereferanse },
     });
-    const { state: docState, resetState, addOptimistic, replaceId, removeUpload } = useDocumentState(uploadContextId);
+    const {
+        state: docState,
+        resetState,
+        addOptimistic,
+        confirmUpload,
+        removeUpload,
+    } = useDocumentState(uploadContextId);
     const opplastingId = useRef<string | null>(null);
     const {
         upload,
@@ -100,7 +106,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
                 docState={docState}
                 uploadId={uploadContextId}
                 addOptimistic={addOptimistic}
-                replaceId={replaceId}
+                confirmUpload={confirmUpload}
                 removeUpload={removeUpload}
                 onSelect={(files) => {
                     resetMutation();
@@ -139,7 +145,10 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
                     className="self-start"
                     disabled={
                         isPending ||
-                        docState.uploads?.some((upload) => (upload.validations?.length ?? 0) > 0 || !upload.filId) ||
+                        docState.uploads?.some(
+                            (upload) =>
+                                upload.kind === "optimistic" || (upload.validations?.length ?? 0) > 0 || !upload.filId
+                        ) ||
                         (docState.validations?.length ?? 0) > 0
                     }
                     icon={<PaperplaneIcon />}
