@@ -3,7 +3,7 @@
 import { forwardRef, Ref } from "react";
 import OpplastingsboksOld from "@components/filopplasting/OpplastingsboksOld";
 import OpplastingsboksTus from "@components/filopplasting/OpplastingsboksTus";
-import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
+import { useVisningstekster } from "@hooks/useVisningstekster";
 import { Metadata } from "@components/filopplasting/types";
 import { OppgaveResponseBeta } from "@generated/model";
 import TaskListItem from "../tasklistitem/TaskListItem";
@@ -32,6 +32,7 @@ const OppgaveItem = ({ oppgave }: Props, ref: Ref<HTMLLIElement>) => {
         : `${fiksDigisosId}-${oppgave.dokumenttype ?? ""}-${oppgave.tilleggsinformasjon ?? ""}`;
     const contextId = useContextId(rawContextId);
 
+    const getVisningstekster = useVisningstekster();
     const { typeTekst, tilleggsinfoTekst } = getVisningstekster(oppgave.dokumenttype, oppgave.tilleggsinformasjon);
     const metadata: Metadata = {
         dokumentKontekst: "dokumentasjonetterspurt",
