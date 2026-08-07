@@ -6,7 +6,7 @@ import { FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
 import { ReactNode, useState } from "react";
 import { getTusUploader } from "@components/filopplasting/utils/tusUploader";
-import { DocumentState } from "@components/filopplasting/api/useDocumentState";
+import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
 
 import FileUploadItem from "./FileUploadItem";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
@@ -25,6 +25,8 @@ interface Props {
     docState: DocumentState;
     uploadId: string;
     onSelect?: (files: FileObject[]) => void;
+    onUploadsAdded: (uploads: UploadState[]) => void;
+    onUploadRemoved: (correlationId: string) => void;
     variant?: "normal" | "warning";
 }
 
@@ -41,6 +43,8 @@ const FileSelectNew = ({
     uploadId,
     variant,
     onSelect,
+    onUploadsAdded,
+    onUploadRemoved,
     isPending,
 }: Props) => {
     const t = useTranslations("Opplastingsboks");
@@ -74,14 +78,25 @@ const FileSelectNew = ({
         if (valid.length === 0) return;
         oppdaterSkjermleserBeskjed(t("filLagtTil", { count: valid.length }));
         onSelect?.(valid);
-        const uploads = valid.map((file: FileObject) =>
-            getTusUploader({
+
+        const optimisticUploads: UploadState[] = valid.map((file: FileObject) => {
+            const correlationId = crypto.randomUUID();
+            const upload = getTusUploader({
                 id: uploadId,
                 file,
                 fiksDigisosId,
-            })
-        );
-        uploads.forEach((upload) => upload.start());
+                correlationId,
+            });
+            upload.start();
+            return {
+                id: correlationId,
+                correlationId,
+                originalFilename: file.file.name,
+                size: file.file.size,
+                status: "PENDING" as const,
+            };
+        });
+        onUploadsAdded(optimisticUploads);
     };
     const converted = docState.uploads?.some(
         (upload) => !!upload.finalFilename && upload.finalFilename !== upload.originalFilename
@@ -169,11 +184,14 @@ const FileSelectNew = ({
                                         (upload.status === "PENDING" || upload.status === "PROCESSING")
                                     }
                                     deleteDisabled={isPending}
-                                    onTerminate={() =>
+                                    onTerminate={() => {
+                                        if (upload.correlationId) {
+                                            onUploadRemoved(upload.correlationId);
+                                        }
                                         oppdaterSkjermleserBeskjed(
                                             t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 })
-                                        )
-                                    }
+                                        );
+                                    }}
                                 />
                             ))}
                         </VStack>
