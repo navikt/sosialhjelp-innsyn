@@ -32,7 +32,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
     const { data: oppgaveVedlegg } = useGetVedleggForOppgave(fiksDigisosId, metadata.hendelsereferanse!, {
         query: { enabled: !!metadata.hendelsereferanse },
     });
-    const { state: docState, resetState } = useDocumentState(uploadContextId);
+    const { state: docState, resetState, addUploads, removeUpload } = useDocumentState(uploadContextId);
     const opplastingId = useRef<string | null>(null);
     const {
         upload,
@@ -112,6 +112,8 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
                         });
                     }
                 }}
+                onUploadsAdded={addUploads}
+                onUploadRemoved={removeUpload}
                 variant={variant}
                 isPending={isPending}
             />
