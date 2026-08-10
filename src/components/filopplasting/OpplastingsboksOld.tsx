@@ -13,7 +13,6 @@ import { errorStatusToMessage } from "@components/filopplasting/utils/mapErrors"
 import VedleggListe from "@components/filopplasting/VedleggListe";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
 import { allowedFileTypesLegacy } from "@components/filopplasting/consts";
-import { umamiTrack } from "../../app/umami";
 import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 
 interface Props {
@@ -33,7 +32,6 @@ const OpplastingsboksOld = ({ metadata, label, labelText, description, tag, comp
         query: { enabled: !!metadata.hendelsereferanse },
     });
     const { addFiler, files, removeFil, outerErrors, reset: resetFilOpplastningData } = useFiles();
-    const opplastingId = useRef<string | null>(null);
     const {
         upload,
         resetMutation,
@@ -42,16 +40,6 @@ const OpplastingsboksOld = ({ metadata, label, labelText, description, tag, comp
         isUploadSuccess,
         feedbackRef,
     } = useSendVedleggHelper(fiksDigisosId, () => {
-        if (opplastingId.current) {
-            umamiTrack("opplasting fullført", {
-                uploadVariant: "legacy",
-                dokumentKontekst: metadata.dokumentKontekst,
-                digisosId: fiksDigisosId,
-                opplastingId: opplastingId.current,
-                antallDokumenter: files.length,
-            });
-            opplastingId.current = null;
-        }
         resetFilOpplastningData();
     });
     const liveRegionRef = useRef<HTMLDivElement>(null);
@@ -71,22 +59,6 @@ const OpplastingsboksOld = ({ metadata, label, labelText, description, tag, comp
     }, [isUploadSuccess]);
 
     const onFilesSelect = (newFiles: FileObject[]) => {
-        if (files.length === 0) {
-            opplastingId.current = crypto.randomUUID();
-            umamiTrack("opplasting startet", {
-                uploadVariant: "legacy",
-                dokumentKontekst: metadata.dokumentKontekst,
-                digisosId: fiksDigisosId,
-                opplastingId: opplastingId.current,
-                antallDokumenter: newFiles.length,
-            });
-        }
-        umamiTrack("knapp klikket", {
-            tekst: "Last opp",
-            antallDokumenter: newFiles.length,
-            dokumentKontekst: metadata.dokumentKontekst,
-            digisosId: fiksDigisosId,
-        });
         addFiler(newFiles.map((it) => it.file));
         resetMutation();
     };
@@ -191,12 +163,6 @@ const OpplastingsboksOld = ({ metadata, label, labelText, description, tag, comp
                         <Button
                             disabled={isPending || Object.values(files).flat().length === 0}
                             onClick={() => {
-                                umamiTrack("knapp klikket", {
-                                    tekst: "Send dokumentasjon",
-                                    antallDokumenter: files.length,
-                                    dokumentKontekst: metadata.dokumentKontekst,
-                                    digisosId: fiksDigisosId,
-                                });
                                 upload(files, metadata);
                             }}
                             loading={isPending}
