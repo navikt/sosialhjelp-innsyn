@@ -1,5 +1,3 @@
-import { VedleggOpplastingResponseStatus } from "@generated/model";
-
 import { Feil } from "../types";
 
 export const errorStatusToMessage: Record<Feil, string> = {
@@ -15,18 +13,3 @@ export const errorStatusToMessage: Record<Feil, string> = {
     [Feil.VIRUS]: "feil.opplasting_backend_virus_feilmelding",
     [Feil.TOO_MANY_FILES]: "feil.opplasting_feilmelding_TOO_MANY_FILES",
 };
-
-export function determineErrorType(status: VedleggOpplastingResponseStatus): Feil | undefined {
-    switch (status) {
-        case "ILLEGAL_FILE_TYPE":
-            return Feil.ILLEGAL_FILE_TYPE;
-        case "COULD_NOT_LOAD_DOCUMENT":
-            return Feil.KLIENTFEIL;
-        case "PDF_IS_ENCRYPTED":
-            return Feil.PDF_ENCRYPTED;
-        case "FILE_TOO_LARGE":
-            return Feil.FILE_TOO_LARGE;
-        case "ILLEGAL_FILENAME":
-            return Feil.ILLEGAL_FILE_NAME;
-    }
-}
