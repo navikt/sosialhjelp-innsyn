@@ -1,10 +1,8 @@
 "use client";
 
 import { Heading, VStack, Box } from "@navikt/ds-react";
-import { NavigationGuardProvider } from "next-navigation-guard";
 import { useTranslations } from "next-intl";
 import OpplastingsboksTus from "@components/filopplasting/OpplastingsboksTus";
-import OpplastingsboksOld from "@components/filopplasting/OpplastingsboksOld";
 import { Metadata } from "@components/filopplasting/types";
 import { useHentVedleggSuspense } from "@generated/vedlegg-controller/vedlegg-controller";
 import useIsMobile from "@utils/useIsMobile";
@@ -14,7 +12,6 @@ import { useHentOriginalSoknadSuspense } from "@generated/soknads-status-control
 import { useHentSaksStatuserSuspense } from "@generated/saks-status-controller/saks-status-controller";
 import { SoknadsStatusResponseStatus } from "@generated/model";
 import TipsReadMore from "../TipsReadMore";
-import useNewUploadEnabled from "@components/filopplasting/utils/useNewUploadEnabled";
 
 const metadata = { dokumentKontekst: "ettersendelse", type: "annet", tilleggsinfo: "annet" } satisfies Metadata;
 
@@ -36,7 +33,6 @@ const Filopplasting = ({ id, soknadStatus }: Props) => {
 
     const showUpload = !enSakIkkeInnsyn && !behandlesIkke;
 
-    const newUploadEnabled = useNewUploadEnabled();
     return (
         <VStack gap="space-8">
             <Heading size="medium" level="2">
@@ -53,17 +49,11 @@ const Filopplasting = ({ id, soknadStatus }: Props) => {
                 <VStack gap="space-40">
                     {showUpload && (
                         <VStack gap={isMobile ? "space-16" : "space-40"}>
-                            {newUploadEnabled ? (
-                                <OpplastingsboksTus
-                                    metadata={metadata}
-                                    uploadContextId={id}
-                                    description={t("beskrivelse")}
-                                />
-                            ) : (
-                                <NavigationGuardProvider>
-                                    <OpplastingsboksOld metadata={metadata} />
-                                </NavigationGuardProvider>
-                            )}
+                            <OpplastingsboksTus
+                                metadata={metadata}
+                                uploadContextId={id}
+                                description={t("beskrivelse")}
+                            />
                         </VStack>
                     )}
                     {(vedlegg.length > 0 || originalSoknad) && (

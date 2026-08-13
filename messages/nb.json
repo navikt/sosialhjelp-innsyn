@@ -86,7 +86,7 @@
         "vilkar": {
             "title": "Du har fått vilkår",
             "titleEmpty": "Du kan ha fått vilkår",
-            "descriptionEmpty": "Som en del av oppfølgingen din fra Nav kan du ha fått vilkår. Vilkår er aktiviteter eller dokumentasjonskrav du må oppfylle. <lenke>Les vedtaksbrevet ditt</lenke> for å se om du har fått vilkår.",
+            "descriptionEmpty": "Som en del av oppfølgingen din fra Nav kan du ha fått vilkår. Vilkår er aktiviteter eller dokumentasjonskrav du må oppfylle. Les vedtaksbrevet ditt for å se om du har fått vilkår.",
             "description": "Som en del av oppfølgingen din fra Nav har du fått vilkår (aktiviteter) du må oppfylle:",
             "vilkar": "<bold>{name}</bold> ({frist, date, ::ddMMyyyy})",
             "kanHaFlere": "Du kan ha fått flere vilkår enn de som vises her. <lenke>Les vedtaksbrevet ditt</lenke> for å se om du har fått flere vilkår."
@@ -622,5 +622,139 @@
     "SoknadsoppgaverSection": {
         "title": "Vi mangler noe dokumentasjon til søknaden din",
         "suffix": "oppgaver"
+    },
+    "VedleggskravVisning": {
+        "LONNSLIPP_ARBEID": {
+            "tittel": "Lønnslipp",
+            "tilleggsinfo": "Oversikt over lønn for siste måned"
+        },
+        "SLUTTOPPGJOR_ARBEID": {
+            "tittel": "Sluttoppgjør",
+            "tilleggsinfo": "Kopi av sluttoppgjør for arbeidsforholdet"
+        },
+        "STUDENT_VEDTAK": {
+            "tittel": "Vedtak fra Lånekassen",
+            "tilleggsinfo": "Kopi av vedtak fra Lånekassen"
+        },
+        "BARNEBIDRAG_BETALER": {
+            "tittel": "Barnebidrag",
+            "tilleggsinfo": "Dokumentasjon på betalt barnebidrag"
+        },
+        "BARNEBIDRAG_MOTTAR": {
+            "tittel": "Barnebidrag",
+            "tilleggsinfo": "Dokumentasjon på mottatt barnebidrag"
+        },
+        "SAMVARSAVTALE_BARN": {
+            "tittel": "Samværsavtale eller avtale om delt bosted",
+            "tilleggsinfo": "Dokumentasjon på samværsavtale eller avtale om delt bosted for barn"
+        },
+        "HUSLEIEKONTRAKT_HUSLEIEKONTRAKT": {
+            "tittel": "Husleiekontrakt",
+            "tilleggsinfo": "Kopi av gyldig husleiekontrakt"
+        },
+        "HUSLEIEKONTRAKT_KOMMUNAL": {
+            "tittel": "Husleiekontrakt",
+            "tilleggsinfo": "Kopi av gyldig husleiekontrakt for kommunal bolig"
+        },
+        "BOSTOTTE_VEDTAK": {
+            "tittel": "Vedtak statlig bostøtte",
+            "tilleggsinfo": "Kopi av vedtak for statlig bostøtte fra Husbanken for de siste 3 måneder"
+        },
+        "KONTOOVERSIKT_BRUKSKONTO": {
+            "tittel": "Saldo på brukskonto",
+            "tilleggsinfo": "Dokumentasjon av saldo på din/dine brukskonto(er)"
+        },
+        "KONTOOVERSIKT_BSU": {
+            "tittel": "Saldo på BSU",
+            "tilleggsinfo": "Dokumentasjon av saldo på BSU (Boligsparing for ungdom)"
+        },
+        "KONTOOVERSIKT_SPAREKONTO": {
+            "tittel": "Saldo på sparekonto",
+            "tilleggsinfo": "Dokumentasjon av saldo på din/dine sparekonto(er)"
+        },
+        "KONTOOVERSIKT_LIVSFORSIKRING": {
+            "tittel": "Livsforsikring",
+            "tilleggsinfo": "Dokumentasjon på din livsforsikring"
+        },
+        "KONTOOVERSIKT_AKSJER": {
+            "tittel": "Saldo på aksjesparekonto / VPS-konto",
+            "tilleggsinfo": "Dokumentasjon av saldo på aksjesparekonto/VPS-konto"
+        },
+        "KONTOOVERSIKT_ANNET": {
+            "tittel": "Andre bankinnskudd eller sparing",
+            "tilleggsinfo": "Dokumentasjon på andre bankinnskudd eller sparing"
+        },
+        "DOKUMENTASJON_UTBYTTE": {
+            "tittel": "Utbytte",
+            "tilleggsinfo": "Dokumentasjon på utbytte"
+        },
+        "SALGSOPPGJOR_EIENDOM": {
+            "tittel": "Salgsoppgjør fra boligsalg",
+            "tilleggsinfo": "Dokumentasjon på salgsoppgjør etter salg av bolig/eiendom"
+        },
+        "DOKUMENTASJON_FORSIKRINGSUTBETALING": {
+            "tittel": "Forsikringsutbetaling",
+            "tilleggsinfo": "Dokumentasjon på forsikringsutbetaling du har opplyst at du har mottatt"
+        },
+        "DOKUMENTASJON_ANNETINNTEKTER": {
+            "tittel": "Andre utbetalinger",
+            "tilleggsinfo": "Dokumentasjon på andre utbetalinger du har opplyst at du har mottatt"
+        },
+        "FAKTURA_HUSLEIE": {
+            "tittel": "Utgifter til husleie",
+            "tilleggsinfo": "Kopi av kvittering eller faktura for husleie"
+        },
+        "FAKTURA_STROM": {
+            "tittel": "Utgifter til strøm",
+            "tilleggsinfo": "Kopi av kvittering eller faktura for strøm"
+        },
+        "FAKTURA_KOMMUNALEAVGIFTER": {
+            "tittel": "Utgifter til kommunale avgifter",
+            "tilleggsinfo": "Kopi av kvittering eller faktura for kommunale avgifter"
+        },
+        "FAKTURA_OPPVARMING": {
+            "tittel": "Utgifter til oppvarming",
+            "tilleggsinfo": "Kopi av kvittering eller faktura for oppvarming"
+        },
+        "NEDBETALINGSPLAN_AVDRAGLAAN": {
+            "tittel": "Nedbetalingsplan for boliglån",
+            "tilleggsinfo": "Oversikt over nedbetaling av avdrag og renter for ditt boliglån"
+        },
+        "DOKUMENTASJON_ANNETBOUTGIFT": {
+            "tittel": "Andre boutgifter",
+            "tilleggsinfo": "Dokumentasjon på andre boutgifter"
+        },
+        "FAKTURA_FRITIDSAKTIVITET": {
+            "tittel": "Utgifter til fritidsaktivitet",
+            "tilleggsinfo": "Kopi av kvittering eller faktura for fritidsaktivitet"
+        },
+        "FAKTURA_BARNEHAGE": {
+            "tittel": "Utgifter til barnehage",
+            "tilleggsinfo": "Kopi av kvittering eller faktura for barnehage"
+        },
+        "FAKTURA_SFO": {
+            "tittel": "Utgifter til SFO",
+            "tilleggsinfo": "Kopi av kvittering eller faktura for SFO (skolefritidsordning)"
+        },
+        "FAKTURA_TANNBEHANDLING": {
+            "tittel": "Utgifter til tannregulering",
+            "tilleggsinfo": "Kopi av kvittering eller faktura for tannregulering"
+        },
+        "FAKTURA_ANNETBARNUTGIFT": {
+            "tittel": "Andre utgifter til barn",
+            "tilleggsinfo": "Dokumentasjon på andre utgifter du har til barn"
+        },
+        "SKATTEMELDING_SKATTEMELDING": {
+            "tittel": "Skattemelding og skatteoppgjør",
+            "tilleggsinfo": "Kopi av siste tilgjengelige skattemelding og skatteoppgjør"
+        },
+        "OPPHOLDSTILLATEL_OPPHOLDSTILLATEL": {
+            "tittel": "Registreringsbevis eller oppholdstillatelse",
+            "tilleggsinfo": "Kopi av ditt registreringsbevis eller din oppholdstillatelse"
+        },
+        "ANNET_ANNET": {
+            "tittel": "Annen dokumentasjon",
+            "tilleggsinfo": ""
+        }
     }
 }

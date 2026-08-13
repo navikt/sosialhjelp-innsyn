@@ -9,7 +9,7 @@ import { OppgaveVedleggFil } from "@generated/model/oppgaveVedleggFil";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import useIsMobile from "@utils/useIsMobile";
 import ExpandableList from "@components/showmore/ExpandableList";
-import { getVisningstekster } from "@utils/getVisningsteksterForVedlegg";
+import { useVisningstekster } from "@hooks/useVisningstekster";
 
 interface Props {
     vedlegg: (VedleggResponse | OppgaveVedleggFil)[];
@@ -20,6 +20,7 @@ interface Props {
 
 const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveBeskrivelse }: Props) => {
     const t = useTranslations("VedleggListe");
+    const getVisningstekster = useVisningstekster();
 
     const originalSoknadErSkjult = originalSoknad?.skjult ?? false;
 

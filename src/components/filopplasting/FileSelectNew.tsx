@@ -6,7 +6,7 @@ import { FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
 import { ReactNode, useState } from "react";
 import { getTusUploader } from "@components/filopplasting/utils/tusUploader";
-import { DocumentState } from "@components/filopplasting/api/useDocumentState";
+import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
 
 import FileUploadItem from "./FileUploadItem";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
@@ -25,10 +25,13 @@ interface Props {
     docState: DocumentState;
     uploadId: string;
     onSelect?: (files: FileObject[]) => void;
-    onFilesSelected?: (count: number) => void;
-    onFileDeleted?: () => void;
+    onUploadsAdded: (uploads: UploadState[]) => void;
+    onUploadRemoved: (correlationId: string) => void;
     variant?: "normal" | "warning";
 }
+
+const liveRegionIndexes = [0, 1] as const;
+type LiveRegionIndex = (typeof liveRegionIndexes)[number];
 
 const FileSelectNew = ({
     label,
@@ -40,9 +43,9 @@ const FileSelectNew = ({
     uploadId,
     variant,
     onSelect,
+    onUploadsAdded,
+    onUploadRemoved,
     isPending,
-    onFilesSelected,
-    onFileDeleted,
 }: Props) => {
     const t = useTranslations("Opplastingsboks");
     const { id: fiksDigisosId } = useParams<{ id: string }>();
@@ -50,8 +53,21 @@ const FileSelectNew = ({
     const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
 
     const [folderDropError, setFolderDropError] = useState(false);
+    const [skjermleserBeskjed, setSkjermleserBeskjed] = useState<{ text: string; activeRegion: LiveRegionIndex }>({
+        text: "",
+        activeRegion: 0,
+    });
 
     const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
+
+    // Bytter mellom to live-regioner slik at samme beskjed kan kunngjøres flere ganger på rad.
+    // Skjermlesere leser ikke alltid opp en aria-live-region hvis tekstinnholdet er likt som sist.
+    const oppdaterSkjermleserBeskjed = (text: string) => {
+        setSkjermleserBeskjed(({ activeRegion }) => ({
+            text,
+            activeRegion: activeRegion === 0 ? 1 : 0,
+        }));
+    };
 
     // Starter opplasting umiddelbart ved filvalg
     const _onSelect = (files: FileObject[]) => {
@@ -60,16 +76,27 @@ const FileSelectNew = ({
         setFolderDropError(folders.length > 0);
 
         if (valid.length === 0) return;
-        onFilesSelected?.(valid.length);
+        oppdaterSkjermleserBeskjed(t("filLagtTil", { count: valid.length }));
         onSelect?.(valid);
-        const uploads = valid.map((file: FileObject) =>
-            getTusUploader({
+
+        const optimisticUploads: UploadState[] = valid.map((file: FileObject) => {
+            const correlationId = crypto.randomUUID();
+            const upload = getTusUploader({
                 id: uploadId,
                 file,
                 fiksDigisosId,
-            })
-        );
-        uploads.forEach((upload) => upload.start());
+                correlationId,
+            });
+            upload.start();
+            return {
+                id: correlationId,
+                correlationId,
+                originalFilename: file.file.name,
+                size: file.file.size,
+                status: "PENDING" as const,
+            };
+        });
+        onUploadsAdded(optimisticUploads);
     };
     const converted = docState.uploads?.some(
         (upload) => !!upload.finalFilename && upload.finalFilename !== upload.originalFilename
@@ -90,6 +117,11 @@ const FileSelectNew = ({
                 },
             }}
         >
+            {liveRegionIndexes.map((index) => (
+                <div key={index} role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+                    {skjermleserBeskjed.activeRegion === index ? skjermleserBeskjed.text : ""}
+                </div>
+            ))}
             <VStack gap="space-24">
                 <FileSelectUpload
                     label={label ?? t("tittel")}
@@ -152,7 +184,14 @@ const FileSelectNew = ({
                                         (upload.status === "PENDING" || upload.status === "PROCESSING")
                                     }
                                     deleteDisabled={isPending}
-                                    onTerminate={() => onFileDeleted?.()}
+                                    onTerminate={() => {
+                                        if (upload.correlationId) {
+                                            onUploadRemoved(upload.correlationId);
+                                        }
+                                        oppdaterSkjermleserBeskjed(
+                                            t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 })
+                                        );
+                                    }}
                                 />
                             ))}
                         </VStack>

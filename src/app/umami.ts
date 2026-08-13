@@ -1,5 +1,9 @@
-import { logAnalyticsEvent } from "@navikt/nav-dekoratoren-moduler";
+import { logAnalyticsCustomEvent } from "@navikt/nav-dekoratoren-moduler";
 
-export function umamiTrack(eventName: string, data?: Record<string, unknown>) {
-    return logAnalyticsEvent({ eventName, origin: "sosialhjelp-innsyn", eventData: data });
+/**
+ * Logger custom events som ikke har en standardtype i @navikt/analytics-types.
+ * Bruk logAnalyticsEvent() med Events fra @navikt/nav-dekoratoren-moduler der det finnes en passende type.
+ */
+export function umamiCustomTrack(eventName: string, data?: Record<string, unknown>) {
+    return logAnalyticsCustomEvent({ eventName, origin: "sosialhjelp-innsyn", eventData: data });
 }

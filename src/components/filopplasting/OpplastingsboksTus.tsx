@@ -13,7 +13,7 @@ import VedleggListe from "@components/filopplasting/VedleggListe";
 import useIsMobile from "@utils/useIsMobile";
 import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 import { PaperplaneIcon, XMarkIcon } from "@navikt/aksel-icons";
-import { umamiTrack } from "../../app/umami";
+import { umamiCustomTrack } from "../../app/umami";
 
 interface Props {
     metadata: Metadata;
@@ -32,7 +32,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
     const { data: oppgaveVedlegg } = useGetVedleggForOppgave(fiksDigisosId, metadata.hendelsereferanse!, {
         query: { enabled: !!metadata.hendelsereferanse },
     });
-    const { state: docState, resetState } = useDocumentState(uploadContextId);
+    const { state: docState, resetState, addUploads, removeUpload } = useDocumentState(uploadContextId);
     const opplastingId = useRef<string | null>(null);
 
     // To alternerende live-regioner med 200ms delay for å  løse to separate problemer:
@@ -70,7 +70,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
             innsendelsesfrist: "",
         },
         async () => {
-            umamiTrack("opplasting fullført", {
+            umamiCustomTrack("opplasting fullført", {
                 uploadVariant: "tus",
                 dokumentKontekst: metadata.dokumentKontekst,
                 digisosId: fiksDigisosId,
@@ -137,7 +137,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
                     resetMutation();
                     if (!opplastingId.current) {
                         opplastingId.current = crypto.randomUUID();
-                        umamiTrack("opplasting startet", {
+                        umamiCustomTrack("opplasting startet", {
                             uploadVariant: "tus",
                             dokumentKontekst: metadata.dokumentKontekst,
                             digisosId: fiksDigisosId,
@@ -146,6 +146,8 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
                         });
                     }
                 }}
+                onUploadsAdded={addUploads}
+                onUploadRemoved={removeUpload}
                 variant={variant}
                 isPending={isPending}
             />

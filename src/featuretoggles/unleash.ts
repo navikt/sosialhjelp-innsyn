@@ -52,7 +52,7 @@ export async function getToggles(): Promise<IToggle[]> {
         unleashLogger.debug("Running in e2e mode");
         return EXPECTED_TOGGLES.map((it) => ({
             name: it,
-            enabled: it !== "sosialhjelp.innsyn.ny_upload",
+            enabled: true,
             impressionData: false,
             variant: {
                 name: "disabled",
@@ -74,18 +74,16 @@ export async function getToggles(): Promise<IToggle[]> {
         unleashLogger.error(
             new Error("Failed to get flags from Unleash. Falling back to default flags.", { cause: e })
         );
-        return EXPECTED_TOGGLES.map(
-            (it): IToggle => ({
-                name: it,
-                variant: {
-                    name: "default",
-                    // Default to on if failed
-                    enabled: true,
-                },
-                impressionData: false,
-                enabled: false,
-            })
-        );
+        return EXPECTED_TOGGLES.map((it): IToggle => ({
+            name: it,
+            variant: {
+                name: "default",
+                // Default to on if failed
+                enabled: true,
+            },
+            impressionData: false,
+            enabled: false,
+        }));
     }
 }
 
