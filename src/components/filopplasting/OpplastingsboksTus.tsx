@@ -3,12 +3,16 @@
 import { useTranslations } from "next-intl";
 import { Alert, BodyLong, Button, Heading, HStack, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
-import { ReactNode, useRef } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { Metadata } from "@components/filopplasting/types";
 import { useDocumentState } from "@components/filopplasting/api/useDocumentState";
 import useSendVedleggHelperTus from "@components/filopplasting/api/useSendVedleggHelperTus";
 import FileSelectNew from "@components/filopplasting/FileSelectNew";
+import UploadAnnouncements, {
+    UploadAnnouncement,
+    UploadAnnouncementEvent,
+} from "@components/filopplasting/UploadAnnouncements";
 import VedleggListe from "@components/filopplasting/VedleggListe";
 import useIsMobile from "@utils/useIsMobile";
 import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
@@ -34,6 +38,29 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
     });
     const { state: docState, resetState, addUploads, removeUpload } = useDocumentState(uploadContextId);
     const opplastingId = useRef<string | null>(null);
+
+    // --- Skjermleser-kunngjøringer ---
+    // announce() bruker 400ms delay for å unngå konflikt med fokusretur etter native
+    // filvelger-dialog lukkes. Uten delay dropper VoiceOver + Firefox live-region-mutasjoner
+    // fordi fokusretur og live-region-oppdatering skjer samtidig.
+    // key-mønsteret i UploadAnnouncements sikrer at identisk tekst to ganger på rad
+    // alltid leses opp (ny DOM-node, ikke bare tekstendring).
+    const [announcement, setAnnouncement] = useState<UploadAnnouncement | undefined>();
+    const announcementIdRef = useRef(0);
+    const announceTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+    useEffect(() => {
+        return () => clearTimeout(announceTimerRef.current);
+    }, []);
+
+    const announce = (event: UploadAnnouncementEvent, delay = 400) => {
+        clearTimeout(announceTimerRef.current);
+        announceTimerRef.current = setTimeout(() => {
+            announcementIdRef.current += 1;
+            setAnnouncement({ id: announcementIdRef.current, ...event });
+        }, delay);
+    };
+    // ---
 
     const {
         upload,
@@ -94,12 +121,19 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
 
     return (
         <VStack gap="space-8">
+            <UploadAnnouncements announcement={announcement} />
             <FileSelectNew
                 label={label}
                 description={description}
                 tag={tag}
                 docState={docState}
                 uploadId={uploadContextId}
+                onFilesSelected={(count) => {
+                    announce({ type: "files-selected", count });
+                }}
+                onFileDeleted={(remainingCount) => {
+                    announce({ type: "file-deleted", remainingCount }, 0);
+                }}
                 onSelect={(files) => {
                     resetMutation();
                     if (!opplastingId.current) {
