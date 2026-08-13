@@ -25,6 +25,8 @@ interface Props {
     docState: DocumentState;
     uploadId: string;
     onSelect?: (files: FileObject[]) => void;
+    onFilesSelected?: (count: number) => void;
+    onFileDeleted?: () => void;
     onUploadsAdded: (uploads: UploadState[]) => void;
     onUploadRemoved: (correlationId: string) => void;
     variant?: "normal" | "warning";
