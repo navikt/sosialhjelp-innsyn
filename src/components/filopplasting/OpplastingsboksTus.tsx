@@ -44,7 +44,8 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
     // 3. Etter ytterligere 50ms: sett inn faktisk tekst (fyll regionen).
     // Tøm+fyll sikrer at identisk tekst to ganger på rad alltid registreres
     // som en ny DOM-mutasjon av skjermleseren.
-    const [liveMessage, setLiveMessage] = useState("");
+    const [liveMessage, setLiveMessage] = useState<{ id: number; text: string }>({ id: 0, text: "" });
+    const announceCounterRef = useRef(0);
     const announceTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
     const fillTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
@@ -59,9 +60,11 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
         clearTimeout(announceTimerRef.current);
         clearTimeout(fillTimerRef.current);
         announceTimerRef.current = setTimeout(() => {
-            setLiveMessage("");
+            announceCounterRef.current += 1;
+            const id = announceCounterRef.current;
+            setLiveMessage({ id, text: "" });
             fillTimerRef.current = setTimeout(() => {
-                setLiveMessage(message);
+                setLiveMessage({ id, text: message });
             }, 50);
         }, delay);
     };
@@ -126,7 +129,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
 
     return (
         <VStack gap="space-8">
-            <UploadAnnouncements message={liveMessage} />
+            <UploadAnnouncements message={liveMessage.text} />
             <FileSelectNew
                 label={label}
                 description={description}
