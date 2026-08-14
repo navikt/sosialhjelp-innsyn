@@ -43,8 +43,9 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
     // announce() bruker 400ms delay for å unngå konflikt med fokusretur etter native
     // filvelger-dialog lukkes. Uten delay dropper VoiceOver + Firefox live-region-mutasjoner
     // fordi fokusretur og live-region-oppdatering skjer samtidig.
-    // key-mønsteret i UploadAnnouncements sikrer at identisk tekst to ganger på rad
-    // alltid leses opp (ny DOM-node, ikke bare tekstendring).
+    // UploadAnnouncements bruker key på selve live-region-containeren slik at React
+    // lager en helt ny <div> i DOM ved hver hendelse. Dette er nødvendig for Firefox +
+    // VoiceOver som ikke leser opp injeksjoner i eksisterende live-regioner.
     const [announcement, setAnnouncement] = useState<UploadAnnouncement | undefined>();
     const announcementIdRef = useRef(0);
     const announceTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);

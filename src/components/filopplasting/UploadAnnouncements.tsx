@@ -14,21 +14,22 @@ interface Props {
 }
 
 /**
- * Rendrer en skjult aria-live-region for upload-hendelser.
+ * Kunngjør upload-hendelser til skjermlesere via en aria-live-region.
  *
- * Bruker `key={announcement?.id}` på <span>-elementet slik at React alltid
- * lager en ny DOM-node ved hver hendelse — ikke bare oppdaterer tekstinnholdet.
- * Dette gjør at identisk tekst (f.eks. "1 fil lagt til" to ganger på rad)
- * fortsatt registreres som en ny DOM-mutasjon av skjermleseren.
- *
- * Én enkelt live-region er mer forutsigbar enn to alternerende regioner,
- * særlig for JAWS og NVDA som kan oppfatte to regioner som to separate hendelser.
+ * Bruker `key={announcement?.id}` på selve live-region-containeren (<div>),
+ * ikke på innholdet inni. Dette gjør at React fjerner den gamle containeren
+ * og lager en helt ny ved hver hendelse — tilsvarende "generate live region
+ * via JS, then populate"-mønsteret som TetraLogical sin testmatrise viser
+ * fungerer konsistent på tvers av alle skjermleser/nettleser-kombinasjoner,
+ * inkludert Firefox + VoiceOver som ikke leser opp injeksjoner i eksisterende
+ * live-regioner med role="status"/aria-live="polite".
  */
 const UploadAnnouncements = ({ announcement }: Props) => {
     const t = useTranslations("Opplastingsboks");
 
+    if (!announcement) return null;
+
     const text = (() => {
-        if (!announcement) return "";
         switch (announcement.type) {
             case "files-selected":
                 return t("filLagtTil", { count: announcement.count });
@@ -38,8 +39,8 @@ const UploadAnnouncements = ({ announcement }: Props) => {
     })();
 
     return (
-        <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
-            <span key={announcement?.id}>{text}</span>
+        <div key={announcement.id} role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+            {text}
         </div>
     );
 };
