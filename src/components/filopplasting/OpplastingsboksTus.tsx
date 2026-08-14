@@ -9,10 +9,7 @@ import { Metadata } from "@components/filopplasting/types";
 import { useDocumentState } from "@components/filopplasting/api/useDocumentState";
 import useSendVedleggHelperTus from "@components/filopplasting/api/useSendVedleggHelperTus";
 import FileSelectNew from "@components/filopplasting/FileSelectNew";
-import UploadAnnouncements, {
-    UploadAnnouncement,
-    UploadAnnouncementEvent,
-} from "@components/filopplasting/UploadAnnouncements";
+import UploadAnnouncements from "@components/filopplasting/UploadAnnouncements";
 import VedleggListe from "@components/filopplasting/VedleggListe";
 import useIsMobile from "@utils/useIsMobile";
 import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
@@ -40,25 +37,32 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
     const opplastingId = useRef<string | null>(null);
 
     // --- Skjermleser-kunngjøringer ---
-    // announce() bruker 400ms delay for å unngå konflikt med fokusretur etter native
-    // filvelger-dialog lukkes. Uten delay dropper VoiceOver + Firefox live-region-mutasjoner
-    // fordi fokusretur og live-region-oppdatering skjer samtidig.
-    // UploadAnnouncements bruker key på selve live-region-containeren slik at React
-    // lager en helt ny <div> i DOM ved hver hendelse. Dette er nødvendig for Firefox +
-    // VoiceOver som ikke leser opp injeksjoner i eksisterende live-regioner.
-    const [announcement, setAnnouncement] = useState<UploadAnnouncement | undefined>();
-    const announcementIdRef = useRef(0);
+    // announce() implementerer tøm-og-fyll-mønsteret:
+    // 1. 400ms delay håndterer fokuskonflikt etter native filvelger-dialog lukkes
+    //    (VoiceOver + Firefox leser ellers ikke opp live-regionen).
+    // 2. Etter delay: sett melding til "" (tøm regionen).
+    // 3. Etter ytterligere 50ms: sett inn faktisk tekst (fyll regionen).
+    // Tøm+fyll sikrer at identisk tekst to ganger på rad alltid registreres
+    // som en ny DOM-mutasjon av skjermleseren.
+    const [liveMessage, setLiveMessage] = useState("");
     const announceTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+    const fillTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
     useEffect(() => {
-        return () => clearTimeout(announceTimerRef.current);
+        return () => {
+            clearTimeout(announceTimerRef.current);
+            clearTimeout(fillTimerRef.current);
+        };
     }, []);
 
-    const announce = (event: UploadAnnouncementEvent, delay = 400) => {
+    const announce = (message: string, delay = 400) => {
         clearTimeout(announceTimerRef.current);
+        clearTimeout(fillTimerRef.current);
         announceTimerRef.current = setTimeout(() => {
-            announcementIdRef.current += 1;
-            setAnnouncement({ id: announcementIdRef.current, ...event });
+            setLiveMessage("");
+            fillTimerRef.current = setTimeout(() => {
+                setLiveMessage(message);
+            }, 50);
         }, delay);
     };
     // ---
@@ -122,7 +126,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
 
     return (
         <VStack gap="space-8">
-            <UploadAnnouncements announcement={announcement} />
+            <UploadAnnouncements message={liveMessage} />
             <FileSelectNew
                 label={label}
                 description={description}
@@ -130,10 +134,10 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
                 docState={docState}
                 uploadId={uploadContextId}
                 onFilesSelected={(count) => {
-                    announce({ type: "files-selected", count });
+                    announce(t("filLagtTil", { count }));
                 }}
                 onFileDeleted={(remainingCount) => {
-                    announce({ type: "file-deleted", remainingCount }, 0);
+                    announce(t("filSlettet", { count: remainingCount }), 0);
                 }}
                 onSelect={(files) => {
                     resetMutation();

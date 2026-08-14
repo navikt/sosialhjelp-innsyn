@@ -1,48 +1,25 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-
-export type UploadAnnouncement =
-    | { id: number; type: "files-selected"; count: number }
-    | { id: number; type: "file-deleted"; remainingCount: number };
-
-export type UploadAnnouncementEvent =
-    { type: "files-selected"; count: number } | { type: "file-deleted"; remainingCount: number };
-
 interface Props {
-    announcement?: UploadAnnouncement;
+    message: string;
 }
 
 /**
- * Kunngjør upload-hendelser til skjermlesere via en aria-live-region.
+ * Kunngjør upload-hendelser til skjermlesere via en permanent aria-live-region.
  *
- * Bruker `key={announcement?.id}` på selve live-region-containeren (<div>),
- * ikke på innholdet inni. Dette gjør at React fjerner den gamle containeren
- * og lager en helt ny ved hver hendelse — tilsvarende "generate live region
- * via JS, then populate"-mønsteret som TetraLogical sin testmatrise viser
- * fungerer konsistent på tvers av alle skjermleser/nettleser-kombinasjoner,
- * inkludert Firefox + VoiceOver som ikke leser opp injeksjoner i eksisterende
- * live-regioner med role="status"/aria-live="polite".
+ * Live-region-containeren eksisterer alltid i DOM fra første render — den fjernes
+ * aldri. Dette er nødvendig fordi skjermlesere bare lytter på endringer i regioner
+ * de allerede kjenner til fra accessibility tree.
+ *
+ * Tøm-og-fyll-mønsteret styres av announce() i OpplastingsboksTus:
+ * message settes til "" først, deretter til den faktiske teksten etter 50ms.
+ * Dette tvinger frem en ny DOM-mutasjon som skjermleseren registrerer som en endring,
+ * også når identisk tekst sendes to ganger på rad.
  */
-const UploadAnnouncements = ({ announcement }: Props) => {
-    const t = useTranslations("Opplastingsboks");
-
-    if (!announcement) return null;
-
-    const text = (() => {
-        switch (announcement.type) {
-            case "files-selected":
-                return t("filLagtTil", { count: announcement.count });
-            case "file-deleted":
-                return t("filSlettet", { count: announcement.remainingCount });
-        }
-    })();
-
-    return (
-        <div key={announcement.id} role="status" aria-live="polite" aria-atomic="true" className="sr-only">
-            {text}
-        </div>
-    );
-};
+const UploadAnnouncements = ({ message }: Props) => (
+    <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+        {message}
+    </div>
+);
 
 export default UploadAnnouncements;
