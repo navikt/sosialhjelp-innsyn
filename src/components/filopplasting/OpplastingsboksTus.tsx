@@ -56,7 +56,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
         };
     }, []);
 
-    const announce = (message: string, delay = 400) => {
+    const announce = (message: string, delay = 200) => {
         clearTimeout(announceTimerRef.current);
         clearTimeout(fillTimerRef.current);
         announceTimerRef.current = setTimeout(() => {
