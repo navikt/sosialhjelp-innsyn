@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import * as R from "remeda";
 import { FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
-import { ReactNode, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { getTusUploader } from "@components/filopplasting/utils/tusUploader";
 import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
 
@@ -25,14 +25,13 @@ interface Props {
     docState: DocumentState;
     uploadId: string;
     onSelect?: (files: FileObject[]) => void;
-    /** Kalles med antall gyldige (ikke-mappe) filer som ble valgt */
-    onFilesSelected?: (count: number) => void;
-    /** Kalles når en fil termineres/slettes, med antall gjenværende filer */
-    onFileDeleted?: (remainingCount: number) => void;
     onUploadsAdded: (uploads: UploadState[]) => void;
     onUploadRemoved: (correlationId: string) => void;
     variant?: "normal" | "warning";
 }
+
+const liveRegionIndexes = [0, 1] as const;
+type LiveRegionIndex = (typeof liveRegionIndexes)[number];
 
 const FileSelectNew = ({
     label,
@@ -44,8 +43,6 @@ const FileSelectNew = ({
     uploadId,
     variant,
     onSelect,
-    onFilesSelected,
-    onFileDeleted,
     onUploadsAdded,
     onUploadRemoved,
     isPending,
@@ -56,8 +53,28 @@ const FileSelectNew = ({
     const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
 
     const [folderDropError, setFolderDropError] = useState(false);
+    const [skjermleserBeskjed, setSkjermleserBeskjed] = useState<{ text: string; activeRegion: LiveRegionIndex }>({
+        text: "",
+        activeRegion: 0,
+    });
+    const announceTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
     const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
+
+    // Bytter mellom to live-regioner med 200ms delay for å løse to separate problemer:
+    // 1. Firefox + VoiceOver dropper live-region-mutasjoner rett etter native filvelger
+    //    lukkes — delayen gir tid til fokusretur før live-regionen oppdateres.
+    // 2. Identisk tekst leses ikke opp igjen — veksling mellom regionene sikrer at
+    //    skjermleseren alltid ser en endring fra tom til tekst.
+    const oppdaterSkjermleserBeskjed = (text: string, delay = 200) => {
+        clearTimeout(announceTimerRef.current);
+        announceTimerRef.current = setTimeout(() => {
+            setSkjermleserBeskjed(({ activeRegion }) => ({
+                text,
+                activeRegion: activeRegion === 0 ? 1 : 0,
+            }));
+        }, delay);
+    };
 
     // Starter opplasting umiddelbart ved filvalg
     const _onSelect = (files: FileObject[]) => {
@@ -66,7 +83,7 @@ const FileSelectNew = ({
         setFolderDropError(folders.length > 0);
 
         if (valid.length === 0) return;
-        onFilesSelected?.(valid.length);
+        oppdaterSkjermleserBeskjed(t("filLagtTil", { count: valid.length }));
         onSelect?.(valid);
 
         const optimisticUploads: UploadState[] = valid.map((file: FileObject) => {
@@ -88,6 +105,7 @@ const FileSelectNew = ({
         });
         onUploadsAdded(optimisticUploads);
     };
+
     const converted = docState.uploads?.some(
         (upload) => !!upload.finalFilename && upload.finalFilename !== upload.originalFilename
     );
@@ -107,6 +125,11 @@ const FileSelectNew = ({
                 },
             }}
         >
+            {liveRegionIndexes.map((index) => (
+                <div key={index} role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+                    {skjermleserBeskjed.activeRegion === index ? skjermleserBeskjed.text : ""}
+                </div>
+            ))}
             <VStack gap="space-24">
                 <FileSelectUpload
                     label={label ?? t("tittel")}
@@ -170,10 +193,13 @@ const FileSelectNew = ({
                                     }
                                     deleteDisabled={isPending}
                                     onTerminate={() => {
+                                        oppdaterSkjermleserBeskjed(
+                                            t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 }),
+                                            0
+                                        );
                                         if (upload.correlationId) {
                                             onUploadRemoved(upload.correlationId);
                                         }
-                                        onFileDeleted?.((docState.uploads?.length ?? 1) - 1);
                                     }}
                                 />
                             ))}
