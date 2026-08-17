@@ -9,7 +9,6 @@ import { Metadata } from "@components/filopplasting/types";
 import { useDocumentState } from "@components/filopplasting/api/useDocumentState";
 import useSendVedleggHelperTus from "@components/filopplasting/api/useSendVedleggHelperTus";
 import FileSelectNew from "@components/filopplasting/FileSelectNew";
-import UploadAnnouncements from "@components/filopplasting/UploadAnnouncements";
 import VedleggListe from "@components/filopplasting/VedleggListe";
 import useIsMobile from "@utils/useIsMobile";
 import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
@@ -36,39 +35,24 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
     const { state: docState, resetState, addUploads, removeUpload } = useDocumentState(uploadContextId);
     const opplastingId = useRef<string | null>(null);
 
-    // --- Skjermleser-kunngjøringer ---
-    // announce() implementerer tøm-og-fyll-mønsteret:
-    // 1. 400ms delay håndterer fokuskonflikt etter native filvelger-dialog lukkes
-    //    (VoiceOver + Firefox leser ellers ikke opp live-regionen).
-    // 2. Etter delay: sett melding til "" (tøm regionen).
-    // 3. Etter ytterligere 50ms: sett inn faktisk tekst (fyll regionen).
-    // Tøm+fyll sikrer at identisk tekst to ganger på rad alltid registreres
-    // som en ny DOM-mutasjon av skjermleseren.
-    const [liveMessage, setLiveMessage] = useState<{ id: number; text: string }>({ id: 0, text: "" });
-    const announceCounterRef = useRef(0);
+    // To alternerende live-regioner med 200ms delay for å  løse to separate problemer:
+    // 1. VoiceOver + Chrome dropper mutasjoner i live-regioner rett etter native OS-filvelger lukkes — delayen gir tid til fokusretur.
+    // 2. Identisk tekst leses ikke opp igjen — veksling mellom regionene sikrer at skjermleseren alltid ser en ny DOM-endring.
+    const [activeRegion, setActiveRegion] = useState<0 | 1>(0);
+    const [statusMessage, setStatusMessage] = useState("");
     const announceTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-    const fillTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
     useEffect(() => {
-        return () => {
-            clearTimeout(announceTimerRef.current);
-            clearTimeout(fillTimerRef.current);
-        };
+        return () => clearTimeout(announceTimerRef.current);
     }, []);
 
     const announce = (message: string, delay = 200) => {
         clearTimeout(announceTimerRef.current);
-        clearTimeout(fillTimerRef.current);
         announceTimerRef.current = setTimeout(() => {
-            announceCounterRef.current += 1;
-            const id = announceCounterRef.current;
-            setLiveMessage({ id, text: "" });
-            fillTimerRef.current = setTimeout(() => {
-                setLiveMessage({ id, text: message });
-            }, 50);
+            setActiveRegion((current) => (current === 0 ? 1 : 0));
+            setStatusMessage(message);
         }, delay);
     };
-    // ---
 
     const {
         upload,
@@ -129,7 +113,13 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
 
     return (
         <VStack gap="space-8">
-            <UploadAnnouncements message={liveMessage.text} />
+            <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+                {activeRegion === 0 ? statusMessage : ""}
+            </div>
+            <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+                {activeRegion === 1 ? statusMessage : ""}
+            </div>
+
             <FileSelectNew
                 label={label}
                 description={description}
@@ -139,7 +129,8 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
                 onFilesSelected={(count) => {
                     announce(t("filLagtTil", { count }));
                 }}
-                onFileDeleted={(remainingCount) => {
+                onFileDeleted={() => {
+                    const remainingCount = Math.max((docState.uploads?.length ?? 1) - 1, 0);
                     announce(t("filSlettet", { count: remainingCount }), 0);
                 }}
                 onSelect={(files) => {
