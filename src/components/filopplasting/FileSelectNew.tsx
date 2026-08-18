@@ -203,7 +203,7 @@ const FileSelectNew = ({
                                             if (upload.correlationId) {
                                                 onUploadRemoved(upload.correlationId);
                                             }
-                                        }, 50);
+                                        }, 300);
                                     }}
                                 />
                             ))}
