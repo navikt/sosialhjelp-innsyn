@@ -53,6 +53,7 @@ const FileSelectNew = ({
     const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
 
     const [folderDropError, setFolderDropError] = useState(false);
+    const [fileWasDeleted, setFileWasDeleted] = useState(false);
     const [skjermleserBeskjed, setSkjermleserBeskjed] = useState<{ text: string; activeRegion: LiveRegionIndex }>({
         text: "",
         activeRegion: 0,
@@ -83,6 +84,7 @@ const FileSelectNew = ({
         setFolderDropError(folders.length > 0);
 
         if (valid.length === 0) return;
+        setFileWasDeleted(false);
         oppdaterSkjermleserBeskjed(t("filLagtTil", { count: valid.length }));
         onSelect?.(valid);
 
@@ -130,6 +132,9 @@ const FileSelectNew = ({
                     {skjermleserBeskjed.activeRegion === index ? skjermleserBeskjed.text : ""}
                 </div>
             ))}
+            <div role="status" aria-live="polite" className="sr-only">
+                {fileWasDeleted && t("filSlettet", { count: docState.uploads?.length ?? 0 })}
+            </div>
             <VStack gap="space-24">
                 <FileSelectUpload
                     label={label ?? t("tittel")}
@@ -193,10 +198,7 @@ const FileSelectNew = ({
                                     }
                                     deleteDisabled={isPending}
                                     onTerminate={() => {
-                                        oppdaterSkjermleserBeskjed(
-                                            t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 }),
-                                            0
-                                        );
+                                        setFileWasDeleted(true);
                                         if (upload.correlationId) {
                                             onUploadRemoved(upload.correlationId);
                                         }
