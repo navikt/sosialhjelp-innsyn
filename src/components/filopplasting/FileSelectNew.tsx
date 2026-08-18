@@ -199,9 +199,11 @@ const FileSelectNew = ({
                                     deleteDisabled={isPending}
                                     onTerminate={() => {
                                         setFileWasDeleted(true);
-                                        if (upload.correlationId) {
-                                            onUploadRemoved(upload.correlationId);
-                                        }
+                                        setTimeout(() => {
+                                            if (upload.correlationId) {
+                                                onUploadRemoved(upload.correlationId);
+                                            }
+                                        }, 50);
                                     }}
                                 />
                             ))}
