@@ -61,6 +61,50 @@ const FileSelectNew = ({
     });
     const announceTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
+    // Refs til slett-knappene, nøkkel = correlationId. Brukes til å flytte fokus
+    // til nabo-filen når en fil slettes, se moveFocusAwayFrom under.
+    const deleteButtonRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
+    // Fallback-mål når det ikke finnes noen nabo å flytte fokus til (f.eks. siste
+    // fil i listen slettes). tabIndex=-1 gjør den programmatisk fokuserbar uten
+    // å komme inn i tab-rekkefølgen.
+    const filesHeadingRef = useRef<HTMLHeadingElement>(null);
+
+    // Rotårsaken til at fokus "hopper til body" ved sletting er IKKE at <li>
+    // fjernes fra DOM (den delen er allerede håndtert av DELETING-status under).
+    // Aksel sin <Button loading={...}> setter faktisk disabled-attributtet på
+    // knappen (se node_modules/@navikt/ds-react .../button/Button.js), og siden
+    // useMutation setter isPending=true på NESTE render etter klikk — altså
+    // synkront og lenge før nettverkskallet er ferdig — blir akkurat den
+    // knappen som har fokus disablet med en gang. Nettleseren blur'er da
+    // elementet og fokus havner på <body>, uansett hva slags live-region- eller
+    // DOM-fjernings-logikk vi bygger etterpå.
+    // Løsningen (anbefalt av UU-ressursen vår): flytt fokus eksplisitt til noe
+    // meningsfylt FØR knappen blir utilgjengelig, ikke etterpå.
+    //
+    // VIKTIG: Vi sjekker bevisst IKKE document.activeElement her. På macOS gir
+    // Chrome alltid en <button> ekte DOM-fokus ved museklikk, mens Safari/
+    // Firefox som standard IKKE gjør det (kun hvis brukeren har skrudd på
+    // "Full tilgang med tastatur: Alle kontroller" i systeminnstillingene —
+    // noe de færreste VoiceOver-brukere har, siden VoiceOver navigerer med sin
+    // egen virtuelle markør). I Firefox er document.activeElement derfor
+    // typisk aldri lik knappen som ble klikket, så en activeElement-sjekk her
+    // ville stille gjort denne funksjonen til en no-op i Firefox — noe som er
+    // nøyaktig det vi observerte (VoiceOver mister markøren sin helt og hopper
+    // til toppen av siden/sidetittelen, siden ingen eksplisitt fokusflytting
+    // skjedde). Vi flytter derfor fokus ubetinget hver gang en fil slettes.
+    const moveFocusAwayFrom = (correlationId: string) => {
+        const uploads = docState.uploads ?? [];
+        const currentIndex = uploads.findIndex((u) => u.correlationId === correlationId);
+        const isFocusable = (u: UploadState) => u.status !== "DELETING" && u.correlationId !== correlationId;
+
+        const next = uploads.slice(currentIndex + 1).find(isFocusable);
+        const previous = [...uploads.slice(0, currentIndex)].reverse().find(isFocusable);
+        const target = next ?? previous;
+
+        const targetButton = target?.correlationId ? deleteButtonRefs.current.get(target.correlationId) : undefined;
+        (targetButton ?? filesHeadingRef.current)?.focus();
+    };
+
     const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
 
     // Bytter mellom to live-regioner med 200ms delay for å løse to separate problemer:
@@ -156,7 +200,7 @@ const FileSelectNew = ({
 
                 {!!docState.uploads?.length && (
                     <VStack gap="space-8">
-                        <Heading size="xsmall" level="3">
+                        <Heading ref={filesHeadingRef} tabIndex={-1} size="xsmall" level="3">
                             {filesLabel ?? t("valgteFiler", { antall_filer: activeUploads.length })}
                         </Heading>
                         {converted && (
@@ -198,6 +242,15 @@ const FileSelectNew = ({
                                         (upload.status === "PENDING" || upload.status === "PROCESSING")
                                     }
                                     deleteDisabled={isPending}
+                                    buttonRef={(el) => {
+                                        if (!upload.correlationId) return;
+                                        if (el) deleteButtonRefs.current.set(upload.correlationId, el);
+                                        else deleteButtonRefs.current.delete(upload.correlationId);
+                                    }}
+                                    onBeforeDelete={() => {
+                                        if (!upload.correlationId) return;
+                                        moveFocusAwayFrom(upload.correlationId);
+                                    }}
                                     onTerminate={() => {
                                         if (!upload.correlationId) return;
                                         // 1. Merk filen som DELETING — <li> forblir i DOM med spinner.

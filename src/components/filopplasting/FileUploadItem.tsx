@@ -17,6 +17,13 @@ interface Props {
     size?: number;
     showCancelButton?: boolean;
     onTerminate?: () => void;
+    // Kalles synkront FØR mutate() starter, altså før React rekker å re-rendre
+    // knappen med disabled=true (Aksel sin <Button> setter faktisk disabled-
+    // attributtet når loading=true, se Button.js). Uten dette mister nettleseren
+    // fokus til <body> med en gang du klikker slett — lenge før DELETING-status
+    // eller live-region-kunngjøringen i det hele tatt rekker å kjøre.
+    onBeforeDelete?: () => void;
+    buttonRef?: (el: HTMLButtonElement | null) => void;
     deleteDisabled?: boolean;
 }
 
@@ -40,6 +47,8 @@ const FileUploadItem = ({
     size,
     showCancelButton,
     onTerminate,
+    onBeforeDelete,
+    buttonRef,
     deleteDisabled,
 }: Props) => {
     const t = useTranslations("FileUploadItem");
@@ -66,10 +75,17 @@ const FileUploadItem = ({
                 status={uploadStatus}
                 button={
                     <Button
+                        ref={buttonRef}
                         variant="tertiary"
                         data-color="neutral"
                         icon={<TrashIcon title={t("slett")} />}
-                        onClick={() => mutate()}
+                        onClick={() => {
+                            // Må skje synkront, FØR mutate() setter isPending/loading
+                            // på denne knappen — ellers rekker vi ikke å flytte fokus
+                            // bort før nettleseren tvinger det til <body>.
+                            onBeforeDelete?.();
+                            mutate();
+                        }}
                         disabled={deleteDisabled || isDeleting}
                         loading={isPending}
                     />
