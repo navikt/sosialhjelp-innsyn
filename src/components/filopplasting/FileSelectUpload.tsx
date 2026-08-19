@@ -1,5 +1,5 @@
 import { Alert, BodyLong, Button, FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
-import { ReactNode } from "react";
+import { ReactNode, Ref } from "react";
 import { allowedFileTypes } from "@components/filopplasting/consts";
 import { UploadIcon } from "@navikt/aksel-icons";
 import useIsMobile from "@utils/useIsMobile";
@@ -16,6 +16,12 @@ interface FileSelectUploadProps {
     currentCount: number;
     accept?: string;
     variant?: "default" | "warning";
+    // Ref til et alltid-montert, usynlig fokus-anker (se srFocusAnchor under).
+    // Brukes som et stabilt fokus-fallback fra FileSelectNew når siste fil i
+    // listen slettes — i motsetning til filliste-heading'en (som forsvinner
+    // fra DOM sammen med resten av listen når den blir tom), forsvinner
+    // dette elementet aldri.
+    headerSectionRef?: Ref<HTMLDivElement>;
 }
 
 export const FileSelectUpload = ({
@@ -30,6 +36,7 @@ export const FileSelectUpload = ({
     currentCount,
     accept = allowedFileTypes,
     variant = "default",
+    headerSectionRef,
 }: FileSelectUploadProps) => {
     const isMobile = useIsMobile();
     const dataColor = variant === "warning" ? "warning" : undefined;
@@ -60,8 +67,27 @@ export const FileSelectUpload = ({
         </div>
     );
 
+    // Usynlig, alltid-montert fokus-anker for skjermleser (se headerSectionRef).
+    // Må IKKE ligge inni headerSection: på desktop sendes headerSection inn som
+    // `label`-prop til <FileUpload.Dropzone>, som Aksel rendrer inni en native
+    // <label htmlFor=skjult-filinput>. Et fokusbart element plassert der
+    // arver label-elementets kontekst og gir uforutsigbar oppførsel i
+    // Chrome+VoiceOver (fokus-hopp endte opp med å lese fillistens overskrift
+    // i stedet for stedet vi faktisk ba om). Dette ankeret ligger derfor som
+    // en helt separat søsken-node, aria-label gir det en meningsfull
+    // tilgjengelig tekst uten synlig duplisering av tittelen.
+    const srFocusAnchor = (
+        <div
+            ref={headerSectionRef}
+            tabIndex={-1}
+            aria-label={typeof label === "string" ? label : undefined}
+            className="sr-only"
+        />
+    );
+
     return (
         <>
+            {srFocusAnchor}
             {!isMobile ? (
                 <FileUpload.Dropzone
                     className="flex flex-col"
