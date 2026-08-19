@@ -27,6 +27,7 @@ interface Props {
     onSelect?: (files: FileObject[]) => void;
     onUploadsAdded: (uploads: UploadState[]) => void;
     onUploadRemoved: (correlationId: string) => void;
+    onMarkAsDeleting: (correlationId: string) => void;
     variant?: "normal" | "warning";
 }
 
@@ -45,6 +46,7 @@ const FileSelectNew = ({
     onSelect,
     onUploadsAdded,
     onUploadRemoved,
+    onMarkAsDeleting,
     isPending,
 }: Props) => {
     const { id: fiksDigisosId } = useParams<{ id: string }>();
@@ -53,7 +55,6 @@ const FileSelectNew = ({
     const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
 
     const [folderDropError, setFolderDropError] = useState(false);
-    const [fileWasDeleted, setFileWasDeleted] = useState(false);
     const [skjermleserBeskjed, setSkjermleserBeskjed] = useState<{ text: string; activeRegion: LiveRegionIndex }>({
         text: "",
         activeRegion: 0,
@@ -84,7 +85,6 @@ const FileSelectNew = ({
         setFolderDropError(folders.length > 0);
 
         if (valid.length === 0) return;
-        setFileWasDeleted(false);
         oppdaterSkjermleserBeskjed(t("filLagtTil", { count: valid.length }));
         onSelect?.(valid);
 
@@ -112,6 +112,10 @@ const FileSelectNew = ({
         (upload) => !!upload.finalFilename && upload.finalFilename !== upload.originalFilename
     );
 
+    // Filer som ikke er i ferd med å slettes — brukes for å vise riktig antall
+    // i listen og i kunngjøringen "Fil slettet. X filer gjenstår".
+    const activeUploads = docState.uploads?.filter((u) => u.status !== "DELETING") ?? [];
+
     return (
         <FileUpload
             id={id}
@@ -132,9 +136,6 @@ const FileSelectNew = ({
                     {skjermleserBeskjed.activeRegion === index ? skjermleserBeskjed.text : ""}
                 </div>
             ))}
-            <div role="status" aria-live="polite" className="sr-only">
-                {fileWasDeleted && t("filSlettet", { count: docState.uploads?.length ?? 0 })}
-            </div>
             <VStack gap="space-24">
                 <FileSelectUpload
                     label={label ?? t("tittel")}
@@ -144,7 +145,7 @@ const FileSelectNew = ({
                     variant={variant === "warning" ? "warning" : "default"}
                     buttonText={t("lastOppFiler")}
                     onSelect={_onSelect}
-                    currentCount={docState.uploads?.length ?? 0}
+                    currentCount={activeUploads.length}
                 />
 
                 {folderDropError && (
@@ -156,7 +157,7 @@ const FileSelectNew = ({
                 {!!docState.uploads?.length && (
                     <VStack gap="space-8">
                         <Heading size="xsmall" level="3">
-                            {filesLabel ?? t("valgteFiler", { antall_filer: docState.uploads.length })}
+                            {filesLabel ?? t("valgteFiler", { antall_filer: activeUploads.length })}
                         </Heading>
                         {converted && (
                             <InlineStatusMessage variant="info" role="status">
@@ -198,12 +199,21 @@ const FileSelectNew = ({
                                     }
                                     deleteDisabled={isPending}
                                     onTerminate={() => {
-                                        setFileWasDeleted(true);
+                                        if (!upload.correlationId) return;
+                                        // 1. Merk filen som DELETING — <li> forblir i DOM med spinner.
+                                        //    VoiceOver mister ikke fokus og kan lese kunngjøringen.
+                                        onMarkAsDeleting(upload.correlationId);
+                                        // 2. Kunngjør til skjermleser. activeUploads ekskluderer allerede
+                                        //    denne filen siden den nå er DELETING.
+                                        oppdaterSkjermleserBeskjed(
+                                            t("filSlettet", { count: activeUploads.length - 1 }),
+                                            0
+                                        );
+                                        // 3. Fjern filen fra DOM etter en kort pause slik at VoiceOver
+                                        //    rekker å lese ferdig før <li> forsvinner.
                                         setTimeout(() => {
-                                            if (upload.correlationId) {
-                                                onUploadRemoved(upload.correlationId);
-                                            }
-                                        }, 300);
+                                            onUploadRemoved(upload.correlationId!);
+                                        }, 1500);
                                     }}
                                 />
                             ))}

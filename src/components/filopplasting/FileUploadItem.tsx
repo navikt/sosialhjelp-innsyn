@@ -49,8 +49,15 @@ const FileUploadItem = ({
         retry: false,
     });
     const isConverted = !!convertedFilename && convertedFilename !== originalFilename;
-    const isUploading = !url && !validations && status !== "FAILED" && status !== "COMPLETE" && !showCancelButton;
+
+    // Status DELETING betyr at filen er merket for sletting men fortsatt i DOM —
+    // den vises som "uploading" (spinner) slik at brukeren ser at noe skjer,
+    // og slett-knappen disables for å hindre dobbelklikk.
+    const isDeleting = status === "DELETING";
+    const isUploading =
+        (!url && !validations && status !== "FAILED" && status !== "COMPLETE" && !showCancelButton) || isDeleting;
     const uploadStatus = isUploading ? "uploading" : "idle";
+
     return (
         <>
             <FileUpload.Item
@@ -63,7 +70,7 @@ const FileUploadItem = ({
                         data-color="neutral"
                         icon={<TrashIcon title={t("slett")} />}
                         onClick={() => mutate()}
-                        disabled={deleteDisabled}
+                        disabled={deleteDisabled || isDeleting}
                         loading={isPending}
                     />
                 }
