@@ -64,32 +64,39 @@ const FileSelectNew = ({
     // Refs til slett-knappene, nøkkel = correlationId. Brukes til å flytte fokus
     // til nabo-filen når en fil slettes, se moveFocusAwayFrom under.
     const deleteButtonRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
-    // Stabilt fokus-fallback: et usynlig fokus-anker i FileSelectUpload
-    // (srFocusAnchor), som ALLTID er montert (den ligger utenfor
-    // {!!docState.uploads?.length && (...)}-blokken under, OG utenfor den
-    // native <label>-strukturen Aksel sin Dropzone bruker for tittelen — se
-    // kommentar i FileSelectUpload.tsx for hvorfor det sistnevnte er viktig).
-    // Vi brukte tidligere fil-liste-heading'en ("Valgte filer (0)") som
-    // fallback her — det så riktig ut i én tur (VoiceOver leste faktisk
-    // teksten), men når siste fil til slutt fjernes fra state (etter 1500ms)
-    // forsvinner HELE blokken den heading'en lå i fra DOM, og VoiceOver
-    // mister referansen sin på nytt og hopper til sidetittelen.
+    // Stabilt fokus-fallback: overskrift-seksjonen i FileSelectUpload, som ALLTID
+    // er montert (den ligger utenfor {!!docState.uploads?.length && (...)}-
+    // blokken under). Vi brukte tidligere fil-liste-heading'en ("Valgte filer
+    // (0)") som fallback her — det så riktig ut i én tur (VoiceOver leste
+    // faktisk teksten), men når siste fil til slutt fjernes fra state (etter
+    // 1500ms) forsvinner HELE blokken den heading'en lå i fra DOM, og
+    // VoiceOver mister referansen sin på nytt og hopper til sidetittelen.
+    // Denne seksjonen forsvinner aldri, uansett antall filer.
     const stableFallbackRef = useRef<HTMLDivElement>(null);
 
-    // Rotårsaken til at fokus "hopper til body" ved sletting er at <li>-en
-    // (og slett-knappen i den) til slutt fjernes fra DOM mens den fortsatt
-    // har fokus — nettleseren blur'er da automatisk til <body>, og
-    // VoiceOver mister referansen sin fullstendig og hopper til sidetoppen.
-    // (Vi brukte tidligere Aksel sin disabled/loading-prop på selve knappen,
-    // som TVANG samme oppførsel enda tidligere, ved klikk — det er nå fjernet
-    // i FileUploadItem.tsx, se kommentar der.)
+    // Rotårsaken til at fokus "hopper til body" ved sletting er IKKE at <li>
+    // fjernes fra DOM (den delen er allerede håndtert av DELETING-status under).
+    // Aksel sin <Button loading={...}> setter faktisk disabled-attributtet på
+    // knappen (se node_modules/@navikt/ds-react .../button/Button.js), og siden
+    // useMutation setter isPending=true på NESTE render etter klikk — altså
+    // synkront og lenge før nettverkskallet er ferdig — blir akkurat den
+    // knappen som har fokus disablet med en gang. Nettleseren blur'er da
+    // elementet og fokus havner på <body>, uansett hva slags live-region- eller
+    // DOM-fjernings-logikk vi bygger etterpå.
+    // Løsningen (anbefalt av UU-ressursen vår): flytt fokus eksplisitt til noe
+    // meningsfylt FØR knappen blir utilgjengelig, ikke etterpå.
     //
-    // Løsningen (anbefalt av UU-ressursen vår): flytt fokus eksplisitt til
-    // noe meningsfylt RETT FØR elementet forsvinner, ikke etterpå. Denne
-    // funksjonen kalles derfor synkront rett før onUploadRemoved (se
-    // setTimeout under) — i samme kjøring, slik at nettleseren aldri rekker
-    // å blur'e til <body>, siden fokus allerede er et annet sted når
-    // React faktisk unmounter <li>-en.
+    // VIKTIG: Vi sjekker bevisst IKKE document.activeElement her. På macOS gir
+    // Chrome alltid en <button> ekte DOM-fokus ved museklikk, mens Safari/
+    // Firefox som standard IKKE gjør det (kun hvis brukeren har skrudd på
+    // "Full tilgang med tastatur: Alle kontroller" i systeminnstillingene —
+    // noe de færreste VoiceOver-brukere har, siden VoiceOver navigerer med sin
+    // egen virtuelle markør). I Firefox er document.activeElement derfor
+    // typisk aldri lik knappen som ble klikket, så en activeElement-sjekk her
+    // ville stille gjort denne funksjonen til en no-op i Firefox — noe som er
+    // nøyaktig det vi observerte (VoiceOver mister markøren sin helt og hopper
+    // til toppen av siden/sidetittelen, siden ingen eksplisitt fokusflytting
+    // skjedde). Vi flytter derfor fokus ubetinget hver gang en fil slettes.
     const moveFocusAwayFrom = (correlationId: string) => {
         const uploads = docState.uploads ?? [];
         const currentIndex = uploads.findIndex((u) => u.correlationId === correlationId);
@@ -246,30 +253,25 @@ const FileSelectNew = ({
                                         if (el) deleteButtonRefs.current.set(upload.correlationId, el);
                                         else deleteButtonRefs.current.delete(upload.correlationId);
                                     }}
+                                    onBeforeDelete={() => {
+                                        if (!upload.correlationId) return;
+                                        moveFocusAwayFrom(upload.correlationId);
+                                    }}
                                     onTerminate={() => {
                                         if (!upload.correlationId) return;
-                                        const correlationId = upload.correlationId;
-                                        // 1. Merk filen som DELETING — <li> forblir i DOM med spinner,
-                                        //    og slett-knappen viser aria-disabled (men er fortsatt ekte
-                                        //    fokuserbar, se FileUploadItem.tsx) slik at VoiceOver ikke
-                                        //    mister fokus og kan lese kunngjøringen.
-                                        onMarkAsDeleting(correlationId);
+                                        // 1. Merk filen som DELETING — <li> forblir i DOM med spinner.
+                                        //    VoiceOver mister ikke fokus og kan lese kunngjøringen.
+                                        onMarkAsDeleting(upload.correlationId);
                                         // 2. Kunngjør til skjermleser. activeUploads ekskluderer allerede
                                         //    denne filen siden den nå er DELETING.
                                         oppdaterSkjermleserBeskjed(
                                             t("filSlettet", { count: activeUploads.length - 1 }),
                                             0
                                         );
-                                        // 3. Rett FØR vi faktisk fjerner filen fra state (som unmounter
-                                        //    <li>-en og tvinger nettleseren til å blur'e knappen som
-                                        //    fortsatt har fokus), flytter vi fokus eksplisitt til
-                                        //    nabo-filen eller fallback-ankeret. Siden dette skjer synkront
-                                        //    rett før onUploadRemoved i samme kjøring, rekker aldri
-                                        //    nettleseren å hoppe til <body> — fokuset er allerede et annet
-                                        //    sted idet <li>-en faktisk forsvinner.
+                                        // 3. Fjern filen fra DOM etter en kort pause slik at VoiceOver
+                                        //    rekker å lese ferdig før <li> forsvinner.
                                         setTimeout(() => {
-                                            moveFocusAwayFrom(correlationId);
-                                            onUploadRemoved(correlationId);
+                                            onUploadRemoved(upload.correlationId!);
                                         }, 1500);
                                     }}
                                 />

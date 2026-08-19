@@ -16,11 +16,10 @@ interface FileSelectUploadProps {
     currentCount: number;
     accept?: string;
     variant?: "default" | "warning";
-    // Ref til et alltid-montert, usynlig fokus-anker (se srFocusAnchor under).
-    // Brukes som et stabilt fokus-fallback fra FileSelectNew når siste fil i
-    // listen slettes — i motsetning til filliste-heading'en (som forsvinner
-    // fra DOM sammen med resten av listen når den blir tom), forsvinner
-    // dette elementet aldri.
+    // Ref til den alltid-monterte overskrift-seksjonen. Brukes som et stabilt
+    // fokus-fallback fra FileSelectNew når siste fil i listen slettes — i
+    // motsetning til filliste-heading'en (som forsvinner fra DOM sammen med
+    // resten av listen når den blir tom), forsvinner denne aldri.
     headerSectionRef?: Ref<HTMLDivElement>;
 }
 
@@ -60,34 +59,22 @@ export const FileSelectUpload = ({
         );
 
     // Mobile: tag on top, label below (flex-col); Desktop: label left, tag right (flex-row)
+    // tabIndex=-1 gjør seksjonen programmatisk fokuserbar uten å komme inn i
+    // tab-rekkefølgen — se headerSectionRef over.
     const headerSection = (
-        <div className="flex flex-col ax-md:flex-row ax-md:justify-between ax-md:items-center gap-2" id={headerId}>
+        <div
+            ref={headerSectionRef}
+            tabIndex={-1}
+            className="flex flex-col ax-md:flex-row ax-md:justify-between ax-md:items-center gap-2"
+            id={headerId}
+        >
             <div className="order-2 ax-md:order-1">{labelContent}</div>
             {tag && <div className="order-1 ax-md:order-2">{tag}</div>}
         </div>
     );
 
-    // Usynlig, alltid-montert fokus-anker for skjermleser (se headerSectionRef).
-    // Må IKKE ligge inni headerSection: på desktop sendes headerSection inn som
-    // `label`-prop til <FileUpload.Dropzone>, som Aksel rendrer inni en native
-    // <label htmlFor=skjult-filinput>. Et fokusbart element plassert der
-    // arver label-elementets kontekst og gir uforutsigbar oppførsel i
-    // Chrome+VoiceOver (fokus-hopp endte opp med å lese fillistens overskrift
-    // i stedet for stedet vi faktisk ba om). Dette ankeret ligger derfor som
-    // en helt separat søsken-node, aria-label gir det en meningsfull
-    // tilgjengelig tekst uten synlig duplisering av tittelen.
-    const srFocusAnchor = (
-        <div
-            ref={headerSectionRef}
-            tabIndex={-1}
-            aria-label={typeof label === "string" ? label : undefined}
-            className="sr-only"
-        />
-    );
-
     return (
         <>
-            {srFocusAnchor}
             {!isMobile ? (
                 <FileUpload.Dropzone
                     className="flex flex-col"
