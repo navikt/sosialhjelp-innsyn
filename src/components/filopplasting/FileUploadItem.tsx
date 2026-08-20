@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { FileUpload } from "@navikt/ds-react/FileUpload";
 import { Upload } from "tus-js-client";
 import { BodyShort, Button, HStack, Loader } from "@navikt/ds-react";
-import { InformationSquareFillIcon, TrashIcon } from "@navikt/aksel-icons";
+import { InformationSquareFillIcon, TrashIcon, XMarkIcon } from "@navikt/aksel-icons";
 import { browserEnv } from "@config/env";
 import { UploadStatus, ValidationCode } from "@components/filopplasting/api/useDocumentState";
 
@@ -58,7 +58,7 @@ const FileUploadItem = ({
     // og hopper til <body> — akkurat det vi prøver å unngå.
     // Istedenfor viser vi Loader-ikonet manuelt og bruker aria-disabled for å
     // hindre dobbelklikk, uten å sette native disabled på DOM-noden.
-    const isDeleting = isPending;
+    //const isDeleting = isPending;
 
     return (
         <>
@@ -67,19 +67,23 @@ const FileUploadItem = ({
                 as="li"
                 status={uploadStatus}
                 button={
-                    <Button
-                        variant="tertiary"
-                        data-color="neutral"
-                        icon={isDeleting ? <Loader size="xsmall" /> : <TrashIcon title={t("slett")} />}
-                        onClick={() => {
-                            if (!isDeleting) mutate();
-                        }}
-                        aria-disabled={isDeleting || deleteDisabled}
-                    />
+                    <HStack align="center" gap="space-4">
+                        {showCancelButton && <Loader />}
+                        <Button
+                            variant="tertiary"
+                            data-color="neutral"
+                            icon={
+                                showCancelButton ? <XMarkIcon title={t("cancel")} /> : <TrashIcon title={t("slett")} />
+                            }
+                            onClick={() => mutate()}
+                            disabled={deleteDisabled}
+                            loading={isPending}
+                        />
+                    </HStack>
                 }
                 onFileClick={url ? () => window.open(url, "_blank", "noopener,noreferrer") : undefined}
                 /* @ts-expect-error Funker fint med ReactNode */
-                description={isConverted ? <SeOverDescription /> : undefined}
+                description={isConverted ? <SeOverDescription /> : showCancelButton ? t("lasterOpp") : undefined}
                 error={
                     validations?.length
                         ? t(`validation.${validations[0]}`)
