@@ -26,7 +26,6 @@ interface Props {
     uploadId: string;
     onSelect?: (files: FileObject[]) => void;
     onUploadsAdded: (uploads: UploadState[]) => void;
-    onUploadRemoved: (correlationId: string) => void;
     variant?: "normal" | "warning";
 }
 
@@ -44,7 +43,6 @@ const FileSelectNew = ({
     variant,
     onSelect,
     onUploadsAdded,
-    onUploadRemoved,
     isPending,
 }: Props) => {
     const { id: fiksDigisosId } = useParams<{ id: string }>();
@@ -53,7 +51,6 @@ const FileSelectNew = ({
     const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
 
     const [folderDropError, setFolderDropError] = useState(false);
-    const [fileWasDeleted, setFileWasDeleted] = useState(false);
     const [skjermleserBeskjed, setSkjermleserBeskjed] = useState<{ text: string; activeRegion: LiveRegionIndex }>({
         text: "",
         activeRegion: 0,
@@ -84,7 +81,6 @@ const FileSelectNew = ({
         setFolderDropError(folders.length > 0);
 
         if (valid.length === 0) return;
-        setFileWasDeleted(false);
         oppdaterSkjermleserBeskjed(t("filLagtTil", { count: valid.length }));
         onSelect?.(valid);
 
@@ -132,9 +128,6 @@ const FileSelectNew = ({
                     {skjermleserBeskjed.activeRegion === index ? skjermleserBeskjed.text : ""}
                 </div>
             ))}
-            <div role="status" aria-live="polite" className="sr-only">
-                {fileWasDeleted && t("filSlettet", { count: docState.uploads?.length ?? 0 })}
-            </div>
             <VStack gap="space-24">
                 <FileSelectUpload
                     label={label ?? t("tittel")}
@@ -198,17 +191,13 @@ const FileSelectNew = ({
                                     }
                                     deleteDisabled={isPending}
                                     onTerminate={() => {
-                                        // Sett fileWasDeleted=true mens filen ennå er i docState —
-                                        // live-regionen leser da riktig antall gjenværende filer.
-                                        // Siden Button ikke lenger bruker loading-prop, setter
-                                        // nettleseren ikke disabled på knappen automatisk, og
-                                        // VoiceOver beholder fokuset mens kunngjøringen leses.
-                                        setFileWasDeleted(true);
-                                        setTimeout(() => {
-                                            if (upload.correlationId) {
-                                                onUploadRemoved(upload.correlationId);
-                                            }
-                                        }, 1500);
+                                        // Kunngjør til skjermleser med 0ms delay — ingen filvelger-dialog
+                                        // å vente på her. Filen forblir i docState og forsvinner naturlig
+                                        // ved resetState() (Send inn) eller neste sideinnlasting.
+                                        oppdaterSkjermleserBeskjed(
+                                            t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 }),
+                                            0
+                                        );
                                     }}
                                 />
                             ))}
