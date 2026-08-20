@@ -2,7 +2,7 @@ import { useEffect, useReducer } from "react";
 import { eventstreamUrl, openEventChannel } from "@components/filopplasting/api/openEventChannel";
 import { useParams } from "next/navigation";
 
-export type UploadStatus = "PROCESSING" | "FAILED" | "COMPLETE" | "PENDING" | "DELETING";
+export type UploadStatus = "PROCESSING" | "FAILED" | "COMPLETE" | "PENDING";
 
 export type UploadState = {
     originalFilename: string;
@@ -42,8 +42,7 @@ export type DocumentStateUpdate =
       }
     | { type: "clear" }
     | { type: "addUploads"; uploads: UploadState[] }
-    | { type: "removeUpload"; correlationId: string }
-    | { type: "markAsDeleting"; correlationId: string };
+    | { type: "removeUpload"; correlationId: string };
 
 const documentStateReducer = (state: DocumentState, payload: DocumentStateUpdate): DocumentState => {
     const { type } = payload;
@@ -93,17 +92,6 @@ const documentStateReducer = (state: DocumentState, payload: DocumentStateUpdate
             uploads: (state.uploads ?? []).filter((u) => u.correlationId !== payload.correlationId),
         };
     }
-    if (type === "markAsDeleting") {
-        // Setter status til DELETING uten å fjerne filen fra listen.
-        // Dette holder <li>-elementet i DOM slik at VoiceOver ikke mister fokus
-        // og rekker å lese opp slette-kunngjøringen før elementet forsvinner.
-        return {
-            ...state,
-            uploads: (state.uploads ?? []).map((u) =>
-                u.correlationId === payload.correlationId ? { ...u, status: "DELETING" as const } : u
-            ),
-        };
-    }
     throw new Error("Unsupported type");
 };
 
@@ -114,7 +102,6 @@ export const useDocumentState = (
     resetState: () => void;
     addUploads: (uploads: UploadState[]) => void;
     removeUpload: (correlationId: string) => void;
-    markAsDeleting: (correlationId: string) => void;
 } => {
     const [state, dispatch] = useReducer(documentStateReducer, {});
     const { id: fiksDigisosId } = useParams<{ id: string }>();
@@ -122,7 +109,6 @@ export const useDocumentState = (
     const resetState = () => dispatch({ type: "clear" });
     const addUploads = (uploads: UploadState[]) => dispatch({ type: "addUploads", uploads });
     const removeUpload = (correlationId: string) => dispatch({ type: "removeUpload", correlationId });
-    const markAsDeleting = (correlationId: string) => dispatch({ type: "markAsDeleting", correlationId });
 
     // Subscribe to server-sent events and send any state updates to the reducer
     const onUpdate = (payload: Partial<DocumentState>) => {
@@ -135,5 +121,5 @@ export const useDocumentState = (
         return openEventChannel(eventstreamUrl(id, fiksDigisosId), onUpdate);
     }, [id, fiksDigisosId]);
 
-    return { state, resetState, addUploads, removeUpload, markAsDeleting };
+    return { state, resetState, addUploads, removeUpload };
 };

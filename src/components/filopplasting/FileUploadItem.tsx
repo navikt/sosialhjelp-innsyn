@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import { useMutation } from "@tanstack/react-query";
 import { FileUpload } from "@navikt/ds-react/FileUpload";
 import { Upload } from "tus-js-client";
-import { BodyShort, Button, HStack } from "@navikt/ds-react";
+import { BodyShort, Button, HStack, Loader } from "@navikt/ds-react";
 import { InformationSquareFillIcon, TrashIcon } from "@navikt/aksel-icons";
 import { browserEnv } from "@config/env";
 import { UploadStatus, ValidationCode } from "@components/filopplasting/api/useDocumentState";
@@ -17,13 +17,6 @@ interface Props {
     size?: number;
     showCancelButton?: boolean;
     onTerminate?: () => void;
-    // Kalles synkront FØR mutate() starter, altså før React rekker å re-rendre
-    // knappen med disabled=true (Aksel sin <Button> setter faktisk disabled-
-    // attributtet når loading=true, se Button.js). Uten dette mister nettleseren
-    // fokus til <body> med en gang du klikker slett — lenge før DELETING-status
-    // eller live-region-kunngjøringen i det hele tatt rekker å kjøre.
-    onBeforeDelete?: () => void;
-    buttonRef?: (el: HTMLButtonElement | null) => void;
     deleteDisabled?: boolean;
 }
 
@@ -47,8 +40,6 @@ const FileUploadItem = ({
     size,
     showCancelButton,
     onTerminate,
-    onBeforeDelete,
-    buttonRef,
     deleteDisabled,
 }: Props) => {
     const t = useTranslations("FileUploadItem");
@@ -58,14 +49,16 @@ const FileUploadItem = ({
         retry: false,
     });
     const isConverted = !!convertedFilename && convertedFilename !== originalFilename;
-
-    // Status DELETING betyr at filen er merket for sletting men fortsatt i DOM —
-    // den vises som "uploading" (spinner) slik at brukeren ser at noe skjer,
-    // og slett-knappen disables for å hindre dobbelklikk.
-    const isDeleting = status === "DELETING";
-    const isUploading =
-        (!url && !validations && status !== "FAILED" && status !== "COMPLETE" && !showCancelButton) || isDeleting;
+    const isUploading = !url && !validations && status !== "FAILED" && status !== "COMPLETE" && !showCancelButton;
     const uploadStatus = isUploading ? "uploading" : "idle";
+
+    // Vi bruker ikke loading-prop på Button fordi Aksel sin Button setter
+    // native disabled-attributtet når loading=true. Nettleseren blur'er da
+    // automatisk et disabled element, noe som gjør at VoiceOver mister fokuset
+    // og hopper til <body> — akkurat det vi prøver å unngå.
+    // Istedenfor viser vi Loader-ikonet manuelt og bruker aria-disabled for å
+    // hindre dobbelklikk, uten å sette native disabled på DOM-noden.
+    const isDeleting = isPending;
 
     return (
         <>
@@ -75,19 +68,13 @@ const FileUploadItem = ({
                 status={uploadStatus}
                 button={
                     <Button
-                        ref={buttonRef}
                         variant="tertiary"
                         data-color="neutral"
-                        icon={<TrashIcon title={t("slett")} />}
+                        icon={isDeleting ? <Loader size="xsmall" /> : <TrashIcon title={t("slett")} />}
                         onClick={() => {
-                            // Må skje synkront, FØR mutate() setter isPending/loading
-                            // på denne knappen — ellers rekker vi ikke å flytte fokus
-                            // bort før nettleseren tvinger det til <body>.
-                            onBeforeDelete?.();
-                            mutate();
+                            if (!isDeleting) mutate();
                         }}
-                        disabled={deleteDisabled || isDeleting}
-                        loading={isPending}
+                        aria-disabled={isDeleting || deleteDisabled}
                     />
                 }
                 onFileClick={url ? () => window.open(url, "_blank", "noopener,noreferrer") : undefined}

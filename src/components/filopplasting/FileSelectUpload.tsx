@@ -1,5 +1,5 @@
 import { Alert, BodyLong, Button, FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
-import { ReactNode, Ref } from "react";
+import { ReactNode } from "react";
 import { allowedFileTypes } from "@components/filopplasting/consts";
 import { UploadIcon } from "@navikt/aksel-icons";
 import useIsMobile from "@utils/useIsMobile";
@@ -16,11 +16,6 @@ interface FileSelectUploadProps {
     currentCount: number;
     accept?: string;
     variant?: "default" | "warning";
-    // Ref til den alltid-monterte overskrift-seksjonen. Brukes som et stabilt
-    // fokus-fallback fra FileSelectNew når siste fil i listen slettes — i
-    // motsetning til filliste-heading'en (som forsvinner fra DOM sammen med
-    // resten av listen når den blir tom), forsvinner denne aldri.
-    headerSectionRef?: Ref<HTMLDivElement>;
 }
 
 export const FileSelectUpload = ({
@@ -35,7 +30,6 @@ export const FileSelectUpload = ({
     currentCount,
     accept = allowedFileTypes,
     variant = "default",
-    headerSectionRef,
 }: FileSelectUploadProps) => {
     const isMobile = useIsMobile();
     const dataColor = variant === "warning" ? "warning" : undefined;
@@ -59,15 +53,8 @@ export const FileSelectUpload = ({
         );
 
     // Mobile: tag on top, label below (flex-col); Desktop: label left, tag right (flex-row)
-    // tabIndex=-1 gjør seksjonen programmatisk fokuserbar uten å komme inn i
-    // tab-rekkefølgen — se headerSectionRef over.
     const headerSection = (
-        <div
-            ref={headerSectionRef}
-            tabIndex={-1}
-            className="flex flex-col ax-md:flex-row ax-md:justify-between ax-md:items-center gap-2"
-            id={headerId}
-        >
+        <div className="flex flex-col ax-md:flex-row ax-md:justify-between ax-md:items-center gap-2" id={headerId}>
             <div className="order-2 ax-md:order-1">{labelContent}</div>
             {tag && <div className="order-1 ax-md:order-2">{tag}</div>}
         </div>
