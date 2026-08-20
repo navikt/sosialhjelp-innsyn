@@ -26,6 +26,7 @@ interface Props {
     uploadId: string;
     onSelect?: (files: FileObject[]) => void;
     onUploadsAdded: (uploads: UploadState[]) => void;
+    onUploadRemoved: (correlationId: string) => void;
     variant?: "normal" | "warning";
 }
 
@@ -43,6 +44,7 @@ const FileSelectNew = ({
     variant,
     onSelect,
     onUploadsAdded,
+    onUploadRemoved,
     isPending,
 }: Props) => {
     const { id: fiksDigisosId } = useParams<{ id: string }>();
@@ -191,13 +193,18 @@ const FileSelectNew = ({
                                     }
                                     deleteDisabled={isPending}
                                     onTerminate={() => {
-                                        // Kunngjør til skjermleser med 0ms delay — ingen filvelger-dialog
-                                        // å vente på her. Filen forblir i docState og forsvinner naturlig
-                                        // ved resetState() (Send inn) eller neste sideinnlasting.
+                                        // Kunngjør og fjern synkront. oppdaterSkjermleserBeskjed bruker
+                                        // setTimeout(fn, 0) internt, så live-regionen oppdateres i neste
+                                        // render etter at onUploadRemoved allerede har kjørt. aria-disabled
+                                        // på slett-knappen hindrer blur, så VoiceOver beholder fokuset og
+                                        // rekker å lese kunngjøringen før listen endres.
                                         oppdaterSkjermleserBeskjed(
                                             t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 }),
                                             0
                                         );
+                                        if (upload.correlationId) {
+                                            onUploadRemoved(upload.correlationId);
+                                        }
                                     }}
                                 />
                             ))}
