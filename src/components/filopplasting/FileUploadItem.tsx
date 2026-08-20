@@ -52,13 +52,13 @@ const FileUploadItem = ({
     const isUploading = !url && !validations && status !== "FAILED" && status !== "COMPLETE" && !showCancelButton;
     const uploadStatus = isUploading ? "uploading" : "idle";
 
-    // Vi bruker ikke loading-prop på Button fordi Aksel sin Button setter
+    // Vi bruker ikke loading-prop på slett-knappen fordi Aksel sin Button setter
     // native disabled-attributtet når loading=true. Nettleseren blur'er da
     // automatisk et disabled element, noe som gjør at VoiceOver mister fokuset
     // og hopper til <body> — akkurat det vi prøver å unngå.
     // Istedenfor viser vi Loader-ikonet manuelt og bruker aria-disabled for å
     // hindre dobbelklikk, uten å sette native disabled på DOM-noden.
-    //const isDeleting = isPending;
+    const isDeleting = isPending && !showCancelButton;
 
     return (
         <>
@@ -73,11 +73,20 @@ const FileUploadItem = ({
                             variant="tertiary"
                             data-color="neutral"
                             icon={
-                                showCancelButton ? <XMarkIcon title={t("cancel")} /> : <TrashIcon title={t("slett")} />
+                                isDeleting ? (
+                                    <Loader size="xsmall" />
+                                ) : showCancelButton ? (
+                                    <XMarkIcon title={t("cancel")} />
+                                ) : (
+                                    <TrashIcon title={t("slett")} />
+                                )
                             }
-                            onClick={() => mutate()}
+                            onClick={() => {
+                                if (!isDeleting) mutate();
+                            }}
                             disabled={deleteDisabled}
-                            loading={isPending}
+                            loading={showCancelButton ? isPending : false}
+                            aria-disabled={isDeleting || deleteDisabled}
                         />
                     </HStack>
                 }
