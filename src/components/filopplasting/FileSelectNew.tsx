@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import * as R from "remeda";
 import { FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
-import { ReactNode, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { getTusUploader } from "@components/filopplasting/utils/tusUploader";
 import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
 
@@ -61,19 +61,32 @@ const FileSelectNew = ({
 
     const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
 
-    // Bytter mellom to live-regioner med 200ms delay for å løse to separate problemer:
-    // 1. Firefox + VoiceOver dropper live-region-mutasjoner rett etter native filvelger
-    //    lukkes — delayen gir tid til fokusretur før live-regionen oppdateres.
-    // 2. Identisk tekst leses ikke opp igjen — veksling mellom regionene sikrer at
-    //    skjermleseren alltid ser en endring fra tom til tekst.
+    // "Varmer opp" live-regionen med en usynlig dummy-tekst rett etter mount.
+    // Uten dette leser flere skjermlesere ikke opp den aller første kunngjøringen —
+    // kun de påfølgende.
+    useEffect(() => {
+        const warmupTimer = setTimeout(() => {
+            setSkjermleserBeskjed(({ activeRegion }) => ({ text: "\u00A0", activeRegion }));
+        }, 50);
+        return () => clearTimeout(warmupTimer);
+    }, []);
+
+    // Bytter mellom to live-regioner slik at identisk tekst leses opp igjen
+    // (skjermleseren ser alltid en endring fra tom til tekst).
+    // delay=0 oppdaterer state synkront istedenfor via setTimeout, slik at
+    // React batcher kunngjøringen sammen med f.eks. onUploadRemoved i samme render.
     const oppdaterSkjermleserBeskjed = (text: string, delay = 200) => {
         clearTimeout(announceTimerRef.current);
-        announceTimerRef.current = setTimeout(() => {
+        const apply = () =>
             setSkjermleserBeskjed(({ activeRegion }) => ({
                 text,
                 activeRegion: activeRegion === 0 ? 1 : 0,
             }));
-        }, delay);
+        if (delay === 0) {
+            apply();
+        } else {
+            announceTimerRef.current = setTimeout(apply, delay);
+        }
     };
 
     // Starter opplasting umiddelbart ved filvalg
@@ -193,11 +206,6 @@ const FileSelectNew = ({
                                     }
                                     deleteDisabled={isPending}
                                     onTerminate={() => {
-                                        // Kunngjør og fjern synkront. oppdaterSkjermleserBeskjed bruker
-                                        // setTimeout(fn, 0) internt, så live-regionen oppdateres i neste
-                                        // render etter at onUploadRemoved allerede har kjørt. aria-disabled
-                                        // på slett-knappen hindrer blur, så VoiceOver beholder fokuset og
-                                        // rekker å lese kunngjøringen før listen endres.
                                         oppdaterSkjermleserBeskjed(
                                             t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 }),
                                             0
