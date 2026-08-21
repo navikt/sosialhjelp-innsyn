@@ -58,7 +58,7 @@ const FileSelectNew = ({
         activeRegion: 0,
     });
     const announceTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-    // Brukes for å unngå at nettleseren bytter fokus til et helt annet plasse.
+    // Brukes for å unngå at nettleseren bytter fokus til et helt annet sted.
     const focusAnchorRef = useRef<HTMLDivElement>(null);
 
     const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
@@ -73,9 +73,9 @@ const FileSelectNew = ({
         return () => clearTimeout(warmupTimer);
     }, []);
 
-    // Bytter mellom to live-regioner tekst duplikater blir opplest.
-    // Bruker delay for å oppdaterer state synkront istedenfor, slik at
-    // ting blir kjørt i samme render.
+    // Bytter mellom to live-regioner slik at identisk tekst leses opp igjen.
+    // delay=0 oppdaterer state synkront (ikke via setTimeout), slik at React
+    // batcher kunngjøringen sammen med f.eks. onUploadRemoved i samme render.
     const oppdaterSkjermleserBeskjed = (text: string, delay = 200) => {
         clearTimeout(announceTimerRef.current);
         const apply = () =>
