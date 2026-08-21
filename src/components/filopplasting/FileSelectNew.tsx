@@ -58,18 +58,14 @@ const FileSelectNew = ({
         activeRegion: 0,
     });
     const announceTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-    // Stabilt, alltid-montert fokusmål. Ligger som en egen søsken-node (ikke inni
-    // FileSelectUpload sin label-struktur) for å unngå at nettleseren kobler
-    // fokus-hoppet til et helt annet skjemafelt. Brukes til å flytte fokus vekk
-    // fra slett-knappen FØR raden fjernes fra DOM, slik at nettleseren ikke selv
-    // sender fokus til <body> når det fokuserte elementet forsvinner.
+    // Brukes for å unngå at nettleseren bytter fokus til et helt annet plasse.
     const focusAnchorRef = useRef<HTMLDivElement>(null);
 
     const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
 
     // "Varmer opp" live-regionen med en usynlig dummy-tekst rett etter mount.
-    // Uten dette leser flere skjermlesere ikke opp den aller første kunngjøringen —
-    // kun de påfølgende.
+    // Uten dette leser de fleste skjermleserne ikke opp det første valget, bare de
+    // som velges etterpå.
     useEffect(() => {
         const warmupTimer = setTimeout(() => {
             setSkjermleserBeskjed(({ activeRegion }) => ({ text: "\u00A0", activeRegion }));
@@ -214,9 +210,8 @@ const FileSelectNew = ({
                                     deleteDisabled={isPending}
                                     onTerminate={() => {
                                         // Flytt fokus vekk fra slett-knappen FØR raden fjernes fra DOM.
-                                        // Uten dette tvinger nettleseren fokus til <body> når det
-                                        // fokuserte elementet forsvinner, og skjermleseren mister
-                                        // stedet sitt istedenfor å høre kunngjøringen under.
+                                        // Ellers flyttes nettleser fokus til <body> når det
+                                        // fokuserte elementet forsvinner, og vil ikke lese opp "filSlettet".
                                         focusAnchorRef.current?.focus();
                                         oppdaterSkjermleserBeskjed(
                                             t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 }),
