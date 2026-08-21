@@ -73,10 +73,9 @@ const FileSelectNew = ({
         return () => clearTimeout(warmupTimer);
     }, []);
 
-    // Bytter mellom to live-regioner slik at identisk tekst leses opp igjen
-    // (skjermleseren ser alltid en endring fra tom til tekst).
-    // delay=0 oppdaterer state synkront istedenfor via setTimeout, slik at
-    // React batcher kunngjøringen sammen med f.eks. onUploadRemoved i samme render.
+    // Bytter mellom to live-regioner tekst duplikater blir opplest.
+    // Bruker delay for å oppdaterer state synkront istedenfor, slik at
+    // ting blir kjørt i samme render.
     const oppdaterSkjermleserBeskjed = (text: string, delay = 200) => {
         clearTimeout(announceTimerRef.current);
         const apply = () =>
@@ -189,40 +188,49 @@ const FileSelectNew = ({
                             </>
                         )}
                         <VStack as="ul" gap="space-8">
-                            {docState.uploads?.map((upload) => (
-                                <FileUploadItem
-                                    key={upload.id}
-                                    url={
-                                        upload.url
-                                            ? `${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`
-                                            : undefined
-                                    }
-                                    uploadId={upload.id}
-                                    convertedFilename={upload.finalFilename}
-                                    originalFilename={upload.originalFilename}
-                                    validations={upload.validations}
-                                    status={upload.status}
-                                    size={upload.size}
-                                    showCancelButton={
-                                        showSlowProcessingWarning &&
-                                        (upload.status === "PENDING" || upload.status === "PROCESSING")
-                                    }
-                                    deleteDisabled={isPending}
-                                    onTerminate={() => {
-                                        // Flytt fokus vekk fra slett-knappen FØR raden fjernes fra DOM.
-                                        // Ellers flyttes nettleser fokus til <body> når det
-                                        // fokuserte elementet forsvinner, og vil ikke lese opp "filSlettet".
-                                        focusAnchorRef.current?.focus();
-                                        oppdaterSkjermleserBeskjed(
-                                            t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 }),
-                                            0
-                                        );
-                                        if (upload.correlationId) {
-                                            onUploadRemoved(upload.correlationId);
+                            {docState.uploads?.map((upload) => {
+                                let deleteButtonEl: HTMLButtonElement | null = null;
+
+                                return (
+                                    <FileUploadItem
+                                        key={upload.id}
+                                        url={
+                                            upload.url
+                                                ? `${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`
+                                                : undefined
                                         }
-                                    }}
-                                />
-                            ))}
+                                        uploadId={upload.id}
+                                        convertedFilename={upload.finalFilename}
+                                        originalFilename={upload.originalFilename}
+                                        validations={upload.validations}
+                                        status={upload.status}
+                                        size={upload.size}
+                                        showCancelButton={
+                                            showSlowProcessingWarning &&
+                                            (upload.status === "PENDING" || upload.status === "PROCESSING")
+                                        }
+                                        deleteDisabled={isPending}
+                                        buttonRef={(el) => {
+                                            deleteButtonEl = el;
+                                        }}
+                                        onTerminate={() => {
+                                            // Flytter kun fokus hvis brukeren er på knappen
+                                            // Ellers om brukeren har beveget seg bort
+                                            // etter å ha trykt på slett-fil, vil fokus ikke bli stjelt.
+                                            if (document.activeElement === deleteButtonEl) {
+                                                focusAnchorRef.current?.focus();
+                                            }
+                                            oppdaterSkjermleserBeskjed(
+                                                t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 }),
+                                                0
+                                            );
+                                            if (upload.correlationId) {
+                                                onUploadRemoved(upload.correlationId);
+                                            }
+                                        }}
+                                    />
+                                );
+                            })}
                         </VStack>
                     </VStack>
                 )}

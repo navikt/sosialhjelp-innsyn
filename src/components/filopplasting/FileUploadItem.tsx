@@ -18,6 +18,7 @@ interface Props {
     showCancelButton?: boolean;
     onTerminate?: () => void;
     deleteDisabled?: boolean;
+    buttonRef?: (el: HTMLButtonElement | null) => void;
 }
 
 const SeOverDescription = () => {
@@ -41,6 +42,7 @@ const FileUploadItem = ({
     showCancelButton,
     onTerminate,
     deleteDisabled,
+    buttonRef,
 }: Props) => {
     const t = useTranslations("FileUploadItem");
     const { mutate, isPending } = useMutation({
@@ -52,13 +54,13 @@ const FileUploadItem = ({
     const isUploading = !url && !validations && status !== "FAILED" && status !== "COMPLETE" && !showCancelButton;
     const uploadStatus = isUploading ? "uploading" : "idle";
 
-    // Vi bruker ikke loading-prop på slett-knappen fordi Aksel sin Button setter
+    // Vi bruker ikke loading-prop på knappen fordi Aksel sin Button setter
     // native disabled når loading=true. Nettleseren blur'er da
     // automatisk et disabled element, noe som gjør at VoiceOver mister fokuset
-    // og hopper til <body>.
+    // og hopper til <body>. Gjelder både slett- og avbryt-knappen.
     // Istedenfor viser vi Loader-ikonet manuelt og bruker aria-disabled for å
     // hindre dobbelklikk, uten å sette native disabled på DOM-noden.
-    const isDeleting = isPending && !showCancelButton;
+    const isBusy = isPending;
 
     return (
         <>
@@ -70,10 +72,11 @@ const FileUploadItem = ({
                     <HStack align="center" gap="space-4">
                         {showCancelButton && <Loader />}
                         <Button
+                            ref={buttonRef}
                             variant="tertiary"
                             data-color="neutral"
                             icon={
-                                isDeleting ? (
+                                isBusy ? (
                                     <Loader size="xsmall" />
                                 ) : showCancelButton ? (
                                     <XMarkIcon title={t("cancel")} />
@@ -82,11 +85,10 @@ const FileUploadItem = ({
                                 )
                             }
                             onClick={() => {
-                                if (!isDeleting) mutate();
+                                if (!isBusy) mutate();
                             }}
                             disabled={deleteDisabled}
-                            loading={showCancelButton ? isPending : false}
-                            aria-disabled={isDeleting || deleteDisabled}
+                            aria-disabled={isBusy || deleteDisabled}
                         />
                     </HStack>
                 }
