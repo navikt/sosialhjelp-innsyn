@@ -16,6 +16,8 @@
     },
     "FileUploadItem": {
         "uploadFailed": "Upload failed. Please try again later.",
+        "lasterOpp": "Uploading...",
+        "cancel": "Cancel",
         "validation": {
             "ENCRYPTED_PDF": "The PDF is password protected and we cannot process it",
             "FILETYPE_NOT_SUPPORTED": "The file type is not supported",
@@ -73,7 +75,7 @@
         "vilkar": {
             "title": "You have received conditions",
             "titleEmpty": "You may have received conditions",
-            "descriptionEmpty": "As part of your follow-up from Nav, you may have received conditions. Conditions are activities or documentation requirements you must fulfil. <lenke>Read your decision letter</lenke> to see if you have received conditions.",
+            "descriptionEmpty": "As part of your follow-up from Nav, you may have received conditions. Conditions are activities or documentation requirements you must fulfil. Read your decision letter to see if you have received conditions.",
             "description": "As part of your follow-up from Nav, you have been given conditions (activities) that you must fulfill:",
             "vilkar": "<bold>{name}</bold> ({frist, date, ::ddMMyyyy})",
             "kanHaFlere": "You may have received more conditions than those shown here. <lenke>Read your decision letter</lenke> to see if you have received more conditions."
@@ -624,5 +626,139 @@
     "SoknadsoppgaverSection": {
         "title": "We are missing some documentation for your application.",
         "suffix": "tasks"
+    },
+    "VedleggskravVisning": {
+        "LONNSLIPP_ARBEID": {
+            "tittel": "Pay slip",
+            "tilleggsinfo": "Upload information on income"
+        },
+        "SLUTTOPPGJOR_ARBEID": {
+            "tittel": "Final settlement",
+            "tilleggsinfo": "Upload final settlement"
+        },
+        "STUDENT_VEDTAK": {
+            "tittel": "Letter of decision from Lånekassen",
+            "tilleggsinfo": "Upload letter of decision from Lånekassen"
+        },
+        "BARNEBIDRAG_BETALER": {
+            "tittel": "Child support",
+            "tilleggsinfo": "Upload information concerning child support expense"
+        },
+        "BARNEBIDRAG_MOTTAR": {
+            "tittel": "Child support",
+            "tilleggsinfo": "Upload information on received child support"
+        },
+        "SAMVARSAVTALE_BARN": {
+            "tittel": "Visitation agreement or agreement on shared residence",
+            "tilleggsinfo": "Upload visitation agreement, or agreement on shared residence"
+        },
+        "HUSLEIEKONTRAKT_HUSLEIEKONTRAKT": {
+            "tittel": "Rental agreement",
+            "tilleggsinfo": "Copy of valid rental agreement"
+        },
+        "HUSLEIEKONTRAKT_KOMMUNAL": {
+            "tittel": "Rental agreement",
+            "tilleggsinfo": "Copy of valid rental agreement for municipal housing"
+        },
+        "BOSTOTTE_VEDTAK": {
+            "tittel": "Housing allowance decision",
+            "tilleggsinfo": "Upload the last letter of decision on housing allowance"
+        },
+        "KONTOOVERSIKT_BRUKSKONTO": {
+            "tittel": "Balance in current account",
+            "tilleggsinfo": "Upload balance statement"
+        },
+        "KONTOOVERSIKT_BSU": {
+            "tittel": "Balance in BSU account",
+            "tilleggsinfo": "Upload balance statement"
+        },
+        "KONTOOVERSIKT_SPAREKONTO": {
+            "tittel": "Balance in savings account",
+            "tilleggsinfo": "Upload balance statement"
+        },
+        "KONTOOVERSIKT_LIVSFORSIKRING": {
+            "tittel": "Life insurance",
+            "tilleggsinfo": "Upload documentation on life insurance"
+        },
+        "KONTOOVERSIKT_AKSJER": {
+            "tittel": "Balance in share savings account / VPS account",
+            "tilleggsinfo": "Upload balance statement"
+        },
+        "KONTOOVERSIKT_ANNET": {
+            "tittel": "Other bank deposits or savings",
+            "tilleggsinfo": "Upload information on other bank deposits or savings"
+        },
+        "DOKUMENTASJON_UTBYTTE": {
+            "tittel": "Dividends",
+            "tilleggsinfo": "Upload information on dividends"
+        },
+        "SALGSOPPGJOR_EIENDOM": {
+            "tittel": "Sale settlement from property sale",
+            "tilleggsinfo": "Upload information on sale settlement"
+        },
+        "DOKUMENTASJON_FORSIKRINGSUTBETALING": {
+            "tittel": "Insurance payout",
+            "tilleggsinfo": "Upload information on insurance payouts"
+        },
+        "DOKUMENTASJON_ANNETINNTEKTER": {
+            "tittel": "Other payments",
+            "tilleggsinfo": "Upload information on other payments"
+        },
+        "FAKTURA_HUSLEIE": {
+            "tittel": "Rent expenses",
+            "tilleggsinfo": "Upload receipt/invoice"
+        },
+        "FAKTURA_STROM": {
+            "tittel": "Electricity expenses",
+            "tilleggsinfo": "Upload receipt/invoice"
+        },
+        "FAKTURA_KOMMUNALEAVGIFTER": {
+            "tittel": "Municipal charges",
+            "tilleggsinfo": "Upload receipt/invoice"
+        },
+        "FAKTURA_OPPVARMING": {
+            "tittel": "Heating expenses",
+            "tilleggsinfo": "Upload receipt/invoice"
+        },
+        "NEDBETALINGSPLAN_AVDRAGLAAN": {
+            "tittel": "Installment plan for home mortgage",
+            "tilleggsinfo": "Upload installment plan"
+        },
+        "DOKUMENTASJON_ANNETBOUTGIFT": {
+            "tittel": "Other housing expenses",
+            "tilleggsinfo": "Upload information on other housing expenses"
+        },
+        "FAKTURA_FRITIDSAKTIVITET": {
+            "tittel": "Children's leisure activity expenses",
+            "tilleggsinfo": "Upload receipt/invoice"
+        },
+        "FAKTURA_BARNEHAGE": {
+            "tittel": "Kindergarten expenses",
+            "tilleggsinfo": "Upload receipt/invoice"
+        },
+        "FAKTURA_SFO": {
+            "tittel": "After-school program (SFO/AKS) expenses",
+            "tilleggsinfo": "Upload receipt/invoice"
+        },
+        "FAKTURA_TANNBEHANDLING": {
+            "tittel": "Orthodontic treatment expenses",
+            "tilleggsinfo": "Upload receipt/invoice"
+        },
+        "FAKTURA_ANNETBARNUTGIFT": {
+            "tittel": "Other child expenses",
+            "tilleggsinfo": "Upload receipt/invoice"
+        },
+        "SKATTEMELDING_SKATTEMELDING": {
+            "tittel": "Tax return and tax settlement",
+            "tilleggsinfo": "Upload tax return and tax settlement"
+        },
+        "OPPHOLDSTILLATEL_OPPHOLDSTILLATEL": {
+            "tittel": "Registration certificate or residence permit",
+            "tilleggsinfo": "Upload registration certificate/residence permit"
+        },
+        "ANNET_ANNET": {
+            "tittel": "Other documentation",
+            "tilleggsinfo": ""
+        }
     }
 }

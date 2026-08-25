@@ -5,8 +5,7 @@ import ForlengetBehandlingstid from "./Behandlingstid";
 import OppgaveListe from "./OppgaveListe";
 import { BodyLong, BodyShort, VStack, Link as AkselLink, List } from "@navikt/ds-react";
 import { useLocale, useTranslations } from "next-intl";
-import React, { ReactNode } from "react";
-import { Link } from "@i18n/navigation";
+import { ReactNode } from "react";
 import VilkarReadMore from "../vilkar/readmore/VilkarReadMore";
 
 type AlertState =
@@ -62,15 +61,7 @@ const SoknadInfoCard = ({ state }: Props) => {
             return (
                 <Info variant="neutral" title={t("vilkar.titleEmpty")} titleId="vilkar-info-card-title">
                     <VStack gap="space-16">
-                        <BodyLong>
-                            {t.rich("vilkar.descriptionEmpty", {
-                                lenke: (chunks) => (
-                                    <AkselLink as={Link} href="#vedtak" inlineText>
-                                        {chunks}
-                                    </AkselLink>
-                                ),
-                            })}
-                        </BodyLong>
+                        <BodyLong>{t("vilkar.descriptionEmpty")}</BodyLong>
                         <VilkarReadMore />
                     </VStack>
                 </Info>

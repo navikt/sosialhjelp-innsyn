@@ -2,7 +2,6 @@ export const maxCombinedFileSize = 150 * 1024 * 1024; // max bytes lov å laste 
 export const maxFileSize = 10 * 1024 * 1024; // max bytes per fil
 export const maxFileCount = 30; // max antall filer som kan lastes opp
 
-export const allowedFileTypesLegacy = ".jpg,.jpeg,.png,.pdf";
 export const allowedFileTypes =
     // Word Processing
     ".doc,.docx,.docm,.dot,.dotm,.dotx,.odt,.fodt,.ott,.rtf,.txt,.wps,.wpd,.pages,.abw,.zabw,.lwp,.mw,.mcw,.hwp,.sxw,.stw,.sgl,.vor,.602,.bib,.xml,.cwk,.psw,.uof," +

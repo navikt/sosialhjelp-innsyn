@@ -1,6 +1,6 @@
 "use client";
 
-import React, { PropsWithChildren, use } from "react";
+import React, { PropsWithChildren, use, useEffect } from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { onBreadcrumbClick, onLanguageSelect } from "@navikt/nav-dekoratoren-moduler";
 import { configureLogger } from "@navikt/next-logger";
@@ -34,12 +34,15 @@ const Providers = ({ togglesPromise, tilgang, children }: PropsWithChildren<Prop
     // Default options for query clienten blir satt i orval.config.ts
     const queryClient = getQueryClient();
 
-    onLanguageSelect(async () => {
-        router.replace(pathname.replace(/\/(en|nn|nb)/, "/"));
-        return router.refresh();
-    });
+    useEffect(() => {
+        onLanguageSelect(async () => {
+            router.replace(pathname.replace(/\/(en|nn|nb)/, "/"));
+            return router.refresh();
+        });
 
-    onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
+        onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
+    }, [router, pathname]);
+
     return (
         <QueryClientProvider client={queryClient}>
             <FlagProvider toggles={toggles}>

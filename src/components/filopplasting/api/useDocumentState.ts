@@ -14,6 +14,7 @@ export type UploadState = {
     url?: string;
     status: UploadStatus;
     size?: number;
+    correlationId?: string;
 };
 
 export enum ValidationCode {
@@ -39,35 +40,86 @@ export type DocumentStateUpdate =
           type: "update";
           newState: Partial<DocumentState>;
       }
-    | { type: "clear" };
+    | { type: "clear" }
+    | { type: "addUploads"; uploads: UploadState[] }
+    | { type: "removeUpload"; correlationId: string };
 
-const documentStateReducer = (state: DocumentState, payload: DocumentStateUpdate) => {
+const documentStateReducer = (state: DocumentState, payload: DocumentStateUpdate): DocumentState => {
     const { type } = payload;
-    if (type == "update") {
+    if (type === "update") {
         const { newState } = payload;
         if (state.submissionId && state.submissionId !== newState.submissionId) {
             return newState;
         }
 
-        return { ...state, ...newState };
+        const incoming = newState.uploads ?? [];
+        const existing = state.uploads ?? [];
+
+        // Update existing entries in place, matching by correlationId or id
+        const updated = existing.map((existingUpload) => {
+            const match = incoming.find(
+                (u) =>
+                    (u.correlationId && u.correlationId === existingUpload.correlationId) || u.id === existingUpload.id
+            );
+            return match ?? existingUpload;
+        });
+
+        // Append genuinely new uploads from SSE (no match by correlationId or id)
+        const existingIds = new Set(existing.map((u) => u.id));
+        const existingCorrelationIds = new Set(existing.map((u) => u.correlationId).filter(Boolean));
+        const newFromSse = incoming.filter(
+            (u) => !existingIds.has(u.id) && (!u.correlationId || !existingCorrelationIds.has(u.correlationId))
+        );
+
+        return {
+            ...state,
+            ...newState,
+            uploads: [...updated, ...newFromSse],
+        };
     }
-    if (type == "clear") {
+    if (type === "clear") {
         return { ...state, error: undefined, uploads: [], validations: [] };
+    }
+    if (type === "addUploads") {
+        return {
+            ...state,
+            uploads: [...(state.uploads ?? []), ...payload.uploads],
+        };
+    }
+    if (type === "removeUpload") {
+        return {
+            ...state,
+            uploads: (state.uploads ?? []).filter((u) => u.correlationId !== payload.correlationId),
+        };
     }
     throw new Error("Unsupported type");
 };
 
-export const useDocumentState = (id: string): { state: DocumentState; resetState: () => void } => {
+export const useDocumentState = (
+    id: string
+): {
+    state: DocumentState;
+    resetState: () => void;
+    addUploads: (uploads: UploadState[]) => void;
+    removeUpload: (correlationId: string) => void;
+} => {
     const [state, dispatch] = useReducer(documentStateReducer, {});
     const { id: fiksDigisosId } = useParams<{ id: string }>();
 
     const resetState = () => dispatch({ type: "clear" });
+    const addUploads = (uploads: UploadState[]) => dispatch({ type: "addUploads", uploads });
+    const removeUpload = (correlationId: string) => dispatch({ type: "removeUpload", correlationId });
 
     // Subscribe to server-sent events and send any state updates to the reducer
-    const onUpdate = (payload: Partial<DocumentState>) => dispatch({ type: "update", newState: payload });
+    const onUpdate = (payload: Partial<DocumentState>) => {
+        if (payload.error === "forbidden") {
+            return dispatch({ type: "clear" });
+        }
+        dispatch({ type: "update", newState: payload });
+    };
     useEffect(() => {
         return openEventChannel(eventstreamUrl(id, fiksDigisosId), onUpdate);
     }, [id, fiksDigisosId]);
 
-    return { state, resetState };
+    return { state, resetState, addUploads, removeUpload };
 };

@@ -5,7 +5,7 @@ import { DocumentState } from "@components/filopplasting/api/useDocumentState";
 export const eventstreamUrl = (contextId: string, fiksDigisosId: string) =>
     `${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/status/${contextId}?fiksDigisosId=${fiksDigisosId}` as const;
 
-const isUpdateMessage = (payload: unknown): payload is DocumentState => {
+const isUpdateMessage = (payload: unknown): payload is DocumentState | { error: "forbidden" } => {
     return typeof payload === "object" && payload !== null && !Object.hasOwn(payload, "heartbeat");
 };
 
@@ -28,8 +28,14 @@ export const openEventChannel = (url: string, onUpdate: (payload: Partial<Docume
 
         eventSource.onmessage = (event) => {
             try {
-                const data = JSON.parse(event.data) as DocumentState;
-                if (isUpdateMessage(data)) onUpdate(data);
+                const data = JSON.parse(event.data) as unknown;
+                if (isUpdateMessage(data)) {
+                    onUpdate(data);
+                    if (data.error === "forbidden") {
+                        closed = true;
+                        eventSource.close();
+                    }
+                }
             } catch (e) {
                 logger.error(e);
             }

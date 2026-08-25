@@ -52,12 +52,14 @@ export default function GlobalError({ error }: { error: Error & { digest?: strin
     const router = useRouter();
     const pathname = usePathname();
 
-    onLanguageSelect(async () => {
-        router.replace(pathname.replace(/\/(en|nn|nb)/, "/"));
-        router.refresh();
-    });
+    useEffect(() => {
+        onLanguageSelect(async () => {
+            router.replace(pathname.replace(/\/(en|nn|nb)/, "/"));
+            router.refresh();
+        });
 
-    onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
+        onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
+    }, [router, pathname]);
 
     return (
         <html lang={locale}>
