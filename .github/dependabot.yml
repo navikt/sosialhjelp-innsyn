@@ -25,7 +25,7 @@ updates:
     schedule:
       interval: daily
     # Set to 0 to disable version updates for npm dependencies (does not affect security-updates)
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 8
     registries:
       - npm-github
     groups:
@@ -35,5 +35,3 @@ updates:
       minor:
         update-types:
           - "minor"
-    cooldown:
-      default-days: 7
