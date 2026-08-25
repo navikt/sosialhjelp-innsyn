@@ -25,6 +25,7 @@ export const getTusUploader = ({
             contextId: id,
             fiksDigisosId,
             ...(correlationId && { correlationId }),
+            automaticCleanup: "true",
         },
         uploadSize: file.size,
         onError: (error: unknown) => logger.error(`Upload failed: ${error}`),
