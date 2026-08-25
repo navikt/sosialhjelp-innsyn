@@ -9,16 +9,13 @@ updates:
     directory: '/'
     schedule:
       interval: daily
-    open-pull-requests-limit: 5
-    cooldown:
-      default-days: 7
+    open-pull-requests-limit: 8
 
   - package-ecosystem: docker
     directory: '/'
     schedule:
       interval: daily
-    cooldown:
-       default-days: 7
+    open-pull-requests-limit: 8
 
   - package-ecosystem: npm
     directory: '/'
