@@ -26,15 +26,14 @@ updates:
       interval: daily
     # Set to 0 to disable version updates for npm dependencies (does not affect security-updates)
     open-pull-requests-limit: 5
-    ignore:
-      - dependency-name: "*"
-        update-types: [ "version-update:semver-patch" ]
     registries:
       - npm-github
     groups:
-      minor-patch:
+      patch:
+        update-types:
+          - "patch"
+      minor:
         update-types:
           - "minor"
-          - "patch"
     cooldown:
       default-days: 7
