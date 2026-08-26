@@ -27,8 +27,12 @@ updates:
       - npm-github
     groups:
       patch:
+        patterns:
+          - "*"
         update-types:
           - "patch"
       minor:
+        patterns:
+          - "*"
         update-types:
           - "minor"
