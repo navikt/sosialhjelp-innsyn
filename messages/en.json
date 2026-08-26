@@ -434,6 +434,11 @@
         "pdf": "PDF file"
     },
     "KlageForm": {
+        "steg": {
+            "begrunnelse": "Reasoning",
+            "oppsummering": "Summary",
+            "kvittering": "Receipt"
+        },
         "bakgrunn": {
             "label": "Provide the background for the complaint",
             "beskrivelse": "To process your complaint, it is important that you explain why you disagree with the decision and what you want changed."
@@ -445,6 +450,8 @@
             "maksLengde": "You can write a maximum of {maksLengde} characters",
             "maksFiler": "You can upload a maximum of {maksFiler} files"
         },
+        "gaVidereKnapp": "Continue",
+        "tilbakeKnapp": "Back",
         "forkastKlageKnapp": "Discard",
         "sendKlage": "Send",
         "sendingFeilet": "Failed to send the complaint. Please try again later or contact your local NAV office."
