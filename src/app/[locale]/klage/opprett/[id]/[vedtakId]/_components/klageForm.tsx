@@ -1,6 +1,6 @@
 "use client";
 
-import { FileObject, Stepper, VStack } from "@navikt/ds-react";
+import { Bleed, FileObject, Stepper, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { useState } from "react";
@@ -103,15 +103,22 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
     return (
         <>
             <VStack gap="space-12">
-                <Stepper activeStep={aktivtSteg} onStepChange={setAktivtSteg} orientation="horizontal">
-                    <Stepper.Step interactive={aktivtSteg == 2} completed={aktivtSteg > 1}>
-                        {t("steg.begrunnelse")}
-                    </Stepper.Step>
-                    <Stepper.Step interactive={false} completed={aktivtSteg > 2}>
-                        {t("steg.oppsummering")}
-                    </Stepper.Step>
-                    <Stepper.Step interactive={false}>{t("steg.kvittering")}</Stepper.Step>
-                </Stepper>
+                <Bleed marginInline="full" reflectivePadding className="bg-ax-bg-neutral-soft py-5">
+                    <Stepper
+                        className="klage-stepper-accent"
+                        activeStep={aktivtSteg}
+                        onStepChange={setAktivtSteg}
+                        orientation="horizontal"
+                    >
+                        <Stepper.Step interactive={aktivtSteg == 2} completed={aktivtSteg > 1}>
+                            {t("steg.begrunnelse")}
+                        </Stepper.Step>
+                        <Stepper.Step interactive={false} completed={aktivtSteg > 2}>
+                            {t("steg.oppsummering")}
+                        </Stepper.Step>
+                        <Stepper.Step interactive={false}>{t("steg.kvittering")}</Stepper.Step>
+                    </Stepper>
+                </Bleed>
 
                 <FormProvider {...formMethods}>
                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20">
