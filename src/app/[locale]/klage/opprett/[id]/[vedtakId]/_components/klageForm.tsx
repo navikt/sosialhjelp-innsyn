@@ -78,7 +78,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
             });
 
             await queryClient.invalidateQueries({ queryKey: getHentKlagerQueryKey(fiksDigisosId) });
-            await router.push(`/klage/status/${fiksDigisosId}/${klageId}`);
+            setAktivtSteg(3);
         } catch (error) {
             logger.error(`Opprett klage feilet ved sending til api ${error}, FiksDigisosId: ${fiksDigisosId}`);
         }
