@@ -19,7 +19,7 @@ const StegOppsummering = ({ isLoading, isError, onTilbake }: Props) => {
                     <Button loading={isLoading} type="submit" className="mb-4">
                         {t("sendKlage")}
                     </Button>
-                    <Button onClick={onTilbake} type="button" className="mb-4" variant="secondary">
+<Button onClick={onTilbake} type="button" className="mb-4" variant="secondary" disabled={isLoading}>
                         {t("tilbakeKnapp")}
                     </Button>
                 </HStack>
