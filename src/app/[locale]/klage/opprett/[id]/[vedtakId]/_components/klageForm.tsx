@@ -104,12 +104,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
         <>
             <VStack gap="space-12">
                 <Bleed marginInline="full" reflectivePadding className="bg-ax-bg-neutral-soft py-5">
-                    <Stepper
-                        className="klage-stepper-accent"
-                        activeStep={aktivtSteg}
-                        onStepChange={setAktivtSteg}
-                        orientation="horizontal"
-                    >
+<Stepper activeStep={aktivtSteg} onStepChange={setAktivtSteg} orientation="horizontal">
                         <Stepper.Step interactive={aktivtSteg == 2} completed={aktivtSteg > 1}>
                             {t("steg.begrunnelse")}
                         </Stepper.Step>
