@@ -100,12 +100,14 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
         router.back();
     };
 
+    const isLoading = lastOppVedleggMutation.isPending || sendKlageMutation.isPending;
+
     return (
         <>
             <VStack gap="space-12">
                 <Bleed marginInline="full" reflectivePadding className="bg-ax-bg-neutral-soft py-5">
-<Stepper activeStep={aktivtSteg} onStepChange={setAktivtSteg} orientation="horizontal">
-                        <Stepper.Step interactive={aktivtSteg == 2} completed={aktivtSteg > 1}>
+                    <Stepper activeStep={aktivtSteg} onStepChange={setAktivtSteg} orientation="horizontal">
+                        <Stepper.Step interactive={aktivtSteg == 2 && !isLoading} completed={aktivtSteg > 1}>
                             {t("steg.begrunnelse")}
                         </Stepper.Step>
                         <Stepper.Step interactive={false} completed={aktivtSteg > 2}>
@@ -131,7 +133,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
 
                         {aktivtSteg === 2 && (
                             <StegOppsummering
-                                isLoading={lastOppVedleggMutation.isPending || sendKlageMutation.isPending}
+                                isLoading={isLoading}
                                 isError={lastOppVedleggMutation.isError || sendKlageMutation.isError}
                                 onTilbake={() => setAktivtSteg(1)}
                             />
