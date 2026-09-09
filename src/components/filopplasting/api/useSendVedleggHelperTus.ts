@@ -31,7 +31,7 @@ const submitUpload = async ({
         }
     });
 
-type SubmissionError = "TOO_MANY_FILES" | "TOTAL_SIZE_TOO_LARGE";
+type SubmissionError = "TOO_MANY_FILES" | "TOTAL_SIZE_TOO_LARGE" | "NO_FILES";
 
 const useSendVedleggHelperTus = (metadata: Required<Metadata>, onSuccess: () => void) => {
     const queryClient = useQueryClient();
