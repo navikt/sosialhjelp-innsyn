@@ -1,9 +1,9 @@
 "use client";
 
-import { Alert, Button, FileObject, Textarea } from "@navikt/ds-react";
+import { Bleed, FileObject, Stepper, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-import { useForm, SubmitHandler } from "react-hook-form";
-import React, { useState } from "react";
+import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { useQueryClient } from "@tanstack/react-query";
@@ -12,12 +12,14 @@ import { logger } from "@navikt/next-logger";
 import { getHentKlagerQueryKey, useUploadDocuments, useSendKlage } from "@generated/klage-controller/klage-controller";
 import useFiles from "@components/filopplasting/useFiles";
 import { createMetadataFile, formatFilesForUpload } from "@components/filopplasting/utils/formatFiles";
-import FileSelect from "@components/filopplasting/FileSelect";
 import { Metadata } from "@components/filopplasting/types";
 
 import { MAX_LEN_BACKGROUND, MAX_FILES } from "../_consts/consts";
 
 import BekreftForkastModal from "./BekreftForkastModal";
+import StegBegrunnelse from "./steg/StegBegrunnelse";
+import StegOppsummering from "./steg/StegOppsummering";
+import StegKvittering from "./steg/StegKvittering";
 
 export type FormValues = {
     background: string | null;
@@ -41,21 +43,18 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
     const queryClient = useQueryClient();
     const router = useRouter();
     const [visBekreftForkastModal, setVisBekreftForkastModal] = useState(false);
+    const [aktivtSteg, setAktivtSteg] = useState(1);
 
     const { addFiler, files, removeFil, outerErrors } = useFiles();
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        getValues,
-    } = useForm<FormValues>({
+    const formMethods = useForm<FormValues>({
         resolver: zodResolver(klageSchema),
         defaultValues: {
             background: "",
             files: [],
         },
     });
+    const { handleSubmit, getValues } = formMethods;
 
     const lastOppVedleggMutation = useUploadDocuments();
     const sendKlageMutation = useSendKlage();
@@ -79,11 +78,12 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
             });
 
             await queryClient.invalidateQueries({ queryKey: getHentKlagerQueryKey(fiksDigisosId) });
-            await router.push(`/klage/status/${fiksDigisosId}/${klageId}`);
+            setAktivtSteg(3);
         } catch (error) {
             logger.error(`Opprett klage feilet ved sending til api ${error}, FiksDigisosId: ${fiksDigisosId}`);
         }
     };
+
     const forkastKlageButtonEvent = () => {
         const backgroundText = getValues("background");
         const hasCharacters = !!backgroundText && backgroundText.trim().length > 0;
@@ -100,41 +100,49 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
         router.back();
     };
 
+    const isLoading = lastOppVedleggMutation.isPending || sendKlageMutation.isPending;
+
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20">
-                <Textarea
-                    id={"klageTextarea" + vedtakId}
-                    resize
-                    label={t("bakgrunn.label")}
-                    description={t("bakgrunn.beskrivelse")}
-                    error={errors.background?.message && t(errors.background.message)}
-                    {...register("background")}
-                />
-                <FileSelect
-                    id={"klageVedlegg" + vedtakId}
-                    files={files}
-                    addFiler={addFiler}
-                    removeFil={removeFil}
-                    outerErrors={outerErrors}
-                    filesLabel={t("filOpplasting.dineVedlegg")}
-                />
-                <div>
-                    <Button
-                        loading={lastOppVedleggMutation.isPending || sendKlageMutation.isPending}
-                        type="submit"
-                        className="mb-4"
-                    >
-                        {t("sendKlage")}
-                    </Button>
-                    <Button onClick={forkastKlageButtonEvent} type="button" className="mb-4" variant="tertiary">
-                        {t("forkastKlageKnapp")}
-                    </Button>
-                    {(lastOppVedleggMutation.isError || sendKlageMutation.isError) && (
-                        <Alert variant="error">{t("sendingFeilet")}</Alert>
-                    )}
-                </div>
-            </form>
+            <VStack gap="space-12">
+                <Bleed marginInline="full" reflectivePadding className="bg-ax-bg-neutral-soft py-5">
+                    <Stepper activeStep={aktivtSteg} onStepChange={setAktivtSteg} orientation="horizontal">
+                        <Stepper.Step interactive={aktivtSteg == 2 && !isLoading} completed={aktivtSteg > 1}>
+                            {t("steg.begrunnelse")}
+                        </Stepper.Step>
+                        <Stepper.Step interactive={false} completed={aktivtSteg > 2}>
+                            {t("steg.oppsummering")}
+                        </Stepper.Step>
+                        <Stepper.Step interactive={false}>{t("steg.kvittering")}</Stepper.Step>
+                    </Stepper>
+                </Bleed>
+
+                <FormProvider {...formMethods}>
+                    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20">
+                        {aktivtSteg === 1 && (
+                            <StegBegrunnelse
+                                vedtakId={vedtakId}
+                                files={files}
+                                addFiler={addFiler}
+                                removeFil={removeFil}
+                                outerErrors={outerErrors}
+                                onGaVidere={handleSubmit(() => setAktivtSteg(2))}
+                                onForkastKlage={forkastKlageButtonEvent}
+                            />
+                        )}
+
+                        {aktivtSteg === 2 && (
+                            <StegOppsummering
+                                isLoading={isLoading}
+                                isError={lastOppVedleggMutation.isError || sendKlageMutation.isError}
+                                onTilbake={() => setAktivtSteg(1)}
+                            />
+                        )}
+
+                        {aktivtSteg === 3 && <StegKvittering />}
+                    </form>
+                </FormProvider>
+            </VStack>
 
             <BekreftForkastModal
                 open={visBekreftForkastModal}
