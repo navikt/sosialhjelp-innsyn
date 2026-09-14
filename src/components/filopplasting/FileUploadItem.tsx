@@ -13,6 +13,7 @@ interface Props {
     uploadId: string;
     validations?: ValidationCode[];
     url?: string;
+    isConverted: boolean;
     status: UploadStatus;
     size?: number;
     showCancelButton?: boolean;
@@ -41,6 +42,7 @@ const FileUploadItem = ({
     showCancelButton,
     onTerminate,
     deleteDisabled,
+    isConverted,
 }: Props) => {
     const t = useTranslations("FileUploadItem");
     const { mutate, isPending } = useMutation({
@@ -48,7 +50,6 @@ const FileUploadItem = ({
         onSuccess: () => onTerminate?.(),
         retry: false,
     });
-    const isConverted = !!convertedFilename && convertedFilename !== originalFilename;
     const isUploading = !url && !validations && status !== "FAILED" && status !== "COMPLETE" && !showCancelButton;
     const uploadStatus = isUploading ? "uploading" : "idle";
     return (
@@ -67,7 +68,8 @@ const FileUploadItem = ({
                                 showCancelButton ? <XMarkIcon title={t("cancel")} /> : <TrashIcon title={t("slett")} />
                             }
                             onClick={() => mutate()}
-                            disabled={deleteDisabled}loading={isPending}
+                            disabled={deleteDisabled}
+                            loading={isPending}
                         />
                     </HStack>
                 }

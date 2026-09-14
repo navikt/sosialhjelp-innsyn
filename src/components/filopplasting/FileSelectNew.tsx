@@ -91,16 +91,15 @@ const FileSelectNew = ({
             return {
                 id: correlationId,
                 correlationId,
+                converted: false,
                 originalFilename: file.file.name,
                 size: file.file.size,
                 status: "PENDING" as const,
-            };
+            } satisfies UploadState;
         });
         onUploadsAdded(optimisticUploads);
     };
-    const converted = docState.uploads?.some(
-        (upload) => !!upload.finalFilename && upload.finalFilename !== upload.originalFilename
-    );
+    const converted = docState.uploads?.some((upload) => upload.converted);
 
     return (
         <FileUpload
@@ -174,6 +173,7 @@ const FileSelectNew = ({
                                             : undefined
                                     }
                                     uploadId={upload.id}
+                                    isConverted={upload.converted}
                                     convertedFilename={upload.finalFilename}
                                     originalFilename={upload.originalFilename}
                                     validations={upload.validations}
