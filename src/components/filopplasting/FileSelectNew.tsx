@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import * as R from "remeda";
 import { FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { getTusUploader } from "@components/filopplasting/utils/tusUploader";
 import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
 
@@ -47,8 +47,8 @@ const FileSelectNew = ({
     onUploadRemoved,
     isPending,
 }: Props) => {
-    const t = useTranslations("Opplastingsboks");
     const { id: fiksDigisosId } = useParams<{ id: string }>();
+    const t = useTranslations("Opplastingsboks");
 
     const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
 
@@ -57,16 +57,37 @@ const FileSelectNew = ({
         text: "",
         activeRegion: 0,
     });
+    const announceTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+    // Brukes for å unngå at nettleseren bytter fokus til et helt annet sted.
+    const focusAnchorRef = useRef<HTMLDivElement>(null);
 
     const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
 
-    // Bytter mellom to live-regioner slik at samme beskjed kan kunngjøres flere ganger på rad.
-    // Skjermlesere leser ikke alltid opp en aria-live-region hvis tekstinnholdet er likt som sist.
-    const oppdaterSkjermleserBeskjed = (text: string) => {
-        setSkjermleserBeskjed(({ activeRegion }) => ({
-            text,
-            activeRegion: activeRegion === 0 ? 1 : 0,
-        }));
+    // "Varmer opp" live-regionen med en usynlig dummy-tekst rett etter mount.
+    // Uten dette leser de fleste skjermleserne ikke opp det første valget, bare de
+    // som velges etterpå.
+    useEffect(() => {
+        const warmupTimer = setTimeout(() => {
+            setSkjermleserBeskjed(({ activeRegion }) => ({ text: "\u00A0", activeRegion }));
+        }, 50);
+        return () => clearTimeout(warmupTimer);
+    }, []);
+
+    // Bytter mellom to live-regioner slik at identisk tekst leses opp igjen.
+    // delay=0 oppdaterer state synkront (ikke via setTimeout), slik at React
+    // batcher kunngjøringen sammen med f.eks. onUploadRemoved i samme render.
+    const oppdaterSkjermleserBeskjed = (text: string, delay = 200) => {
+        clearTimeout(announceTimerRef.current);
+        const apply = () =>
+            setSkjermleserBeskjed(({ activeRegion }) => ({
+                text,
+                activeRegion: activeRegion === 0 ? 1 : 0,
+            }));
+        if (delay === 0) {
+            apply();
+        } else {
+            announceTimerRef.current = setTimeout(apply, delay);
+        }
     };
 
     // Starter opplasting umiddelbart ved filvalg
@@ -98,6 +119,7 @@ const FileSelectNew = ({
         });
         onUploadsAdded(optimisticUploads);
     };
+
     const converted = docState.uploads?.some(
         (upload) => !!upload.finalFilename && upload.finalFilename !== upload.originalFilename
     );
@@ -122,6 +144,7 @@ const FileSelectNew = ({
                     {skjermleserBeskjed.activeRegion === index ? skjermleserBeskjed.text : ""}
                 </div>
             ))}
+            <div ref={focusAnchorRef} tabIndex={-1} className="sr-only" />
             <VStack gap="space-24">
                 <FileSelectUpload
                     label={label ?? t("tittel")}
@@ -165,35 +188,49 @@ const FileSelectNew = ({
                             </>
                         )}
                         <VStack as="ul" gap="space-8">
-                            {docState.uploads?.map((upload) => (
-                                <FileUploadItem
-                                    key={upload.id}
-                                    url={
-                                        upload.url
-                                            ? `${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`
-                                            : undefined
-                                    }
-                                    uploadId={upload.id}
-                                    convertedFilename={upload.finalFilename}
-                                    originalFilename={upload.originalFilename}
-                                    validations={upload.validations}
-                                    status={upload.status}
-                                    size={upload.size}
-                                    showCancelButton={
-                                        showSlowProcessingWarning &&
-                                        (upload.status === "PENDING" || upload.status === "PROCESSING")
-                                    }
-                                    deleteDisabled={isPending}
-                                    onTerminate={() => {
-                                        if (upload.correlationId) {
-                                            onUploadRemoved(upload.correlationId);
+                            {docState.uploads?.map((upload) => {
+                                let deleteButtonEl: HTMLButtonElement | null = null;
+
+                                return (
+                                    <FileUploadItem
+                                        key={upload.id}
+                                        url={
+                                            upload.url
+                                                ? `${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`
+                                                : undefined
                                         }
-                                        oppdaterSkjermleserBeskjed(
-                                            t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 })
-                                        );
-                                    }}
-                                />
-                            ))}
+                                        uploadId={upload.id}
+                                        convertedFilename={upload.finalFilename}
+                                        originalFilename={upload.originalFilename}
+                                        validations={upload.validations}
+                                        status={upload.status}
+                                        size={upload.size}
+                                        showCancelButton={
+                                            showSlowProcessingWarning &&
+                                            (upload.status === "PENDING" || upload.status === "PROCESSING")
+                                        }
+                                        deleteDisabled={isPending}
+                                        buttonRef={(el) => {
+                                            deleteButtonEl = el;
+                                        }}
+                                        onTerminate={() => {
+                                            // Flytter kun fokus hvis brukeren er på knappen
+                                            // Ellers om brukeren har beveget seg bort
+                                            // etter å ha trykt på slett-fil, vil fokus ikke bli stjelt.
+                                            if (document.activeElement === deleteButtonEl) {
+                                                focusAnchorRef.current?.focus();
+                                            }
+                                            oppdaterSkjermleserBeskjed(
+                                                t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 }),
+                                                0
+                                            );
+                                            if (upload.correlationId) {
+                                                onUploadRemoved(upload.correlationId);
+                                            }
+                                        }}
+                                    />
+                                );
+                            })}
                         </VStack>
                     </VStack>
                 )}
