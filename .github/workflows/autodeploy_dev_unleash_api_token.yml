@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: 'Deploy unleash-api-token til dev'
-        uses: nais/deploy/actions/deploy@v2
+        uses: nais/deploy/actions/deploy@v3
         env:
           RESOURCE: .nais/dev/unleash-api-token.yaml
           CLUSTER: dev-gcp
