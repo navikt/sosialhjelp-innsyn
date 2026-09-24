@@ -5,7 +5,7 @@ import * as R from "remeda";
 import { FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
 import { ReactNode, useState } from "react";
-import { getTusUploader } from "@components/filopplasting/utils/tusUploader";
+import { getKlageTusUploader, getTusUploader } from "@components/filopplasting/utils/tusUploader";
 import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
 
 import FileUploadItem from "./FileUploadItem";
@@ -16,7 +16,6 @@ import useSlowProcessingWarning from "@components/filopplasting/useSlowProcessin
 import { isFolder } from "@components/filopplasting/utils/validateFiles";
 
 interface Props {
-    id?: string;
     label?: string;
     description?: string;
     filesLabel?: string;
@@ -24,6 +23,7 @@ interface Props {
     isPending?: boolean;
     docState: DocumentState;
     uploadId: string;
+    klageId?: string;
     onSelect?: (files: FileObject[]) => void;
     onUploadsAdded: (uploads: UploadState[]) => void;
     onUploadRemoved: (correlationId: string) => void;
@@ -38,9 +38,9 @@ const FileSelectNew = ({
     description,
     tag,
     docState,
-    id,
     filesLabel,
     uploadId,
+    klageId,
     variant,
     onSelect,
     onUploadsAdded,
@@ -48,6 +48,7 @@ const FileSelectNew = ({
     isPending,
 }: Props) => {
     const t = useTranslations("Opplastingsboks");
+    const isKlage = !!klageId;
     const { id: fiksDigisosId } = useParams<{ id: string }>();
 
     const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
@@ -81,12 +82,19 @@ const FileSelectNew = ({
 
         const optimisticUploads: UploadState[] = valid.map((file: FileObject) => {
             const correlationId = crypto.randomUUID();
-            const upload = getTusUploader({
-                id: uploadId,
-                file,
-                fiksDigisosId,
-                correlationId,
-            });
+            const upload = isKlage
+                ? getKlageTusUploader({
+                      id: uploadId,
+                      file,
+                      klageId: klageId,
+                      correlationId,
+                  })
+                : getTusUploader({
+                      id: uploadId,
+                      file,
+                      fiksDigisosId,
+                      correlationId,
+                  });
             upload.start();
             return {
                 id: correlationId,
@@ -103,7 +111,6 @@ const FileSelectNew = ({
 
     return (
         <FileUpload
-            id={id}
             translations={{
                 dropzone: {
                     buttonMultiple: t("button"),

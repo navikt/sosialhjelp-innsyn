@@ -4,22 +4,31 @@ import { Button, HStack, Textarea, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
 
-import FileSelect from "@components/filopplasting/FileSelect";
-import useFiles from "@components/filopplasting/useFiles";
-
 import { FormValues } from "../klageForm";
+import FileSelectNew from "@components/filopplasting/FileSelectNew";
+import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
 
 interface Props {
+    contextId: string;
     vedtakId: string;
-    files: ReturnType<typeof useFiles>["files"];
-    addFiler: ReturnType<typeof useFiles>["addFiler"];
-    removeFil: ReturnType<typeof useFiles>["removeFil"];
-    outerErrors: ReturnType<typeof useFiles>["outerErrors"];
+    klageId: string;
+    docState: DocumentState;
+    addUploads: (uploads: UploadState[]) => void;
+    removeUpload: (correlationId: string) => void;
     onGaVidere: () => void;
     onForkastKlage: () => void;
 }
 
-const StegBegrunnelse = ({ vedtakId, files, addFiler, removeFil, outerErrors, onGaVidere, onForkastKlage }: Props) => {
+const StegBegrunnelse = ({
+    contextId,
+    vedtakId,
+    klageId,
+    docState,
+    addUploads,
+    removeUpload,
+    onGaVidere,
+    onForkastKlage,
+}: Props) => {
     const t = useTranslations("KlageForm");
     const {
         register,
@@ -36,13 +45,14 @@ const StegBegrunnelse = ({ vedtakId, files, addFiler, removeFil, outerErrors, on
                 error={errors.background?.message && t(errors.background.message)}
                 {...register("background")}
             />
-            <FileSelect
-                id={"klageVedlegg" + vedtakId}
-                files={files}
-                addFiler={addFiler}
-                removeFil={removeFil}
-                outerErrors={outerErrors}
-                filesLabel={t("filOpplasting.dineVedlegg")}
+            <FileSelectNew
+                label={"Vedlegg"}
+                klageId={klageId}
+                description={"Har du informasjon du ønsker å legge ved, laster du det opp her."}
+                docState={docState}
+                uploadId={contextId}
+                onUploadsAdded={addUploads}
+                onUploadRemoved={removeUpload}
             />
             <HStack gap="space-4">
                 <Button type="button" onClick={onGaVidere} className="mb-4">
