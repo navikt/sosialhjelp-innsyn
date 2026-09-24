@@ -16,10 +16,12 @@ const Soknader = async ({ hideInactive }: Props): Promise<React.JSX.Element> => 
     const soknadsdetaljer = await Promise.all(fetchSoknadsdetaljer(innsendteSoknader));
     const [active, inactive] = combineAndPartition(innsendteSoknader, soknadsdetaljer);
     const activeAndStarted = [...active, ...(paabegynteSaker ?? [])];
-    const soknadCount = activeAndStarted.length + inactive.length;
 
-    if (soknadCount === 0) {
-        return <AktiveSoknaderEmptyState />;
+    if (activeAndStarted.length === 0) {
+        if (inactive.length === 0) {
+            return <AktiveSoknaderEmptyState />;
+        }
+        return <TidligereSoknader soknader={inactive} />;
     }
 
     return (
