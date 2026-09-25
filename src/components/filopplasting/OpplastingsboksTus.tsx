@@ -98,7 +98,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
                 description={description}
                 tag={tag}
                 docState={docState}
-                uploadId={uploadContextId}
+                contextId={uploadContextId}
                 onSelect={(files) => {
                     resetMutation();
                     if (!opplastingId.current) {

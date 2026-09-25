@@ -50,7 +50,7 @@ const StegBegrunnelse = ({
                 klageId={klageId}
                 description={"Har du informasjon du ønsker å legge ved, laster du det opp her."}
                 docState={docState}
-                uploadId={contextId}
+                contextId={contextId}
                 onUploadsAdded={addUploads}
                 onUploadRemoved={removeUpload}
             />

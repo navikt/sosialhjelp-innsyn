@@ -4,7 +4,7 @@ import { FileObject } from "@navikt/ds-react";
 import { browserEnv } from "@config/env";
 
 export const getTusUploader = ({
-    id,
+    contextId,
     file,
     onProgress,
     onSuccess,
@@ -12,7 +12,7 @@ export const getTusUploader = ({
     fiksDigisosId,
     correlationId,
 }: {
-    id: string;
+    contextId: string;
     file: FileObject;
     fiksDigisosId: string;
     correlationId?: string;
@@ -22,7 +22,7 @@ export const getTusUploader = ({
         retryDelays: [0, 1000, 3000, 5000],
         metadata: {
             filename: file.name,
-            contextId: id,
+            contextId: contextId,
             fiksDigisosId,
             ...(correlationId && { correlationId }),
             automaticCleanup: "true",
@@ -38,7 +38,7 @@ export const getTusUploader = ({
 };
 
 export const getKlageTusUploader = ({
-    id,
+    contextId,
     file,
     onProgress,
     onSuccess,
@@ -46,7 +46,7 @@ export const getKlageTusUploader = ({
     klageId,
     correlationId,
 }: {
-    id: string;
+    contextId: string;
     file: FileObject;
     klageId: string;
     correlationId?: string;
@@ -56,7 +56,7 @@ export const getKlageTusUploader = ({
         retryDelays: [0, 1000, 3000, 5000],
         metadata: {
             filename: file.name,
-            contextId: id,
+            contextId: contextId,
             navEksternRefId: klageId,
             ...(correlationId && { correlationId }),
             automaticCleanup: "true",
