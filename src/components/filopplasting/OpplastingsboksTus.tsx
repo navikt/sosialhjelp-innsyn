@@ -112,6 +112,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
                         });
                     }
                 }}
+                target={{ type: "soknad", fiksDigisosId: fiksDigisosId }}
                 onUploadsAdded={addUploads}
                 onUploadRemoved={removeUpload}
                 variant={variant}

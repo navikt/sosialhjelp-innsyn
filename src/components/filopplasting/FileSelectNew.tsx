@@ -11,6 +11,7 @@ import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
 import { browserEnv } from "@config/env";
 import useSlowProcessingWarning from "@components/filopplasting/useSlowProcessingWarning";
 import { useDocumentUpload } from "./useDocumentUpload";
+import { UploadTarget } from "./utils/tusUploader";
 
 interface Props {
     label?: string;
@@ -20,7 +21,7 @@ interface Props {
     isPending?: boolean;
     docState: DocumentState;
     contextId: string;
-    klageId?: string;
+    target: UploadTarget;
     onSelect?: (files: FileObject[]) => void;
     onUploadsAdded: (uploads: UploadState[]) => void;
     onUploadRemoved: (correlationId: string) => void;
@@ -37,7 +38,7 @@ const FileSelectNew = ({
     docState,
     filesLabel,
     contextId,
-    klageId,
+    target,
     variant,
     onSelect,
     onUploadsAdded,
@@ -68,7 +69,7 @@ const FileSelectNew = ({
         oppdaterSkjermleserBeskjed,
         onUploadsAdded,
         onSelect,
-        klageId,
+        target,
     });
 
     const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");

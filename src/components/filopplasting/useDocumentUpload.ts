@@ -2,11 +2,10 @@ import { FileObject } from "@navikt/ds-react";
 import { isFolder } from "./utils/validateFiles";
 import * as R from "remeda";
 import { UploadState } from "./api/useDocumentState";
-import { getKlageTusUploader, getTusUploader } from "./utils/tusUploader";
 import { useTranslations } from "next-intl";
-import { useParams } from "next/navigation";
 import { Upload } from "tus-js-client";
 import { browserEnv } from "@config/env";
+import { getTusUploader, type UploadTarget } from "./utils/tusUploader";
 
 export const useDocumentUpload = ({
     contextId,
@@ -15,7 +14,7 @@ export const useDocumentUpload = ({
     oppdaterSkjermleserBeskjed,
     onUploadsAdded,
     onSelect,
-    klageId,
+    target,
 }: {
     contextId: string;
     onUploadRemoved: (correlationId: string) => void;
@@ -23,11 +22,9 @@ export const useDocumentUpload = ({
     oppdaterSkjermleserBeskjed: (text: string) => void;
     onUploadsAdded: (uploads: UploadState[]) => void;
     onSelect?: (files: FileObject[]) => void;
-    klageId?: string;
+    target: UploadTarget;
 }) => {
     const t = useTranslations("Opplastingsboks");
-    const isKlage = !!klageId;
-    const { id: fiksDigisosId } = useParams<{ id: string }>();
 
     const startUpload = (files: FileObject[]) => {
         const [folders, validFiles] = R.partition(files, (f) => isFolder(f));
@@ -40,19 +37,12 @@ export const useDocumentUpload = ({
 
         const optimisticUploads: UploadState[] = validFiles.map((file: FileObject) => {
             const correlationId = crypto.randomUUID();
-            const upload = isKlage
-                ? getKlageTusUploader({
-                      contextId,
-                      file,
-                      klageId: klageId,
-                      correlationId,
-                  })
-                : getTusUploader({
-                      contextId,
-                      file,
-                      fiksDigisosId,
-                      correlationId,
-                  });
+            const upload = getTusUploader({
+                contextId,
+                file,
+                target,
+                correlationId,
+            });
             upload.start();
             return {
                 id: correlationId,

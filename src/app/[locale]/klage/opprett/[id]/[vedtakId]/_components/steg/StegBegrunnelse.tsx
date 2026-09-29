@@ -47,7 +47,7 @@ const StegBegrunnelse = ({
             />
             <FileSelectNew
                 label={"Vedlegg"}
-                klageId={klageId}
+                target={{ type: "klage", klageId: klageId }}
                 description={"Har du informasjon du ønsker å legge ved, laster du det opp her."}
                 docState={docState}
                 contextId={contextId}
