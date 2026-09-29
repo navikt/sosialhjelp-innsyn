@@ -46,17 +46,11 @@ const FileSelectNew = ({
 }: Props) => {
     const t = useTranslations("Opplastingsboks");
 
-    const { startUpload, terminateUpload } = useDocumentUpload(contextId, onUploadRemoved, klageId);
-
-    const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
-
     const [folderDropError, setFolderDropError] = useState(false);
     const [skjermleserBeskjed, setSkjermleserBeskjed] = useState<{ text: string; activeRegion: LiveRegionIndex }>({
         text: "",
         activeRegion: 0,
     });
-
-    const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
 
     // Bytter mellom to live-regioner slik at samme beskjed kan kunngjøres flere ganger på rad.
     // Skjermlesere leser ikke alltid opp en aria-live-region hvis tekstinnholdet er likt som sist.
@@ -66,6 +60,20 @@ const FileSelectNew = ({
             activeRegion: activeRegion === 0 ? 1 : 0,
         }));
     };
+
+    const { startUpload, terminateUpload } = useDocumentUpload({
+        contextId,
+        onUploadRemoved,
+        setFolderDropError,
+        oppdaterSkjermleserBeskjed,
+        onUploadsAdded,
+        onSelect,
+        klageId,
+    });
+
+    const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
+
+    const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
 
     const converted = docState.uploads?.some((upload) => upload.converted);
 
@@ -96,9 +104,7 @@ const FileSelectNew = ({
                     tag={tag}
                     variant={variant === "warning" ? "warning" : "default"}
                     buttonText={t("lastOppFiler")}
-                    onSelect={(files) =>
-                        startUpload(files, setFolderDropError, oppdaterSkjermleserBeskjed, onUploadsAdded, onSelect)
-                    }
+                    onSelect={(files) => startUpload(files)}
                     currentCount={docState.uploads?.length ?? 0}
                 />
 
