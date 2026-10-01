@@ -63,6 +63,7 @@ const FileUploadItem = ({
                         <Button
                             variant="tertiary"
                             data-color="neutral"
+                            type="button"
                             icon={
                                 showCancelButton ? <XMarkIcon title={t("cancel")} /> : <TrashIcon title={t("slett")} />
                             }
