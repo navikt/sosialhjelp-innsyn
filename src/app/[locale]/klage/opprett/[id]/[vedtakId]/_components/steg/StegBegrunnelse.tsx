@@ -46,9 +46,9 @@ const StegBegrunnelse = ({
                 {...register("background")}
             />
             <FileSelectNew
-                label={"Vedlegg"}
+                label={t("filOpplasting.label")}
                 target={{ type: "klage", klageId: klageId }}
-                description={"Har du informasjon du ønsker å legge ved, laster du det opp her."}
+                description={t("filOpplasting.beskrivelse")}
                 docState={docState}
                 contextId={contextId}
                 onUploadsAdded={addUploads}
