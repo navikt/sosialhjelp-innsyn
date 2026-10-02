@@ -3,18 +3,33 @@ import { Upload, UploadOptions } from "tus-js-client";
 import { FileObject } from "@navikt/ds-react";
 import { browserEnv } from "@config/env";
 
+export type UploadTarget = { type: "soknad"; fiksDigisosId: string } | { type: "klage"; klageId: string };
+
+const targetMetadata = (target: UploadTarget): Record<string, string> => {
+    switch (target.type) {
+        case "soknad":
+            return { fiksDigisosId: target.fiksDigisosId };
+        case "klage":
+            return { navEksternRefId: target.klageId };
+        default: {
+            const ukjent: never = target;
+            throw new Error(`Ukjent opplastingsmål: ${JSON.stringify(ukjent)}`);
+        }
+    }
+};
+
 export const getTusUploader = ({
-    id,
+    contextId,
     file,
     onProgress,
     onSuccess,
     onUploadUrlAvailable,
-    fiksDigisosId,
+    target,
     correlationId,
 }: {
-    id: string;
+    contextId: string;
     file: FileObject;
-    fiksDigisosId: string;
+    target: UploadTarget;
     correlationId?: string;
 } & Pick<UploadOptions, "onUploadUrlAvailable" | "onProgress" | "onSuccess">): Upload => {
     const uploadOptions = (file: File): UploadOptions => ({
@@ -22,8 +37,8 @@ export const getTusUploader = ({
         retryDelays: [0, 1000, 3000, 5000],
         metadata: {
             filename: file.name,
-            contextId: id,
-            fiksDigisosId,
+            contextId: contextId,
+            ...targetMetadata(target),
             ...(correlationId && { correlationId }),
             automaticCleanup: "true",
         },

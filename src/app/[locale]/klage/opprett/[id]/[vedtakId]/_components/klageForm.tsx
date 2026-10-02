@@ -9,10 +9,7 @@ import z from "zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { logger } from "@navikt/next-logger";
-import { getHentKlagerQueryKey, useUploadDocuments, useSendKlage } from "@generated/klage-controller/klage-controller";
-import useFiles from "@components/filopplasting/useFiles";
-import { createMetadataFile, formatFilesForUpload } from "@components/filopplasting/utils/formatFiles";
-import { Metadata } from "@components/filopplasting/types";
+import { getHentKlagerQueryKey, useSendKlage } from "@generated/klage-controller/klage-controller";
 
 import { MAX_LEN_BACKGROUND, MAX_FILES } from "../_consts/consts";
 
@@ -20,6 +17,7 @@ import BekreftForkastModal from "./BekreftForkastModal";
 import StegBegrunnelse from "./steg/StegBegrunnelse";
 import StegOppsummering from "./steg/StegOppsummering";
 import StegKvittering from "./steg/StegKvittering";
+import { useDocumentState } from "@components/filopplasting/api/useDocumentState";
 
 export type FormValues = {
     background: string | null;
@@ -30,8 +28,6 @@ const klageSchema = z.object({
     background: z.string().max(MAX_LEN_BACKGROUND, "validering.maksLengde").nullable(),
     files: z.array(z.any()).max(MAX_FILES, `Du kan laste opp maks ${MAX_FILES} filer`), //TODO: Translate this message (how to include variable?)
 });
-
-const metadata = { dokumentKontekst: "klage", type: "klage", tilleggsinfo: "klage" } satisfies Metadata;
 
 interface Props {
     fiksDigisosId: string;
@@ -44,8 +40,9 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
     const router = useRouter();
     const [visBekreftForkastModal, setVisBekreftForkastModal] = useState(false);
     const [aktivtSteg, setAktivtSteg] = useState(1);
-
-    const { addFiler, files, removeFil, outerErrors } = useFiles();
+    const [klageId] = useState(() => crypto.randomUUID());
+    const contextId = `${fiksDigisosId}:${vedtakId}`;
+    const { state: docState, addUploads, removeUpload } = useDocumentState(contextId);
 
     const formMethods = useForm<FormValues>({
         resolver: zodResolver(klageSchema),
@@ -56,25 +53,13 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
     });
     const { handleSubmit, getValues } = formMethods;
 
-    const lastOppVedleggMutation = useUploadDocuments();
     const sendKlageMutation = useSendKlage();
 
-    const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    const onSubmit: SubmitHandler<FormValues> = async (formValues: FormValues) => {
         try {
-            const klageId = crypto.randomUUID();
-            if (files.length > 0) {
-                await lastOppVedleggMutation.mutateAsync({
-                    fiksDigisosId,
-                    navEksternRefId: klageId,
-                    data: {
-                        files: [createMetadataFile(files, metadata), ...formatFilesForUpload(files)],
-                    },
-                });
-            }
-
             await sendKlageMutation.mutateAsync({
                 fiksDigisosId: fiksDigisosId,
-                data: { klageId, vedtakId, tekst: data.background ?? "" },
+                data: { klageId, vedtakId, tekst: formValues.background ?? "" },
             });
 
             await queryClient.invalidateQueries({ queryKey: getHentKlagerQueryKey(fiksDigisosId) });
@@ -88,7 +73,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
         const backgroundText = getValues("background");
         const hasCharacters = !!backgroundText && backgroundText.trim().length > 0;
 
-        if (files.length > 0 || hasCharacters) {
+        if ((docState.uploads?.length ?? 0) > 0 || hasCharacters) {
             setVisBekreftForkastModal(true);
         } else {
             forkastKlage();
@@ -100,14 +85,15 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
         router.back();
     };
 
-    const isLoading = lastOppVedleggMutation.isPending || sendKlageMutation.isPending;
-
     return (
         <>
             <VStack gap="space-12">
                 <Bleed marginInline="full" reflectivePadding className="bg-ax-bg-neutral-soft py-5">
                     <Stepper activeStep={aktivtSteg} onStepChange={setAktivtSteg} orientation="horizontal">
-                        <Stepper.Step interactive={aktivtSteg == 2 && !isLoading} completed={aktivtSteg > 1}>
+                        <Stepper.Step
+                            interactive={aktivtSteg == 2 && !sendKlageMutation.isPending}
+                            completed={aktivtSteg > 1}
+                        >
                             {t("steg.begrunnelse")}
                         </Stepper.Step>
                         <Stepper.Step interactive={false} completed={aktivtSteg > 2}>
@@ -121,11 +107,12 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20">
                         {aktivtSteg === 1 && (
                             <StegBegrunnelse
+                                klageId={klageId}
+                                contextId={contextId}
                                 vedtakId={vedtakId}
-                                files={files}
-                                addFiler={addFiler}
-                                removeFil={removeFil}
-                                outerErrors={outerErrors}
+                                docState={docState}
+                                addUploads={addUploads}
+                                removeUpload={removeUpload}
                                 onGaVidere={handleSubmit(() => setAktivtSteg(2))}
                                 onForkastKlage={forkastKlageButtonEvent}
                             />
@@ -133,8 +120,8 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
 
                         {aktivtSteg === 2 && (
                             <StegOppsummering
-                                isLoading={isLoading}
-                                isError={lastOppVedleggMutation.isError || sendKlageMutation.isError}
+                                isLoading={sendKlageMutation.isPending}
+                                isError={sendKlageMutation.isError}
                                 onTilbake={() => setAktivtSteg(1)}
                             />
                         )}
