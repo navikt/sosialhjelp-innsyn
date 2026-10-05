@@ -41,7 +41,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId }: Props) => {
     const [visBekreftForkastModal, setVisBekreftForkastModal] = useState(false);
     const [aktivtSteg, setAktivtSteg] = useState(1);
     const [klageId] = useState(() => crypto.randomUUID());
-    const contextId = `${fiksDigisosId}:${vedtakId}`;
+    const contextId = klageId;
     const { state: docState, addUploads, removeUpload } = useDocumentState(contextId);
 
     const formMethods = useForm<FormValues>({

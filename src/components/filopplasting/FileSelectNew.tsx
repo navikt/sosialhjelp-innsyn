@@ -3,14 +3,14 @@
 import { useTranslations } from "next-intl";
 import { FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
 
 import FileUploadItem from "./FileUploadItem";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
 import { browserEnv } from "@config/env";
 import useSlowProcessingWarning from "@components/filopplasting/useSlowProcessingWarning";
-import { useDocumentUpload } from "./useDocumentUpload";
+import { liveRegionIndexes, useDocumentUpload } from "./useDocumentUpload";
 import { UploadTarget } from "./utils/tusUploader";
 
 interface Props {
@@ -28,9 +28,6 @@ interface Props {
     variant?: "normal" | "warning";
 }
 
-const liveRegionIndexes = [0, 1] as const;
-type LiveRegionIndex = (typeof liveRegionIndexes)[number];
-
 const FileSelectNew = ({
     label,
     description,
@@ -47,26 +44,10 @@ const FileSelectNew = ({
 }: Props) => {
     const t = useTranslations("Opplastingsboks");
 
-    const [folderDropError, setFolderDropError] = useState(false);
-    const [skjermleserBeskjed, setSkjermleserBeskjed] = useState<{ text: string; activeRegion: LiveRegionIndex }>({
-        text: "",
-        activeRegion: 0,
-    });
-
-    // Bytter mellom to live-regioner slik at samme beskjed kan kunngjøres flere ganger på rad.
-    // Skjermlesere leser ikke alltid opp en aria-live-region hvis tekstinnholdet er likt som sist.
-    const oppdaterSkjermleserBeskjed = (text: string) => {
-        setSkjermleserBeskjed(({ activeRegion }) => ({
-            text,
-            activeRegion: activeRegion === 0 ? 1 : 0,
-        }));
-    };
-
-    const { startUpload, terminateUpload } = useDocumentUpload({
+    const { startUpload, terminateUpload, folderDropError, skjermleserBeskjed } = useDocumentUpload({
+        docState,
         contextId,
         onUploadRemoved,
-        setFolderDropError,
-        oppdaterSkjermleserBeskjed,
         onUploadsAdded,
         onSelect,
         target,
@@ -160,11 +141,6 @@ const FileSelectNew = ({
                                     }
                                     deleteDisabled={isPending}
                                     onDelete={() => terminateUpload(upload.id, upload.correlationId)}
-                                    onTerminate={() =>
-                                        oppdaterSkjermleserBeskjed(
-                                            t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 })
-                                        )
-                                    }
                                 />
                             ))}
                         </VStack>

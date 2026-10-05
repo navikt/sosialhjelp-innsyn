@@ -15,7 +15,6 @@ interface Props {
     size?: number;
     showCancelButton?: boolean;
     onDelete: () => Promise<void>;
-    onTerminate?: () => void;
     deleteDisabled?: boolean;
 }
 
@@ -38,14 +37,12 @@ const FileUploadItem = ({
     size,
     showCancelButton,
     onDelete,
-    onTerminate,
     deleteDisabled,
     isConverted,
 }: Props) => {
     const t = useTranslations("FileUploadItem");
     const { mutate, isPending } = useMutation({
         mutationFn: onDelete,
-        onSuccess: onTerminate,
         retry: false,
     });
 
