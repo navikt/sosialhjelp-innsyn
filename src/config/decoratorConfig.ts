@@ -19,6 +19,7 @@ const decoratorParams = (locale: SupportedLocale): DecoratorFetchProps => ({
     env: createDecoratorEnv(),
     serviceDiscovery: true,
     params: {
+        teamName: "sosialhjelp-innsyn.teamdigisos",
         simple: false,
         feedback: false,
         chatbot: false,
