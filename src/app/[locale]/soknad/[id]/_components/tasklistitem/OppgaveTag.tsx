@@ -4,7 +4,7 @@ import { CalendarIcon, CheckmarkIcon } from "@navikt/aksel-icons";
 import useIsMobile from "@utils/useIsMobile";
 
 interface FristTagProps {
-    frist?: string;
+    frist?: string | null;
     completed: boolean;
 }
 

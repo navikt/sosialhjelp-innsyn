@@ -5,7 +5,7 @@ import { forwardRef, Ref } from "react";
 
 interface Props {
     tidspunkt: Date;
-    navKontor?: string;
+    navKontor?: string | null;
 }
 
 const UnderBehandlingEvent = (props: Props, ref: Ref<HTMLLIElement>) => {

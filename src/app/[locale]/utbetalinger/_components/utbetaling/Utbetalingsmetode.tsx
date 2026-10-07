@@ -2,12 +2,12 @@
 
 import React from "react";
 import { useTranslations } from "next-intl";
-import type { ManedUtbetaling } from "@generated/ssr/model";
 
 import { formaterKontonummer } from "../../_utils/utbetalinger-utils";
+import { UtbetalingDto } from "@generated/model";
 
 interface Props {
-    utbetaling: ManedUtbetaling;
+    utbetaling: UtbetalingDto;
 }
 
 export const Utbetalingsmetode = ({ utbetaling }: Props) => {

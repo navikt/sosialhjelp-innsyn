@@ -17,8 +17,8 @@ import { umamiCustomTrack } from "../../app/umami";
 
 interface Props {
     metadata: Metadata;
-    label?: string;
-    description?: string;
+    label?: string | null;
+    description?: string | null;
     tag?: ReactNode;
     completed?: boolean;
     uploadContextId: string;

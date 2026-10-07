@@ -7,7 +7,7 @@ import React from "react";
 
 interface Props {
     navKontor: string;
-    forelopigSvarUrl?: string;
+    forelopigSvarUrl?: string | null;
 }
 
 const ForlengetBehandlingstid = ({ navKontor, forelopigSvarUrl }: Props) => {
