@@ -8,7 +8,7 @@ import { hentKlage } from "@generated/ssr/klage-controller/klage-controller";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 
 import UnderUtviklingInfo from "./_components/UnderUtviklingInfo";
-import ProsessenVidere from "./_components/prosessenVidere";
+import ProsessenVidere from "./_components/ProsessenVidere";
 import Dokumenter from "./_components/Dokumenter";
 
 const Page = async ({
@@ -21,6 +21,7 @@ const Page = async ({
 }) => {
     const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());
     const t = await getTranslations("KlagePage");
+    const tCrumbs = await getTranslations("StatusPage.breadcrumbs");
     const { id: fiksDigisosId, klageId } = await params;
 
     if (!toggle.enabled) {
@@ -31,7 +32,13 @@ const Page = async ({
 
     return (
         <>
-            <ClientBreadcrumbs dynamicBreadcrumbs={[{ title: t("tittel") }]} />
+            <ClientBreadcrumbs
+                dynamicBreadcrumbs={[
+                    { title: tCrumbs("soknader"), url: "/sosialhjelp/innsyn/soknader" },
+                    { title: tCrumbs("soknad"), url: `/sosialhjelp/innsyn/soknad/${fiksDigisosId}` },
+                    { title: tCrumbs("klage") },
+                ]}
+            />
             <VStack gap="space-80" className="mt-20">
                 <Heading size="xlarge" level="1">
                     {t("tittel")}

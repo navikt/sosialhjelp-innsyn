@@ -3,14 +3,17 @@ import { BodyShort, Tag, TagProps } from "@navikt/ds-react";
 import { SaksStatusResponseStatus, SaksStatusResponseUtfallVedtak } from "@generated/model";
 import useIsMobile from "@utils/useIsMobile";
 
-const utfallVariant: Record<SaksStatusResponseUtfallVedtak, TagProps["variant"]> = {
+type SaksStatus = NonNullable<SaksStatusResponseStatus>;
+type VedtakUtfall = NonNullable<SaksStatusResponseUtfallVedtak>;
+
+const utfallVariant: Record<VedtakUtfall, TagProps["variant"]> = {
     INNVILGET: "success",
     DELVIS_INNVILGET: "warning",
     AVVIST: "error",
     AVSLATT: "error",
 };
 
-const statusVariant: Record<SaksStatusResponseStatus, TagProps["variant"]> = {
+const statusVariant: Record<SaksStatus, TagProps["variant"]> = {
     FEILREGISTRERT: undefined,
     FERDIGBEHANDLET: undefined,
     UNDER_BEHANDLING: "info-moderate",
@@ -24,10 +27,11 @@ interface StatusTagProps {
     className?: string;
 }
 
-const StatusTag = ({ vedtakUtfall, className, status = "UNDER_BEHANDLING" }: StatusTagProps) => {
+const StatusTag = ({ vedtakUtfall, className, status: statusProp }: StatusTagProps) => {
     const t = useTranslations("StatusTag");
     const isMobile = useIsMobile();
     const size = isMobile ? "small" : "medium";
+    const status = statusProp ?? "UNDER_BEHANDLING";
 
     if (vedtakUtfall) {
         return (

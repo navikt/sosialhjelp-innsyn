@@ -6,7 +6,7 @@ import { forwardRef, Ref } from "react";
 interface Props {
     tidspunkt: Date;
     isNew: boolean;
-    sakstittel?: string;
+    sakstittel?: string | null;
 }
 
 const VedtakFattetEvent = ({ tidspunkt, isNew, sakstittel }: Props, ref: Ref<HTMLLIElement>) => {

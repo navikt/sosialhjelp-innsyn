@@ -14,7 +14,7 @@ import { VStack } from "@navikt/ds-react";
 import { DokumentasjonkravDto, VilkarResponse } from "@generated/model";
 
 interface Props {
-    navKontor?: string;
+    navKontor?: string | null;
 }
 
 const SoknadInfoCards = ({ navKontor }: Props) => {
@@ -77,11 +77,11 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
     }
 
     const relevantVilkar = vilkar.filter(
-        (v): v is Omit<VilkarResponse, "tittel"> & Required<Pick<VilkarResponse, "tittel">> =>
+        (v): v is VilkarResponse & { tittel: string } =>
             (v.status === "IKKE_OPPFYLT" || v.status === "RELEVANT") && !!v.tittel
     );
     const relevantDokKrav = dokKrav.filter(
-        (d): d is Omit<DokumentasjonkravDto, "tittel"> & Required<Pick<DokumentasjonkravDto, "tittel">> =>
+        (d): d is DokumentasjonkravDto & { tittel: string } =>
             (d.status === "IKKE_OPPFYLT" || d.status === "RELEVANT") && !d.erLastetOpp && !!d.tittel
     );
     if (relevantDokKrav.length + relevantVilkar.length > 0) {
@@ -114,7 +114,7 @@ const SoknadInfoCards = ({ navKontor }: Props) => {
             cards.push(
                 <SoknadInfoCard
                     key="forelopigSvar"
-                    state={{ type: "forelopigSvar", forelopigSvarUrl: saksdetaljer.forelopigSvar.link }}
+                    state={{ type: "forelopigSvar", forelopigSvarUrl: saksdetaljer.forelopigSvar.link ?? undefined }}
                 />
             );
         } else if (cards.length === 0) {

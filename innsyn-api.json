@@ -42,61 +42,6 @@
                 }
             }
         },
-        "/api/v1/innsyn/{fiksDigisosId}/vedlegg": {
-            "get": {
-                "tags": ["vedlegg-controller"],
-                "operationId": "hentVedlegg",
-                "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json;charset=UTF-8": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": { "$ref": "#/components/schemas/VedleggResponse" }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": ["vedlegg-controller"],
-                "operationId": "sendVedlegg",
-                "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
-                ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "files": { "type": "array", "items": { "type": "string", "format": "binary" } }
-                                },
-                                "required": ["files"]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": { "$ref": "#/components/schemas/OppgaveOpplastingResponse" }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/api/v1/innsyn/{fiksDigisosId}/klage/{klageId}/ettersendelse/{ettersendelseId}": {
             "post": {
                 "tags": ["klage-controller"],
@@ -252,36 +197,6 @@
                 }
             }
         },
-        "/api/v2/innsyn/{fiksDigisosId}/harLeverteDokumentasjonkrav": {
-            "get": {
-                "tags": ["oppgave-controller-v-2"],
-                "operationId": "getHarLevertDokumentasjonkrav",
-                "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": { "application/json;charset=UTF-8": { "schema": { "type": "boolean" } } }
-                    }
-                }
-            }
-        },
-        "/api/v2/innsyn/{fiksDigisosId}/fagsystemHarDokumentasjonkrav": {
-            "get": {
-                "tags": ["oppgave-controller-v-2"],
-                "operationId": "getfagsystemHarDokumentasjonkrav",
-                "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": { "application/json;charset=UTF-8": { "schema": { "type": "boolean" } } }
-                    }
-                }
-            }
-        },
         "/api/v2/innsyn/{fiksDigisosId}/dokumentasjonkrav": {
             "get": {
                 "tags": ["oppgave-controller-v-2"],
@@ -320,10 +235,10 @@
                 }
             }
         },
-        "/api/v1/innsyn/{fiksDigisosId}/vilkar": {
+        "/api/v1/innsyn/{fiksDigisosId}/vedlegg": {
             "get": {
-                "tags": ["oppgave-controller"],
-                "operationId": "getVilkar_1",
+                "tags": ["vedlegg-controller"],
+                "operationId": "hentVedlegg",
                 "parameters": [
                     { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
                 ],
@@ -334,7 +249,7 @@
                             "application/json;charset=UTF-8": {
                                 "schema": {
                                     "type": "array",
-                                    "items": { "$ref": "#/components/schemas/VilkarResponse" }
+                                    "items": { "$ref": "#/components/schemas/VedleggResponse" }
                                 }
                             }
                         }
@@ -384,8 +299,18 @@
                 "tags": ["sak-controller"],
                 "operationId": "hentSakForVedtak",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "vedtakId", "in": "path", "required": true, "schema": { "type": "string" } }
+                    {
+                        "name": "fiksDigisosId",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "format": "uuid" }
+                    },
+                    {
+                        "name": "vedtakId",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "format": "uuid" }
+                    }
                 ],
                 "responses": {
                     "200": {
@@ -400,95 +325,17 @@
                 "tags": ["soknads-status-controller"],
                 "operationId": "hentOriginalSoknad",
                 "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
+                    {
+                        "name": "fiksDigisosId",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "format": "uuid" }
+                    }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "content": { "*/*": { "schema": { "$ref": "#/components/schemas/OriginalSoknadDto" } } }
-                    }
-                }
-            }
-        },
-        "/api/v1/innsyn/{fiksDigisosId}/oppgaver/{oppgaveId}": {
-            "get": {
-                "tags": ["oppgave-controller"],
-                "operationId": "getOppgaveMedId",
-                "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "oppgaveId", "in": "path", "required": true, "schema": { "type": "string" } }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json;charset=UTF-8": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": { "$ref": "#/components/schemas/OppgaveResponse" }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/innsyn/{fiksDigisosId}/oppgaver/beta": {
-            "get": {
-                "tags": ["oppgave-controller"],
-                "operationId": "getOppgaverBeta_1",
-                "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json;charset=UTF-8": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": { "$ref": "#/components/schemas/OppgaveResponseBeta" }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/innsyn/{fiksDigisosId}/oppgaver": {
-            "get": {
-                "tags": ["oppgave-controller"],
-                "operationId": "getOppgaver",
-                "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json;charset=UTF-8": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": { "$ref": "#/components/schemas/OppgaveResponse" }
-                                }
-                            }
-                        }
-                    }
-                },
-                "deprecated": true
-            }
-        },
-        "/api/v1/innsyn/{fiksDigisosId}/kommune": {
-            "get": {
-                "tags": ["kommune-controller"],
-                "operationId": "hentKommuneInfo",
-                "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": { "*/*": { "schema": { "$ref": "#/components/schemas/KommuneResponse" } } }
                     }
                 }
             }
@@ -604,142 +451,6 @@
                 }
             }
         },
-        "/api/v1/innsyn/{fiksDigisosId}/hendelser": {
-            "get": {
-                "tags": ["hendelse-controller"],
-                "operationId": "hentHendelser",
-                "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json;charset=UTF-8": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": { "$ref": "#/components/schemas/HendelseResponse" }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/innsyn/{fiksDigisosId}/harLeverteDokumentasjonkrav": {
-            "get": {
-                "tags": ["oppgave-controller"],
-                "operationId": "getHarLevertDokumentasjonkrav_1",
-                "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": { "application/json;charset=UTF-8": { "schema": { "type": "boolean" } } }
-                    }
-                }
-            }
-        },
-        "/api/v1/innsyn/{fiksDigisosId}/forelopigSvar": {
-            "get": {
-                "tags": ["forelopig-svar-controller"],
-                "operationId": "hentForelopigSvarStatus",
-                "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": { "*/*": { "schema": { "$ref": "#/components/schemas/ForelopigSvarResponse" } } }
-                    }
-                }
-            }
-        },
-        "/api/v1/innsyn/{fiksDigisosId}/fagsystemHarDokumentasjonkrav": {
-            "get": {
-                "tags": ["oppgave-controller"],
-                "operationId": "getfagsystemHarDokumentasjonkrav_1",
-                "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": { "application/json;charset=UTF-8": { "schema": { "type": "boolean" } } }
-                    }
-                }
-            }
-        },
-        "/api/v1/innsyn/{fiksDigisosId}/dokumentasjonkrav/{dokumentasjonkravId}": {
-            "get": {
-                "tags": ["oppgave-controller"],
-                "operationId": "getDokumentasjonkravMedId",
-                "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } },
-                    { "name": "dokumentasjonkravId", "in": "path", "required": true, "schema": { "type": "string" } }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json;charset=UTF-8": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": { "$ref": "#/components/schemas/DokumentasjonkravResponse" }
-                                }
-                            }
-                        }
-                    }
-                },
-                "deprecated": true
-            }
-        },
-        "/api/v1/innsyn/{fiksDigisosId}/dokumentasjonkrav/beta": {
-            "get": {
-                "tags": ["oppgave-controller"],
-                "operationId": "getDokumentasjonkravBeta_1",
-                "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json;charset=UTF-8": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": { "$ref": "#/components/schemas/DokumentasjonkravDto" }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/innsyn/{fiksDigisosId}/dokumentasjonkrav": {
-            "get": {
-                "tags": ["oppgave-controller"],
-                "operationId": "getDokumentasjonkrav",
-                "parameters": [
-                    { "name": "fiksDigisosId", "in": "path", "required": true, "schema": { "type": "string" } }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json;charset=UTF-8": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": { "$ref": "#/components/schemas/DokumentasjonkravResponse" }
-                                }
-                            }
-                        }
-                    }
-                },
-                "deprecated": true
-            }
-        },
         "/api/v1/innsyn/{fiksDigisosId}/brev": {
             "get": {
                 "tags": ["brev-controller"],
@@ -757,33 +468,6 @@
                 }
             }
         },
-        "/api/v1/innsyn/utbetalinger": {
-            "get": {
-                "tags": ["utbetalinger-controller"],
-                "operationId": "hentUtbetalinger_1",
-                "parameters": [
-                    {
-                        "name": "month",
-                        "in": "query",
-                        "required": false,
-                        "schema": { "type": "integer", "format": "int32", "default": 3 }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": { "$ref": "#/components/schemas/UtbetalingerResponse" }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/api/v1/innsyn/tilgang": {
             "get": {
                 "tags": ["tilgang-controller"],
@@ -792,25 +476,6 @@
                     "200": {
                         "description": "OK",
                         "content": { "*/*": { "schema": { "$ref": "#/components/schemas/TilgangResponse" } } }
-                    }
-                }
-            }
-        },
-        "/api/v1/innsyn/tidligere": {
-            "get": {
-                "tags": ["utbetalinger-controller"],
-                "operationId": "hentTidligereUtbetalinger",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": { "$ref": "#/components/schemas/NyeOgTidligereUtbetalingerResponse" }
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -861,37 +526,6 @@
                 }
             }
         },
-        "/api/v1/innsyn/nye": {
-            "get": {
-                "tags": ["utbetalinger-controller"],
-                "operationId": "hentNyeUtbetalinger",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": { "$ref": "#/components/schemas/NyeOgTidligereUtbetalingerResponse" }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/innsyn/harSoknaderMedInnsyn": {
-            "get": {
-                "tags": ["soknad-med-innsyn-controller"],
-                "operationId": "harSoknaderMedInnsyn",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": { "application/json;charset=UTF-8": { "schema": { "type": "boolean" } } }
-                    }
-                }
-            }
-        },
         "/api/v1/digisosapi/{digisosId}/innsynsfil": {
             "get": {
                 "tags": ["digisos-api-test-controller"],
@@ -924,39 +558,6 @@
                 },
                 "required": ["documents"]
             },
-            "OppgaveOpplastingResponse": {
-                "type": "object",
-                "properties": {
-                    "type": { "type": "string" },
-                    "tilleggsinfo": { "type": "string" },
-                    "innsendelsesfrist": { "type": "string", "format": "date" },
-                    "hendelsetype": {
-                        "type": "string",
-                        "enum": ["dokumentasjonEtterspurt", "dokumentasjonkrav", "soknad", "bruker"]
-                    },
-                    "hendelsereferanse": { "type": "string" },
-                    "filer": { "type": "array", "items": { "$ref": "#/components/schemas/VedleggOpplastingResponse" } }
-                },
-                "required": ["filer", "type"]
-            },
-            "VedleggOpplastingResponse": {
-                "type": "object",
-                "properties": {
-                    "filnavn": { "type": "string" },
-                    "status": {
-                        "type": "string",
-                        "enum": [
-                            "OK",
-                            "COULD_NOT_LOAD_DOCUMENT",
-                            "PDF_IS_ENCRYPTED",
-                            "ILLEGAL_FILE_TYPE",
-                            "ILLEGAL_FILENAME",
-                            "FILE_TOO_LARGE"
-                        ]
-                    }
-                },
-                "required": ["status"]
-            },
             "KlageInput": {
                 "type": "object",
                 "properties": {
@@ -971,14 +572,14 @@
                 "properties": {
                     "hendelsetidspunkt": { "type": "string", "format": "date" },
                     "vilkarReferanse": { "type": "string" },
-                    "tittel": { "type": "string" },
-                    "beskrivelse": { "type": "string" },
+                    "tittel": { "type": ["string", "null"] },
+                    "beskrivelse": { "type": ["string", "null"] },
                     "status": {
                         "type": "string",
                         "enum": ["RELEVANT", "ANNULLERT", "OPPFYLT", "IKKE_OPPFYLT", "LEVERT_TIDLIGERE"]
                     },
-                    "utbetalingsReferanse": { "type": "array", "items": { "type": "string" } },
-                    "saksReferanse": { "type": "string" }
+                    "utbetalingsReferanse": { "type": ["array", "null"], "items": { "type": "string" } },
+                    "saksReferanse": { "type": ["string", "null"] }
                 },
                 "required": ["hendelsetidspunkt", "status", "vilkarReferanse"]
             },
@@ -996,41 +597,41 @@
                 "type": "object",
                 "properties": {
                     "oppgaveId": { "type": "string" },
-                    "innsendelsesfrist": { "type": "string", "format": "date" },
+                    "innsendelsesfrist": { "type": ["string", "null"], "format": "date" },
                     "dokumenttype": { "type": "string" },
-                    "tilleggsinformasjon": { "type": "string" },
+                    "tilleggsinformasjon": { "type": ["string", "null"] },
                     "hendelsetype": {
-                        "type": "string",
+                        "type": ["string", "null"],
                         "enum": ["dokumentasjonEtterspurt", "dokumentasjonkrav", "soknad", "bruker"]
                     },
-                    "hendelsereferanse": { "type": "string" },
+                    "hendelsereferanse": { "type": ["string", "null"] },
                     "erFraInnsyn": { "type": "boolean" },
                     "erLastetOpp": { "type": "boolean" },
-                    "opplastetDato": { "type": "string", "format": "date-time" }
+                    "opplastetDato": { "type": ["string", "null"], "format": "date-time" }
                 },
                 "required": ["dokumenttype", "erFraInnsyn", "erLastetOpp", "oppgaveId"]
             },
             "DokumentasjonkravDto": {
                 "type": "object",
                 "properties": {
-                    "frist": { "type": "string", "format": "date" },
+                    "frist": { "type": ["string", "null"], "format": "date" },
                     "dokumentasjonkravId": { "type": "string" },
                     "hendelsetidspunkt": { "type": "string", "format": "date" },
                     "hendelsetype": {
-                        "type": "string",
+                        "type": ["string", "null"],
                         "enum": ["dokumentasjonEtterspurt", "dokumentasjonkrav", "soknad", "bruker"]
                     },
                     "dokumentasjonkravReferanse": { "type": "string" },
-                    "tittel": { "type": "string" },
-                    "beskrivelse": { "type": "string" },
+                    "tittel": { "type": ["string", "null"] },
+                    "beskrivelse": { "type": ["string", "null"] },
                     "status": {
                         "type": "string",
                         "enum": ["RELEVANT", "ANNULLERT", "OPPFYLT", "IKKE_OPPFYLT", "LEVERT_TIDLIGERE"]
                     },
                     "utbetalingsReferanse": { "type": "array", "items": { "type": "string" } },
-                    "saksreferanse": { "type": "string" },
+                    "saksreferanse": { "type": ["string", "null"] },
                     "erLastetOpp": { "type": "boolean" },
-                    "opplastetDato": { "type": "string", "format": "date-time" }
+                    "opplastetDato": { "type": ["string", "null"], "format": "date-time" }
                 },
                 "required": [
                     "dokumentasjonkravId",
@@ -1046,7 +647,7 @@
                 "properties": {
                     "fiksDigisosId": { "type": "string" },
                     "soknadTittel": { "type": "string" },
-                    "datoSendt": { "type": "string", "format": "date-time" }
+                    "datoSendt": { "type": ["string", "null"], "format": "date-time" }
                 },
                 "required": ["fiksDigisosId", "soknadTittel"]
             },
@@ -1056,16 +657,16 @@
                     "referanse": { "type": "string" },
                     "tittel": { "type": "string" },
                     "belop": { "type": "number" },
-                    "utbetalingsdato": { "type": "string", "format": "date" },
-                    "forfallsdato": { "type": "string", "format": "date" },
+                    "utbetalingsdato": { "type": ["string", "null"], "format": "date" },
+                    "forfallsdato": { "type": ["string", "null"], "format": "date" },
                     "status": { "type": "string", "enum": ["PLANLAGT_UTBETALING", "UTBETALT", "STOPPET", "ANNULLERT"] },
                     "fiksDigisosId": { "type": "string" },
-                    "fom": { "type": "string", "format": "date" },
-                    "tom": { "type": "string", "format": "date" },
-                    "mottaker": { "type": "string" },
+                    "fom": { "type": ["string", "null"], "format": "date" },
+                    "tom": { "type": ["string", "null"], "format": "date" },
+                    "mottaker": { "type": ["string", "null"] },
                     "annenMottaker": { "type": "boolean" },
-                    "kontonummer": { "type": "string", "pattern": "^[0-9]{11}$" },
-                    "utbetalingsmetode": { "type": "string" },
+                    "kontonummer": { "type": ["string", "null"], "pattern": "^[0-9]{11}$" },
+                    "utbetalingsmetode": { "type": ["string", "null"] },
                     "tilknyttedeSoknader": {
                         "type": "array",
                         "items": { "$ref": "#/components/schemas/TilknyttetSoknadDto" }
@@ -1088,7 +689,7 @@
                     "storrelse": { "type": "integer", "format": "int64" },
                     "url": { "type": "string" },
                     "type": { "type": "string" },
-                    "tilleggsinfo": { "type": "string" },
+                    "tilleggsinfo": { "type": ["string", "null"] },
                     "datoLagtTil": { "type": "string", "format": "date-time" }
                 },
                 "required": ["datoLagtTil", "filnavn", "storrelse", "type", "url"]
@@ -1100,12 +701,12 @@
                         "type": "string",
                         "enum": ["SENDT", "MOTTATT", "UNDER_BEHANDLING", "FERDIGBEHANDLET", "BEHANDLES_IKKE"]
                     },
-                    "kommunenummer": { "type": "string" },
-                    "tidspunktSendt": { "type": "string", "format": "date-time" },
-                    "soknadsalderIMinutter": { "type": "integer", "format": "int64" },
-                    "navKontor": { "type": "string" },
-                    "filUrl": { "$ref": "#/components/schemas/UrlResponse" },
-                    "tittel": { "type": "string" }
+                    "kommunenummer": { "type": ["string", "null"] },
+                    "tidspunktSendt": { "type": ["string", "null"], "format": "date-time" },
+                    "soknadsalderIMinutter": { "type": ["integer", "null"], "format": "int64" },
+                    "navKontor": { "type": ["string", "null"] },
+                    "filUrl": { "oneOf": [{ "$ref": "#/components/schemas/UrlResponse" }, { "type": "null" }] },
+                    "tittel": { "type": ["string", "null"] }
                 },
                 "required": ["status"]
             },
@@ -1150,7 +751,7 @@
             "FilUrl": {
                 "type": "object",
                 "properties": {
-                    "dato": { "type": "string", "format": "date" },
+                    "dato": { "type": ["string", "null"], "format": "date" },
                     "url": { "type": "string" },
                     "id": { "type": "string" }
                 },
@@ -1161,7 +762,7 @@
                 "properties": {
                     "tittel": { "type": "string" },
                     "status": {
-                        "type": "string",
+                        "type": ["string", "null"],
                         "enum": [
                             "UNDER_BEHANDLING",
                             "IKKE_INNSYN",
@@ -1171,12 +772,15 @@
                         ]
                     },
                     "skalViseVedtakInfoPanel": { "type": "boolean" },
-                    "vedtaksfilUrlList": { "type": "array", "items": { "$ref": "#/components/schemas/FilUrl" } },
+                    "vedtaksfilUrlList": {
+                        "type": ["array", "null"],
+                        "items": { "$ref": "#/components/schemas/FilUrl" }
+                    },
                     "utfallVedtak": {
-                        "type": "string",
+                        "type": ["string", "null"],
                         "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"]
                     },
-                    "referanse": { "type": "string" },
+                    "referanse": { "type": ["string", "null"] },
                     "vedtak": { "type": "array", "items": { "$ref": "#/components/schemas/VedtakDto" } }
                 },
                 "required": ["skalViseVedtakInfoPanel", "tittel", "vedtak"]
@@ -1185,9 +789,12 @@
                 "type": "object",
                 "properties": {
                     "id": { "type": "string" },
-                    "utfall": { "type": "string", "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"] },
+                    "utfall": {
+                        "type": ["string", "null"],
+                        "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"]
+                    },
                     "vedtaksFilUrl": { "type": "string" },
-                    "dato": { "type": "string", "format": "date" }
+                    "dato": { "type": ["string", "null"], "format": "date" }
                 },
                 "required": ["id", "vedtaksFilUrl"]
             },
@@ -1195,66 +802,23 @@
                 "type": "object",
                 "properties": {
                     "tittel": { "type": "string" },
-                    "vedtaksfilUrlList": { "type": "array", "items": { "$ref": "#/components/schemas/FilUrl" } },
-                    "utfallVedtak": {
-                        "type": "string",
-                        "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"]
-                    },
-                    "navEnhetNavn": { "type": "string" }
+                    "vedtaksdato": { "type": "string", "format": "date" },
+                    "vedtaksBrev": { "$ref": "#/components/schemas/FilUrl" },
+                    "navEnhetNavn": { "type": ["string", "null"] },
+                    "soknadSendtDato": { "type": ["string", "null"], "format": "date" }
                 },
-                "required": ["tittel"]
+                "required": ["tittel", "vedtaksBrev", "vedtaksdato"]
             },
             "OriginalSoknadDto": {
                 "type": "object",
                 "properties": {
                     "url": { "type": "string" },
-                    "size": { "type": "integer", "format": "int64" },
-                    "filename": { "type": "string" },
-                    "date": { "type": "string", "format": "date-time" },
+                    "size": { "type": ["integer", "null"], "format": "int64" },
+                    "filename": { "type": ["string", "null"] },
+                    "date": { "type": ["string", "null"], "format": "date-time" },
                     "skjult": { "type": "boolean" }
                 },
-                "required": ["url", "skjult"]
-            },
-            "OppgaveElement": {
-                "type": "object",
-                "properties": {
-                    "dokumenttype": { "type": "string" },
-                    "tilleggsinformasjon": { "type": "string" },
-                    "hendelsetype": {
-                        "type": "string",
-                        "enum": ["dokumentasjonEtterspurt", "dokumentasjonkrav", "soknad", "bruker"]
-                    },
-                    "hendelsereferanse": { "type": "string" },
-                    "erFraInnsyn": { "type": "boolean" }
-                },
-                "required": ["dokumenttype", "erFraInnsyn"]
-            },
-            "OppgaveResponse": {
-                "type": "object",
-                "properties": {
-                    "oppgaveId": { "type": "string" },
-                    "innsendelsesfrist": { "type": "string", "format": "date" },
-                    "oppgaveElementer": { "type": "array", "items": { "$ref": "#/components/schemas/OppgaveElement" } }
-                },
-                "required": ["oppgaveElementer", "oppgaveId"]
-            },
-            "KommuneResponse": {
-                "type": "object",
-                "properties": {
-                    "erInnsynDeaktivert": { "type": "boolean" },
-                    "erInnsynMidlertidigDeaktivert": { "type": "boolean" },
-                    "erInnsendingEttersendelseDeaktivert": { "type": "boolean" },
-                    "erInnsendingEttersendelseMidlertidigDeaktivert": { "type": "boolean" },
-                    "tidspunkt": { "type": "string", "format": "date-time" },
-                    "kommunenummer": { "type": "string" }
-                },
-                "required": [
-                    "erInnsendingEttersendelseDeaktivert",
-                    "erInnsendingEttersendelseMidlertidigDeaktivert",
-                    "erInnsynDeaktivert",
-                    "erInnsynMidlertidigDeaktivert",
-                    "tidspunkt"
-                ]
+                "required": ["skjult", "url"]
             },
             "KlageRef": {
                 "type": "object",
@@ -1301,7 +865,7 @@
             "DokumentasjonKrav": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },
-                    { "type": "object", "properties": { "link": { "type": "string" } } }
+                    { "type": "object", "properties": { "link": { "type": ["string", "null"] } } }
                 ],
                 "required": ["tidspunkt"]
             },
@@ -1310,7 +874,10 @@
                     { "$ref": "#/components/schemas/HendelseDto" },
                     {
                         "type": "object",
-                        "properties": { "link": { "type": "string" }, "navKontor": { "type": "string" } }
+                        "properties": {
+                            "link": { "type": ["string", "null"] },
+                            "navKontor": { "type": ["string", "null"] }
+                        }
                     }
                 ],
                 "required": ["tidspunkt"]
@@ -1320,7 +887,10 @@
                     { "$ref": "#/components/schemas/HendelseDto" },
                     {
                         "type": "object",
-                        "properties": { "link": { "type": "string" }, "navKontor": { "type": "string" } }
+                        "properties": {
+                            "link": { "type": ["string", "null"] },
+                            "navKontor": { "type": ["string", "null"] }
+                        }
                     }
                 ],
                 "required": ["tidspunkt"]
@@ -1363,7 +933,7 @@
             "Mottatt": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },
-                    { "type": "object", "properties": { "navKontor": { "type": "string" } } }
+                    { "type": "object", "properties": { "navKontor": { "type": ["string", "null"] } } }
                 ],
                 "required": ["tidspunkt"]
             },
@@ -1372,7 +942,10 @@
                     { "$ref": "#/components/schemas/HendelseDto" },
                     {
                         "type": "object",
-                        "properties": { "sakstittel": { "type": "string" }, "url": { "type": "string" } }
+                        "properties": {
+                            "sakstittel": { "type": ["string", "null"] },
+                            "url": { "type": ["string", "null"] }
+                        }
                     }
                 ],
                 "required": ["tidspunkt"]
@@ -1380,14 +953,14 @@
             "SakKanIkkeViseStatus": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },
-                    { "type": "object", "properties": { "sakstittel": { "type": "string" } } }
+                    { "type": "object", "properties": { "sakstittel": { "type": ["string", "null"] } } }
                 ],
                 "required": ["tidspunkt"]
             },
             "SakUnderBehandling": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },
-                    { "type": "object", "properties": { "sakstittel": { "type": "string" } } }
+                    { "type": "object", "properties": { "sakstittel": { "type": ["string", "null"] } } }
                 ],
                 "required": ["tidspunkt"]
             },
@@ -1396,7 +969,10 @@
                     { "$ref": "#/components/schemas/HendelseDto" },
                     {
                         "type": "object",
-                        "properties": { "navKontor": { "type": "string" }, "url": { "type": "string" } }
+                        "properties": {
+                            "navKontor": { "type": ["string", "null"] },
+                            "url": { "type": ["string", "null"] }
+                        }
                     }
                 ],
                 "required": ["tidspunkt"]
@@ -1404,21 +980,21 @@
             "SoknadFerdigBehandlet": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },
-                    { "type": "object", "properties": { "url": { "type": "string" } } }
+                    { "type": "object", "properties": { "url": { "type": ["string", "null"] } } }
                 ],
                 "required": ["tidspunkt"]
             },
             "SoknadKanIkkeViseStatus": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },
-                    { "type": "object", "properties": { "soknadstittel": { "type": "string" } } }
+                    { "type": "object", "properties": { "soknadstittel": { "type": ["string", "null"] } } }
                 ],
                 "required": ["tidspunkt"]
             },
             "SoknadUnderBehandling": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },
-                    { "type": "object", "properties": { "navKontor": { "type": "string" } } }
+                    { "type": "object", "properties": { "navKontor": { "type": ["string", "null"] } } }
                 ],
                 "required": ["tidspunkt"]
             },
@@ -1431,120 +1007,27 @@
                     { "$ref": "#/components/schemas/HendelseDto" },
                     {
                         "type": "object",
-                        "properties": { "navKontor": { "type": "string" }, "papirsoknad": { "type": "boolean" } }
+                        "properties": {
+                            "navKontor": { "type": ["string", "null"] },
+                            "papirsoknad": { "type": "boolean" }
+                        }
                     }
                 ],
                 "required": ["papirsoknad", "tidspunkt"]
-            },
-            "HendelseResponse": {
-                "type": "object",
-                "properties": {
-                    "tidspunkt": { "type": "string" },
-                    "hendelseType": { "type": "string" },
-                    "filUrl": { "$ref": "#/components/schemas/UrlResponse" },
-                    "tekstArgument": { "type": "string" },
-                    "saksReferanse": { "type": "string" },
-                    "navEnhetsNummer": { "type": "string" },
-                    "navEnhetsNavn": { "type": "string" },
-                    "kommuneNummer": { "type": "string" }
-                },
-                "required": ["hendelseType", "tidspunkt"]
-            },
-            "ForelopigSvarResponse": {
-                "type": "object",
-                "properties": { "harMottattForelopigSvar": { "type": "boolean" }, "link": { "type": "string" } },
-                "required": ["harMottattForelopigSvar"]
-            },
-            "DokumentasjonkravElement": {
-                "type": "object",
-                "properties": {
-                    "hendelsetidspunkt": { "type": "string", "format": "date" },
-                    "hendelsetype": {
-                        "type": "string",
-                        "enum": ["dokumentasjonEtterspurt", "dokumentasjonkrav", "soknad", "bruker"]
-                    },
-                    "dokumentasjonkravReferanse": { "type": "string" },
-                    "tittel": { "type": "string" },
-                    "beskrivelse": { "type": "string" },
-                    "status": {
-                        "type": "string",
-                        "enum": ["RELEVANT", "ANNULLERT", "OPPFYLT", "IKKE_OPPFYLT", "LEVERT_TIDLIGERE"]
-                    },
-                    "utbetalingsReferanse": { "type": "array", "items": { "type": "string" } }
-                },
-                "required": ["dokumentasjonkravReferanse", "hendelsetidspunkt", "status"]
-            },
-            "DokumentasjonkravResponse": {
-                "type": "object",
-                "properties": {
-                    "dokumentasjonkravElementer": {
-                        "type": "array",
-                        "items": { "$ref": "#/components/schemas/DokumentasjonkravElement" }
-                    },
-                    "frist": { "type": "string", "format": "date" },
-                    "dokumentasjonkravId": { "type": "string" }
-                },
-                "required": ["dokumentasjonkravElementer", "dokumentasjonkravId"]
             },
             "Brev": {
                 "type": "object",
                 "properties": {
                     "type": { "type": "string", "enum": ["FORELOPIG_SVAR", "DOKUMENTASJON_ETTERSPURT", "VEDTAK"] },
                     "url": { "type": "string" },
-                    "timestamp": { "type": "string", "format": "date-time" }
+                    "timestamp": { "type": ["string", "null"], "format": "date-time" }
                 },
                 "required": ["type", "url"]
-            },
-            "ManedUtbetaling": {
-                "type": "object",
-                "properties": {
-                    "referanse": { "type": "string" },
-                    "tittel": { "type": "string" },
-                    "belop": { "type": "number" },
-                    "utbetalingsdato": { "type": "string", "format": "date" },
-                    "forfallsdato": { "type": "string", "format": "date" },
-                    "status": { "type": "string", "enum": ["PLANLAGT_UTBETALING", "UTBETALT", "STOPPET", "ANNULLERT"] },
-                    "fiksDigisosId": { "type": "string" },
-                    "fom": { "type": "string", "format": "date" },
-                    "tom": { "type": "string", "format": "date" },
-                    "mottaker": { "type": "string" },
-                    "annenMottaker": { "type": "boolean" },
-                    "kontonummer": { "type": "string", "pattern": "^[0-9]{11}$" },
-                    "utbetalingsmetode": { "type": "string" }
-                },
-                "required": ["annenMottaker", "belop", "fiksDigisosId", "referanse", "status", "tittel"]
-            },
-            "UtbetalingerResponse": {
-                "type": "object",
-                "properties": {
-                    "ar": { "type": "integer", "format": "int32" },
-                    "maned": { "type": "integer", "format": "int32" },
-                    "foersteIManeden": {
-                        "type": "string",
-                        "format": "date",
-                        "deprecated": true,
-                        "description": "Bruk ar og maned"
-                    },
-                    "utbetalinger": { "type": "array", "items": { "$ref": "#/components/schemas/ManedUtbetaling" } }
-                },
-                "required": ["ar", "foersteIManeden", "maned", "utbetalinger"]
             },
             "TilgangResponse": {
                 "type": "object",
                 "properties": { "harTilgang": { "type": "boolean" }, "fornavn": { "type": "string" } },
                 "required": ["fornavn", "harTilgang"]
-            },
-            "NyeOgTidligereUtbetalingerResponse": {
-                "type": "object",
-                "properties": {
-                    "utbetalingerForManed": {
-                        "type": "array",
-                        "items": { "$ref": "#/components/schemas/ManedUtbetaling" }
-                    },
-                    "ar": { "type": "integer", "format": "int32" },
-                    "maned": { "type": "integer", "format": "int32" }
-                },
-                "required": ["ar", "maned", "utbetalingerForManed"]
             },
             "SessionMetadata": {
                 "type": "object",
@@ -1561,8 +1044,8 @@
                     "fiksDigisosId": { "type": "string" },
                     "soknadTittel": { "type": "string" },
                     "sistOppdatert": { "type": "string", "format": "date-time" },
-                    "kommunenummer": { "type": "string" },
-                    "soknadOpprettet": { "type": "string", "format": "date-time" },
+                    "kommunenummer": { "type": ["string", "null"] },
+                    "soknadOpprettet": { "type": ["string", "null"], "format": "date-time" },
                     "isPapirSoknad": { "type": "boolean" }
                 },
                 "required": ["fiksDigisosId", "isPapirSoknad", "sistOppdatert", "soknadTittel"]
@@ -1571,8 +1054,8 @@
                 "type": "object",
                 "properties": {
                     "harMottattForelopigSvar": { "type": "boolean" },
-                    "link": { "type": "string" },
-                    "timestamp": { "type": "string", "format": "date-time" }
+                    "link": { "type": ["string", "null"] },
+                    "timestamp": { "type": ["string", "null"], "format": "date-time" }
                 },
                 "required": ["harMottattForelopigSvar"]
             },
@@ -1603,17 +1086,17 @@
                         "type": "string",
                         "enum": ["SENDT", "MOTTATT", "UNDER_BEHANDLING", "FERDIGBEHANDLET", "BEHANDLES_IKKE"]
                     },
-                    "antallNyeOppgaver": { "type": "integer", "format": "int32" },
-                    "antallNyeVilkarOgDokumentasjonKrav": { "type": "integer", "format": "int32" },
+                    "antallNyeOppgaver": { "type": ["integer", "null"], "format": "int32" },
+                    "antallNyeVilkarOgDokumentasjonKrav": { "type": ["integer", "null"], "format": "int32" },
                     "dokumentasjonEtterspurt": { "type": "boolean" },
                     "dokumentasjonkrav": { "type": "boolean" },
                     "vilkar": { "type": "boolean" },
                     "forelopigSvar": { "$ref": "#/components/schemas/ForelopigSvar" },
                     "saker": { "type": "array", "items": { "$ref": "#/components/schemas/Sak" } },
-                    "forsteOppgaveFrist": { "type": "string", "format": "date" },
-                    "mottattTidspunkt": { "type": "string", "format": "date-time" },
-                    "sisteDokumentasjonKravFrist": { "type": "string", "format": "date" },
-                    "soknadOpprettet": { "type": "string", "format": "date-time" },
+                    "forsteOppgaveFrist": { "type": ["string", "null"], "format": "date" },
+                    "mottattTidspunkt": { "type": ["string", "null"], "format": "date-time" },
+                    "sisteDokumentasjonKravFrist": { "type": ["string", "null"], "format": "date" },
+                    "soknadOpprettet": { "type": ["string", "null"], "format": "date-time" },
                     "sistOppdatert": { "type": "string", "format": "date-time" }
                 },
                 "required": [
