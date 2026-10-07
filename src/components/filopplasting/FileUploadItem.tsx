@@ -1,23 +1,20 @@
 import { useTranslations } from "next-intl";
 import { useMutation } from "@tanstack/react-query";
 import { FileUpload } from "@navikt/ds-react/FileUpload";
-import { Upload } from "tus-js-client";
 import { BodyShort, Button, HStack, Loader } from "@navikt/ds-react";
 import { InformationSquareFillIcon, TrashIcon, XMarkIcon } from "@navikt/aksel-icons";
-import { browserEnv } from "@config/env";
 import { UploadStatus, ValidationCode } from "@components/filopplasting/api/useDocumentState";
 
 interface Props {
     originalFilename: string;
     convertedFilename?: string;
-    uploadId: string;
     validations?: ValidationCode[];
     url?: string;
     isConverted: boolean;
     status: UploadStatus;
     size?: number;
     showCancelButton?: boolean;
-    onTerminate?: () => void;
+    onDelete: () => Promise<void>;
     deleteDisabled?: boolean;
 }
 
@@ -34,22 +31,21 @@ const SeOverDescription = () => {
 const FileUploadItem = ({
     convertedFilename,
     originalFilename,
-    uploadId,
     validations,
     url,
     status,
     size,
     showCancelButton,
-    onTerminate,
+    onDelete,
     deleteDisabled,
     isConverted,
 }: Props) => {
     const t = useTranslations("FileUploadItem");
     const { mutate, isPending } = useMutation({
-        mutationFn: () => Upload.terminate(`${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/tus/files/${uploadId}`, {}),
-        onSuccess: () => onTerminate?.(),
+        mutationFn: onDelete,
         retry: false,
     });
+
     const isUploading = !url && !validations && status !== "FAILED" && status !== "COMPLETE" && !showCancelButton;
     const uploadStatus = isUploading ? "uploading" : "idle";
     return (
@@ -64,6 +60,7 @@ const FileUploadItem = ({
                         <Button
                             variant="tertiary"
                             data-color="neutral"
+                            type="button"
                             icon={
                                 showCancelButton ? <XMarkIcon title={t("cancel")} /> : <TrashIcon title={t("slett")} />
                             }

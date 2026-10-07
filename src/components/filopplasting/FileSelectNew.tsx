@@ -1,46 +1,41 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import * as R from "remeda";
 import { FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
-import { ReactNode, useState } from "react";
-import { getTusUploader } from "@components/filopplasting/utils/tusUploader";
+import { ReactNode } from "react";
 import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
 
 import FileUploadItem from "./FileUploadItem";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
 import { browserEnv } from "@config/env";
-import { useParams } from "next/navigation";
 import useSlowProcessingWarning from "@components/filopplasting/useSlowProcessingWarning";
-import { isFolder } from "@components/filopplasting/utils/validateFiles";
+import { liveRegionIndexes, useDocumentUpload } from "./useDocumentUpload";
+import { UploadTarget } from "./utils/tusUploader";
 
 interface Props {
-    id?: string;
     label?: string;
     description?: string;
     filesLabel?: string;
     tag?: ReactNode;
     isPending?: boolean;
     docState: DocumentState;
-    uploadId: string;
+    contextId: string;
+    target: UploadTarget;
     onSelect?: (files: FileObject[]) => void;
     onUploadsAdded: (uploads: UploadState[]) => void;
     onUploadRemoved: (correlationId: string) => void;
     variant?: "normal" | "warning";
 }
 
-const liveRegionIndexes = [0, 1] as const;
-type LiveRegionIndex = (typeof liveRegionIndexes)[number];
-
 const FileSelectNew = ({
     label,
     description,
     tag,
     docState,
-    id,
     filesLabel,
-    uploadId,
+    contextId,
+    target,
     variant,
     onSelect,
     onUploadsAdded,
@@ -48,62 +43,24 @@ const FileSelectNew = ({
     isPending,
 }: Props) => {
     const t = useTranslations("Opplastingsboks");
-    const { id: fiksDigisosId } = useParams<{ id: string }>();
+
+    const { startUpload, terminateUpload, folderDropError, skjermleserBeskjed } = useDocumentUpload({
+        docState,
+        contextId,
+        onUploadRemoved,
+        onUploadsAdded,
+        onSelect,
+        target,
+    });
 
     const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
 
-    const [folderDropError, setFolderDropError] = useState(false);
-    const [skjermleserBeskjed, setSkjermleserBeskjed] = useState<{ text: string; activeRegion: LiveRegionIndex }>({
-        text: "",
-        activeRegion: 0,
-    });
-
     const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
 
-    // Bytter mellom to live-regioner slik at samme beskjed kan kunngjøres flere ganger på rad.
-    // Skjermlesere leser ikke alltid opp en aria-live-region hvis tekstinnholdet er likt som sist.
-    const oppdaterSkjermleserBeskjed = (text: string) => {
-        setSkjermleserBeskjed(({ activeRegion }) => ({
-            text,
-            activeRegion: activeRegion === 0 ? 1 : 0,
-        }));
-    };
-
-    // Starter opplasting umiddelbart ved filvalg
-    const _onSelect = (files: FileObject[]) => {
-        const [folders, valid] = R.partition(files, (f) => isFolder(f));
-
-        setFolderDropError(folders.length > 0);
-
-        if (valid.length === 0) return;
-        oppdaterSkjermleserBeskjed(t("filLagtTil", { count: valid.length }));
-        onSelect?.(valid);
-
-        const optimisticUploads: UploadState[] = valid.map((file: FileObject) => {
-            const correlationId = crypto.randomUUID();
-            const upload = getTusUploader({
-                id: uploadId,
-                file,
-                fiksDigisosId,
-                correlationId,
-            });
-            upload.start();
-            return {
-                id: correlationId,
-                correlationId,
-                converted: false,
-                originalFilename: file.file.name,
-                size: file.file.size,
-                status: "PENDING" as const,
-            } satisfies UploadState;
-        });
-        onUploadsAdded(optimisticUploads);
-    };
     const converted = docState.uploads?.some((upload) => upload.converted);
 
     return (
         <FileUpload
-            id={id}
             translations={{
                 dropzone: {
                     buttonMultiple: t("button"),
@@ -124,12 +81,12 @@ const FileSelectNew = ({
             <VStack gap="space-24">
                 <FileSelectUpload
                     label={label ?? t("tittel")}
-                    headerId={`header-id-${uploadId}`}
+                    headerId={`header-id-${contextId}`}
                     description={description}
                     tag={tag}
                     variant={variant === "warning" ? "warning" : "default"}
                     buttonText={t("lastOppFiler")}
-                    onSelect={_onSelect}
+                    onSelect={(files) => startUpload(files)}
                     currentCount={docState.uploads?.length ?? 0}
                 />
 
@@ -172,7 +129,6 @@ const FileSelectNew = ({
                                             ? `${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`
                                             : undefined
                                     }
-                                    uploadId={upload.id}
                                     isConverted={upload.converted}
                                     convertedFilename={upload.finalFilename}
                                     originalFilename={upload.originalFilename}
@@ -184,14 +140,7 @@ const FileSelectNew = ({
                                         (upload.status === "PENDING" || upload.status === "PROCESSING")
                                     }
                                     deleteDisabled={isPending}
-                                    onTerminate={() => {
-                                        if (upload.correlationId) {
-                                            onUploadRemoved(upload.correlationId);
-                                        }
-                                        oppdaterSkjermleserBeskjed(
-                                            t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 })
-                                        );
-                                    }}
+                                    onDelete={() => terminateUpload(upload.id, upload.correlationId)}
                                 />
                             ))}
                         </VStack>
