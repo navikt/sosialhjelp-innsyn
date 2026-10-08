@@ -67,7 +67,7 @@ jobs:
           for i in 1 2 3 4 5; do
             state=$(gh pr view "$PR_NUMBER" --json mergeStateStatus --jq .mergeStateStatus)
             echo "Forsøk $i: mergeStateStatus=$state"
-            if [ "$state" = "CLEAN" ] || [ "$state" = "MERGEABLE" ] || [ "$state" = "UNSTABLE" ]; then
+            if [ "$state" = "CLEAN" ] || [ "$state" = "UNSTABLE" ]; then
               mergeable=true
               break
             fi
@@ -86,7 +86,12 @@ jobs:
               sleep 3
             done
             if [ -z "$sha" ]; then
-              echo "::error::Fant ikke merge-commit for PR #$PR_NUMBER, hopper over deploy"
+              base=$(gh pr view "$PR_NUMBER" --json baseRefName --jq .baseRefName)
+              sha=$(gh api "repos/$GITHUB_REPOSITORY/commits/$base" --jq .sha)
+              echo "::warning::Fant ikke merge-commit for PR #$PR_NUMBER, bruker toppen av $base ($sha)"
+            fi
+            if [ -z "$sha" ]; then
+              echo "::error::Fant ingen commit å deploye for PR #$PR_NUMBER"
               echo "merged=false" >> "$GITHUB_OUTPUT"
               exit 1
             fi
