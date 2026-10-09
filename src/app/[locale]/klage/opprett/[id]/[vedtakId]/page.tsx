@@ -2,6 +2,7 @@ import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import React from "react";
+import { randomUUID } from "node:crypto";
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import { hentSakForVedtak } from "@generated/ssr/sak-controller/sak-controller";
@@ -35,6 +36,7 @@ const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string
                 <KlageForm
                     fiksDigisosId={fiksDigisosId}
                     vedtakId={vedtakId}
+                    klageId={randomUUID()}
                     vedtaksbrev={sak.vedtaksBrev}
                     vedtakMottatt={sak.vedtaksdato}
                     soknadSendt={sak.soknadSendtDato}
