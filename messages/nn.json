@@ -468,11 +468,10 @@
         "filOpplasting": {
             "dineVedlegg": "Vedlegga dine",
             "label": "Vedlegg",
-            "beskrivelse": "Har du opplysningar som kan vere relevante for klaga di, kan du laste dei opp her.",
+            "beskrivelse": "Har du opplysningar som kan vere relevante for klaga di, kan du laste dei opp her."
         },
         "validering": {
-            "maksLengde": "Du kan skrive inn maks {maksLengde} teikn",
-            "maksFiler": "Du kan laste opp maks {maksFiler} filer"
+            "maksLengde": "Du kan skrive inn maks {maksLengde} teikn"
         },
         "vedtaketDuKlagerPa": "Vedtaket du klagar på",
         "vedtaksBrev": "Last ned vedtaksbrev",
@@ -483,6 +482,7 @@
         "forkastKlageKnapp": "Avbryt",
         "manglerInnhold": "For å halde fram må du skrive kvifor du er usamd i vedtaket, anten i tekstfeltet eller laste det opp som eit vedlegg.",
         "sendKlage": "Send inn",
+        "ingenVedlegg": "Ingen vedlegg",
         "sendingFeilet": "Sending av klaga feila. Prøv igjen seinare eller ta kontakt med ditt lokale NAV-kontor."
     },
     "ForkastKlageModal": {
