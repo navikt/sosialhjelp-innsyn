@@ -35,7 +35,7 @@
     },
     "BrevFraNav": {
         "tittel": "Brev frå Nav",
-        "mottatt": "Motteken {dato, date, ::ddMMyyyy}",
+        "mottatt": "Motteken {dato, date, ::dMMMMy}",
         "VEDTAK": "Vedtaksbrev",
         "FORELOPIG_SVAR": "Brev om saksbehandlingstid",
         "DOKUMENTASJON_ETTERSPURT": "Brev om etterspurd dokumentasjon"
@@ -97,7 +97,10 @@
     "StatusPage": {
         "breadcrumbs": {
             "soknader": "Mine søknader",
-            "soknad": "Min søknad"
+            "soknad": "Min søknad",
+            "klageskjema": "Klageskjema",
+            "kvittering": "Kvittering",
+            "klage": "Klage på vedtak"
         },
         "htmlTitle": "Min søknad om økonomisk sosialhjelp"
     },
@@ -390,9 +393,7 @@
     },
     "OpprettKlagePage": {
         "tittel": "Klage på vedtak",
-        "beskrivelse": "Klag på vedtaket om økonomisk sosialhjelp.",
-        "navEnhet": "Klaga vil bli sendt til <norsk>{navKontor}</norsk>",
-        "ikkeOppgittNavEnhet": "Klaga vil bli sendt til ditt Nav-kontor"
+        "beskrivelse": "Klag på vedtaket om økonomisk sosialhjelp."
     },
     "KlagePage": {
         "tittel": "Klaga di er sendt",
@@ -423,39 +424,65 @@
             "beskrivelse": "Du vil få eit vedtak. Les vedtaket for å sjå om du har fått medhald eller ikkje."
         }
     },
-    "KlageVedtak": {
-        "beskrivelse": {
-            "INNVILGET": "Du har fått innvilga stønad. Les vedtaket for å sjå grunngivinga.",
-            "DELVIS_INNVILGET": "Du har fått delvis innvilga stønad. Det vil seie at du ikkje får alt du søkte om, men delar av det. Les vedtaket for å sjå grunngivinga.",
-            "AVVIST": "Søknaden din er avvist. Les vedtaket for å sjå grunngivinga.",
-            "AVSLATT": "Du har fått avslag på søknaden. Les vedtaket for å sjå grunngivinga."
+    "StegKvittering": {
+        "sendt": {
+            "tittel": "Klaga di er sendt",
+            "beskrivelse": "Du treng ikkje gjere noko meir no. Vi tek kontakt med deg dersom det er noko vi lurer på. Har du spørsmål om klaga di, kan du <lenke>kontakte Nav-kontoret ditt</lenke> eller ringje oss på <tel>55 55 33 33</tel>."
         },
-        "vedtaksBrev": "Last ned vedtaksbrev",
-        "pdf": "PDF-fil"
+        "pdf": "PDF-fil",
+        "mottatt": "Motteken 01.01.2024",
+        "apneKlagen": "Opne klaga (pdf)",
+        "prosess": {
+            "steg1": {
+                "tittel": "Klaga di er sendt",
+                "beskrivelse": "Klaga di er sendt til {navKontor}, som vil behandle henne så raskt dei kan.",
+                "beskrivelseUtenKontor": "Klaga di er sendt til Nav-kontoret ditt, som vil behandle henne så raskt dei kan."
+            },
+            "steg2": {
+                "tittel": "Nav-kontoret vil behandle klaga",
+                "beskrivelse": "Nav-kontoret vil behandle klaga di så raskt dei kan. Dersom det har gått meir enn ein månad sidan du klaga, skal du få eit brev om at saksbehandlingstida er forlenga."
+            },
+            "steg3": {
+                "tittel": "Du vil få eit vedtak",
+                "beskrivelse": "I hovudsak er det to moglege utfall av ei klage: Du vil anten få medhald med eit nytt vedtak om innvilga støtte, eller ikkje medhald med eit nytt vedtak som grunngir avslaget.",
+                "lesMer": {
+                    "tittel": "Les meir om moglege utfall",
+                    "innhold": {
+                        "medhold": "<b>Viss Nav-kontoret gir deg medhald i klaga di</b> (dei har vurdert saka di på nytt og er einige med deg), får du eit nytt vedtak med informasjon om kva som blir dekt. Informasjonen på Min side - Økonomisk sosialhjelp blir oppdatert med det nye og gjeldande vedtaket.",
+                        "ikkeMedhold": "<b>Viss Nav-kontoret ikkje gir deg medhald</b>, blir klaga send vidare til Statsforvaltaren. Dei vil anten vere einige med deg, slik at Nav-kontoret må behandle søknaden din på nytt og du får eit nytt vedtak, eller vere usamde med deg og sende deg eit brev med grunngiving for avslaget."
+                    }
+                }
+            }
+        },
+        "snarveier": {
+            "tilSoknaden": "Gå tilbake til søknaden",
+            "ettersendVedlegg": "Ettersend vedlegg til klaga",
+            "okonomiskSosialhjelp": "Økonomisk sosialhjelp"
+        }
     },
     "KlageForm": {
-        "steg": {
-            "begrunnelse": "Grunngiving",
-            "oppsummering": "Oppsummering",
-            "kvittering": "Kvittering"
-        },
         "bakgrunn": {
-            "label": "Oppgi bakgrunnen for klaga",
-            "beskrivelse": "For at vi skal kunne handsame klaga di, er det viktig at du forklarer kvifor du er ueinig i vedtaket og kva du ønskjer endra."
+            "label": "Kvifor er du usamd?",
+            "beskrivelse": "Oppgi kvifor du er usamd i vedtaket, og kva du ønskjer endra."
         },
         "filOpplasting": {
-            "dineVedlegg": "Dine vedlegg",
+            "dineVedlegg": "Vedlegga dine",
             "label": "Vedlegg",
-            "beskrivelse": "Har du informasjon du ønskjer å legge ved, lastar du det opp her."
+            "beskrivelse": "Har du opplysningar som kan vere relevante for klaga di, kan du laste dei opp her."
         },
         "validering": {
-            "maksLengde": "Du kan skrive inn maks {maksLengde} teikn",
-            "maksFiler": "Du kan laste opp maks {maksFiler} filer"
+            "maksLengde": "Du kan skrive inn maks {maksLengde} teikn"
         },
-        "gaVidereKnapp": "Gå vidare",
+        "vedtaketDuKlagerPa": "Vedtaket du klagar på",
+        "vedtaksBrev": "Last ned vedtaksbrev",
+        "mottatt": "Motteken {dato, date, ::dMMyyyy}",
+        "pdf": "PDF-fil",
+        "gaVidereKnapp": "Sjå oppsummering",
         "tilbakeKnapp": "Tilbake",
-        "forkastKlageKnapp": "Forkast",
+        "forkastKlageKnapp": "Avbryt",
+        "manglerInnhold": "For å halde fram må du skrive kvifor du er usamd i vedtaket, anten i tekstfeltet eller laste det opp som eit vedlegg.",
         "sendKlage": "Send inn",
+        "ingenVedlegg": "Ingen vedlegg",
         "sendingFeilet": "Sending av klaga feila. Prøv igjen seinare eller ta kontakt med ditt lokale NAV-kontor."
     },
     "ForkastKlageModal": {

@@ -97,7 +97,10 @@
     "StatusPage": {
         "breadcrumbs": {
             "soknader": "My applications",
-            "soknad": "My application"
+            "soknad": "My application",
+            "klageskjema": "Appeal form",
+            "kvittering": "Receipt",
+            "klage": "Appeal"
         },
         "htmlTitle": "My application for financial assistance"
     },
@@ -390,9 +393,7 @@
     },
     "OpprettKlagePage": {
         "tittel": "Appeal the decision",
-        "beskrivelse": "Appeal the decision regarding financial social assistance.",
-        "navEnhet": "The appeal will be sent to <norsk>{navKontor}</norsk>",
-        "ikkeOppgittNavEnhet": "The apeal will be sent to your local Nav office"
+        "beskrivelse": "Appeal the decision regarding financial social assistance."
     },
     "KlagePage": {
         "tittel": "Your appeal has been submitted",
@@ -423,39 +424,65 @@
             "beskrivelse": "You will receive a decision. Read the decision to see if your appeal was upheld or not."
         }
     },
-    "KlageVedtak": {
-        "beskrivelse": {
-            "INNVILGET": "You have been granted benefits. Read the decision to see the reasons.",
-            "DELVIS_INNVILGET": "You have been partially granted benefits. This means that you will not receive everything you applied for, but only part of it. Read the decision to see the reasons.",
-            "AVVIST": "Your application has been rejected. Read the decision to see the reasons.",
-            "AVSLATT": "Your application has been declined. Read the decision to see the reasons."
+    "StegKvittering": {
+        "sendt": {
+            "tittel": "Your appeal has been submitted",
+            "beskrivelse": "You do not need to do anything else now. We will contact you if we have any questions. If you have questions about your appeal, you can <lenke>contact your Nav office</lenke> or call us on <tel>55 55 33 33</tel>."
         },
-        "vedtaksBrev": "Download decision letter",
-        "pdf": "PDF file"
+        "pdf": "PDF file",
+        "mottatt": "Received 01.01.2024",
+        "apneKlagen": "Open the appeal (PDF)",
+        "prosess": {
+            "steg1": {
+                "tittel": "Your appeal has been submitted",
+                "beskrivelse": "Your appeal has been sent to {navKontor}, which will process it as quickly as possible.",
+                "beskrivelseUtenKontor": "Your appeal has been sent to your Nav office, which will process it as quickly as possible."
+            },
+            "steg2": {
+                "tittel": "The Nav office will process your appeal",
+                "beskrivelse": "The Nav office will process your appeal as quickly as possible. If more than one month has passed since you appealed, you will receive a letter saying that the processing time has been extended."
+            },
+            "steg3": {
+                "tittel": "You will receive a decision",
+                "beskrivelse": "There are generally two possible outcomes to an appeal: Your appeal will either be upheld and you will receive a new decision granting support, or it will not be upheld and you will receive a new decision explaining the refusal.",
+                "lesMer": {
+                    "tittel": "Read more about possible outcomes",
+                    "innhold": {
+                        "medhold": "<b>If the Nav office rules in your favour</b> (they have reassessed your case and agree with you), you will receive a new decision with information about what will be covered. The information on My page - Financial assistance will be updated with the new, current decision.",
+                        "ikkeMedhold": "<b>If the Nav office does not rule in your favour</b>, your appeal will be forwarded to the County Governor (Statsforvalteren). They will either agree with you, in which case the Nav office must process your application again and you will receive a new decision, or disagree with you and send you a letter explaining the reasons for the rejection."
+                    }
+                }
+            }
+        },
+        "snarveier": {
+            "tilSoknaden": "Return to the application",
+            "ettersendVedlegg": "Submit additional attachments for the appeal",
+            "okonomiskSosialhjelp": "Financial assistance"
+        }
     },
     "KlageForm": {
-        "steg": {
-            "begrunnelse": "Reasoning",
-            "oppsummering": "Summary",
-            "kvittering": "Receipt"
-        },
         "bakgrunn": {
-            "label": "Provide the background for the complaint",
-            "beskrivelse": "To process your complaint, it is important that you explain why you disagree with the decision and what you want changed."
+            "label": "Why do you disagree?",
+            "beskrivelse": "Explain why you disagree with the decision and what you want changed."
         },
         "filOpplasting": {
-            "dineVedlegg": "Your files",
+            "dineVedlegg": "Your attachments",
             "label": "Attachments",
-            "beskrivelse": "If you have information you want to attach, you can upload it here."
+            "beskrivelse": "If you have information that may be relevant to your appeal, you can upload it here."
         },
         "validering": {
-            "maksLengde": "You can write a maximum of {maksLengde} characters",
-            "maksFiler": "You can upload a maximum of {maksFiler} files"
+            "maksLengde": "You can write a maximum of {maksLengde} characters"
         },
-        "gaVidereKnapp": "Continue",
+        "vedtaketDuKlagerPa": "The decision you are appealing",
+        "vedtaksBrev": "Download decision letter",
+        "mottatt": "Received {dato, date, ::dMMMMy}",
+        "pdf": "PDF file",
+        "gaVidereKnapp": "View summary",
         "tilbakeKnapp": "Back",
-        "forkastKlageKnapp": "Discard",
+        "forkastKlageKnapp": "Cancel",
+        "manglerInnhold": "To continue, explain why you disagree with the decision, either in the text field or by uploading an attachment.",
         "sendKlage": "Send",
+        "ingenVedlegg": "No attachments",
         "sendingFeilet": "Failed to send the complaint. Please try again later or contact your local NAV office."
     },
     "ForkastKlageModal": {

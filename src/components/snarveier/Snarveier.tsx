@@ -1,15 +1,15 @@
 import { Heading, VStack } from "@navikt/ds-react";
-import { getTranslations } from "next-intl/server";
 import { PropsWithChildren } from "react";
 
 import SokButton from "@components/snarveier/SokButton";
+import { useTranslations } from "next-intl";
 
 interface SnarveierProps extends PropsWithChildren {
     hideSokButton?: boolean;
 }
 
-const Snarveier = async ({ children, hideSokButton = false }: SnarveierProps) => {
-    const t = await getTranslations("Snarveier");
+const Snarveier = ({ children, hideSokButton = false }: SnarveierProps) => {
+    const t = useTranslations("Snarveier");
 
     return (
         <VStack gap="space-8" as="nav" aria-labelledby="snarveier-heading">

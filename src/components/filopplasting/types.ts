@@ -9,10 +9,10 @@ export type DokumentKontekst = "dokumentasjonetterspurt" | "dokumentasjonkrav" |
 export interface Metadata {
     dokumentKontekst: DokumentKontekst;
     type: string;
-    tilleggsinfo?: string;
-    innsendelsesfrist?: string;
-    hendelsetype?: string;
-    hendelsereferanse?: string;
+    tilleggsinfo?: string | null;
+    innsendelsesfrist?: string | null;
+    hendelsetype?: string | null;
+    hendelsereferanse?: string | null;
 }
 
 export interface Error {

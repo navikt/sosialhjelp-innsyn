@@ -5,7 +5,7 @@ import { OriginalSoknadVedleggType } from "../redux/soknadsdata/vedleggTypes";
 export const useVisningstekster = () => {
     const t = useTranslations("VedleggskravVisning");
 
-    return (type: string, tilleggsinfo: string | undefined) => {
+    return (type: string, tilleggsinfo?: string | null) => {
         const sammensattType = type + "|" + tilleggsinfo;
         const erOriginalSoknadVedleggType = Object.values(OriginalSoknadVedleggType).some(
             (val) => val === sammensattType

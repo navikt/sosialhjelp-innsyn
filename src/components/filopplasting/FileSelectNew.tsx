@@ -14,8 +14,8 @@ import { liveRegionIndexes, useDocumentUpload } from "./useDocumentUpload";
 import { UploadTarget } from "./utils/tusUploader";
 
 interface Props {
-    label?: string;
-    description?: string;
+    label?: string | null;
+    description?: string | null;
     filesLabel?: string;
     tag?: ReactNode;
     isPending?: boolean;

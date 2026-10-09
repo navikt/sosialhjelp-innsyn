@@ -12,18 +12,19 @@ import {
     getMonth,
     getYear,
 } from "date-fns";
-import { ManedUtbetaling, ManedUtbetalingStatus, UtbetalingDto } from "@generated/ssr/model";
+import { UtbetalingDto } from "@generated/ssr/model";
 
 import { PeriodeChip, Option, ManedMedUtbetalinger } from "../_types/types";
+import { UtbetalingDtoStatus } from "@generated/model";
 
-const tillatteStatuserKommende = new Set<ManedUtbetalingStatus>([
-    ManedUtbetalingStatus.PLANLAGT_UTBETALING,
-    ManedUtbetalingStatus.STOPPET,
+const tillatteStatuserKommende = new Set<UtbetalingDtoStatus>([
+    UtbetalingDtoStatus.PLANLAGT_UTBETALING,
+    UtbetalingDtoStatus.STOPPET,
 ]);
 
-const tillateStatuserPeriode = new Set<ManedUtbetalingStatus>([
-    ManedUtbetalingStatus.UTBETALT,
-    ManedUtbetalingStatus.STOPPET,
+const tillateStatuserPeriode = new Set<UtbetalingDtoStatus>([
+    UtbetalingDtoStatus.UTBETALT,
+    UtbetalingDtoStatus.STOPPET,
 ]);
 
 const erPeriodeChip = (c: Option): c is PeriodeChip => {
@@ -86,7 +87,7 @@ const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): Interval | null => {
     }
 };
 
-export const utbetalingInnenforIntervall = (utb: ManedUtbetaling, interval: Interval): boolean => {
+export const utbetalingInnenforIntervall = (utb: UtbetalingDto, interval: Interval): boolean => {
     const referanseDato = utb.utbetalingsdato ?? utb.forfallsdato;
     if (referanseDato) {
         return isWithinInterval(new Date(referanseDato), interval);

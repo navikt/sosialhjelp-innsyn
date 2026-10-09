@@ -1,12 +1,12 @@
 "use client";
 
 import ExpandableList from "@components/showmore/ExpandableList";
-import { ManedUtbetaling } from "@generated/model";
 import { useTranslations } from "next-intl";
 import KommendeUtbetalingCard from "./KommendeUtbetalingCard";
+import { UtbetalingDto } from "@generated/model";
 
 interface Props {
-    alleKommende: ManedUtbetaling[];
+    alleKommende: UtbetalingDto[];
     labelledById: string;
 }
 
