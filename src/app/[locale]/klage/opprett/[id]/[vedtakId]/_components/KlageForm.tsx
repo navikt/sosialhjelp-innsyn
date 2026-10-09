@@ -29,20 +29,20 @@ const klageSchema = z.object({
 interface Props {
     fiksDigisosId: string;
     vedtakId: string;
+    klageId: string;
     vedtakMottatt: string;
     soknadSendt?: string | null;
     navKontor?: string | null;
     vedtaksbrev?: FilUrl;
 }
 
-const KlageForm = ({ fiksDigisosId, vedtakId, vedtaksbrev, navKontor, soknadSendt, vedtakMottatt }: Props) => {
+const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, soknadSendt, vedtakMottatt }: Props) => {
     const queryClient = useQueryClient();
     const router = useRouter();
     const [visBekreftForkastModal, setVisBekreftForkastModal] = useState(false);
     const [aktivtSteg, setAktivtSteg] = useState(1);
     const [isSending, startSending] = useTransition();
 
-    const [klageId] = useState(() => crypto.randomUUID());
     const contextId = klageId;
     const { state: docState, addUploads, removeUpload } = useDocumentState(contextId);
 
@@ -61,8 +61,6 @@ const KlageForm = ({ fiksDigisosId, vedtakId, vedtaksbrev, navKontor, soknadSend
     const onSubmit: SubmitHandler<FormValues> = (formValues: FormValues) => {
         startSending(async () => {
             try {
-                const klageId = crypto.randomUUID();
-
                 await sendKlageMutation.mutateAsync({
                     fiksDigisosId: fiksDigisosId,
                     data: { klageId, vedtakId, tekst: formValues.background ?? "" },
