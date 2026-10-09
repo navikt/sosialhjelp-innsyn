@@ -3,6 +3,7 @@
 import { ArrowLeftIcon, PaperplaneIcon } from "@navikt/aksel-icons";
 import { Alert, Button, FormSummary, GuidePanel, HStack, List, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
+import { UploadState } from "@components/filopplasting/api/useDocumentState";
 import { FormValues } from "../KlageForm";
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
     isError: boolean;
     onTilbake: () => void;
     formValues: FormValues;
+    uploads: UploadState[];
     otherInfo: OtherInfo;
 }
 
@@ -19,7 +21,7 @@ interface OtherInfo {
     navKontor?: string | null;
 }
 
-const StegOppsummering = ({ isLoading, isError, onTilbake, formValues, otherInfo }: Props) => {
+const StegOppsummering = ({ isLoading, isError, onTilbake, formValues, uploads, otherInfo }: Props) => {
     const t = useTranslations("KlageForm");
 
     return (
@@ -40,11 +42,17 @@ const StegOppsummering = ({ isLoading, isError, onTilbake, formValues, otherInfo
                     <FormSummary.Answer>
                         <FormSummary.Label>Vedlegg</FormSummary.Label>
                         <FormSummary.Value>
-                            <List as="ul">
-                                {formValues.files.map((file) => (
-                                    <List.Item key={file.file.name}>{file.file.name}</List.Item>
-                                ))}
-                            </List>
+                            {uploads.length === 0 ? (
+                                t("ingenVedlegg")
+                            ) : (
+                                <List as="ul">
+                                    {uploads.map((upload) => (
+                                        <List.Item key={upload.id}>
+                                            {upload.finalFilename ?? upload.originalFilename}
+                                        </List.Item>
+                                    ))}
+                                </List>
+                            )}
                         </FormSummary.Value>
                     </FormSummary.Answer>
                     <FormSummary.Answer>

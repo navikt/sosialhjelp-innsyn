@@ -484,8 +484,7 @@
             "beskrivelse": "Har du opplysninger som kan være relevante for klagen din, kan du laste de opp her."
         },
         "validering": {
-            "maksLengde": "Du kan skrive inn maks {maksLengde} tegn",
-            "maksFiler": "Du kan laste opp maks {maksFiler} filer"
+            "maksLengde": "Du kan skrive inn maks {maksLengde} tegn"
         },
         "vedtaketDuKlagerPa": "Vedtaket du klager på",
         "vedtaksBrev": "Last ned vedtaksbrev",
@@ -496,6 +495,7 @@
         "forkastKlageKnapp": "Avbryt",
         "manglerInnhold": "For å fortsette må du skrive hvorfor du er uenig med vedtaket, enten i tekstfeltet eller lastet opp som et vedlegg.",
         "sendKlage": "Send inn",
+        "ingenVedlegg": "Ingen vedlegg",
         "sendingFeilet": "Sending av klage feilet. Prøv igjen senere eller ta kontakt med ditt Nav-kontor."
     },
     "ForkastKlageModal": {

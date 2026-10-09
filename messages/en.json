@@ -471,8 +471,7 @@
             "beskrivelse": "If you have information that may be relevant to your appeal, you can upload it here."
         },
         "validering": {
-            "maksLengde": "You can write a maximum of {maksLengde} characters",
-            "maksFiler": "You can upload a maximum of {maksFiler} files"
+            "maksLengde": "You can write a maximum of {maksLengde} characters"
         },
         "vedtaketDuKlagerPa": "The decision you are appealing",
         "vedtaksBrev": "Download decision letter",
@@ -483,6 +482,7 @@
         "forkastKlageKnapp": "Cancel",
         "manglerInnhold": "To continue, explain why you disagree with the decision, either in the text field or by uploading an attachment.",
         "sendKlage": "Send",
+        "ingenVedlegg": "No attachments",
         "sendingFeilet": "Failed to send the complaint. Please try again later or contact your local NAV office."
     },
     "ForkastKlageModal": {

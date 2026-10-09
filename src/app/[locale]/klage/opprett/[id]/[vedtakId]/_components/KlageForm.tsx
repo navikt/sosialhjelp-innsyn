@@ -1,6 +1,6 @@
 "use client";
 
-import { FileObject, VStack } from "@navikt/ds-react";
+import { VStack } from "@navikt/ds-react";
 import { FormProvider, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,7 +11,7 @@ import { logger } from "@navikt/next-logger";
 import { FilUrl } from "@generated/model";
 import { getHentKlagerQueryKey, useSendKlage } from "@generated/klage-controller/klage-controller";
 
-import { MAX_FILES, MAX_LEN_BACKGROUND } from "../_consts/consts";
+import { MAX_LEN_BACKGROUND } from "../_consts/consts";
 
 import BekreftForkastModal from "./BekreftForkastModal";
 import StegBegrunnelse from "./steg/StegBegrunnelse";
@@ -20,12 +20,10 @@ import { useDocumentState } from "@components/filopplasting/api/useDocumentState
 
 export type FormValues = {
     background: string | null;
-    files: FileObject[];
 };
 
 const klageSchema = z.object({
     background: z.string().max(MAX_LEN_BACKGROUND, "validering.maksLengde").nullable(),
-    files: z.array(z.any()).max(MAX_FILES, `Du kan laste opp maks ${MAX_FILES} filer`), //TODO: Translate this message (how to include variable?)
 });
 
 interface Props {
@@ -52,7 +50,6 @@ const KlageForm = ({ fiksDigisosId, vedtakId, vedtaksbrev, navKontor, soknadSend
         resolver: zodResolver(klageSchema),
         defaultValues: {
             background: "",
-            files: [],
         },
     });
     const { handleSubmit, getValues, control } = formMethods;
@@ -119,6 +116,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId, vedtaksbrev, navKontor, soknadSend
                                 isError={sendKlageMutation.isError}
                                 onTilbake={() => setAktivtSteg(1)}
                                 formValues={getValues()}
+                                uploads={(docState.uploads ?? []).filter((upload) => upload.status === "COMPLETE")}
                                 otherInfo={{ navKontor, soknadSendt, vedtakMottatt }}
                             />
                         )}
