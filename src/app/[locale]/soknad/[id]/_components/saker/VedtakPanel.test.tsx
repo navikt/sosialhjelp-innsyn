@@ -16,7 +16,7 @@ const vedtak = [
 
 describe("VedtakPanel", () => {
     it("shows the payout link only for granted decisions", () => {
-        render(<VedtakPanel vedtak={vedtak[0]} sakstittel="Husleie" />);
+        render(<VedtakPanel vedtak={vedtak[0]} />);
 
         expect(screen.getByRole("link", { name: "Se informasjon om utbetalingen" })).toBeInTheDocument();
     });
@@ -37,7 +37,7 @@ describe("VedtakPanel", () => {
                 >
                     {(item, ref) => (
                         <li key={item.id} ref={ref} tabIndex={-1}>
-                            <VedtakPanel vedtak={item} sakstittel={item.id} />
+                            <VedtakPanel vedtak={item} />
                         </li>
                     )}
                 </ExpandableList>
