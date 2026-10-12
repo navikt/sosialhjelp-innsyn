@@ -16,9 +16,14 @@ const vedtak = [
 
 describe("VedtakPanel", () => {
     it("shows the payout link only for granted decisions", () => {
-        render(<VedtakPanel vedtak={vedtak[0]} />);
+        const { unmount } = render(<VedtakPanel vedtak={vedtak[0]} />);
 
-        expect(screen.getByRole("link", { name: "Se informasjon om utbetalingen" })).toBeInTheDocument();
+        expect(screen.getByText("Se informasjon om utbetalingen")).toBeInTheDocument();
+        unmount();
+
+        render(<VedtakPanel vedtak={vedtak[1]} />);
+
+        expect(screen.queryByText("Se informasjon om utbetalingen")).not.toBeInTheDocument();
     });
 
     it("shows one vedtak at first and expands the ordered list", async () => {
@@ -50,7 +55,7 @@ describe("VedtakPanel", () => {
         await user.click(screen.getByRole("button", { name: "Vis flere vedtak (1)" }));
 
         expect(screen.getAllByRole("listitem")).toHaveLength(2);
-        expect(screen.getByRole("heading", { name: "older" })).toBeInTheDocument();
+        expect(screen.getByRole("heading", { name: "Vedtak 02.02.2026" })).toBeInTheDocument();
     });
 
     it("shows an info card instead of a vedtak panel when a sak is under treatment", () => {
@@ -75,7 +80,7 @@ describe("VedtakPanel", () => {
         expect(screen.queryByRole("list")).not.toBeInTheDocument();
     });
 
-    it("uses the sak heading instead of repeating it in a multi-sak vedtak panel", () => {
+    it("shows the sakstittel once, as the sak heading", () => {
         render(
             <SakBlokk
                 index={0}
