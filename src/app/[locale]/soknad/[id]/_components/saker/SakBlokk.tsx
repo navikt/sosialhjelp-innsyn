@@ -1,9 +1,10 @@
-import { Heading, InfoCard, VStack } from "@navikt/ds-react";
+import { Heading, VStack } from "@navikt/ds-react";
 import { KlageRef, SaksStatusResponse } from "@generated/model";
 import { useTranslations } from "next-intl";
 
 import ExpandableList from "@components/showmore/ExpandableList";
 import VedtakPanel from "./VedtakPanel";
+import SakStatusInfo from "./SakStatusInfo";
 
 interface Props {
     sak: SaksStatusResponse;
@@ -25,7 +26,7 @@ const SakBlokk = ({ sak, klager, index }: Props) => {
             <Heading id={headingId} size="medium" level="2" lang="no">
                 {sak.tittel}
             </Heading>
-            {vedtak.length ? (
+            {vedtak.length > 0 && (
                 <ExpandableList
                     as="ol"
                     items={vedtak}
@@ -44,11 +45,8 @@ const SakBlokk = ({ sak, klager, index }: Props) => {
                         </li>
                     )}
                 </ExpandableList>
-            ) : (
-                <InfoCard data-color="info">
-                    <InfoCard.Message icon={false}>{t("underBehandling")}</InfoCard.Message>
-                </InfoCard>
             )}
+            <SakStatusInfo status={sak.status} harVedtak={vedtak.length > 0} />
         </VStack>
     );
 };

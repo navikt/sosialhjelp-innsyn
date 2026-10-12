@@ -12,8 +12,7 @@
         "showMoreSuffix": "vedtak"
     },
     "SakBlokk": {
-        "showMoreSuffix": "vedtak",
-        "underBehandling": "Denne saken er under behandling. Når saken er ferdigbehandlet og du har fått et vedtak, vil det vises her."
+        "showMoreSuffix": "vedtak"
     },
     "FileUploadItem": {
         "uploadFailed": "Opplasting feilet. Prøv på nytt senere.",
@@ -153,6 +152,9 @@
     "IkkeInnsynInfo": {
         "description1": "Saken din vil bli behandlet, men vi kan ikke vise status for søknaden din på nav.no.",
         "description2": "Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringe oss på <tlf>55 55 33 33</tlf>."
+    },
+    "UnderBehandlingInfo": {
+        "description": "Denne saken er under behandling. Når saken er ferdigbehandlet og du har fått et vedtak, vil det vises her."
     },
     "KlageInfo": {
         "seKlage": "Se din innsendte klage",

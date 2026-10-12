@@ -218,6 +218,13 @@ test.describe("Vedtak functionality", () => {
                     vedtak: [],
                 },
                 {
+                    status: "IKKE_INNSYN",
+                    tittel: "Mat",
+                    referanse: "sak-c",
+                    skalViseVedtakInfoPanel: false,
+                    vedtak: [],
+                },
+                {
                     status: "FERDIGBEHANDLET",
                     tittel: "Husleie",
                     referanse: "sak-b",
@@ -247,8 +254,8 @@ test.describe("Vedtak functionality", () => {
         await expect(page.getByRole("heading", { name: "Vedtak", exact: true, level: 2 })).toHaveCount(0);
         await expect(page.getByRole("heading", { name: "Husleie", exact: true, level: 2 })).toHaveCount(1);
 
-        const sakHeadings = page.getByRole("heading", { level: 2 }).filter({ hasText: /^(Husleie|Strøm)$/ });
-        await expect(sakHeadings).toHaveText(["Husleie", "Strøm"]);
+        const sakHeadings = page.getByRole("heading", { level: 2 }).filter({ hasText: /^(Husleie|Strøm|Mat)$/ });
+        await expect(sakHeadings).toHaveText(["Husleie", "Strøm", "Mat"]);
 
         const husleieVedtak = page.getByRole("list", { name: "Husleie" });
         await expect(husleieVedtak.getByRole("listitem")).toHaveCount(1);
@@ -266,5 +273,12 @@ test.describe("Vedtak functionality", () => {
                 "Denne saken er under behandling. Når saken er ferdigbehandlet og du har fått et vedtak, vil det vises her."
             )
         ).toBeVisible();
+        await expect(
+            page.getByText("Saken din vil bli behandlet, men vi kan ikke vise status for søknaden din på nav.no.")
+        ).toBeVisible();
+        await expect(page.getByRole("link", { name: "ta kontakt med Nav-kontoret ditt" })).toHaveAttribute(
+            "href",
+            "https://www.nav.no/sok-nav-kontor"
+        );
     });
 });
