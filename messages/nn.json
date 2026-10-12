@@ -444,7 +444,9 @@
             "beskrivelse": "For at vi skal kunne handsame klaga di, er det viktig at du forklarer kvifor du er ueinig i vedtaket og kva du ønskjer endra."
         },
         "filOpplasting": {
-            "dineVedlegg": "Dine vedlegg"
+            "dineVedlegg": "Dine vedlegg",
+            "label": "Vedlegg",
+            "beskrivelse": "Har du informasjon du ønskjer å legge ved, lastar du det opp her."
         },
         "validering": {
             "maksLengde": "Du kan skrive inn maks {maksLengde} teikn",
@@ -461,32 +463,6 @@
         "beskrivelse": "Dine kommentarar eller vedlegg vil ikkje bli lagra.",
         "bekreft": "Ja, forkast klaga",
         "avbryt": "Avbryt"
-    },
-    "KlageFileUpload": {
-        "label": "Legg ved dokumentasjon",
-        "beskrivelse": "Om du har dokument som kan vere viktige for klagen din, kan du laste dei opp her. Du kan legge ved både dokument, bilete og skjermbilete på opp til {maxSize} MB.",
-        "vedlegg": "Vedlegg ({numberOfFiles})",
-        "vedleggMedFeil": "Vedlegg med feil ({numberOfFiles})",
-        "validering": {
-            "maksFilstørrelse": "Fila er større enn {maksFilstørrelse} MB",
-            "ugyldigFiltype": "Filformatet er ikkje støtta."
-        },
-        "dropzone": {
-            "button": "Vel ei fil",
-            "buttonMultiple": "Vel filer",
-            "dragAndDrop": "Dra og slepp ei fil her",
-            "dragAndDropMultiple": "Dra og slepp filer her",
-            "drop": "Slepp fila her",
-            "or": "eller",
-            "disabled": "Filopplasting er deaktivert",
-            "disabledFilelimit": "Filgrensa er nådd"
-        },
-        "item": {
-            "retryButtonTitle": "Prøv igjen",
-            "deleteButtonTitle": "Slett fil",
-            "uploading": "Lastar opp...",
-            "downloading": "Lastar ned..."
-        }
     },
     "Breadcrumbs": {
         "MinSide": "Min side",
