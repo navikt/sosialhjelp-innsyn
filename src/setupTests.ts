@@ -56,6 +56,9 @@ Object.defineProperty(window, "matchMedia", {
     })),
 });
 
+// jsdom does not implement this browser API used by focus management.
+Element.prototype.scrollIntoView = vi.fn();
+
 mockRouter.useParser(
     createDynamicRouteParser([
         // These paths should match those found in the `/pages` folder:

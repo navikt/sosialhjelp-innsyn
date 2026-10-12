@@ -1,4 +1,4 @@
-import { render, screen } from "@test/test-utils";
+import { render, screen, waitFor } from "@test/test-utils";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
@@ -56,6 +56,7 @@ describe("VedtakPanel", () => {
 
         expect(screen.getAllByRole("listitem")).toHaveLength(2);
         expect(screen.getByRole("heading", { name: "Vedtak 02.02.2026" })).toBeInTheDocument();
+        await waitFor(() => expect(screen.getAllByRole("listitem")[1]).toHaveFocus());
     });
 
     it("shows an info card instead of a vedtak panel when a sak is under treatment", () => {
