@@ -90,6 +90,7 @@ const StegBegrunnelse = ({
                 onUploadRemoved={removeUpload}
                 label={t("filOpplasting.label")}
                 description={t("filOpplasting.beskrivelse")}
+                headingLevel="2"
             />
             <VStack gap="space-24">
                 <HStack gap="space-16">

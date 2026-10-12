@@ -26,6 +26,7 @@ interface Props {
     onUploadsAdded: (uploads: UploadState[]) => void;
     onUploadRemoved: (correlationId: string) => void;
     variant?: "normal" | "warning";
+    headingLevel?: "2" | "3";
 }
 
 const FileSelectNew = ({
@@ -41,6 +42,7 @@ const FileSelectNew = ({
     onUploadsAdded,
     onUploadRemoved,
     isPending,
+    headingLevel,
 }: Props) => {
     const t = useTranslations("Opplastingsboks");
 
@@ -85,6 +87,7 @@ const FileSelectNew = ({
                     description={description}
                     tag={tag}
                     variant={variant === "warning" ? "warning" : "default"}
+                    headingLevel={headingLevel}
                     buttonText={t("lastOppFiler")}
                     onSelect={(files) => startUpload(files)}
                     currentCount={docState.uploads?.length ?? 0}
