@@ -34,7 +34,7 @@ const Saker = () => {
         );
     }
 
-    const [sak] = saker;
+    const sak = saker[0];
     const vedtak = sak.vedtak
         .map((enkeltvedtak) => ({ vedtak: enkeltvedtak }))
         .sort((a, b) => {
