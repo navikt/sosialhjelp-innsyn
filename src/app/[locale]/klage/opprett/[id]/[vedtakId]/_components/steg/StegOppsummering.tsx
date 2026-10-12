@@ -2,7 +2,8 @@
 
 import { ArrowLeftIcon, PaperplaneIcon } from "@navikt/aksel-icons";
 import { Alert, Button, FormSummary, GuidePanel, HStack, List, VStack } from "@navikt/ds-react";
-import { useTranslations } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
+import { parseISO } from "date-fns";
 import { UploadState } from "@components/filopplasting/api/useDocumentState";
 import { FormValues } from "../KlageForm";
 
@@ -23,24 +24,24 @@ interface OtherInfo {
 
 const StegOppsummering = ({ isLoading, isError, onTilbake, formValues, uploads, otherInfo }: Props) => {
     const t = useTranslations("KlageForm");
+    const format = useFormatter();
+    const formatDate = (date: string) =>
+        format.dateTime(parseISO(date), { day: "numeric", month: "long", year: "numeric" });
 
     return (
         <VStack gap="space-20">
-            <GuidePanel poster>
-                Se over at alt er riktig før du sender inn klagen. Hvis du vil endre begrunnelsen din eller legge til
-                mer dokumentasjon, kan du gå tilbake til forrige side.
-            </GuidePanel>
+            <GuidePanel poster>{t("oppsummering.guide")}</GuidePanel>
             <FormSummary>
                 <FormSummary.Header>
-                    <FormSummary.Heading level="2">Oppsummering av klagen</FormSummary.Heading>
+                    <FormSummary.Heading level="2">{t("oppsummering.tittel")}</FormSummary.Heading>
                 </FormSummary.Header>
                 <FormSummary.Answers>
                     <FormSummary.Answer>
-                        <FormSummary.Label>Begrunnelse</FormSummary.Label>
+                        <FormSummary.Label>{t("oppsummering.begrunnelse")}</FormSummary.Label>
                         <FormSummary.Value>{formValues.background}</FormSummary.Value>
                     </FormSummary.Answer>
                     <FormSummary.Answer>
-                        <FormSummary.Label>Vedlegg</FormSummary.Label>
+                        <FormSummary.Label>{t("oppsummering.vedlegg")}</FormSummary.Label>
                         <FormSummary.Value>
                             {uploads.length === 0 ? (
                                 t("ingenVedlegg")
@@ -56,22 +57,22 @@ const StegOppsummering = ({ isLoading, isError, onTilbake, formValues, uploads, 
                         </FormSummary.Value>
                     </FormSummary.Answer>
                     <FormSummary.Answer>
-                        <FormSummary.Label>Øvrige opplysninger</FormSummary.Label>
+                        <FormSummary.Label>{t("oppsummering.ovrigeOpplysninger")}</FormSummary.Label>
                         <FormSummary.Value>
                             <FormSummary.Answers>
                                 {otherInfo.soknadSendt && (
                                     <FormSummary.Answer>
-                                        <FormSummary.Label>Søknad sendt</FormSummary.Label>
-                                        <FormSummary.Value>{otherInfo.soknadSendt}</FormSummary.Value>
+                                        <FormSummary.Label>{t("oppsummering.soknadSendt")}</FormSummary.Label>
+                                        <FormSummary.Value>{formatDate(otherInfo.soknadSendt)}</FormSummary.Value>
                                     </FormSummary.Answer>
                                 )}
                                 <FormSummary.Answer>
-                                    <FormSummary.Label>Vedtak mottatt</FormSummary.Label>
-                                    <FormSummary.Value>{otherInfo.vedtakMottatt}</FormSummary.Value>
+                                    <FormSummary.Label>{t("oppsummering.vedtakMottatt")}</FormSummary.Label>
+                                    <FormSummary.Value>{formatDate(otherInfo.vedtakMottatt)}</FormSummary.Value>
                                 </FormSummary.Answer>
                                 {otherInfo.navKontor && (
                                     <FormSummary.Answer>
-                                        <FormSummary.Label>Nav-kontor</FormSummary.Label>
+                                        <FormSummary.Label>{t("oppsummering.navKontor")}</FormSummary.Label>
                                         <FormSummary.Value>{otherInfo.navKontor}</FormSummary.Value>
                                     </FormSummary.Answer>
                                 )}

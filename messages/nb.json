@@ -443,7 +443,7 @@
             "beskrivelse": "Du trenger ikke gjøre noe mer nå. Vi tar kontakt med deg hvis det er noe vi lurer på. Har du spørsmål om klagen din, kan du <lenke>kontakte Nav-kontoret ditt</lenke> eller ringe oss på <tel>55 55 33 33</tel>."
         },
         "pdf": "PDF-fil",
-        "mottatt": "Mottatt 01.01.2024",
+        "mottatt": "Mottatt {dato, date, ::dMMMMy}",
         "apneKlagen": "Åpne klagen (pdf)",
         "prosess": {
             "steg1": {
@@ -496,7 +496,17 @@
         "manglerInnhold": "For å fortsette må du skrive hvorfor du er uenig med vedtaket, enten i tekstfeltet eller lastet opp som et vedlegg.",
         "sendKlage": "Send inn",
         "ingenVedlegg": "Ingen vedlegg",
-        "sendingFeilet": "Sending av klage feilet. Prøv igjen senere eller ta kontakt med ditt Nav-kontor."
+        "sendingFeilet": "Sending av klage feilet. Prøv igjen senere eller ta kontakt med ditt Nav-kontor.",
+        "oppsummering": {
+            "guide": "Se over at alt er riktig før du sender inn klagen. Hvis du vil endre begrunnelsen din eller legge til mer dokumentasjon, kan du gå tilbake til forrige side.",
+            "tittel": "Oppsummering av klagen",
+            "begrunnelse": "Begrunnelse",
+            "vedlegg": "Vedlegg",
+            "ovrigeOpplysninger": "Øvrige opplysninger",
+            "soknadSendt": "Søknad sendt",
+            "vedtakMottatt": "Vedtak mottatt",
+            "navKontor": "Nav-kontor"
+        }
     },
     "ForkastKlageModal": {
         "overskrift": "Er du sikker på at du vil forkaste klagen?",

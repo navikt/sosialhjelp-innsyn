@@ -430,7 +430,7 @@
             "beskrivelse": "Du treng ikkje gjere noko meir no. Vi tek kontakt med deg dersom det er noko vi lurer på. Har du spørsmål om klaga di, kan du <lenke>kontakte Nav-kontoret ditt</lenke> eller ringje oss på <tel>55 55 33 33</tel>."
         },
         "pdf": "PDF-fil",
-        "mottatt": "Motteken 01.01.2024",
+        "mottatt": "Motteken {dato, date, ::dMMMMy}",
         "apneKlagen": "Opne klaga (pdf)",
         "prosess": {
             "steg1": {
@@ -475,7 +475,7 @@
         },
         "vedtaketDuKlagerPa": "Vedtaket du klagar på",
         "vedtaksBrev": "Last ned vedtaksbrev",
-        "mottatt": "Motteken {dato, date, ::dMMyyyy}",
+        "mottatt": "Motteken {dato, date, ::dMMMMy}",
         "pdf": "PDF-fil",
         "gaVidereKnapp": "Sjå oppsummering",
         "tilbakeKnapp": "Tilbake",
@@ -483,7 +483,17 @@
         "manglerInnhold": "For å halde fram må du skrive kvifor du er usamd i vedtaket, anten i tekstfeltet eller laste det opp som eit vedlegg.",
         "sendKlage": "Send inn",
         "ingenVedlegg": "Ingen vedlegg",
-        "sendingFeilet": "Sending av klaga feila. Prøv igjen seinare eller ta kontakt med ditt lokale NAV-kontor."
+        "sendingFeilet": "Sending av klaga feila. Prøv igjen seinare eller ta kontakt med ditt lokale NAV-kontor.",
+        "oppsummering": {
+            "guide": "Sjå over at alt er riktig før du sender inn klaga. Viss du vil endre grunngivinga di eller leggje til meir dokumentasjon, kan du gå tilbake til førre side.",
+            "tittel": "Oppsummering av klaga",
+            "begrunnelse": "Grunngiving",
+            "vedlegg": "Vedlegg",
+            "ovrigeOpplysninger": "Andre opplysningar",
+            "soknadSendt": "Søknad sendt",
+            "vedtakMottatt": "Vedtak motteke",
+            "navKontor": "Nav-kontor"
+        }
     },
     "ForkastKlageModal": {
         "overskrift": "Er du sikker på at du vil forkaste klaga?",

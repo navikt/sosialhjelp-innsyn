@@ -430,7 +430,7 @@
             "beskrivelse": "You do not need to do anything else now. We will contact you if we have any questions. If you have questions about your appeal, you can <lenke>contact your Nav office</lenke> or call us on <tel>55 55 33 33</tel>."
         },
         "pdf": "PDF file",
-        "mottatt": "Received 01.01.2024",
+        "mottatt": "Received {dato, date, ::dMMMMy}",
         "apneKlagen": "Open the appeal (PDF)",
         "prosess": {
             "steg1": {
@@ -483,7 +483,17 @@
         "manglerInnhold": "To continue, explain why you disagree with the decision, either in the text field or by uploading an attachment.",
         "sendKlage": "Send",
         "ingenVedlegg": "No attachments",
-        "sendingFeilet": "Failed to send the complaint. Please try again later or contact your local NAV office."
+        "sendingFeilet": "Failed to send the complaint. Please try again later or contact your local NAV office.",
+        "oppsummering": {
+            "guide": "Check that everything is correct before submitting your appeal. If you want to change your explanation or add more documentation, you can go back to the previous page.",
+            "tittel": "Summary of your appeal",
+            "begrunnelse": "Explanation",
+            "vedlegg": "Attachments",
+            "ovrigeOpplysninger": "Other information",
+            "soknadSendt": "Application submitted",
+            "vedtakMottatt": "Decision received",
+            "navKontor": "Nav office"
+        }
     },
     "ForkastKlageModal": {
         "overskrift": "Are you sure you want to discard the complaint?",

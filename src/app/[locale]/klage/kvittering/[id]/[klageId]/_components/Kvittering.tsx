@@ -11,9 +11,11 @@ import { VedleggResponse } from "@generated/model";
 interface Props {
     klagePdf: VedleggResponse;
     navKontor?: string | null;
+    fiksDigisosId: string;
+    klageId: string;
 }
 
-const Kvittering = ({ klagePdf, navKontor }: Props) => {
+const Kvittering = ({ klagePdf, navKontor, fiksDigisosId, klageId }: Props) => {
     const t = useTranslations("StegKvittering");
     const locale = useLocale();
     const localeSuffix = locale === "nb" ? "" : `/${locale}`;
@@ -44,7 +46,7 @@ const Kvittering = ({ klagePdf, navKontor }: Props) => {
                 openInNewTab
                 href={klagePdf.url}
                 icon={<FilePdfIcon title={t("pdf")} />}
-                description={t("mottatt")}
+                description={t("mottatt", { dato: new Date(klagePdf.datoLagtTil) })}
             >
                 {t("apneKlagen")}
             </DigisosLinkCard>
@@ -84,17 +86,20 @@ const Kvittering = ({ klagePdf, navKontor }: Props) => {
             </Box>
             <Snarveier hideSokButton>
                 <li>
-                    <DigisosLinkCard href="/sosialhjelp/soknad" icon={<ArrowRedoIcon aria-hidden />}>
+                    <DigisosLinkCard href={`/soknad/${fiksDigisosId}`} icon={<ArrowRedoIcon aria-hidden />}>
                         {t("snarveier.tilSoknaden")}
                     </DigisosLinkCard>
                 </li>
                 <li>
-                    <DigisosLinkCard href="/sosialhjelp/soknad" icon={<PaperclipIcon aria-hidden />}>
+                    <DigisosLinkCard
+                        href={`/klage/status/${fiksDigisosId}/${klageId}`}
+                        icon={<PaperclipIcon aria-hidden />}
+                    >
                         {t("snarveier.ettersendVedlegg")}
                     </DigisosLinkCard>
                 </li>
                 <li>
-                    <DigisosLinkCard href="/sosialhjelp/innsyn" icon={<HouseIcon aria-hidden />}>
+                    <DigisosLinkCard href="/" icon={<HouseIcon aria-hidden />}>
                         {t("snarveier.okonomiskSosialhjelp")}
                     </DigisosLinkCard>
                 </li>

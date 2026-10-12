@@ -33,7 +33,12 @@ const Page = async ({ params }: { params: Promise<{ id: string; klageId: string 
                 <Heading size="xlarge" level="1">
                     {t("tittel")}
                 </Heading>
-                <Kvittering klagePdf={klage.klagePdf} navKontor={sak.navEnhetNavn} />
+                <Kvittering
+                    klagePdf={klage.klagePdf}
+                    navKontor={sak.navEnhetNavn}
+                    fiksDigisosId={fiksDigisosId}
+                    klageId={klageId}
+                />
             </VStack>
         </>
     );
