@@ -6,7 +6,6 @@ import {
     type DokumentasjonkravDto,
     HendelseDto,
     KlageDto,
-    KommuneResponse,
     OppgaveResponseBeta,
     OppgaveVedleggFil,
     OriginalSoknadDto,
@@ -15,7 +14,7 @@ import {
     SoknadsStatusResponse,
     VilkarResponse,
 } from "../../src/generated/model";
-import type { ForelopigSvarResponse, VedleggResponse } from "../../src/generated/ssr/model";
+import type { VedleggResponse } from "../../src/generated/ssr/model";
 
 /**
  * Helper to configure MSW mock responses for E2E tests.
@@ -105,7 +104,6 @@ export async function mockSoknadEndpoints(
         originalSoknad?: Partial<OriginalSoknadDto>;
         oppgaver?: OppgaveResponseBeta[];
         dokumentasjonkrav?: DokumentasjonkravDto[];
-        forelopigSvar?: Partial<ForelopigSvarResponse>;
         vilkar?: VilkarResponse[];
         saksStatus?: SaksStatusResponse[];
         klager?: KlageDto[];
@@ -113,7 +111,6 @@ export async function mockSoknadEndpoints(
         detaljer?: Partial<SaksDetaljerResponse>;
         vedleggForOppgave?: Record<string, OppgaveVedleggFil[]>;
         brev?: Brev[];
-        kommuneInfo?: Partial<KommuneResponse>;
     }
 ) {
     const defaultSoknadsStatus: SoknadsStatusResponse = {
@@ -133,11 +130,6 @@ export async function mockSoknadEndpoints(
         filename: "soknad.pdf",
         skjult: false,
         ...overrides?.originalSoknad,
-    };
-
-    const defaultForelopigSvar: ForelopigSvarResponse = {
-        harMottattForelopigSvar: false,
-        ...overrides?.forelopigSvar,
     };
 
     const defaultDetaljer: SaksDetaljerResponse = {
@@ -174,21 +166,11 @@ export async function mockSoknadEndpoints(
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/originalSoknad`, defaultOriginalSoknad);
     await msw.mockEndpoint(`/api/v2/innsyn/${soknadId}/oppgaver`, overrides?.oppgaver ?? []);
     await msw.mockEndpoint(`/api/v2/innsyn/${soknadId}/dokumentasjonkrav`, overrides?.dokumentasjonkrav ?? []);
-    await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/forelopigSvar`, defaultForelopigSvar);
     await msw.mockEndpoint(`/api/v2/innsyn/${soknadId}/vilkar`, overrides?.vilkar ?? []);
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/saksStatus`, overrides?.saksStatus ?? []);
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/klager`, overrides?.klager ?? []);
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/hendelser/beta`, overrides?.hendelser ?? []);
     await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/brev`, overrides?.brev ?? []);
-    await msw.mockEndpoint(`/api/v1/innsyn/${soknadId}/kommune`, {
-        erInnsynDeaktivert: false,
-        erInnsynMidlertidigDeaktivert: false,
-        erInnsendingEttersendelseDeaktivert: false,
-        erInnsendingEttersendelseMidlertidigDeaktivert: false,
-        tidspunkt: new Date().toISOString(),
-        kommunenummer: "0301",
-        ...overrides?.kommuneInfo,
-    } satisfies KommuneResponse);
     await msw.mockDetaljer(soknadId, overrides?.detaljer ?? defaultDetaljer);
     overrides?.oppgaver?.forEach((oppgave) => {
         if (oppgave.hendelsereferanse) {
