@@ -8,6 +8,7 @@ import Snarveier from "@components/snarveier/Snarveier";
 import KommendeUtbetalinger from "./_components/utbetalinger/KommendeUtbetalinger";
 import LandingssideSnarveier from "./_components/snarveier/LandingssideSnarveier";
 import Soknader from "@components/soknader/Soknader";
+import UxSignalsWidget from "@components/widgets/UxSignalsWidget";
 
 const Page = async () => {
     const t = await getTranslations("Landingsside");
@@ -31,8 +32,8 @@ const Page = async () => {
                     </Stack>
                 </Bleed>
                 <KommendeUtbetalinger />
+                <UxSignalsWidget embedCode="panel-gd1hrsksft" />
                 <Soknader hideInactive />
-
                 <Snarveier>
                     <LandingssideSnarveier />
                 </Snarveier>
