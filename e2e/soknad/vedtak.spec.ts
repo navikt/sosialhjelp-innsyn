@@ -59,7 +59,7 @@ test.describe("Vedtak functionality", () => {
 
         await expect(vedtakList.getByRole("listitem")).toHaveCount(2);
         await expect(vedtakList.getByRole("link", { name: "Åpne vedtaksbrev" })).toHaveCount(2);
-        await expect(vedtakList.getByRole("heading", { level: 3 })).toHaveText([
+        await expect(vedtakList.getByRole("heading", { level: 3, name: /^Vedtak / })).toHaveText([
             "Vedtak 25.11.2025",
             "Vedtak 20.11.2025",
         ]);
@@ -106,7 +106,7 @@ test.describe("Vedtak functionality", () => {
         const newestVedtak = page.getByRole("list", { name: "Vedtak" }).getByRole("listitem");
 
         await expect(newestVedtak.getByRole("heading", { name: "Vedtak 25.11.2025" })).toBeVisible();
-        await expect(newestVedtak.getByText("Avslag")).toBeVisible();
+        await expect(newestVedtak.getByText(/^(Utfall: )?Avslag$/)).toBeVisible();
     });
 
     test("should show one vedtak without an expand button when there is a single vedtak", async ({
@@ -193,12 +193,17 @@ test.describe("Vedtak functionality", () => {
 
         await expect(vedtakList.getByRole("listitem")).toHaveCount(3);
         await expect(vedtakList.getByRole("link", { name: "Åpne vedtaksbrev" })).toHaveCount(3);
-        await expect(vedtakList.getByRole("heading", { level: 3 })).toHaveText([
+        await expect(vedtakList.getByRole("heading", { level: 3, name: /^Vedtak / })).toHaveText([
             "Vedtak 28.11.2025",
             "Vedtak 20.11.2025",
             "Vedtak 15.11.2025",
         ]);
-        await expect(vedtakList.getByRole("listitem").first().getByText("Avslag")).toBeVisible();
+        await expect(
+            vedtakList
+                .getByRole("listitem")
+                .first()
+                .getByText(/^(Utfall: )?Avslag$/)
+        ).toBeVisible();
     });
 
     test("should display a block for each sak with decisions before cases under treatment", async ({
@@ -260,9 +265,9 @@ test.describe("Vedtak functionality", () => {
         const husleieVedtak = page.getByRole("list", { name: "Husleie" });
         await expect(husleieVedtak.getByRole("listitem")).toHaveCount(1);
         await expect(husleieVedtak.getByRole("heading", { name: "Vedtak 25.11.2025" })).toBeVisible();
-        await expect(husleieVedtak.getByText("Avslag")).toBeVisible();
+        await expect(husleieVedtak.getByText(/^(Utfall: )?Avslag$/)).toBeVisible();
         await page.getByRole("button", { name: "Vis flere vedtak (1)" }).click();
-        await expect(husleieVedtak.getByRole("heading", { level: 3 })).toHaveText([
+        await expect(husleieVedtak.getByRole("heading", { level: 3, name: /^Vedtak / })).toHaveText([
             "Vedtak 25.11.2025",
             "Vedtak 20.11.2025",
         ]);
