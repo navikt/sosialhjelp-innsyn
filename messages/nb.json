@@ -226,7 +226,7 @@
     },
     "Opplastingsboks": {
         "tittel": "Last opp dokumentasjon",
-        "beskrivelse": "Hvis du har andre opplysninger som kan ha betydning for søknaden din, kan du laste de opp her.",
+        "beskrivelse": "Hvis du har andre opplysninger som kan ha betydning for søknaden din, kan du laste dem opp her.",
         "dragAndDrop": "Dra og slipp filer her",
         "eller": "eller",
         "button": "Velg filer",
@@ -481,7 +481,7 @@
         "filOpplasting": {
             "dineVedlegg": "Dine vedlegg",
             "label": "Vedlegg",
-            "beskrivelse": "Har du opplysninger som kan være relevante for klagen din, kan du laste de opp her."
+            "beskrivelse": "Har du opplysninger som kan være relevante for klagen din, kan du laste dem opp her."
         },
         "validering": {
             "maksLengde": "Du kan skrive inn maks {maksLengde} tegn"
