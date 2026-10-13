@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRightIcon, ExternalLinkIcon, FilePdfIcon } from "@navikt/aksel-icons";
+import { ArrowRightIcon, FilePdfIcon } from "@navikt/aksel-icons";
 import { Bleed, Button, HStack, InlineMessage, Label, Textarea, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
@@ -8,7 +8,6 @@ import { useFormContext } from "react-hook-form";
 import { FormValues } from "../KlageForm";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { FilUrl } from "@generated/model";
-import { LinkCard } from "@navikt/ds-react/LinkCard";
 import { parseISO } from "date-fns";
 import FileSelectNew from "@components/filopplasting/FileSelectNew";
 import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
@@ -52,18 +51,8 @@ const StegBegrunnelse = ({
                 <Bleed marginInline="full" reflectivePadding className="bg-ax-bg-neutral-soft py-5">
                     <VStack gap="space-8">
                         <Label>{t("vedtaketDuKlagerPa")}</Label>
-                        <LinkCard data-color="accent" arrow={false}>
-                            <LinkCard.Title>
-                                <LinkCard.Anchor href={vedtaksbrev.url} target="_blank" rel="noopener noreferrer">
-                                    <HStack justify="space-between">
-                                        <span>{t("vedtaksBrev")}</span>
-                                        <ExternalLinkIcon aria-hidden height="24px" width="24px" />
-                                    </HStack>
-                                </LinkCard.Anchor>
-                            </LinkCard.Title>
-                            <LinkCard.Description>{t("mottatt", { dato: parseISO(vedtaksDato) })}</LinkCard.Description>
-                        </LinkCard>
                         <DigisosLinkCard
+                            dataColor="accent"
                             cardIcon="external-link"
                             href={vedtaksbrev.url}
                             icon={<FilePdfIcon title={t("pdf")} />}
