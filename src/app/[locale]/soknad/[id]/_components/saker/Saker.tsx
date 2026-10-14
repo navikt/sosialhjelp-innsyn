@@ -1,20 +1,17 @@
 "use client";
 
 import React from "react";
-import { Heading, VStack } from "@navikt/ds-react";
-import { useTranslations } from "next-intl";
+import { VStack } from "@navikt/ds-react";
 
-import ExpandableList from "@components/showmore/ExpandableList";
-import VedtakPanel from "./VedtakPanel";
 import SakBlokk from "./SakBlokk";
+import SingleSak from "./SingleSak";
 import { useHentSaksStatuserSuspense } from "@generated/saks-status-controller/saks-status-controller";
 import { useHentKlager } from "@generated/klage-controller/klage-controller";
 import { useParams } from "next/navigation";
 import { useFlag } from "@featuretoggles/context";
-import { sortSaker, sortVedtak } from "./sort";
+import { sortSaker } from "./sort";
 
 const Saker = () => {
-    const t = useTranslations("VedtakListe");
     const { id } = useParams<{ id: string }>();
     const { data: saker } = useHentSaksStatuserSuspense(id);
     const klageEnabled = useFlag("sosialhjelp.innsyn.klage").enabled;
@@ -35,38 +32,7 @@ const Saker = () => {
         );
     }
 
-    const sak = saker[0];
-    const vedtak = sortVedtak(sak.vedtak).map((enkeltvedtak) => ({ vedtak: enkeltvedtak }));
-
-    if (!vedtak.length) {
-        return null;
-    }
-
-    return (
-        <VStack gap="space-16">
-            <Heading id="vedtak-heading" size="medium" level="2">
-                {t("vedtak")}
-            </Heading>
-            <ExpandableList
-                as="ol"
-                items={vedtak}
-                itemsLimit={1}
-                id="vedtak-liste"
-                labelledById="vedtak-heading"
-                showMoreSuffix={t("showMoreSuffix")}
-                gap="space-16"
-            >
-                {({ vedtak: enkeltvedtak }, ref) => (
-                    <li key={enkeltvedtak.id} ref={ref} tabIndex={-1}>
-                        <VedtakPanel
-                            vedtak={enkeltvedtak}
-                            innsendtKlage={klager?.find((klage) => klage.vedtakId === enkeltvedtak.id)}
-                        />
-                    </li>
-                )}
-            </ExpandableList>
-        </VStack>
-    );
+    return <SingleSak sak={saker[0]} klager={klager} />;
 };
 
 export default Saker;

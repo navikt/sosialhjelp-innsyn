@@ -2,9 +2,8 @@ import { Heading, VStack } from "@navikt/ds-react";
 import { KlageRef, SaksStatusResponse } from "@generated/model";
 import { useTranslations } from "next-intl";
 
-import ExpandableList from "@components/showmore/ExpandableList";
-import VedtakPanel from "./VedtakPanel";
 import SakStatusInfo from "./SakStatusInfo";
+import VedtakListe from "./VedtakListe";
 import { sortVedtak } from "./sort";
 
 interface Props {
@@ -12,7 +11,6 @@ interface Props {
     klager?: KlageRef[];
     index: number;
 }
-
 const SakBlokk = ({ sak, klager, index }: Props) => {
     const t = useTranslations("SakBlokk");
     const headingId = `sak-${sak.referanse ?? index}-heading`;
@@ -23,26 +21,13 @@ const SakBlokk = ({ sak, klager, index }: Props) => {
             <Heading id={headingId} size="medium" level="2" lang="no">
                 {sak.tittel}
             </Heading>
-            {vedtak.length > 0 && (
-                <ExpandableList
-                    as="ol"
-                    items={vedtak}
-                    itemsLimit={1}
-                    id={`sak-${sak.referanse ?? index}-vedtak`}
-                    labelledById={headingId}
-                    showMoreSuffix={t("showMoreSuffix")}
-                    gap="space-16"
-                >
-                    {(enkeltvedtak, ref) => (
-                        <li key={enkeltvedtak.id} ref={ref} tabIndex={-1}>
-                            <VedtakPanel
-                                vedtak={enkeltvedtak}
-                                innsendtKlage={klager?.find((klage) => klage.vedtakId === enkeltvedtak.id)}
-                            />
-                        </li>
-                    )}
-                </ExpandableList>
-            )}
+            <VedtakListe
+                vedtak={vedtak}
+                klager={klager}
+                id={`sak-${sak.referanse ?? index}-vedtak`}
+                labelledById={headingId}
+                showMoreSuffix={t("showMoreSuffix")}
+            />
             <SakStatusInfo status={sak.status} harVedtak={vedtak.length > 0} />
         </VStack>
     );
