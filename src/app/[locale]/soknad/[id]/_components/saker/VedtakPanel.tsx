@@ -14,7 +14,7 @@ interface Props {
 
 const VedtakPanel = ({ vedtak, innsendtKlage }: Props) => {
     const t = useTranslations("Vedtak");
-    const hasKommendeUtbetaling = vedtak.utfall === "INNVILGET" || vedtak.utfall === "DELVIS_INNVILGET";
+    const visKommendeUtbetalingerLenke = vedtak.utfall === "INNVILGET" || vedtak.utfall === "DELVIS_INNVILGET";
 
     return (
         <Box borderWidth="1" borderColor="neutral-subtle" borderRadius="12" overflow="hidden">
@@ -41,7 +41,7 @@ const VedtakPanel = ({ vedtak, innsendtKlage }: Props) => {
                             <span className="sr-only">, {t("mottattDato", { dato: new Date(vedtak.dato) })}</span>
                         )}
                     </DigisosLinkCard>
-                    {hasKommendeUtbetaling && (
+                    {visKommendeUtbetalingerLenke && (
                         <DigisosLinkCard
                             href="/utbetaling"
                             icon={<BankNoteIcon aria-hidden />}
