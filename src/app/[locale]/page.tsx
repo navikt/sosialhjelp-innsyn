@@ -32,7 +32,6 @@ const Page = async () => {
                 </Bleed>
                 <KommendeUtbetalinger />
                 <Soknader hideInactive />
-
                 <Snarveier>
                     <LandingssideSnarveier />
                 </Snarveier>

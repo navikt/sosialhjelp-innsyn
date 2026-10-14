@@ -30,6 +30,7 @@ import { prefetchGetSaksDetaljerQuery } from "@generated/ssr/saks-oversikt-contr
 import { TagsSkeleton } from "@components/tags/Tags";
 import SoknadInfoCards from "./info/SoknadInfoCards";
 import { prefetchHentBrevQuery } from "@generated/ssr/brev-controller/brev-controller";
+import UxSignalsWidget from "@components/widgets/UxSignalsWidget";
 
 interface Props {
     id: string;
@@ -103,6 +104,7 @@ export const Soknad = async ({ id }: Props) => {
                     <VilkarListe />
                 </HydrationBoundary>
             </Suspense>
+            <UxSignalsWidget embedCode="panel-gd1hrsksft" />
             <Suspense fallback={<FilopplastingSkeleton />}>
                 <HydrationBoundary state={dehydrate(vedleggQueryClient)}>
                     <HydrationBoundary state={dehydrate(sakerQueryClient)}>
