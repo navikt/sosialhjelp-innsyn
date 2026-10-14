@@ -1,12 +1,12 @@
 "use client";
 
-import { BodyLong, Box, InfoCard, Link, ReadMore, VStack } from "@navikt/ds-react";
+import { Box, InfoCard, Link, VStack } from "@navikt/ds-react";
 import { ArrowRedoIcon, CheckmarkCircleIcon, FilePdfIcon, HouseIcon, PaperclipIcon } from "@navikt/aksel-icons";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { useLocale, useTranslations } from "next-intl";
-import { Process } from "@navikt/ds-react/Process";
 import Snarveier from "@components/snarveier/Snarveier";
 import { VedleggResponse } from "@generated/model";
+import ProsessenVidere from "@components/klage/ProsessenVidere";
 
 interface Props {
     klagePdf: VedleggResponse;
@@ -58,31 +58,7 @@ const Kvittering = ({ klagePdf, navKontor, fiksDigisosId, klageId }: Props) => {
                 paddingBlock="space-8"
                 paddingInline="space-16"
             >
-                <Process>
-                    <Process.Event bullet={1} title={t("prosess.steg1.tittel")}>
-                        {navKontor
-                            ? t("prosess.steg1.beskrivelse", { navKontor })
-                            : t("prosess.steg1.beskrivelseUtenKontor")}
-                    </Process.Event>
-                    <Process.Event bullet={2} title={t("prosess.steg2.tittel")}>
-                        {t("prosess.steg2.beskrivelse")}
-                    </Process.Event>
-                    <Process.Event bullet={3} title={t("prosess.steg3.tittel")}>
-                        <span>{t("prosess.steg3.beskrivelse")}</span>
-                        <ReadMore header={t("prosess.steg3.lesMer.tittel")}>
-                            <BodyLong spacing>
-                                {t.rich("prosess.steg3.lesMer.innhold.medhold", {
-                                    b: (chunks) => <strong>{chunks}</strong>,
-                                })}
-                            </BodyLong>
-                            <BodyLong>
-                                {t.rich("prosess.steg3.lesMer.innhold.ikkeMedhold", {
-                                    b: (chunks) => <strong>{chunks}</strong>,
-                                })}
-                            </BodyLong>
-                        </ReadMore>
-                    </Process.Event>
-                </Process>
+                <ProsessenVidere navKontor={navKontor} />
             </Box>
             <Snarveier hideSokButton>
                 <li>

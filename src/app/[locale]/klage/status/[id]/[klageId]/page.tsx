@@ -8,8 +8,9 @@ import { hentKlage } from "@generated/ssr/klage-controller/klage-controller";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 
 import UnderUtviklingInfo from "./_components/UnderUtviklingInfo";
-import ProsessenVidere from "./_components/ProsessenVidere";
 import Dokumenter from "./_components/Dokumenter";
+import ProsessenVidere from "@components/klage/ProsessenVidere";
+import { hentSakForVedtak } from "@generated/ssr";
 
 const Page = async ({
     params,
@@ -29,6 +30,8 @@ const Page = async ({
     }
 
     const klage = await hentKlage(fiksDigisosId, klageId);
+    // TODO: Burde denne være inkludert i klage over?
+    const paaklagetSak = await hentSakForVedtak(klage.digisosId, klage.vedtakId);
 
     return (
         <>
@@ -47,7 +50,7 @@ const Page = async ({
                 <DigisosLinkCard href={`/soknad/${fiksDigisosId}`} icon={<FileTextIcon aria-hidden />}>
                     {t("seVedtak")}
                 </DigisosLinkCard>
-                <ProsessenVidere klagePdf={klage.klagePdf} />
+                <ProsessenVidere navKontor={paaklagetSak.navEnhetNavn} />
                 <Dokumenter klagePdf={klage.klagePdf} />
             </VStack>
         </>

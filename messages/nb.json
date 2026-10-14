@@ -423,18 +423,25 @@
         "klagePdfDefaultTittel": "Klage på vedtak om økonomisk sosialhjelp"
     },
     "KlageProsessenVidere": {
-        "tittel": "Prosessen videre",
         "steg1": {
             "tittel": "Klagen din er sendt",
-            "visKlagen": "Vis klagen (åpnes i ny fane)"
+            "beskrivelse": "Klagen din er sendt til {navKontor}, som vil behandle den så fort de kan.",
+            "beskrivelseUtenKontor": "Klagen din er sendt til Nav-kontoret ditt, som vil behandle den så fort de kan."
         },
         "steg2": {
-            "tittel": "Nav-kontoret behandler klagen",
-            "beskrivelse": "Din klage behandles så fort som mulig. Nav-kontoret vil ta kontakt med deg dersom de trenger flere opplysninger eller mer dokumentasjon."
+            "tittel": "Nav-kontoret vil behandle klagen",
+            "beskrivelse": "Nav-kontoret vil behandle klagen din så fort de kan. Hvis det har gått mer enn én måned fra du klaget, skal du få et brev om at saksbehandlingstiden er forlenget."
         },
         "steg3": {
-            "tittel": "Klagen din er ferdig behandlet",
-            "beskrivelse": "Du vil få et vedtak. Les i vedtaket om du har fått medhold eller ikke."
+            "tittel": "Du vil motta et vedtak",
+            "beskrivelse": "I hovedsak er det to mulige utfall på en klage: Du vil enten få medhold med et nytt vedtak om innvilget støtte, eller ikke medhold med et nytt vedtak som begrunner avslaget.",
+            "lesMer": {
+                "tittel": "Les mer om mulige utfall",
+                "innhold": {
+                    "medhold": "<b>Hvis Nav-kontoret gir deg medhold i klagen din</b> (de har vurdert saken din på nytt og er enige med deg), vil du få et nytt vedtak med informasjon om hva som vil dekkes. Informasjonen på Min side - Økonomisk sosialhjelp vil bli oppdatert med det nye og gjeldende vedtaket.",
+                    "ikkeMedhold": "<b>Hvis Nav-kontoret ikke gir deg medhold</b>, vil klagen videresendes til Statsforvalteren. De vil enten være enige med deg, slik at Nav-kontoret må behandle søknaden din på nytt og du får et nytt vedtak, eller uenige med deg, og sende deg et brev med begrunnelse for avslaget."
+                }
+            }
         }
     },
     "StegKvittering": {
@@ -445,28 +452,6 @@
         "pdf": "PDF-fil",
         "mottatt": "Mottatt {dato, date, ::dMMMMy}",
         "apneKlagen": "Åpne klagen (pdf)",
-        "prosess": {
-            "steg1": {
-                "tittel": "Klagen din er sendt",
-                "beskrivelse": "Klagen din er sendt til {navKontor}, som vil behandle den så fort de kan.",
-                "beskrivelseUtenKontor": "Klagen din er sendt til Nav-kontoret ditt, som vil behandle den så fort de kan."
-            },
-            "steg2": {
-                "tittel": "Nav-kontoret vil behandle klagen",
-                "beskrivelse": "Nav-kontoret vil behandle klagen din så fort de kan. Hvis det har gått mer enn én måned fra du klaget, skal du få et brev om at saksbehandlingstiden er forlenget."
-            },
-            "steg3": {
-                "tittel": "Du vil motta et vedtak",
-                "beskrivelse": "I hovedsak er det to mulige utfall på en klage: Du vil enten få medhold med et nytt vedtak om innvilget støtte, eller ikke medhold med et nytt vedtak som begrunner avslaget.",
-                "lesMer": {
-                    "tittel": "Les mer om mulige utfall",
-                    "innhold": {
-                        "medhold": "<b>Hvis Nav-kontoret gir deg medhold i klagen din</b> (de har vurdert saken din på nytt og er enige med deg), vil du få et nytt vedtak med informasjon om hva som vil dekkes. Informasjonen på Min side - Økonomisk sosialhjelp vil bli oppdatert med det nye og gjeldende vedtaket.",
-                        "ikkeMedhold": "<b>Hvis Nav-kontoret ikke gir deg medhold</b>, vil klagen videresendes til Statsforvalteren. De vil enten være enige med deg, slik at Nav-kontoret må behandle søknaden din på nytt og du får et nytt vedtak, eller uenige med deg, og sende deg et brev med begrunnelse for avslaget."
-                    }
-                }
-            }
-        },
         "snarveier": {
             "tilSoknaden": "Returner til søknaden",
             "ettersendVedlegg": "Ettersend vedlegg til klagen",

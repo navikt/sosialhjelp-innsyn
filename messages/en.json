@@ -410,18 +410,25 @@
         "klagePdfDefaultTittel": "Appeal against decision regarding financial assistance.pdf"
     },
     "KlageProsessenVidere": {
-        "tittel": "The process further",
         "steg1": {
             "tittel": "Your appeal has been submitted",
-            "visKlagen": "View the appeal (opens in a new tab)"
+            "beskrivelse": "Your appeal has been sent to {navKontor}, which will process it as quickly as possible.",
+            "beskrivelseUtenKontor": "Your appeal has been sent to your Nav office, which will process it as quickly as possible."
         },
         "steg2": {
-            "tittel": "The Nav office is processing your appeal",
-            "beskrivelse": "Your appeal is being processed as quickly as possible. The Nav office will contact you if they need more information or documentation."
+            "tittel": "The Nav office will process your appeal",
+            "beskrivelse": "The Nav office will process your appeal as quickly as possible. If more than one month has passed since you appealed, you will receive a letter saying that the processing time has been extended."
         },
         "steg3": {
-            "tittel": "Your appeal has been processed",
-            "beskrivelse": "You will receive a decision. Read the decision to see if your appeal was upheld or not."
+            "tittel": "You will receive a decision",
+            "beskrivelse": "There are generally two possible outcomes to an appeal: Your appeal will either be upheld and you will receive a new decision granting support, or it will not be upheld and you will receive a new decision explaining the refusal.",
+            "lesMer": {
+                "tittel": "Read more about possible outcomes",
+                "innhold": {
+                    "medhold": "<b>If the Nav office rules in your favour</b> (they have reassessed your case and agree with you), you will receive a new decision with information about what will be covered. The information on My page - Financial assistance will be updated with the new, current decision.",
+                    "ikkeMedhold": "<b>If the Nav office does not rule in your favour</b>, your appeal will be forwarded to the County Governor (Statsforvalteren). They will either agree with you, in which case the Nav office must process your application again and you will receive a new decision, or disagree with you and send you a letter explaining the reasons for the rejection."
+                }
+            }
         }
     },
     "StegKvittering": {
@@ -432,28 +439,6 @@
         "pdf": "PDF file",
         "mottatt": "Received {dato, date, ::dMMMMy}",
         "apneKlagen": "Open the appeal (PDF)",
-        "prosess": {
-            "steg1": {
-                "tittel": "Your appeal has been submitted",
-                "beskrivelse": "Your appeal has been sent to {navKontor}, which will process it as quickly as possible.",
-                "beskrivelseUtenKontor": "Your appeal has been sent to your Nav office, which will process it as quickly as possible."
-            },
-            "steg2": {
-                "tittel": "The Nav office will process your appeal",
-                "beskrivelse": "The Nav office will process your appeal as quickly as possible. If more than one month has passed since you appealed, you will receive a letter saying that the processing time has been extended."
-            },
-            "steg3": {
-                "tittel": "You will receive a decision",
-                "beskrivelse": "There are generally two possible outcomes to an appeal: Your appeal will either be upheld and you will receive a new decision granting support, or it will not be upheld and you will receive a new decision explaining the refusal.",
-                "lesMer": {
-                    "tittel": "Read more about possible outcomes",
-                    "innhold": {
-                        "medhold": "<b>If the Nav office rules in your favour</b> (they have reassessed your case and agree with you), you will receive a new decision with information about what will be covered. The information on My page - Financial assistance will be updated with the new, current decision.",
-                        "ikkeMedhold": "<b>If the Nav office does not rule in your favour</b>, your appeal will be forwarded to the County Governor (Statsforvalteren). They will either agree with you, in which case the Nav office must process your application again and you will receive a new decision, or disagree with you and send you a letter explaining the reasons for the rejection."
-                    }
-                }
-            }
-        },
         "snarveier": {
             "tilSoknaden": "Return to the application",
             "ettersendVedlegg": "Submit additional attachments for the appeal",
