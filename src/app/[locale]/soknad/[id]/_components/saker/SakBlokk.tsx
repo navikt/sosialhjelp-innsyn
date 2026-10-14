@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import ExpandableList from "@components/showmore/ExpandableList";
 import VedtakPanel from "./VedtakPanel";
 import SakStatusInfo from "./SakStatusInfo";
+import { sortVedtak } from "./sort";
 
 interface Props {
     sak: SaksStatusResponse;
@@ -15,11 +16,7 @@ interface Props {
 const SakBlokk = ({ sak, klager, index }: Props) => {
     const t = useTranslations("SakBlokk");
     const headingId = `sak-${sak.referanse ?? index}-heading`;
-    const vedtak = [...sak.vedtak].sort((a, b) => {
-        const dateA = a.dato ? new Date(a.dato).getTime() : 0;
-        const dateB = b.dato ? new Date(b.dato).getTime() : 0;
-        return dateB - dateA;
-    });
+    const vedtak = sortVedtak(sak.vedtak);
 
     return (
         <VStack gap="space-4">

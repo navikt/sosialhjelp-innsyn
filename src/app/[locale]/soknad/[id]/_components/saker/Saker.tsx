@@ -11,6 +11,7 @@ import { useHentSaksStatuserSuspense } from "@generated/saks-status-controller/s
 import { useHentKlager } from "@generated/klage-controller/klage-controller";
 import { useParams } from "next/navigation";
 import { useFlag } from "@featuretoggles/context";
+import { sortSaker, sortVedtak } from "./sort";
 
 const Saker = () => {
     const t = useTranslations("VedtakListe");
@@ -23,7 +24,7 @@ const Saker = () => {
     }
 
     if (saker.length > 1) {
-        const sorterteSaker = [...saker].sort((a, b) => Number(b.vedtak.length > 0) - Number(a.vedtak.length > 0));
+        const sorterteSaker = sortSaker(saker);
 
         return (
             <VStack gap="space-32">
@@ -35,13 +36,7 @@ const Saker = () => {
     }
 
     const sak = saker[0];
-    const vedtak = sak.vedtak
-        .map((enkeltvedtak) => ({ vedtak: enkeltvedtak }))
-        .sort((a, b) => {
-            const dateA = a.vedtak.dato ? new Date(a.vedtak.dato).getTime() : 0;
-            const dateB = b.vedtak.dato ? new Date(b.vedtak.dato).getTime() : 0;
-            return dateB - dateA;
-        });
+    const vedtak = sortVedtak(sak.vedtak).map((enkeltvedtak) => ({ vedtak: enkeltvedtak }));
 
     if (!vedtak.length) {
         return null;
