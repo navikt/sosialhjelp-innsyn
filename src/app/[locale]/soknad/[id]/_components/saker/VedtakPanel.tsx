@@ -34,6 +34,7 @@ const VedtakPanel = ({ vedtak, innsendtKlage }: Props) => {
                         }
                         analyticsEvent="knapp klikket"
                         analyticsData={{ tekst: "Åpner vedtak" }}
+                        className={"wrap-break-word"}
                     >
                         {t("vedtaksBrev")}
                         {vedtak.dato && (
@@ -41,7 +42,11 @@ const VedtakPanel = ({ vedtak, innsendtKlage }: Props) => {
                         )}
                     </DigisosLinkCard>
                     {hasKommendeUtbetaling && (
-                        <DigisosLinkCard href="/utbetaling" icon={<BankNoteIcon aria-hidden />}>
+                        <DigisosLinkCard
+                            href="/utbetaling"
+                            icon={<BankNoteIcon aria-hidden />}
+                            className={"wrap-break-word"}
+                        >
                             {t("kommendeUtbetaling")}
                         </DigisosLinkCard>
                     )}

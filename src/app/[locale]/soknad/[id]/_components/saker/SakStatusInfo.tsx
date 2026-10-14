@@ -19,7 +19,7 @@ const UnderBehandlingInfo = ({ harVedtak }: UnderBehandlingInfoProps) => {
     }
 
     return (
-        <InfoCard data-color="info">
+        <InfoCard data-color="info" size="medium">
             <InfoCard.Message icon={false}>{t("description")}</InfoCard.Message>
         </InfoCard>
     );

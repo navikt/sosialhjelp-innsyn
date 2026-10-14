@@ -22,7 +22,7 @@ const SakBlokk = ({ sak, klager, index }: Props) => {
     });
 
     return (
-        <VStack gap="space-16">
+        <VStack gap="space-4">
             <Heading id={headingId} size="medium" level="2" lang="no">
                 {sak.tittel}
             </Heading>
