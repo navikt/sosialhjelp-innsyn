@@ -1,40 +1,38 @@
 "use client";
 
 import React from "react";
-import { BodyLong, Heading, VStack } from "@navikt/ds-react";
-import { useTranslations } from "next-intl";
+import { VStack } from "@navikt/ds-react";
 
-import SingleSak from "./sak/SingleSak";
-import SakPanel from "./sak/sakpanel/SakPanel";
+import SakBlokk from "./SakBlokk";
+import SingleSak from "./SingleSak";
 import { useHentSaksStatuserSuspense } from "@generated/saks-status-controller/saks-status-controller";
+import { useHentKlager } from "@generated/klage-controller/klage-controller";
 import { useParams } from "next/navigation";
+import { useFlag } from "@featuretoggles/context";
+import { sortSaker } from "./sort";
 
 const Saker = () => {
-    const t = useTranslations("Saker");
     const { id } = useParams<{ id: string }>();
     const { data: saker } = useHentSaksStatuserSuspense(id);
-
+    const klageEnabled = useFlag("sosialhjelp.innsyn.klage").enabled;
+    const { data: klager } = useHentKlager(id, { query: { enabled: klageEnabled } });
     if (!saker.length) {
         return null;
     }
-    if (saker.length === 1) {
-        const sak = saker[0];
-        return <SingleSak sak={sak} />;
-    }
 
-    return (
-        <VStack gap="space-8">
-            <Heading size="medium" level="2">
-                {t("dineSaker")}
-            </Heading>
-            <BodyLong>{t("deltSoknadInfo", { n: saker.length })}</BodyLong>
-            <VStack gap="space-16">
-                {saker.map((sak) => (
-                    <SakPanel key={sak.referanse} sak={sak} />
+    if (saker.length > 1) {
+        const sorterteSaker = sortSaker(saker);
+
+        return (
+            <VStack gap="space-32">
+                {sorterteSaker.map((sak, index) => (
+                    <SakBlokk key={sak.referanse ?? index} sak={sak} klager={klager} index={index} />
                 ))}
             </VStack>
-        </VStack>
-    );
+        );
+    }
+
+    return <SingleSak sak={saker[0]} klager={klager} />;
 };
 
 export default Saker;

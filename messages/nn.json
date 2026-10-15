@@ -7,12 +7,12 @@
     "Landingsside": {
         "tittel": "Økonomisk sosialhjelp"
     },
-    "SingleSak": {
-        "vedtak": "Vedtak"
+    "VedtakListe": {
+        "vedtak": "Vedtak",
+        "showMoreSuffix": "vedtak"
     },
-    "Saker": {
-        "dineSaker": "Sakene dine",
-        "deltSoknadInfo": "Søknaden din har vorte delt i {n} saker sidan det er behov for å behandle delar av søknaden separat."
+    "SakBlokk": {
+        "showMoreSuffix": "vedtak"
     },
     "FileUploadItem": {
         "uploadFailed": "Opplasting feila. Prøv på nytt seinare.",
@@ -124,11 +124,13 @@
             "AVSLATT": "Du har fått avslag på søknaden. Les vedtaket for å sjå grunngivinga."
         },
         "vedtaksBrev": "Opne vedtaksbrev",
-        "vedtaksBrevNytt": "Opne vedtaksbrev (nytt)",
         "kommendeUtbetaling": "Sjå informasjon om utbetalinga",
         "pdf": "PDF-fil",
         "mottattDato": "Motteken {dato, date, ::ddMMyyyy}",
         "vedtaksbrev": "Vedtaksbrev"
+    },
+    "VedtakTittel": {
+        "tittel": "Vedtak {dato, date, ::ddMMyyyy}"
     },
     "BehandlesIkkeInfo": {
         "description1": "Vi kan ikkje vise status for søknaden din på nav.no. Det kan vere fordi søknaden din blir behandla saman med ein annan søknad du har sendt, eller fordi du har trekt tilbake søknaden.",
@@ -137,6 +139,9 @@
     "IkkeInnsynInfo": {
         "description1": "Saka di vil bli behandla, men me kan ikkje vise status for søknaden din på nav.no.",
         "description2": "Har du spørsmål kan du <navKontorLenke>ta kontakt med Nav-kontoret ditt</navKontorLenke>, eller ringje oss på <tlf>55 55 33 33</tlf>."
+    },
+    "UnderBehandlingInfo": {
+        "description": "Denne saka er under behandling. Når saka er ferdigbehandla og du har fått eit vedtak, vil det visast her."
     },
     "KlageInfo": {
         "seKlage": "Se din innsendte klage",

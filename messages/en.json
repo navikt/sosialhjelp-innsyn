@@ -7,12 +7,12 @@
     "Landingsside": {
         "tittel": "Financial assistance"
     },
-    "SingleSak": {
-        "vedtak": "Decision"
+    "VedtakListe": {
+        "vedtak": "Decisions",
+        "showMoreSuffix": "decisions"
     },
-    "Saker": {
-        "dineSaker": "Your cases",
-        "deltSoknadInfo": "Your application has been split into {n} cases because there is a need to process parts of the application separately."
+    "SakBlokk": {
+        "showMoreSuffix": "decisions"
     },
     "FileUploadItem": {
         "uploadFailed": "Upload failed. Please try again later.",
@@ -124,11 +124,13 @@
             "AVSLATT": "Your application has been declined. Read the decision to see the reasons."
         },
         "vedtaksBrev": "Open decision letter",
-        "vedtaksBrevNytt": "Open decision letter (new)",
         "kommendeUtbetaling": "View payout information",
         "pdf": "PDF file",
         "mottattDato": "Received {dato, date, ::ddMMyyyy}",
         "vedtaksbrev": "Decision letters"
+    },
+    "VedtakTittel": {
+        "tittel": "Decision {dato, date, ::ddMMyyyy}"
     },
     "BehandlesIkkeInfo": {
         "description1": "We cannot show the status of your application on nav.no. This may be because your application is being processed together with another application you have submitted, or because you have withdrawn your application.",
@@ -137,6 +139,9 @@
     "IkkeInnsynInfo": {
         "description1": "Your application will be processed, but we cannot display the status of your application on nav.no.",
         "description2": "If you have questions, you can <navKontorLenke>contact your local Nav office</navKontorLenke>, or call us at <tlf>55 55 33 33</tlf>."
+    },
+    "UnderBehandlingInfo": {
+        "description": "This case is being processed. When the case has been processed and you have received a decision, it will be shown here."
     },
     "KlageInfo": {
         "seKlage": "View your submitted appeal",

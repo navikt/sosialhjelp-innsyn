@@ -794,9 +794,9 @@
                         "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"]
                     },
                     "vedtaksFilUrl": { "type": "string" },
-                    "dato": { "type": ["string", "null"], "format": "date" }
+                    "dato": { "type": "string", "format": "date" }
                 },
-                "required": ["id", "vedtaksFilUrl"]
+                "required": ["dato", "id", "vedtaksFilUrl"]
             },
             "SakResponse": {
                 "type": "object",

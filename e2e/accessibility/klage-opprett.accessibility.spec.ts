@@ -20,15 +20,12 @@ test.describe("Klage opprett page accessibility", () => {
 
         const mockSakData: SakResponse = {
             tittel: "Søknad om økonomisk sosialhjelp",
-            utfallVedtak: "INNVILGET",
+            vedtaksdato: "2025-11-20",
+            vedtaksBrev: {
+                id: "vedtak-pdf-ref",
+                url: "/vedtak.pdf",
+            },
             navEnhetNavn: "NAV Oslo",
-            vedtaksfilUrlList: [
-                {
-                    id: "rofl",
-                    url: "/vedtak.pdf",
-                    dato: "2025-11-20",
-                },
-            ],
         };
         await msw.mockEndpoint("/api/v1/innsyn/test-id-1/sak/vedtak-1", mockSakData);
 

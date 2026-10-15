@@ -46,7 +46,7 @@ const StatusTag = ({ vedtakUtfall, className, status: statusProp }: StatusTagPro
             </Tag>
         );
     }
-    const variant = statusVariant[status];
+    const variant = status && statusVariant[status];
     if (!variant) {
         return null;
     }

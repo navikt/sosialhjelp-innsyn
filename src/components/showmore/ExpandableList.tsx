@@ -12,6 +12,7 @@ interface Props<T> {
     labelledById: string;
     itemsLimit?: number;
     gap?: VStackProps["gap"];
+    as?: "ul" | "ol";
 }
 
 const ExpandableList = <T,>({
@@ -22,6 +23,7 @@ const ExpandableList = <T,>({
     showMoreSuffix,
     labelledById,
     gap = "space-8",
+    as = "ul",
 }: Props<T>): React.JSX.Element => {
     const showMore = useShowMore(items, itemsLimit);
     const { hasMore, showAll } = showMore;
@@ -30,7 +32,7 @@ const ExpandableList = <T,>({
 
     return (
         <>
-            <VStack as="ul" gap={gap} id={id} aria-labelledby={labelledById}>
+            <VStack as={as} gap={gap} id={id} aria-labelledby={labelledById}>
                 {/* eslint-disable-next-line react-hooks/refs -- Using ref for focus management on expand */}
                 {visibleItems.map((item, index) => children(item, index === itemsLimit ? firstExpandedItemRef : null))}
             </VStack>

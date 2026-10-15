@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 import { createMswHelper } from "../helpers/msw-helpers";
 import { checkAccessibility } from "../helpers/accessibility-helpers";
-import { SakResponse } from "../../src/generated/model";
+import { KlageDto, SakResponse } from "../../src/generated/model";
 
 test.afterEach(async ({ request, baseURL }) => {
     const msw = createMswHelper(request, baseURL!);
@@ -18,12 +18,15 @@ test.describe("Klage status page accessibility", () => {
     test("should not have any automatically detectable accessibility issues", async ({ page, request, baseURL }) => {
         const msw = createMswHelper(request, baseURL!);
 
-        const mockKlageData = {
+        const mockKlageData: KlageDto = {
             digisosId: "test-id-1",
             klageId: "klage-1",
             vedtakId: "vedtak-1",
             klagePdf: {
-                referanse: "klage-pdf-ref",
+                filnavn: "klage.pdf",
+                storrelse: 1024,
+                url: "/klage.pdf",
+                type: "application/pdf",
                 datoLagtTil: "2025-12-01T10:00:00Z",
             },
             opplastedeVedlegg: [],
@@ -32,9 +35,12 @@ test.describe("Klage status page accessibility", () => {
         };
         const mockSakData: SakResponse = {
             tittel: "Søknad om økonomisk sosialhjelp",
-            utfallVedtak: "INNVILGET",
+            vedtaksdato: "2025-11-20",
+            vedtaksBrev: {
+                id: "vedtak-pdf-ref",
+                url: "/vedtak.pdf",
+            },
             navEnhetNavn: "NAV Oslo",
-            vedtaksfilUrlList: [],
         };
 
         await msw.mockEndpoint("/api/v1/innsyn/test-id-1/klage/klage-1", mockKlageData);

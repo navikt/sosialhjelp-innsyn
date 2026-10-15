@@ -50,21 +50,19 @@ test.describe("Vedtak functionality", () => {
         // Wait for main content to be loaded
         await page.getByRole("main").waitFor({ state: "visible" });
 
-        // Check that both vedtak are displayed
-        const newestVedtakLink = page.getByRole("link", { name: /Åpne vedtaksbrev \(nytt\)/i });
-        const olderVedtakLink = page.getByRole("link", { name: /^Åpne vedtaksbrev(?! \(nytt\))/i });
+        const vedtakList = page.getByRole("list", { name: "Vedtak" });
 
-        await expect(newestVedtakLink).toBeVisible();
-        await expect(olderVedtakLink).toBeVisible();
+        // The newest vedtak is visible first and older vedtak can be expanded.
+        await expect(vedtakList.getByRole("listitem")).toHaveCount(1);
+        await expect(vedtakList.getByRole("heading", { name: "Vedtak 25.11.2025" })).toBeVisible();
+        await page.getByRole("button", { name: "Vis flere vedtak (1)" }).click();
 
-        // Verify the newest vedtak appears before the older one in the DOM
-        const allVedtakLinks = page.getByRole("link", { name: /Åpne vedtaksbrev/ });
-        const links = await allVedtakLinks.all();
-        expect(links.length).toBe(2);
-
-        // The first link should be the newest one (with "nytt" label)
-        await expect(links[0]).toContainText(/nytt/i);
-        await expect(links[1]).not.toContainText(/nytt/i);
+        await expect(vedtakList.getByRole("listitem")).toHaveCount(2);
+        await expect(vedtakList.getByRole("link", { name: "Åpne vedtaksbrev" })).toHaveCount(2);
+        await expect(vedtakList.getByRole("heading", { level: 3, name: /^Vedtak / })).toHaveText([
+            "Vedtak 25.11.2025",
+            "Vedtak 20.11.2025",
+        ]);
     });
 
     test("should display the latest decision status beside the title", async ({ page, request, baseURL }) => {
@@ -105,17 +103,13 @@ test.describe("Vedtak functionality", () => {
         const vedtakSection = page.getByRole("heading", { name: "Vedtak", exact: true, level: 2 });
         await expect(vedtakSection).toBeVisible();
 
-        // The title should be in the same section, and the status tag should show the latest decision
-        const sakTitle = page.getByRole("heading", { name: /Sak med flere vedtak/i, level: 3 });
-        await expect(sakTitle).toBeVisible();
+        const newestVedtak = page.getByRole("list", { name: "Vedtak" }).getByRole("listitem");
 
-        // Check that the "Avslag" status tag is visible near the title
-        // The StatusTag component renders the status, so we look for the text
-        const statusTag = page.getByText("Avslag").first();
-        await expect(statusTag).toBeVisible();
+        await expect(newestVedtak.getByRole("heading", { name: "Vedtak 25.11.2025" })).toBeVisible();
+        await expect(newestVedtak.getByText(/^(Utfall: )?Avslag$/)).toBeVisible();
     });
 
-    test("should show only one vedtak without 'nytt' label when there is a single vedtak", async ({
+    test("should show one vedtak without an expand button when there is a single vedtak", async ({
         page,
         request,
         baseURL,
@@ -146,20 +140,11 @@ test.describe("Vedtak functionality", () => {
 
         await page.getByRole("main").waitFor({ state: "visible" });
 
-        // Should show the vedtak link without "nytt" label
-        const vedtakLink = page.getByRole("link", { name: /^Åpne vedtaksbrev(?! \(nytt\))/i });
-        await expect(vedtakLink).toBeVisible();
-
-        // Should not show the "nytt" label
-        const nyttVedtakLink = page.getByRole("link", { name: /Åpne vedtaksbrev \(nytt\)/i });
-        await expect(nyttVedtakLink).not.toBeVisible();
+        await expect(page.getByRole("link", { name: "Åpne vedtaksbrev" })).toBeVisible();
+        await expect(page.getByRole("button", { name: /Vis flere vedtak/ })).toHaveCount(0);
     });
 
-    test("should display three vedtak correctly sorted with only the newest marked as new", async ({
-        page,
-        request,
-        baseURL,
-    }) => {
+    test("should display three vedtak sorted with the newest first", async ({ page, request, baseURL }) => {
         const msw = createMswHelper(request, baseURL!);
 
         // Create three vedtak with different dates
@@ -201,18 +186,104 @@ test.describe("Vedtak functionality", () => {
 
         await page.getByRole("main").waitFor({ state: "visible" });
 
-        // Get all vedtak links
-        const allVedtakLinks = page.getByRole("link", { name: /Åpne vedtaksbrev/ });
-        const links = await allVedtakLinks.all();
-        expect(links.length).toBe(3);
+        const vedtakList = page.getByRole("list", { name: "Vedtak" });
 
-        // Only the first link should have "nytt" label
-        await expect(links[0]).toContainText(/nytt/i);
-        await expect(links[1]).not.toContainText(/nytt/i);
-        await expect(links[2]).not.toContainText(/nytt/i);
+        await expect(vedtakList.getByRole("listitem")).toHaveCount(1);
+        await page.getByRole("button", { name: "Vis flere vedtak (2)" }).click();
 
-        // Verify the status tag shows the latest decision (AVSLATT)
-        const statusTag = page.getByText("Avslag").first();
-        await expect(statusTag).toBeVisible();
+        await expect(vedtakList.getByRole("listitem")).toHaveCount(3);
+        await expect(vedtakList.getByRole("link", { name: "Åpne vedtaksbrev" })).toHaveCount(3);
+        await expect(vedtakList.getByRole("heading", { level: 3, name: /^Vedtak / })).toHaveText([
+            "Vedtak 28.11.2025",
+            "Vedtak 20.11.2025",
+            "Vedtak 15.11.2025",
+        ]);
+        await expect(
+            vedtakList
+                .getByRole("listitem")
+                .first()
+                .getByText(/^(Utfall: )?Avslag$/)
+        ).toBeVisible();
+    });
+
+    test("should display a block for each sak with decisions before cases under treatment", async ({
+        page,
+        request,
+        baseURL,
+    }) => {
+        const msw = createMswHelper(request, baseURL!);
+
+        await mockSoknadEndpoints(msw, "test-soknad-1", {
+            saksStatus: [
+                {
+                    status: "UNDER_BEHANDLING",
+                    tittel: "Strøm",
+                    referanse: "sak-a",
+                    skalViseVedtakInfoPanel: false,
+                    vedtak: [],
+                },
+                {
+                    status: "IKKE_INNSYN",
+                    tittel: "Mat",
+                    referanse: "sak-c",
+                    skalViseVedtakInfoPanel: false,
+                    vedtak: [],
+                },
+                {
+                    status: "FERDIGBEHANDLET",
+                    tittel: "Husleie",
+                    referanse: "sak-b",
+                    skalViseVedtakInfoPanel: false,
+                    vedtak: [
+                        {
+                            id: "vedtak-1",
+                            utfall: "INNVILGET",
+                            vedtaksFilUrl: "/vedtak/1.pdf",
+                            dato: "2025-11-20",
+                        },
+                        {
+                            id: "vedtak-2",
+                            utfall: "AVSLATT",
+                            vedtaksFilUrl: "/vedtak/2.pdf",
+                            dato: "2025-11-25",
+                        },
+                    ],
+                },
+            ],
+        });
+
+        await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad-1");
+
+        await page.getByRole("main").waitFor({ state: "visible" });
+
+        await expect(page.getByRole("heading", { name: "Vedtak", exact: true, level: 2 })).toHaveCount(0);
+        await expect(page.getByRole("heading", { name: "Husleie", exact: true, level: 2 })).toHaveCount(1);
+
+        const sakHeadings = page.getByRole("heading", { level: 2 }).filter({ hasText: /^(Husleie|Strøm|Mat)$/ });
+        await expect(sakHeadings).toHaveText(["Husleie", "Strøm", "Mat"]);
+
+        const husleieVedtak = page.getByRole("list", { name: "Husleie" });
+        await expect(husleieVedtak.getByRole("listitem")).toHaveCount(1);
+        await expect(husleieVedtak.getByRole("heading", { name: "Vedtak 25.11.2025" })).toBeVisible();
+        await expect(husleieVedtak.getByText(/^(Utfall: )?Avslag$/)).toBeVisible();
+        await page.getByRole("button", { name: "Vis flere vedtak (1)" }).click();
+        await expect(husleieVedtak.getByRole("heading", { level: 3, name: /^Vedtak / })).toHaveText([
+            "Vedtak 25.11.2025",
+            "Vedtak 20.11.2025",
+        ]);
+
+        await expect(page.getByRole("list", { name: "Strøm" })).toHaveCount(0);
+        await expect(
+            page.getByText(
+                "Denne saken er under behandling. Når saken er ferdigbehandlet og du har fått et vedtak, vil det vises her."
+            )
+        ).toBeVisible();
+        await expect(
+            page.getByText("Saken din vil bli behandlet, men vi kan ikke vise status for søknaden din på nav.no.")
+        ).toBeVisible();
+        await expect(page.getByRole("link", { name: "ta kontakt med Nav-kontoret ditt" })).toHaveAttribute(
+            "href",
+            "https://www.nav.no/sok-nav-kontor"
+        );
     });
 });
