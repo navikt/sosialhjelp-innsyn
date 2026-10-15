@@ -1,5 +1,5 @@
 import { BodyLong, ReadMore } from "@navikt/ds-react";
-import { Process } from "@navikt/ds-react/Process";
+import { Process, ProcessEvent } from "@navikt/ds-react/Process";
 import { useTranslations } from "next-intl";
 
 type Props = {
@@ -11,13 +11,13 @@ const ProsessenVidere = ({ navKontor }: Props) => {
 
     return (
         <Process>
-            <Process.Event bullet={1} title={t("steg1.tittel")}>
+            <ProcessEvent bullet={1} title={t("steg1.tittel")}>
                 {navKontor ? t("steg1.beskrivelse", { navKontor }) : t("steg1.beskrivelseUtenKontor")}
-            </Process.Event>
-            <Process.Event bullet={2} title={t("steg2.tittel")}>
+            </ProcessEvent>
+            <ProcessEvent bullet={2} title={t("steg2.tittel")}>
                 {t("steg2.beskrivelse")}
-            </Process.Event>
-            <Process.Event bullet={3} title={t("steg3.tittel")}>
+            </ProcessEvent>
+            <ProcessEvent bullet={3} title={t("steg3.tittel")}>
                 <span>{t("steg3.beskrivelse")}</span>
                 <ReadMore header={t("steg3.lesMer.tittel")}>
                     <BodyLong spacing>
@@ -31,7 +31,7 @@ const ProsessenVidere = ({ navKontor }: Props) => {
                         })}
                     </BodyLong>
                 </ReadMore>
-            </Process.Event>
+            </ProcessEvent>
         </Process>
     );
 };
