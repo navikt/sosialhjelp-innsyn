@@ -15,7 +15,7 @@ interface Props {
     vedlegg: (VedleggResponse | OppgaveVedleggFil)[];
     originalSoknad?: OriginalSoknadDto;
     labelledById: string;
-    oppgaveBeskrivelse?: string;
+    oppgaveBeskrivelse?: string | null;
 }
 
 const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveBeskrivelse }: Props) => {

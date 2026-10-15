@@ -9,10 +9,10 @@ import { ReactNode } from "react";
 import VilkarReadMore from "../vilkar/readmore/VilkarReadMore";
 
 type AlertState =
-    | { type: "status"; navKontor?: string; status: "under_behandling" | "mottatt" | "sendt" }
-    | { type: "oppgaver"; oppgaver: { name: string; frist?: Date }[]; navKontor?: string }
+    | { type: "status"; navKontor?: string | null; status: "under_behandling" | "mottatt" | "sendt" }
+    | { type: "oppgaver"; oppgaver: { name: string; frist?: Date }[]; navKontor?: string | null }
     | { type: "nyttVedtak" }
-    | { type: "forelopigSvar"; navKontor?: string; forelopigSvarUrl?: string }
+    | { type: "forelopigSvar"; navKontor?: string | null; forelopigSvarUrl?: string | null }
     | { type: "vilkar"; vilkar: { name: string; frist?: Date }[] }
     | { type: "kanHaVilkar" }
     | { type: "ikkeInnsyn" }

@@ -16,6 +16,7 @@ interface FileSelectUploadProps {
     currentCount: number;
     accept?: string;
     variant?: "default" | "warning";
+    headingLevel?: "2" | "3";
 }
 
 export const FileSelectUpload = ({
@@ -30,13 +31,14 @@ export const FileSelectUpload = ({
     currentCount,
     accept = allowedFileTypes,
     variant = "default",
+    headingLevel = "3",
 }: FileSelectUploadProps) => {
     const isMobile = useIsMobile();
     const dataColor = variant === "warning" ? "warning" : undefined;
 
     const labelContent =
         typeof label === "string" ? (
-            <Heading size="small" level="3" lang="no" data-color={dataColor}>
+            <Heading size="small" level={headingLevel} lang="no" data-color={dataColor}>
                 {label}
             </Heading>
         ) : (

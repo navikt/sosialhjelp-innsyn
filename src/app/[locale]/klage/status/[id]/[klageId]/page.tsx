@@ -8,8 +8,9 @@ import { hentKlage } from "@generated/ssr/klage-controller/klage-controller";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 
 import UnderUtviklingInfo from "./_components/UnderUtviklingInfo";
-import ProsessenVidere from "./_components/prosessenVidere";
 import Dokumenter from "./_components/Dokumenter";
+import ProsessenVidere from "@components/klage/ProsessenVidere";
+import { hentSakForVedtak } from "@generated/ssr";
 
 const Page = async ({
     params,
@@ -21,6 +22,7 @@ const Page = async ({
 }) => {
     const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());
     const t = await getTranslations("KlagePage");
+    const tCrumbs = await getTranslations("StatusPage.breadcrumbs");
     const { id: fiksDigisosId, klageId } = await params;
 
     if (!toggle.enabled) {
@@ -28,10 +30,18 @@ const Page = async ({
     }
 
     const klage = await hentKlage(fiksDigisosId, klageId);
+    // TODO: Burde denne være inkludert i klage over?
+    const paaklagetSak = await hentSakForVedtak(klage.digisosId, klage.vedtakId);
 
     return (
         <>
-            <ClientBreadcrumbs dynamicBreadcrumbs={[{ title: t("tittel") }]} />
+            <ClientBreadcrumbs
+                dynamicBreadcrumbs={[
+                    { title: tCrumbs("soknader"), url: "/sosialhjelp/innsyn/soknader" },
+                    { title: tCrumbs("soknad"), url: `/sosialhjelp/innsyn/soknad/${fiksDigisosId}` },
+                    { title: tCrumbs("klage") },
+                ]}
+            />
             <VStack gap="space-80" className="mt-20">
                 <Heading size="xlarge" level="1">
                     {t("tittel")}
@@ -40,7 +50,7 @@ const Page = async ({
                 <DigisosLinkCard href={`/soknad/${fiksDigisosId}`} icon={<FileTextIcon aria-hidden />}>
                     {t("seVedtak")}
                 </DigisosLinkCard>
-                <ProsessenVidere klagePdf={klage.klagePdf} />
+                <ProsessenVidere navKontor={paaklagetSak.navEnhetNavn} />
                 <Dokumenter klagePdf={klage.klagePdf} />
             </VStack>
         </>

@@ -7,6 +7,7 @@ import { Box, VStack } from "@navikt/ds-react";
 import HoyreIkon from "./HoyreIkon";
 import { Link } from "@i18n/navigation";
 import useIsMobile from "@utils/useIsMobile";
+import cx from "classnames";
 
 export interface Props {
     href: string;
@@ -19,6 +20,7 @@ export interface Props {
     openInNewTab?: boolean;
     dataColor?: "neutral" | "accent";
     ariaLabel?: string;
+    className?: string;
 }
 
 interface IconProps {
@@ -53,6 +55,7 @@ const DigisosLinkCard = (
         openInNewTab,
         dataColor = "neutral",
         ariaLabel,
+        className,
     }: PropsWithChildren<Props>,
     ref: Ref<HTMLAnchorElement>
 ) => {
@@ -76,7 +79,7 @@ const DigisosLinkCard = (
                     <Link
                         href={href}
                         ref={ref}
-                        className="min-w-0 flex-1 break-all whitespace-normal"
+                        className={cx("min-w-0 flex-1 break-all whitespace-normal", className)}
                         {...dataAttrs}
                         {...(openInNewTab ? { rel: "noopener noreferrer", target: "_blank" } : {})}
                         {...(ariaLabel ? { "aria-label": ariaLabel } : {})}

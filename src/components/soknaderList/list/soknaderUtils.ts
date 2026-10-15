@@ -4,7 +4,11 @@ import { SaksListeResponse } from "@generated/model";
 import { SaksDetaljerResponse } from "@generated/ssr/model";
 import { PaabegyntSoknad } from "@api/fetch/paabegynteSoknader/fetchPaabegynteSoknader";
 
-export type SortableSoknad = { forsteOppgaveFrist?: string; antallNyeOppgaver?: number; sistOppdatert: string };
+export type SortableSoknad = {
+    forsteOppgaveFrist?: string | null;
+    antallNyeOppgaver?: number | null;
+    sistOppdatert: string;
+};
 
 const combineSakAndSaksdetaljer = (
     saker: SaksListeResponse[],

@@ -69,24 +69,6 @@ const getE2eServer = (): SetupServer => {
                     "[MSW] ⚠️  Using default handler for /api/v1/innsyn/harSoknaderMedInnsyn - consider mocking in your test"
                 );
                 return HttpResponse.json(false, { status: 200 });
-            }),
-
-            // Kommune endpoint (per fiksDigisosId)
-            http.get("*/api/v1/innsyn/:fiksDigisosId/kommune", async ({ params }) => {
-                logger.warn(
-                    `[MSW] ⚠️  Using default handler for /api/v1/innsyn/${params.fiksDigisosId}/kommune - consider mocking in your test`
-                );
-                return HttpResponse.json(
-                    {
-                        erInnsynDeaktivert: false,
-                        erInnsynMidlertidigDeaktivert: false,
-                        erInnsendingEttersendelseDeaktivert: false,
-                        erInnsendingEttersendelseMidlertidigDeaktivert: false,
-                        tidspunkt: new Date().toISOString(),
-                        kommunenummer: "0301",
-                    },
-                    { status: 200 }
-                );
             })
         );
     }

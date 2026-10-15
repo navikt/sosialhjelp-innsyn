@@ -1,20 +1,20 @@
 "use client";
 
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
-import { ManedUtbetaling, ManedUtbetalingStatus } from "@generated/model";
 import { LinkCardFooter } from "@navikt/ds-react/LinkCard";
 import { useFormatter, useTranslations } from "next-intl";
 import UtbetalingStatusTag from "./UtbetalingStatusTag";
+import { UtbetalingDto, UtbetalingDtoStatus } from "@generated/model";
 
 interface Props {
-    utbetaling: ManedUtbetaling;
+    utbetaling: UtbetalingDto;
 }
 
 const KommendeUtbetalingCard = ({ utbetaling }: Props) => {
     const format = useFormatter();
     const t = useTranslations("KommendeUtbetalingerListe");
 
-    const stopped = utbetaling.status === ManedUtbetalingStatus.STOPPET;
+    const stopped = utbetaling.status === UtbetalingDtoStatus.STOPPET;
     const date = new Date(utbetaling.forfallsdato!);
     const amount = format.number(utbetaling.belop);
 
