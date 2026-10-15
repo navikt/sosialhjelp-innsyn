@@ -4,7 +4,7 @@ on:
         branches: [main]
         paths-ignore:
             - README.md
-            - wonderwall/
+            - wonderwall/**
             - e2e/
             - .husky/
         tags-ignore:
