@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 
 import { createMswHelper } from "../helpers/msw-helpers";
 import { checkAccessibility } from "../helpers/accessibility-helpers";
+import { SakResponse } from "../../src/generated/model";
 
 test.afterEach(async ({ request, baseURL }) => {
     const msw = createMswHelper(request, baseURL!);
@@ -29,8 +30,15 @@ test.describe("Klage status page accessibility", () => {
             ettersendelser: [],
             timestampSendt: 1733053200000,
         };
+        const mockSakData: SakResponse = {
+            tittel: "Søknad om økonomisk sosialhjelp",
+            utfallVedtak: "INNVILGET",
+            navEnhetNavn: "NAV Oslo",
+            vedtaksfilUrlList: [],
+        };
 
         await msw.mockEndpoint("/api/v1/innsyn/test-id-1/klage/klage-1", mockKlageData);
+        await msw.mockEndpoint("/api/v1/innsyn/test-id-1/sak/vedtak-1", mockSakData);
 
         await page.goto("/sosialhjelp/innsyn/nb/klage/status/test-id-1/klage-1");
 
