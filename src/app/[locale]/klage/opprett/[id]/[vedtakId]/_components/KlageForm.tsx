@@ -43,7 +43,8 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
     const [aktivtSteg, setAktivtSteg] = useState(1);
     const [isSending, startSending] = useTransition();
 
-    const contextId = klageId;
+    const [activeKlageId] = useState(klageId);
+    const contextId = activeKlageId;
     const { state: docState, addUploads, removeUpload } = useDocumentState(contextId);
 
     const formMethods = useForm<FormValues>({
@@ -63,11 +64,11 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
             try {
                 await sendKlageMutation.mutateAsync({
                     fiksDigisosId: fiksDigisosId,
-                    data: { klageId, vedtakId, tekst: formValues.background ?? "" },
+                    data: { klageId: activeKlageId, vedtakId, tekst: formValues.background ?? "" },
                 });
 
                 await queryClient.invalidateQueries({ queryKey: getHentKlagerQueryKey(fiksDigisosId) });
-                startSending(() => router.push(`/klage/kvittering/${fiksDigisosId}/${klageId}`));
+                startSending(() => router.push(`/klage/kvittering/${fiksDigisosId}/${activeKlageId}`));
             } catch (error) {
                 logger.error(`Opprett klage feilet ved sending til api ${error}, FiksDigisosId: ${fiksDigisosId}`);
             }
@@ -96,7 +97,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
                             <StegBegrunnelse
                                 vedtaksbrev={vedtaksbrev}
                                 vedtaksDato={vedtakMottatt}
-                                klageId={klageId}
+                                klageId={activeKlageId}
                                 contextId={contextId}
                                 vedtakId={vedtakId}
                                 docState={docState}

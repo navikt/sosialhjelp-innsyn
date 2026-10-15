@@ -1,15 +1,26 @@
-import { headers } from "next/headers";
+import "../globals.css";
+
+import { fetchDecoratorReact } from "@navikt/nav-dekoratoren-moduler/ssr";
 import { logger } from "@navikt/next-logger";
+import { headers } from "next/headers";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import React, { PropsWithChildren } from "react";
-import { getTranslations } from "next-intl/server";
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@i18n/routing";
 import { TilgangResponse } from "@generated/model";
 import { getToggles } from "@featuretoggles/unleash";
 import { browserEnv } from "@config/env";
+import { Page, PageBlock } from "@navikt/ds-react/Page";
+import { Theme } from "@navikt/ds-react";
+import Script from "next/script";
+import { pick } from "remeda";
+import decoratorParams from "@config/decoratorConfig";
+import { Driftsmeldinger } from "@components/driftsmelding/Driftsmeldinger";
+import Footer from "@components/footer/Footer";
 
 import Providers from "./Providers";
 import { notFound } from "next/navigation";
+import Preload from "../preload";
 
 function buildUrl(path: string) {
     const isLocal = ["local", "e2e"].includes(browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT);
@@ -63,15 +74,48 @@ export default async function LocaleLayout({ children, params }: PropsWithChildr
         notFound();
     }
 
-    const toggles = getToggles();
+    setRequestLocale(locale);
 
+    const toggles = getToggles();
     const harTilgangResponse = harTilgang();
+    const Decorator = await fetchDecoratorReact(decoratorParams(locale));
+    const messages = await getMessages({ locale });
+
     return (
-        <NextIntlClientProvider>
-            <Providers togglesPromise={toggles} tilgang={harTilgangResponse}>
-                {children}
-            </Providers>
-        </NextIntlClientProvider>
+        <html lang={locale}>
+            <head>
+                <Decorator.HeadAssets />
+                <link rel="icon" href="https://www.nav.no/favicon.ico" type="image/x-icon" />
+            </head>
+            <body>
+                <Preload />
+                <NextIntlClientProvider locale={locale} messages={pick(messages, ["ErrorPage", "TrengerDuRaskHjelp"])}>
+                    <Theme theme="light">
+                        <Page
+                            footer={
+                                <>
+                                    <PageBlock width="md" gutters>
+                                        <Footer />
+                                    </PageBlock>
+                                    <Decorator.Footer />
+                                </>
+                            }
+                        >
+                            <Decorator.Header />
+                            <PageBlock as="main" width="md" gutters id="maincontent" tabIndex={-1}>
+                                <Driftsmeldinger />
+                                <NextIntlClientProvider>
+                                    <Providers togglesPromise={toggles} tilgang={harTilgangResponse}>
+                                        {children}
+                                    </Providers>
+                                </NextIntlClientProvider>
+                            </PageBlock>
+                        </Page>
+                    </Theme>
+                </NextIntlClientProvider>
+                <Decorator.Scripts loader={Script} />
+            </body>
+        </html>
     );
 }
 

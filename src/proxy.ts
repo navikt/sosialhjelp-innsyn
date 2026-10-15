@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import createMiddleware from "next-intl/middleware";
-import { routing } from "@i18n/routing";
 import { isSupportedLocale } from "@i18n/common";
 import { UNLEASH_COOKIE_NAME } from "@featuretoggles/unleash";
 
@@ -16,14 +14,20 @@ const addUnleashCookie = (request: NextRequest, response: NextResponse) => {
     return response;
 };
 
-const handleI18nRouting = createMiddleware(routing);
-
 export async function proxy(request: NextRequest) {
     const pathname = request.nextUrl.pathname;
 
     // Ikke gjør noe med requests til /api eller statiske filer
     if (pathname.startsWith("/_next") || pathname.includes("/api") || PUBLIC_FILE.test(pathname)) {
         return;
+    }
+
+    const [, urlLocale, ...rest] = pathname.split("/");
+
+    if (urlLocale && isSupportedLocale(urlLocale)) {
+        const url = request.nextUrl.clone();
+        url.pathname = `/${rest.join("/")}`;
+        return NextResponse.redirect(url);
     }
 
     // If the URL contains an unsupported, but locale-like segment where the locale
@@ -36,28 +40,21 @@ export async function proxy(request: NextRequest) {
         return NextResponse.redirect(request.url.replace(`/${potentialLocale}`, ""));
     }
 
-    let response = handleI18nRouting(request);
+    let response = NextResponse.next();
 
-    if (response.ok) {
-        const [, , , locale, ...rest] = new URL(
-            response.headers.get("x-middleware-rewrite") || request.url
-        ).pathname.split("/");
-        const pathname = "/" + rest.join("/");
+    if (pathname.includes("/status") && !pathname.includes("/klage")) {
+        const id = pathname.split("/")[1];
+        // Keeping for backwards compatibility for old status links
+        response = NextResponse.rewrite(new URL(`/sosialhjelp/innsyn/soknad/${id}`, request.url), {
+            headers: response.headers,
+        });
+    }
 
-        if (pathname.includes("/status") && !pathname.includes("/klage")) {
-            const id = pathname.split("/")[1];
-            // Keeping for backwards compatibility for old status links
-            response = NextResponse.rewrite(new URL(`/sosialhjelp/innsyn/${locale}/soknad/${id}`, request.url), {
-                headers: response.headers,
-            });
-        }
-
-        if (pathname === "/utbetaling") {
-            // Keeping for backwards compatibility for old utbetaling links
-            response = NextResponse.rewrite(new URL(`/sosialhjelp/innsyn/${locale}/utbetalinger`, request.url), {
-                headers: response.headers,
-            });
-        }
+    if (pathname === "/utbetaling") {
+        // Keeping for backwards compatibility for old utbetaling links
+        response = NextResponse.rewrite(new URL("/sosialhjelp/innsyn/utbetalinger", request.url), {
+            headers: response.headers,
+        });
     }
 
     return addUnleashCookie(request, response);
