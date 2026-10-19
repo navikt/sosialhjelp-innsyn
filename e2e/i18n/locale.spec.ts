@@ -23,7 +23,7 @@ test("uses the decorator language cookie without adding it to the URL", async ({
         },
     ]);
 
-    await page.goto("/");
+    await page.goto("/sosialhjelp/innsyn");
 
     await expect(page).toHaveURL(/\/sosialhjelp\/innsyn\/?$/);
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
@@ -39,14 +39,14 @@ test("redirects old locale-prefixed bookmarks without using their locale", async
         },
     ]);
 
-    await page.goto("/en/soknad/test-id?from=bookmark");
+    await page.goto("/sosialhjelp/innsyn/en/soknad/test-id?from=bookmark");
 
     await expect(page).toHaveURL(/\/soknad\/test-id\?from=bookmark$/);
     await expect(page.locator("html")).toHaveAttribute("lang", "nb");
 });
 
 test("shows the root not-found page for an unknown path", async ({ page }) => {
-    await page.goto("/ukjent-side");
+    await page.goto("/sosialhjelp/innsyn/ukjent-side");
 
     await expect(page.getByRole("heading", { name: "Fant ikke siden" })).toBeVisible();
 });
@@ -68,7 +68,7 @@ test("keeps complaint text when changing language", async ({ page, request, base
         },
     ]);
 
-    await page.goto("/klage/opprett/test-id-1/vedtak-1");
+    await page.goto("/sosialhjelp/innsyn/klage/opprett/test-id-1/vedtak-1");
     const textarea = page.getByRole("textbox", { name: "Hvorfor er du uenig?" });
     await textarea.fill("Jeg er uenig i vedtaket.");
     await page.context().addCookies([
