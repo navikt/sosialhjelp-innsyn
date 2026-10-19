@@ -16,7 +16,7 @@ import { Driftsmeldinger } from "@components/driftsmelding/Driftsmeldinger";
 
 import Footer from "@components/footer/Footer";
 import { DEFAULT_LOCALE, isSupportedLocale } from "@i18n/common";
-import Providers from "./[locale]/Providers";
+import Providers from "./Providers";
 import LocaleProvider from "./LocaleProvider";
 
 function buildUrl(path: string) {

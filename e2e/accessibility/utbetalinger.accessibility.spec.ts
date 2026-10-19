@@ -40,7 +40,7 @@ test.describe("Utbetalinger page accessibility", () => {
 
         await msw.mockEndpoint("/api/v2/innsyn/utbetalinger", mockUtbetalingerData);
 
-        await page.goto("/sosialhjelp/innsyn/nb/utbetalinger");
+        await page.goto("/sosialhjelp/innsyn/utbetalinger");
 
         // Wait for main content to be loaded
         await page.locator("#maincontent").waitFor({ state: "visible" });
@@ -57,7 +57,7 @@ test.describe("Utbetalinger page accessibility", () => {
 
         await msw.mockEndpoint("/api/v2/innsyn/utbetalinger", []);
 
-        await page.goto("/sosialhjelp/innsyn/nb/utbetalinger");
+        await page.goto("/sosialhjelp/innsyn/utbetalinger");
 
         // Wait for main content to be loaded
         await page.locator("#maincontent").waitFor({ state: "visible" });

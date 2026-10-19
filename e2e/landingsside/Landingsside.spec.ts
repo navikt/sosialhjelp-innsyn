@@ -48,7 +48,7 @@ test.describe("Snarveier on Landingsside", () => {
         await msw.mockEndpoint("/api/v1/innsyn/saker", mockSakerData);
         await msw.mockEndpoint("/api/v2/innsyn/utbetalinger", mockUtbetalingerData);
 
-        await page.goto("/sosialhjelp/innsyn/nb");
+        await page.goto("/sosialhjelp/innsyn");
         await expect(page.getByRole("heading", { name: "Snarveier" })).toBeVisible();
         await expect(page.getByRole("link", { name: "Søknader" })).toBeVisible();
         await expect(page.getByRole("link", { name: "Utbetalinger" })).toBeVisible();
@@ -60,7 +60,7 @@ test.describe("Snarveier on Landingsside", () => {
         const msw = createMswHelper(request, baseURL!);
         await msw.mockEmptyState();
 
-        await page.goto("/sosialhjelp/innsyn/nb");
+        await page.goto("/sosialhjelp/innsyn");
         await expect(page.getByRole("heading", { name: "Snarveier" })).toBeVisible();
         await expect(page.getByRole("link", { name: "Søknader" })).not.toBeVisible();
         await expect(page.getByRole("link", { name: "Utbetalinger" })).not.toBeVisible();
@@ -86,7 +86,7 @@ test.describe("Kommende utbetalinger on landingsside", () => {
 
         await msw.mockEndpoint("/api/v2/innsyn/utbetalinger", mockUtbetalingerData);
 
-        await page.goto("/sosialhjelp/innsyn/nb");
+        await page.goto("/sosialhjelp/innsyn");
         await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("heading", { name: "Kommende utbetalinger" })).toBeVisible();
@@ -112,7 +112,7 @@ test.describe("Kommende utbetalinger on landingsside", () => {
 
         await msw.mockEndpoint("/api/v2/innsyn/utbetalinger", mockUtbetalingerData);
 
-        await page.goto("/sosialhjelp/innsyn/nb");
+        await page.goto("/sosialhjelp/innsyn");
         await page.getByRole("button", { name: "Nei" }).click();
 
         await expect(page.getByRole("heading", { name: "Kommende utbetalinger" })).toBeVisible();
@@ -189,7 +189,7 @@ test.describe("Soknader on landingsside", () => {
         await msw.mockEndpoint("/api/v1/innsyn/saker", [inaktiv.sak]);
         await msw.mockDetaljer(inaktiv.detaljer.fiksDigisosId, inaktiv.detaljer);
 
-        await page.goto("/sosialhjelp/innsyn/nb");
+        await page.goto("/sosialhjelp/innsyn");
 
         await expect(page.getByRole("heading", { name: "Tidligere søknader", level: 2 })).toBeVisible();
         await expect(page.getByText("Inaktiv søknad")).toBeVisible();
@@ -211,7 +211,7 @@ test.describe("Soknader on landingsside", () => {
         await msw.mockDetaljer(aktiv.detaljer.fiksDigisosId, aktiv.detaljer);
         await msw.mockDetaljer(inaktiv.detaljer.fiksDigisosId, inaktiv.detaljer);
 
-        await page.goto("/sosialhjelp/innsyn/nb");
+        await page.goto("/sosialhjelp/innsyn");
 
         await expect(page.getByRole("heading", { name: "Aktive søknader", level: 2 })).toBeVisible();
         await expect(page.getByText("Aktiv søknad")).toBeVisible();
@@ -226,7 +226,7 @@ test.describe("Soknader on landingsside", () => {
         const msw = createMswHelper(request, baseURL!);
         await msw.mockEmptyState();
 
-        await page.goto("/sosialhjelp/innsyn/nb");
+        await page.goto("/sosialhjelp/innsyn");
 
         await expect(page.getByText("Vi finner ingen søknader fra deg")).toBeVisible();
         await expect(page.getByRole("heading", { name: "Aktive søknader", level: 2 })).not.toBeVisible();

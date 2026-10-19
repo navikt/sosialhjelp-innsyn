@@ -30,6 +30,27 @@ test("uses the decorator language cookie without adding it to the URL", async ({
     await expect(page.getByRole("heading", { name: "Financial assistance" })).toBeVisible();
 });
 
+test("redirects old locale-prefixed bookmarks without using their locale", async ({ page, baseURL }) => {
+    await page.context().addCookies([
+        {
+            name: "decorator-language",
+            value: "nb",
+            url: baseURL,
+        },
+    ]);
+
+    await page.goto("/en/soknad/test-id?from=bookmark");
+
+    await expect(page).toHaveURL(/\/soknad\/test-id\?from=bookmark$/);
+    await expect(page.locator("html")).toHaveAttribute("lang", "nb");
+});
+
+test("shows the root not-found page for an unknown path", async ({ page }) => {
+    await page.goto("/ukjent-side");
+
+    await expect(page.getByRole("heading", { name: "Fant ikke siden" })).toBeVisible();
+});
+
 test("keeps complaint text when changing language", async ({ page, request, baseURL }) => {
     const msw = createMswHelper(request, baseURL!);
     const mockSakData: SakResponse = {
