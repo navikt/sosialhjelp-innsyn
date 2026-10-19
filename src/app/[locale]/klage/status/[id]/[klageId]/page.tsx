@@ -9,6 +9,7 @@ import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 
 import UnderUtviklingInfo from "./_components/UnderUtviklingInfo";
 import Dokumenter from "./_components/Dokumenter";
+import KlageEttersendelse from "./_components/KlageEttersendelse";
 import ProsessenVidere from "@components/klage/ProsessenVidere";
 import { hentSakForVedtak } from "@generated/ssr";
 
@@ -51,6 +52,7 @@ const Page = async ({
                     {t("seVedtak")}
                 </DigisosLinkCard>
                 <ProsessenVidere navKontor={paaklagetSak.navEnhetNavn} />
+                <KlageEttersendelse fiksDigisosId={fiksDigisosId} klageId={klageId} />
                 <Dokumenter klagePdf={klage.klagePdf} />
             </VStack>
         </>

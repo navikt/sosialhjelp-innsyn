@@ -6,32 +6,10 @@ import {
     getGetOppgaverBetaQueryKey,
     GetOppgaverBetaQueryResult,
 } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
-import { browserEnv } from "@config/env";
+import { SubmissionError, submitUpload } from "./submitUpload";
 
 import { Metadata } from "../types";
 import { getQueryKeysForInvalidation } from "./queryKeys";
-
-const submitUpload = async ({
-    submissionId,
-    body,
-}: {
-    body: { fiksDigisosId: string; metadata: Metadata };
-    submissionId: string;
-}) =>
-    fetch(`${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/submission/${submissionId}/submit`, {
-        method: "post",
-        body: JSON.stringify(body),
-        headers: { "Content-Type": "application/json" },
-    }).then(async (res) => {
-        if (!res.ok) {
-            if (res.status === 422) {
-                throw await res.json();
-            }
-            throw new Error(`Feil ved opplasting av vedlegg: ${res.status} ${res.statusText}`);
-        }
-    });
-
-type SubmissionError = "TOO_MANY_FILES" | "TOTAL_SIZE_TOO_LARGE" | "NO_FILES";
 
 const useSendVedleggHelperTus = (metadata: Required<Metadata>, onSuccess: () => void) => {
     const queryClient = useQueryClient();
