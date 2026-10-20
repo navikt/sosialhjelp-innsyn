@@ -4,6 +4,7 @@ import { fetchDecoratorReact } from "@navikt/nav-dekoratoren-moduler/ssr";
 import { logger } from "@navikt/next-logger";
 import { headers } from "next/headers";
 import React, { PropsWithChildren } from "react";
+import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import { TilgangResponse } from "@generated/model";
 import { getToggles } from "@featuretoggles/unleash";
@@ -17,7 +18,6 @@ import { Driftsmeldinger } from "@components/driftsmelding/Driftsmeldinger";
 import Footer from "@components/footer/Footer";
 import { DEFAULT_LOCALE, isSupportedLocale } from "@i18n/common";
 import Providers from "./Providers";
-import LocaleProvider from "./LocaleProvider";
 
 function buildUrl(path: string) {
     const isLocal = ["local", "e2e"].includes(browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT);
@@ -78,7 +78,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
                 <link rel="icon" href="https://www.nav.no/favicon.ico" type="image/x-icon" />
             </head>
             <body>
-                <LocaleProvider locale={locale} messages={messages}>
+                <NextIntlClientProvider locale={locale} messages={messages}>
                     <Theme theme="light">
                         <Page
                             footer={
@@ -99,7 +99,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
                             </PageBlock>
                         </Page>
                     </Theme>
-                </LocaleProvider>
+                </NextIntlClientProvider>
                 <Decorator.Scripts loader={Script} />
             </body>
         </html>
