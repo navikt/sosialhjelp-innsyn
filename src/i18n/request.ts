@@ -1,7 +1,8 @@
-import { Formats, hasLocale } from "next-intl";
+import { Formats } from "next-intl";
 import { getRequestConfig } from "next-intl/server";
+import { cookies } from "next/headers";
 
-import { routing } from "./routing";
+import { DECORATOR_LOCALE_COOKIE_NAME, DEFAULT_LOCALE, isSupportedLocale } from "./common";
 
 export const formats = {
     dateTime: {
@@ -20,10 +21,9 @@ export const formats = {
     },
 } satisfies Formats;
 
-export default getRequestConfig(async ({ requestLocale }) => {
-    // Typically corresponds to the `[locale]` segment
-    const requested = await requestLocale;
-    const locale = hasLocale(routing.locales, requested) ? requested : routing.defaultLocale;
+export default getRequestConfig(async () => {
+    const decoratorLocale = (await cookies()).get(DECORATOR_LOCALE_COOKIE_NAME)?.value;
+    const locale = decoratorLocale && isSupportedLocale(decoratorLocale) ? decoratorLocale : DEFAULT_LOCALE;
 
     return {
         locale,

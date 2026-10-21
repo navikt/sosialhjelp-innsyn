@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 import { UtbetalingDtoStatus, type UtbetalingDto } from "@generated/model";
 import { getHentUtbetalingerMockHandler } from "@generated/utbetalinger-controller-2/utbetalinger-controller-2.msw";
 
-import { server } from "../../../../../mocks/server";
+import { server } from "../../../../mocks/server";
 
 import { useUtbetalinger } from "./useUtbetalingerListe";
 

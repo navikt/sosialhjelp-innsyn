@@ -20,7 +20,7 @@ test.describe("Landing page accessibility", () => {
         // Mock with empty data for simplicity
         await msw.mockEmptyState();
 
-        await page.goto("/sosialhjelp/innsyn/nb");
+        await page.goto("/sosialhjelp/innsyn");
 
         // Wait for main content to be loaded
         await page.locator("#maincontent").waitFor({ state: "visible" });
@@ -62,7 +62,7 @@ test.describe("Landing page accessibility", () => {
         await msw.mockEndpoint("/api/v1/innsyn/saker", mockSakerData);
         await msw.mockEndpoint("/api/v2/innsyn/utbetalinger", mockUtbetalingerData);
 
-        await page.goto("/sosialhjelp/innsyn/nb");
+        await page.goto("/sosialhjelp/innsyn");
 
         await expect(page.getByText("Beklager, noe gikk galt")).not.toBeVisible();
 

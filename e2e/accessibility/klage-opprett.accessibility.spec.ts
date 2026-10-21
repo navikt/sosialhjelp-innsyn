@@ -29,7 +29,7 @@ test.describe("Klage opprett page accessibility", () => {
         };
         await msw.mockEndpoint("/api/v1/innsyn/test-id-1/sak/vedtak-1", mockSakData);
 
-        await page.goto("/sosialhjelp/innsyn/nb/klage/opprett/test-id-1/vedtak-1");
+        await page.goto("/sosialhjelp/innsyn/klage/opprett/test-id-1/vedtak-1");
 
         // Wait for main content to be loaded
         await page.locator("#maincontent").waitFor({ state: "visible" });

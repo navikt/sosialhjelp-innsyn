@@ -4,7 +4,7 @@ import { createMswHelper, mockSoknadEndpoints } from "../helpers/msw-helpers";
 import { HentHendelserBeta200Item } from "../../src/generated/model";
 
 const SOKNAD_ID = "history-test-soknad";
-const PAGE_URL = `/sosialhjelp/innsyn/nb/soknad/${SOKNAD_ID}`;
+const PAGE_URL = `/sosialhjelp/innsyn/soknad/${SOKNAD_ID}`;
 
 test.beforeEach(async ({ request, baseURL }) => {
     const msw = createMswHelper(request, baseURL!);
