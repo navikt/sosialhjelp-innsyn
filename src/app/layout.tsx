@@ -13,7 +13,6 @@ import { DECORATOR_LOCALE_COOKIE_NAME, isSupportedLocale } from "@i18n/common";
 import decoratorParams from "@config/decoratorConfig";
 import { Driftsmeldinger } from "@components/driftsmelding/Driftsmeldinger";
 
-import Preload from "./preload";
 import Footer from "@components/footer/Footer";
 
 export const dynamic = "force-dynamic";
@@ -33,7 +32,6 @@ export default async function RootLayout({ children }: PropsWithChildren) {
                 <Decorator.HeadAssets />
                 <link rel="icon" href="https://www.nav.no/favicon.ico" type="image/x-icon" />
             </head>
-            <Preload />
             <body>
                 <NextIntlClientProvider locale={locale} messages={pick(messages, ["ErrorPage", "TrengerDuRaskHjelp"])}>
                     <Theme theme="light">

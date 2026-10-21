@@ -15,8 +15,6 @@ import { DECORATOR_LOCALE_COOKIE_NAME, isSupportedLocale } from "@i18n/common";
 import ErrorPage from "@components/error/ErrorPage";
 import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "@faro/faro";
 
-import Preload from "./preload";
-
 initInstrumentation();
 configureLogger({
     basePath: "/sosialhjelp/innsyn",
@@ -67,7 +65,6 @@ export default function GlobalError({ error }: { error: Error & { digest?: strin
                 {messages && <title>{(messages["ErrorPage"] as Record<string, string>)["htmlTitle"]}</title>}
                 <link rel="icon" href="https://www.nav.no/favicon.ico" type="image/x-icon" />
             </head>
-            <Preload />
             <body>
                 <Page>
                     <Theme theme="light">
