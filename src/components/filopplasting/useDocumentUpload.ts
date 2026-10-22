@@ -7,9 +7,10 @@ import { Upload } from "tus-js-client";
 import { browserEnv } from "@config/env";
 import { getTusUploader, type UploadTarget } from "./utils/tusUploader";
 import { useState } from "react";
+import { useAnnounce } from "@components/liveAnnouncer/LiveAnnouncer";
 
-export const liveRegionIndexes = [0, 1] as const;
-type LiveRegionIndex = (typeof liveRegionIndexes)[number];
+// Filvelgeren er nettopp lukket, så vi venter til fokus er returnert før vi kunngjør.
+const FILE_DIALOG_CLOSE_DELAY_MS = 200;
 
 export const useDocumentUpload = ({
     contextId,
@@ -28,19 +29,7 @@ export const useDocumentUpload = ({
 }) => {
     const t = useTranslations("Opplastingsboks");
     const [folderDropError, setFolderDropError] = useState(false);
-    const [skjermleserBeskjed, setSkjermleserBeskjed] = useState<{ text: string; activeRegion: LiveRegionIndex }>({
-        text: "",
-        activeRegion: 0,
-    });
-
-    // Bytter mellom to live-regioner slik at samme beskjed kan kunngjøres flere ganger på rad.
-    // Skjermlesere leser ikke alltid opp en aria-live-region hvis tekstinnholdet er likt som sist.
-    const oppdaterSkjermleserBeskjed = (text: string) => {
-        setSkjermleserBeskjed(({ activeRegion }) => ({
-            text,
-            activeRegion: activeRegion === 0 ? 1 : 0,
-        }));
-    };
+    const announce = useAnnounce();
 
     const startUpload = (files: FileObject[]) => {
         const [folders, validFiles] = R.partition(files, (f) => isFolder(f));
@@ -49,7 +38,7 @@ export const useDocumentUpload = ({
 
         if (validFiles.length === 0) return;
 
-        oppdaterSkjermleserBeskjed(t("filLagtTil", { count: validFiles.length }));
+        announce(t("filLagtTil", { count: validFiles.length }), FILE_DIALOG_CLOSE_DELAY_MS);
         onSelect?.(validFiles);
 
         const optimisticUploads: UploadState[] = validFiles.map((file: FileObject) => {
@@ -73,11 +62,13 @@ export const useDocumentUpload = ({
         onUploadsAdded(optimisticUploads);
     };
 
-    const terminateUpload = async (tusUploadId: string, correlationId?: string) => {
+    // onBeforeRemove kalles rett før raden fjernes, slik at fokus kan flyttes før elementet forsvinner fra DOM.
+    const terminateUpload = async (tusUploadId: string, correlationId?: string, onBeforeRemove?: () => void) => {
         await Upload.terminate(`${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/tus/files/${tusUploadId}`);
-        oppdaterSkjermleserBeskjed(t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 }));
+        announce(t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 }));
+        onBeforeRemove?.();
         if (correlationId) onUploadRemoved(correlationId);
     };
 
-    return { startUpload, terminateUpload, folderDropError, skjermleserBeskjed };
+    return { startUpload, terminateUpload, folderDropError };
 };

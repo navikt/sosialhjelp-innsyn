@@ -3,14 +3,14 @@
 import { useTranslations } from "next-intl";
 import { FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
-import { ReactNode } from "react";
+import { ReactNode, useRef } from "react";
 import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
 
 import FileUploadItem from "./FileUploadItem";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
 import { browserEnv } from "@config/env";
 import useSlowProcessingWarning from "@components/filopplasting/useSlowProcessingWarning";
-import { liveRegionIndexes, useDocumentUpload } from "./useDocumentUpload";
+import { useDocumentUpload } from "./useDocumentUpload";
 import { UploadTarget } from "./utils/tusUploader";
 
 interface Props {
@@ -45,8 +45,10 @@ const FileSelectNew = ({
     headingLevel,
 }: Props) => {
     const t = useTranslations("Opplastingsboks");
+    // Fokusmål som flyttes til før en slettet rad fjernes. Ellers sender nettleseren fokus til <body>.
+    const focusAnchorRef = useRef<HTMLDivElement>(null);
 
-    const { startUpload, terminateUpload, folderDropError, skjermleserBeskjed } = useDocumentUpload({
+    const { startUpload, terminateUpload, folderDropError } = useDocumentUpload({
         docState,
         contextId,
         onUploadRemoved,
@@ -75,11 +77,7 @@ const FileSelectNew = ({
                 },
             }}
         >
-            {liveRegionIndexes.map((index) => (
-                <div key={index} role="status" aria-live="polite" aria-atomic="true" className="sr-only">
-                    {skjermleserBeskjed.activeRegion === index ? skjermleserBeskjed.text : ""}
-                </div>
-            ))}
+            <div ref={focusAnchorRef} tabIndex={-1} className="sr-only" />
             <VStack gap="space-24">
                 <FileSelectUpload
                     label={label ?? t("tittel")}
@@ -124,28 +122,41 @@ const FileSelectNew = ({
                             </>
                         )}
                         <VStack as="ul" gap="space-8">
-                            {docState.uploads?.map((upload) => (
-                                <FileUploadItem
-                                    key={upload.id}
-                                    url={
-                                        upload.url
-                                            ? `${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`
-                                            : undefined
-                                    }
-                                    isConverted={upload.converted}
-                                    convertedFilename={upload.finalFilename}
-                                    originalFilename={upload.originalFilename}
-                                    validations={upload.validations}
-                                    status={upload.status}
-                                    size={upload.size}
-                                    showCancelButton={
-                                        showSlowProcessingWarning &&
-                                        (upload.status === "PENDING" || upload.status === "PROCESSING")
-                                    }
-                                    deleteDisabled={isPending}
-                                    onDelete={() => terminateUpload(upload.id, upload.correlationId)}
-                                />
-                            ))}
+                            {docState.uploads?.map((upload) => {
+                                let deleteButtonEl: HTMLButtonElement | null = null;
+                                return (
+                                    <FileUploadItem
+                                        key={upload.id}
+                                        url={
+                                            upload.url
+                                                ? `${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`
+                                                : undefined
+                                        }
+                                        isConverted={upload.converted}
+                                        convertedFilename={upload.finalFilename}
+                                        originalFilename={upload.originalFilename}
+                                        validations={upload.validations}
+                                        status={upload.status}
+                                        size={upload.size}
+                                        showCancelButton={
+                                            showSlowProcessingWarning &&
+                                            (upload.status === "PENDING" || upload.status === "PROCESSING")
+                                        }
+                                        deleteDisabled={isPending}
+                                        buttonRef={(el) => {
+                                            deleteButtonEl = el;
+                                        }}
+                                        onDelete={() =>
+                                            terminateUpload(upload.id, upload.correlationId, () => {
+                                                // Bare flytt fokus hvis brukeren fortsatt står på denne knappen.
+                                                if (document.activeElement === deleteButtonEl) {
+                                                    focusAnchorRef.current?.focus();
+                                                }
+                                            })
+                                        }
+                                    />
+                                );
+                            })}
                         </VStack>
                     </VStack>
                 )}

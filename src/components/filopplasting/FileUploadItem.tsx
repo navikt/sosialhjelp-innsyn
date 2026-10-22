@@ -16,6 +16,7 @@ interface Props {
     showCancelButton?: boolean;
     onDelete: () => Promise<void>;
     deleteDisabled?: boolean;
+    buttonRef?: (el: HTMLButtonElement | null) => void;
 }
 
 const SeOverDescription = () => {
@@ -39,12 +40,17 @@ const FileUploadItem = ({
     onDelete,
     deleteDisabled,
     isConverted,
+    buttonRef,
 }: Props) => {
     const t = useTranslations("FileUploadItem");
     const { mutate, isPending } = useMutation({
         mutationFn: onDelete,
         retry: false,
     });
+
+    // Aksel sin loading-prop setter native disabled, og da flytter nettleseren fokus til <body>.
+    // Vi viser derfor Loader selv og bruker aria-disabled.
+    const isBusy = isPending;
 
     const isUploading = !url && !validations && status !== "FAILED" && status !== "COMPLETE" && !showCancelButton;
     const uploadStatus = isUploading ? "uploading" : "idle";
@@ -58,15 +64,24 @@ const FileUploadItem = ({
                     <HStack align="center" gap="space-4">
                         {showCancelButton && <Loader />}
                         <Button
+                            ref={buttonRef}
                             variant="tertiary"
                             data-color="neutral"
                             type="button"
                             icon={
-                                showCancelButton ? <XMarkIcon title={t("cancel")} /> : <TrashIcon title={t("slett")} />
+                                isBusy ? (
+                                    <Loader size="xsmall" />
+                                ) : showCancelButton ? (
+                                    <XMarkIcon title={t("cancel")} />
+                                ) : (
+                                    <TrashIcon title={t("slett")} />
+                                )
                             }
-                            onClick={() => mutate()}
+                            onClick={() => {
+                                if (!isBusy) mutate();
+                            }}
                             disabled={deleteDisabled}
-                            loading={isPending}
+                            aria-disabled={isBusy || deleteDisabled}
                         />
                     </HStack>
                 }
