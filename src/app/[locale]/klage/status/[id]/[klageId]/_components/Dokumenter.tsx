@@ -1,13 +1,14 @@
 import { Heading, VStack } from "@navikt/ds-react";
 import { FileUploadItem } from "@navikt/ds-react/FileUpload";
 import { getTranslations } from "next-intl/server";
-import { VedleggResponse } from "@generated/model";
+import { EttersendelseDto, VedleggResponse } from "@generated/model";
 
 type Props = {
     klagePdf: VedleggResponse;
+    ettersendelser: EttersendelseDto[];
 };
 
-const Dokumenter = async ({ klagePdf }: Props) => {
+const Dokumenter = async ({ klagePdf, ettersendelser }: Props) => {
     const t = await getTranslations("KlageDokumenter");
 
     return (
@@ -26,6 +27,19 @@ const Dokumenter = async ({ klagePdf }: Props) => {
                         className="w-full"
                     />
                 )}
+                {ettersendelser
+                    .flatMap((ettersendelse) => ettersendelse.vedlegg)
+                    .map((vedlegg) => (
+                        <FileUploadItem
+                            key={vedlegg.filnavn}
+                            href={vedlegg.url}
+                            file={{
+                                name: vedlegg.filnavn?.length ? vedlegg.filnavn : t("ettersendelseDefaultTittel"),
+                                size: vedlegg.storrelse,
+                            }}
+                            className="w-full"
+                        />
+                    ))}
             </VStack>
         </div>
     );

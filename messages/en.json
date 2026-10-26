@@ -416,7 +416,8 @@
     },
     "KlageDokumenter": {
         "tittel": "Documents",
-        "klagePdfDefaultTittel": "Appeal against decision regarding financial assistance.pdf"
+        "klagePdfDefaultTittel": "Appeal against decision regarding financial assistance.pdf",
+        "ettersendelseDefaultTittel": "Unknown filename"
     },
     "KlageProsessenVidere": {
         "steg1": {

@@ -53,7 +53,7 @@ const Page = async ({
                 </DigisosLinkCard>
                 <ProsessenVidere navKontor={paaklagetSak.navEnhetNavn} />
                 <KlageEttersendelse fiksDigisosId={fiksDigisosId} klageId={klageId} />
-                <Dokumenter klagePdf={klage.klagePdf} />
+                <Dokumenter klagePdf={klage.klagePdf} ettersendelser={klage.ettersendelser} />
             </VStack>
         </>
     );

@@ -429,7 +429,8 @@
     },
     "KlageDokumenter": {
         "tittel": "Dokumenter",
-        "klagePdfDefaultTittel": "Klage på vedtak om økonomisk sosialhjelp"
+        "klagePdfDefaultTittel": "Klage på vedtak om økonomisk sosialhjelp",
+        "ettersendelseDefaultTittel": "Ukjent filnavn"
     },
     "KlageProsessenVidere": {
         "steg1": {
