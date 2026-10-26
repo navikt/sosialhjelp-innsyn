@@ -18,7 +18,7 @@ const useSendKlageEttersendelseTus = (
                 submissionId,
                 body: {
                     fiksDigisosId,
-                    // TODO: Replace these values when the upload-api contract for klage ettersendelse is available.
+                    klageId,
                     metadata: {
                         dokumentKontekst: "ettersendelse",
                         type: "klage",

@@ -34,6 +34,24 @@ describe("submitUpload", () => {
         );
     });
 
+    it("sends klageId when submitting a klage ettersendelse", async () => {
+        const fetchMock = vi.fn().mockResolvedValue(new Response(null, { status: 201 }));
+        vi.stubGlobal("fetch", fetchMock);
+        const klageId = "1af0c6c7-e9d1-4ce0-b898-5efde36c9f9e";
+
+        await submitUpload({
+            ...request,
+            body: { ...request.body, klageId },
+        });
+
+        expect(fetchMock).toHaveBeenCalledWith(
+            expect.any(String),
+            expect.objectContaining({
+                body: JSON.stringify({ ...request.body, klageId }),
+            })
+        );
+    });
+
     it("returns upload-api validation errors", async () => {
         vi.stubGlobal(
             "fetch",

@@ -8,7 +8,7 @@ export const submitUpload = async ({
     submissionId,
     body,
 }: {
-    body: { fiksDigisosId: string; metadata: Metadata };
+    body: { fiksDigisosId: string; klageId?: string; metadata: Metadata };
     submissionId: string;
 }) => {
     const response = await fetch(`${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/submission/${submissionId}/submit`, {

@@ -19,6 +19,7 @@ const KlageEttersendelse = ({ fiksDigisosId, klageId }: Props) => {
     const t = useTranslations("KlagePage.ettersendelse");
     const tUpload = useTranslations("Opplastingsboks");
     const [contextId] = useState(() => crypto.randomUUID());
+    const [navEksternRefId] = useState(() => crypto.randomUUID());
     const { state: docState, resetState, addUploads, removeUpload } = useDocumentState(contextId);
     const { upload, resetMutation, isPending, isUploadSuccess, error } = useSendKlageEttersendelseTus(
         fiksDigisosId,
@@ -50,7 +51,7 @@ const KlageEttersendelse = ({ fiksDigisosId, klageId }: Props) => {
             <FileSelectNew
                 docState={docState}
                 contextId={contextId}
-                target={{ type: "klage", klageId }}
+                target={{ type: "klage", klageId, navEksternRefId }}
                 onSelect={(files) => {
                     resetMutation();
                     umamiCustomTrack("opplasting startet", {
