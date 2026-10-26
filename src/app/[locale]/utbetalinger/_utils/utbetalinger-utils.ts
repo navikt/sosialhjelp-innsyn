@@ -35,7 +35,7 @@ const erPeriodeChip = (c: Option): c is PeriodeChip => {
 };
 
 //Datoen som avgjør hvor en utbetaling hører hjemme: faktisk utbetalingsdato hvis den finnes, ellers forfallsdato.
-export const hentReferanseDato = (utb: UtbetalingDto): Date | null => {
+const hentReferanseDato = (utb: UtbetalingDto): Date | null => {
     const dato = utb.utbetalingsdato ?? utb.forfallsdato;
     return dato ? parseISO(dato) : null;
 };
