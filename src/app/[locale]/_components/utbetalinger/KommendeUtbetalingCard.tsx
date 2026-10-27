@@ -16,7 +16,6 @@ const KommendeUtbetalingCard = ({ utbetaling }: Props) => {
     const t = useTranslations("KommendeUtbetalingerListe");
 
     const stopped = utbetaling.status === UtbetalingDtoStatus.STOPPET;
-    // Samme dato som "Kommende"-filteret bruker: utbetalingsdato ?? forfallsdato
     const date = hentReferanseDato(utbetaling);
     const amount = format.number(utbetaling.belop);
 

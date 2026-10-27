@@ -34,7 +34,6 @@ const erPeriodeChip = (c: Option): c is PeriodeChip => {
     return c === "siste3" || c === "hittil" || c === "fjor";
 };
 
-//Datoen som avgjør hvor en utbetaling hører hjemme: faktisk utbetalingsdato hvis den finnes, ellers forfallsdato.
 export const hentReferanseDato = (utb: UtbetalingDto): Date | null => {
     const dato = utb.utbetalingsdato ?? utb.forfallsdato;
     return dato ? parseISO(dato) : null;
@@ -82,7 +81,6 @@ const datoIntervall = (chip: "siste3" | "hittil" | "fjor"): Interval | null => {
     switch (chip) {
         case "siste3": {
             const startDato = subMonths(dagens, 3);
-            // Slutter i går – utbetalinger med dato i dag vises under "Kommende"
             return interval(startOfDay(startDato), endOfDay(subDays(dagens, 1)));
         }
         case "hittil":
@@ -119,7 +117,6 @@ export const filtrerUtbetalinger = (selectedChip: Option, data: UtbetalingDto[],
             const iDag = startOfDay(new Date());
             return data.filter((utbetaling) => {
                 const referanseDato = hentReferanseDato(utbetaling);
-                // Dato i dag eller senere – dagens utbetalinger skal fortsatt vises som kommende
                 return (
                     tillatteStatuserKommende.has(utbetaling.status) &&
                     referanseDato !== null &&
