@@ -25,14 +25,13 @@ pnpm orval            # Regenerate types and hooks from innsyn-api.json
 
 ## Architecture
 
-### Routing — Hybrid App Router + Pages Router
+### Routing — App Router
 
-Both routers coexist under a shared `[locale]` dynamic segment:
+Pages live directly in `src/app/`. The locale-neutral URLs use the `decorator-language` cookie as the source of truth:
 
-- `src/app/[locale]/` — App Router pages (active development)
-- `src/pages/[locale]/` — Pages Router pages (legacy, being migrated away)
-- `src/app/[locale]/Providers.tsx` — wraps app in `QueryClientProvider`, `FlagProvider`, and `TilgangskontrollsideApp`
-- `src/proxy.ts` — middleware handling i18n routing and feature-flag-driven rewrites (e.g. old `/status` URLs → `/soknad/[id]`)
+- `src/app/Providers.tsx` wraps the app in `QueryClientProvider`, `FlagProvider`, and `TilgangskontrollsideApp`
+- `src/app/LocaleProvider.tsx` updates messages when the decorator changes language without changing the route
+- `src/proxy.ts` redirects old locale-prefixed URLs and rewrites legacy paths (e.g. `/status` URLs → `/soknad/[id]`)
 
 ### API Layer — Orval-generated React Query hooks
 

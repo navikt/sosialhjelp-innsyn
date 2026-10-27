@@ -119,7 +119,7 @@ test.describe("Soknad detail page accessibility", () => {
         await msw.mockEndpoint("/api/v1/innsyn/test-soknad-1/klager", [] satisfies KlageDto[]);
         await msw.mockEndpoint("/api/v1/innsyn/test-soknad-1/hendelser/beta", [] satisfies HendelseDto[]);
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad-1");
+        await page.goto("/sosialhjelp/innsyn/soknad/test-soknad-1");
 
         // Wait for main content to be loaded
         await page.locator("#maincontent").waitFor({ state: "visible" });
