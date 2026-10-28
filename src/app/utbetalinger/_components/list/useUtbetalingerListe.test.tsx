@@ -56,9 +56,15 @@ describe("FiltreringAvUtbetalinger (updated for new flat list endpoint)", () => 
             utb({
                 status: UtbetalingDtoStatus.PLANLAGT_UTBETALING,
                 referanse: "planlagt",
+                utbetalingsdato: undefined,
                 forfallsdato: "2025-10-15",
             }),
-            utb({ status: UtbetalingDtoStatus.STOPPET, referanse: "stoppet", forfallsdato: "2025-10-20" }),
+            utb({
+                status: UtbetalingDtoStatus.STOPPET,
+                referanse: "stoppet",
+                utbetalingsdato: undefined,
+                forfallsdato: "2025-10-20",
+            }),
             utb({ status: UtbetalingDtoStatus.UTBETALT, referanse: "utbetalt", utbetalingsdato: "2025-10-05" }),
         ];
 
