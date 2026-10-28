@@ -45,7 +45,7 @@ test.describe("Vedtak functionality", () => {
             ],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad-1");
+        await page.goto("/sosialhjelp/innsyn/soknad/test-soknad-1");
 
         // Wait for main content to be loaded
         await page.getByRole("main").waitFor({ state: "visible" });
@@ -95,7 +95,7 @@ test.describe("Vedtak functionality", () => {
             ],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad-1");
+        await page.goto("/sosialhjelp/innsyn/soknad/test-soknad-1");
 
         await page.getByRole("main").waitFor({ state: "visible" });
 
@@ -136,7 +136,7 @@ test.describe("Vedtak functionality", () => {
             ],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad-1");
+        await page.goto("/sosialhjelp/innsyn/soknad/test-soknad-1");
 
         await page.getByRole("main").waitFor({ state: "visible" });
 
@@ -182,7 +182,7 @@ test.describe("Vedtak functionality", () => {
             ],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad-1");
+        await page.goto("/sosialhjelp/innsyn/soknad/test-soknad-1");
 
         await page.getByRole("main").waitFor({ state: "visible" });
 
@@ -252,7 +252,7 @@ test.describe("Vedtak functionality", () => {
             ],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad-1");
+        await page.goto("/sosialhjelp/innsyn/soknad/test-soknad-1");
 
         await page.getByRole("main").waitFor({ state: "visible" });
 

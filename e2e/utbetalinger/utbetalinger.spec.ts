@@ -22,7 +22,7 @@ test.afterEach(async ({ request, baseURL }) => {
 
 test.describe("Utbetalinger - Snarveier", () => {
     test("should navigate to Soknader page when Soknader snarvei is clicked", async ({ page }) => {
-        await page.goto("/sosialhjelp/innsyn/nb/utbetaling");
+        await page.goto("/sosialhjelp/innsyn/utbetaling");
         const mineSoknaderLink = page.getByRole("link", { name: "Mine søknader" });
         await expect(mineSoknaderLink).toBeVisible();
 
@@ -53,7 +53,7 @@ test.describe("Utbetalinger - Tilknyttede søknader", () => {
             },
         ]);
 
-        await page.goto("/sosialhjelp/innsyn/nb/utbetaling");
+        await page.goto("/sosialhjelp/innsyn/utbetaling");
         await page.getByRole("button", { name: "Siste 3 måneder" }).click();
 
         const card = page.getByRole("region", { name: /Livsopphold/ });
@@ -86,7 +86,7 @@ test.describe("Utbetalinger - Tilknyttede søknader", () => {
             },
         ]);
 
-        await page.goto("/sosialhjelp/innsyn/nb/utbetaling");
+        await page.goto("/sosialhjelp/innsyn/utbetaling");
         await page.getByRole("button", { name: "Siste 3 måneder" }).click();
 
         const card = page.getByRole("region", { name: /Boutgifter/ });

@@ -81,7 +81,7 @@ test.describe("Soknader page - application categorization", () => {
             sistOppdatert: oldDate.toISOString(),
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
         // Wait for the page to load
         await expect(page.getByRole("heading", { name: "Søknader", level: 1 })).toBeVisible();
 
@@ -135,7 +135,7 @@ test.describe("Soknader page - application categorization", () => {
             saker: [],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
         await expect(page.getByRole("heading", { name: "Søknader", level: 1 })).toBeVisible();
 
         await expect(page.getByRole("heading", { name: "Aktive søknader", level: 2 })).toBeVisible();
@@ -207,7 +207,7 @@ test.describe("Soknader page - application categorization", () => {
             saker: [],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         await expect(page.getByRole("heading", { name: "Søknader", level: 1 })).toBeVisible();
 
@@ -255,7 +255,7 @@ test.describe("Soknader page - application categorization", () => {
             saker: [],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         await expect(page.getByRole("heading", { name: "Søknader", level: 1 })).toBeVisible();
 
@@ -301,7 +301,7 @@ test.describe("Soknader page - application categorization", () => {
             sisteDokumentasjonKravFrist: addDays(now, 25).toISOString(),
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
         await expect(aktiveSaker).toBeVisible();
@@ -345,7 +345,7 @@ test.describe("Soknader page - application categorization", () => {
             sisteDokumentasjonKravFrist: addDays(now, 25).toISOString(),
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
         await expect(aktiveSaker).not.toBeVisible();
@@ -387,7 +387,7 @@ test.describe("Soknader page - application categorization", () => {
             saker: [],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
         await expect(aktiveSaker).not.toBeVisible();
@@ -412,7 +412,7 @@ test.describe("Soknader page - application categorization", () => {
         await msw.mockEndpoint("*/dittnav/pabegynte/aktive", mockPaabegynteSoknaderData);
         await msw.mockEndpoint("/api/v1/innsyn/saker", []);
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
         await expect(aktiveSaker).toBeVisible();
@@ -442,7 +442,7 @@ test.describe("Soknader page - application categorization", () => {
             soknadTittel: mockSak.soknadTittel,
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         const tidligereSaker = page.getByRole("list", { name: "Tidligere søknader" });
         await expect(tidligereSaker).toBeVisible();
@@ -479,7 +479,7 @@ test.describe("SoknadCard rendering logic", () => {
             status: "MOTTATT",
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         await expect(page.getByRole("link", { name: /Søknad mottatt/ })).toBeVisible();
         await expect(page.getByText(/Sendt/).first()).toBeVisible();
@@ -508,7 +508,7 @@ test.describe("SoknadCard rendering logic", () => {
             status: "MOTTATT",
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         // Should show the søknad card
         await expect(page.getByRole("link", { name: /Søknad med oppgave/ })).toBeVisible();
@@ -549,7 +549,7 @@ test.describe("SoknadCard rendering logic", () => {
             sistOppdatert: new Date().toISOString(),
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         // Should show the søknad card
         await expect(page.getByRole("link", { name: /Papirsøknad/ })).toBeVisible();
@@ -575,7 +575,7 @@ test.describe("SoknadCard rendering logic", () => {
             sistOppdatert: subWeeks(new Date(), 2).toISOString(),
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         await expect(page.getByRole("link", { name: /Søknad sendt/ })).toBeVisible();
         // Should show "Sendt" tag
@@ -602,7 +602,7 @@ test.describe("SoknadCard rendering logic", () => {
             saker: [{ status: "UNDER_BEHANDLING", antallVedtak: 0, vedtak: [] }],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         await expect(page.getByRole("link", { name: /Søknad under behandling/ })).toBeVisible();
         // Should show "Sendt" date tag
@@ -639,7 +639,7 @@ test.describe("SoknadCard rendering logic", () => {
             ],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         await expect(page.getByRole("link", { name: /Søknad med flere saker/ })).toBeVisible();
         await expect(page.getByText(/2 av 3 saker er ferdigbehandlet/)).toBeVisible();
@@ -679,7 +679,7 @@ test.describe("SoknadCard rendering logic", () => {
             sistOppdatert: new Date().toISOString(),
         } satisfies SaksDetaljerResponse);
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         await expect(page.getByRole("link", { name: /Søknad med flere saker/ })).toBeVisible();
         await expect(page.getByText(/20\.12\.2025/)).toBeVisible();
@@ -705,7 +705,7 @@ test.describe("SoknadCard rendering logic", () => {
             sistOppdatert: subWeeks(new Date(), 2).toISOString(),
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         await expect(page.getByRole("link", { name: /Søknad med flere vedtak/ })).toBeVisible();
         await expect(page.getByText(/Nytt vedtak/)).toBeVisible();
@@ -735,7 +735,7 @@ test.describe("SoknadCard rendering logic", () => {
             saker: [{ status: "UNDER_BEHANDLING", antallVedtak: 0, vedtak: [] }],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         await expect(page.getByRole("link", { name: /Søknad med forlenget behandlingstid/ })).toBeVisible();
         await expect(page.getByText(/Forlenget saksbehandlingstid/)).toBeVisible();
@@ -765,7 +765,7 @@ test.describe("SoknadCard rendering logic", () => {
             saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 1, vedtak: [] }],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         await expect(page.getByRole("link", { name: /Søknad ferdigbehandlet nylig/ })).toBeVisible();
         // Should show "Ferdigbehandlet" status tag
@@ -796,7 +796,7 @@ test.describe("SoknadCard rendering logic", () => {
             saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 1, vedtak: [] }],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         await expect(page.getByRole("link", { name: /Søknad ferdigbehandlet for lenge siden/ })).toBeVisible();
         // Should show "Ferdigbehandlet" status tag
@@ -827,7 +827,7 @@ test.describe("SoknadCard rendering logic", () => {
             status: "FERDIGBEHANDLET",
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         await expect(page.getByRole("link", { name: /Søknad ferdigbehandlet med vilkår/ })).toBeVisible();
         // Should show oppgave alert with deadline
@@ -861,7 +861,7 @@ test.describe("SoknadCard rendering logic", () => {
             ],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         await expect(page.getByRole("link", { name: /Kompleks søknad/ })).toBeVisible();
         // Should show date tag
@@ -892,7 +892,7 @@ test.describe("SoknadCard rendering logic", () => {
             status: "BEHANDLES_IKKE",
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
         await expect(aktiveSaker).toBeVisible();
@@ -927,7 +927,7 @@ test.describe("SoknadCard rendering logic", () => {
             ],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
         await expect(aktiveSaker).toBeVisible();
@@ -958,7 +958,7 @@ test.describe("SoknadCard rendering logic", () => {
             ],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
         await expect(aktiveSaker).toBeVisible();
@@ -989,7 +989,7 @@ test.describe("SoknadCard rendering logic", () => {
             ],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
         await expect(aktiveSaker).toBeVisible();
@@ -1117,7 +1117,7 @@ test.describe("Sorting", () => {
             saker: [],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         const aktiveSaker = page.getByRole("list", { name: "Aktive søknader" });
         await expect(aktiveSaker).toBeVisible();
