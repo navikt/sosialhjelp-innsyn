@@ -144,7 +144,7 @@ test.describe("Utbetalinger - Dagens utbetalinger", () => {
     });
 
     test("viser dagens utbetalinger under Kommende", async ({ page }) => {
-        await page.goto("/sosialhjelp/innsyn/nb/utbetaling");
+        await page.goto("/sosialhjelp/innsyn/utbetaling");
         await page.getByRole("button", { name: "Kommende", exact: true }).click();
 
         await expect(page.getByRole("region", { name: /Planlagt i dag/ })).toBeVisible();
@@ -154,7 +154,7 @@ test.describe("Utbetalinger - Dagens utbetalinger", () => {
     });
 
     test("viser ikke dagens utbetalinger under Siste 3 måneder", async ({ page }) => {
-        await page.goto("/sosialhjelp/innsyn/nb/utbetaling");
+        await page.goto("/sosialhjelp/innsyn/utbetaling");
         await page.getByRole("button", { name: "Siste 3 måneder" }).click();
 
         await expect(page.getByRole("region", { name: /Utbetalt i går/ })).toBeVisible();
