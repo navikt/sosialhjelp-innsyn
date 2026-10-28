@@ -31,7 +31,7 @@ test.describe("Original søknad i dokumentliste", () => {
 
         await mockSoknadEndpoints(msw, "test-soknad-1", { originalSoknad });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad-1");
+        await page.goto("/sosialhjelp/innsyn/soknad/test-soknad-1");
         await page.getByRole("main").waitFor({ state: "visible" });
 
         // The original søknad link should appear in the documents list under "Har du mer dokumentasjon du vil sende inn?"
@@ -58,7 +58,7 @@ test.describe("Original søknad i dokumentliste", () => {
 
         await mockSoknadEndpoints(msw, "test-soknad-1", { originalSoknad });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad-1");
+        await page.goto("/sosialhjelp/innsyn/soknad/test-soknad-1");
         await page.getByRole("main").waitFor({ state: "visible" });
 
         // Should show the fallback translation key "soknadFilename"
@@ -89,7 +89,7 @@ test.describe("Original søknad i dokumentliste", () => {
 
         await mockSoknadEndpoints(msw, "test-soknad-1", { originalSoknad, vedlegg });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad-1");
+        await page.goto("/sosialhjelp/innsyn/soknad/test-soknad-1");
         await page.getByRole("main").waitFor({ state: "visible" });
 
         const dokumenterSection = page.getByRole("heading", { name: "Dokumenter", level: 3 });
@@ -121,7 +121,7 @@ test.describe("Original søknad i dokumentliste", () => {
         // Override the originalSoknad endpoint to return null/empty
         await msw.mockEndpoint("/api/v1/innsyn/test-soknad-1/originalSoknad", null);
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad-1");
+        await page.goto("/sosialhjelp/innsyn/soknad/test-soknad-1");
         await page.getByRole("main").waitFor({ state: "visible" });
 
         const dokumenterHeading = page.getByRole("heading", { name: "Dokumenter", level: 3 });

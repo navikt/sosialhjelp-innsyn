@@ -46,7 +46,7 @@ test.describe("Klage status page accessibility", () => {
         await msw.mockEndpoint("/api/v1/innsyn/test-id-1/klage/klage-1", mockKlageData);
         await msw.mockEndpoint("/api/v1/innsyn/test-id-1/sak/vedtak-1", mockSakData);
 
-        await page.goto("/sosialhjelp/innsyn/nb/klage/status/test-id-1/klage-1");
+        await page.goto("/sosialhjelp/innsyn/klage/status/test-id-1/klage-1");
 
         // Wait for main content to be loaded
         await page.locator("#maincontent").waitFor({ state: "visible" });

@@ -5,7 +5,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { onBreadcrumbClick, onLanguageSelect } from "@navikt/nav-dekoratoren-moduler";
 import { configureLogger } from "@navikt/next-logger";
 import { IToggle } from "@unleash/nextjs";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FlagProvider } from "@featuretoggles/context";
 import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "@faro/faro";
 import { TilgangResponse } from "@generated/model";
@@ -31,18 +31,17 @@ const Providers = ({ togglesPromise, tilgang, children }: PropsWithChildren<Prop
     const harTilgang = use(tilgang);
     const toggles = use(togglesPromise);
     const router = useRouter();
-    const pathname = usePathname();
     // Default options for query clienten blir satt i orval.config.ts
     const queryClient = getQueryClient();
 
     useEffect(() => {
-        onLanguageSelect(async () => {
-            router.replace(pathname.replace(/\/(en|nn|nb)/, "/"));
-            return router.refresh();
-        });
-
         onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
-    }, [router, pathname]);
+        onLanguageSelect(({ locale }) => {
+            if (isSupportedLocale(locale)) {
+                router.refresh();
+            }
+        });
+    }, [router]);
 
     return (
         <QueryClientProvider client={queryClient}>

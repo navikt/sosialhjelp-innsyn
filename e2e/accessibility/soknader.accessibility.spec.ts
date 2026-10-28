@@ -64,7 +64,7 @@ test.describe("Soknader page accessibility", () => {
         const msw = createMswHelper(request, baseURL!);
         await mockApplications(msw, 30);
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         // Wait for main content to be loaded
         await page.locator("#maincontent").waitFor({ state: "visible" });
@@ -79,7 +79,7 @@ test.describe("Soknader page accessibility", () => {
 
         await msw.mockEndpoint("/api/v1/innsyn/saker", []);
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknader");
+        await page.goto("/sosialhjelp/innsyn/soknader");
 
         // Wait for main content to be loaded
         await page.locator("#maincontent").waitFor({ state: "visible" });
