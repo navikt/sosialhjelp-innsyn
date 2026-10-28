@@ -3,9 +3,7 @@
 import React from "react";
 import cx from "classnames";
 import { BodyShort, ExpansionCard, HStack, Skeleton, VStack } from "@navikt/ds-react";
-import { Link } from "@navikt/ds-react/Link";
 import { ArrowRightIcon } from "@navikt/aksel-icons";
-import { Link as NextLink } from "@i18n/navigation";
 
 import styles from "../../../../utbetalinger/utbetalinger.module.css";
 import { cardBorder } from "./UtbetalingerContentCard";
@@ -61,10 +59,10 @@ const UtbetalingerContentCardSkeleton = ({ index, count }: Props) => {
                         </BodyShort>
                         <Skeleton as="span" width="50px" variant="text" />
                     </VStack>
-                    <Link as={NextLink}>
+                    <HStack gap="space-4" align="center">
                         <Skeleton as="span" width="50px" variant="text" />
                         <ArrowRightIcon fontSize="1.75rem" className="navds-link-anchor__arrow pointer-events-none" />
-                    </Link>
+                    </HStack>
                 </VStack>
             </ExpansionCard.Content>
         </ExpansionCard>
