@@ -9,13 +9,10 @@ import { NextIntlClientProvider } from "next-intl";
 import { pick } from "remeda";
 import { Loader, Theme } from "@navikt/ds-react";
 import { Page, PageBlock } from "@navikt/ds-react/Page";
-import { usePathname, useRouter } from "next/navigation";
 import decoratorParams from "@config/decoratorConfig";
 import { DECORATOR_LOCALE_COOKIE_NAME, isSupportedLocale } from "@i18n/common";
 import ErrorPage from "@components/error/ErrorPage";
 import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "@faro/faro";
-
-import Preload from "./preload";
 
 initInstrumentation();
 configureLogger({
@@ -49,17 +46,15 @@ export default function GlobalError({ error }: { error: Error & { digest?: strin
         }
     }, [messages, locale]);
 
-    const router = useRouter();
-    const pathname = usePathname();
-
     useEffect(() => {
-        onLanguageSelect(async () => {
-            router.replace(pathname.replace(/\/(en|nn|nb)/, "/"));
-            router.refresh();
+        onLanguageSelect(({ locale }) => {
+            if (isSupportedLocale(locale)) {
+                window.location.reload();
+            }
         });
 
-        onBreadcrumbClick((breadcrumb) => router.push(breadcrumb.url));
-    }, [router, pathname]);
+        onBreadcrumbClick((breadcrumb) => window.location.assign(breadcrumb.url));
+    }, []);
 
     return (
         <html lang={locale}>
@@ -67,7 +62,6 @@ export default function GlobalError({ error }: { error: Error & { digest?: strin
                 {messages && <title>{(messages["ErrorPage"] as Record<string, string>)["htmlTitle"]}</title>}
                 <link rel="icon" href="https://www.nav.no/favicon.ico" type="image/x-icon" />
             </head>
-            <Preload />
             <body>
                 <Page>
                     <Theme theme="light">

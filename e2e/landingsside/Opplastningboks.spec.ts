@@ -3,7 +3,7 @@ import path from "path";
 import { test, expect } from "@playwright/test";
 
 test.skip("Should be able to upload file", async ({ page }) => {
-    await page.goto("/sosialhjelp/innsyn/nb/landingsside");
+    await page.goto("/sosialhjelp/innsyn/landingsside");
     const link = page.getByRole("link", { name: "Søknad om økonomisk sosialhjelp" });
     link.first().click();
 

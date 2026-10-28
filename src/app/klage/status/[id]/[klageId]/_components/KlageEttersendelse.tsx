@@ -8,7 +8,7 @@ import FileSelectNew from "@components/filopplasting/FileSelectNew";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
 import { useDocumentState } from "@components/filopplasting/api/useDocumentState";
 import useSendKlageEttersendelseTus from "@components/filopplasting/api/useSendKlageEttersendelseTus";
-import { umamiCustomTrack } from "../../../../../../umami";
+import { umamiCustomTrack } from "../../../../../umami";
 
 interface Props {
     fiksDigisosId: string;

@@ -31,7 +31,7 @@ test.describe("Oppgaver", () => {
             oppgaver: [],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad");
+        await page.goto("/sosialhjelp/innsyn/soknad/test-soknad");
 
         // Wait for main content to be loaded
         await page.getByRole("main").waitFor({ state: "visible" });
@@ -58,7 +58,7 @@ test.describe("Oppgaver", () => {
             oppgaver: [createOppgave("123", false)],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad");
+        await page.goto("/sosialhjelp/innsyn/soknad/test-soknad");
 
         // Wait for main content to be loaded
         await page.getByRole("main").waitFor({ state: "visible" });
@@ -84,7 +84,7 @@ test.describe("Oppgaver", () => {
             oppgaver: [createOppgave("123", false)],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad");
+        await page.goto("/sosialhjelp/innsyn/soknad/test-soknad");
 
         // Wait for main content to be loaded
         await page.getByRole("main").waitFor({ state: "visible" });
@@ -110,7 +110,7 @@ test.describe("Oppgaver", () => {
             oppgaver: [createOppgave("123", false)],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad");
+        await page.goto("/sosialhjelp/innsyn/soknad/test-soknad");
 
         // Wait for main content to be loaded
         await page.getByRole("main").waitFor({ state: "visible" });
@@ -138,7 +138,7 @@ test.describe("Oppgaver", () => {
             oppgaver: [createOppgave("123", true)],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad");
+        await page.goto("/sosialhjelp/innsyn/soknad/test-soknad");
 
         // Wait for main content to be loaded
         await page.getByRole("main").waitFor({ state: "visible" });
@@ -163,7 +163,7 @@ test.describe("Oppgaver", () => {
             oppgaver: [createOppgave("123", true)],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad");
+        await page.goto("/sosialhjelp/innsyn/soknad/test-soknad");
 
         // Wait for main content to be loaded
         await page.getByRole("main").waitFor({ state: "visible" });
@@ -188,7 +188,7 @@ test.describe("Oppgaver", () => {
             oppgaver: new Array(7).fill(null).map((_, index) => createOppgave(index + "", false)),
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad");
+        await page.goto("/sosialhjelp/innsyn/soknad/test-soknad");
 
         // Wait for main content to be loaded
         await page.getByRole("main").waitFor({ state: "visible" });
@@ -226,7 +226,7 @@ test.describe("Oppgaver", () => {
 
         await msw.mockEndpoint("/api/v2/innsyn/test-soknad/oppgaver/ref/vedlegg", []);
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/test-soknad");
+        await page.goto("/sosialhjelp/innsyn/soknad/test-soknad");
 
         // Wait for main content to be loaded
         await page.getByRole("main").waitFor({ state: "visible" });

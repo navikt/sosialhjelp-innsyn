@@ -80,7 +80,7 @@ test.describe("Vilkår", () => {
             dokumentasjonkrav: [],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/" + uuid);
+        await page.goto("/sosialhjelp/innsyn/soknad/" + uuid);
         await page.getByRole("main").waitFor({ state: "visible" });
 
         await expect(page.getByText(/Beklager/)).not.toBeVisible();
@@ -118,7 +118,7 @@ test.describe("Vilkår", () => {
             dokumentasjonkrav: [],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/" + uuid);
+        await page.goto("/sosialhjelp/innsyn/soknad/" + uuid);
         await page.getByRole("main").waitFor({ state: "visible" });
 
         await expect(page.getByText(/Beklager/)).not.toBeVisible();
@@ -142,7 +142,7 @@ test.describe("Vilkår", () => {
             dokumentasjonkrav: [],
         });
 
-        await page.goto("/sosialhjelp/innsyn/nb/soknad/" + uuid);
+        await page.goto("/sosialhjelp/innsyn/soknad/" + uuid);
         await page.getByRole("main").waitFor({ state: "visible" });
 
         await expect(page.getByText(/Beklager/)).not.toBeVisible();
@@ -158,7 +158,7 @@ test.describe("Vilkår", () => {
             vilkar: [createVilkar("v1", "IKKE_OPPFYLT", new Date().toISOString())],
         });
 
-        await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
+        await page.goto(`/sosialhjelp/innsyn/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
         await expect(page.getByRole("heading", { name: "Vilkår", level: 2, exact: true })).toBeVisible();
@@ -177,7 +177,7 @@ test.describe("Vilkår", () => {
             dokumentasjonkrav: [createDokKrav("d1", formatISO(addDays(new Date(), 1)), false)],
         });
 
-        await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
+        await page.goto(`/sosialhjelp/innsyn/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
         await expect(page.getByRole("heading", { name: "Vilkår", level: 2, exact: true })).toBeVisible();
@@ -192,7 +192,7 @@ test.describe("Vilkår", () => {
             vilkar: [createVilkar("v1", "IKKE_OPPFYLT", formatISO(new Date()), "Møte med Nav")],
         });
 
-        await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
+        await page.goto(`/sosialhjelp/innsyn/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
         await expect(page.getByRole("heading", { name: "Møte med Nav", level: 3 })).toBeVisible();
@@ -210,7 +210,7 @@ test.describe("VilkarReadMore", () => {
             vilkar: [createVilkar("v1", "RELEVANT", new Date().toISOString())],
         });
 
-        await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
+        await page.goto(`/sosialhjelp/innsyn/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
         await expect(page.getByRole("button", { name: "Hvordan fungerer vilkår?" })).toBeVisible();
@@ -225,7 +225,7 @@ test.describe("VilkarReadMore", () => {
             vilkar: [createVilkar("v1", "IKKE_OPPFYLT", new Date().toISOString())],
         });
 
-        await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
+        await page.goto(`/sosialhjelp/innsyn/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
         const readMore = page.getByRole("button", { name: "Hvordan fungerer vilkår?" });
@@ -254,7 +254,7 @@ test.describe("DokKravReadMore", () => {
             dokumentasjonkrav: [createDokKrav("d1", new Date(Date.now() + 86400000).toISOString(), false)],
         });
 
-        await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
+        await page.goto(`/sosialhjelp/innsyn/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
         await expect(getDokKravReadMoreBtn(page)).toBeVisible();
@@ -274,7 +274,7 @@ test.describe("DokKravReadMore", () => {
             dokumentasjonkrav: [createDokKrav("d1", new Date().toISOString(), true)],
         });
 
-        await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
+        await page.goto(`/sosialhjelp/innsyn/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
         await expect(getDokKravReadMoreBtn(page)).not.toBeVisible();
@@ -294,7 +294,7 @@ test.describe("DokKravReadMore", () => {
             dokumentasjonkrav: [{ ...createDokKrav("d1", undefined, false), status: "ANNULLERT" }],
         });
 
-        await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
+        await page.goto(`/sosialhjelp/innsyn/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
         await expect(getDokKravReadMoreBtn(page)).not.toBeVisible();
@@ -314,7 +314,7 @@ test.describe("DokKravReadMore", () => {
             dokumentasjonkrav: [createDokKrav("d1", new Date(Date.now() + 86400000).toISOString(), false)],
         });
 
-        await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
+        await page.goto(`/sosialhjelp/innsyn/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
         await expect(page.getByRole("button", { name: "Hvordan fungerer vilkår?" })).toBeVisible();
@@ -331,7 +331,7 @@ test.describe("DokKravReadMore", () => {
         });
         await msw.mockEndpoint(`/api/v2/innsyn/${uuid}/oppgaver/ref-d1/vedlegg`, []);
 
-        await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
+        await page.goto(`/sosialhjelp/innsyn/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
         await getDokKravReadMoreBtn(page).click();
@@ -354,7 +354,7 @@ test.describe("Dokumentasjonkrav rendering", () => {
             ],
         });
 
-        await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
+        await page.goto(`/sosialhjelp/innsyn/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
         await expect(page.getByText("Annullert dokument")).not.toBeVisible();
@@ -370,7 +370,7 @@ test.describe("Dokumentasjonkrav rendering", () => {
             dokumentasjonkrav: [{ ...createDokKrav("d1", undefined, true, "Levert dokument"), status: "RELEVANT" }],
         });
 
-        await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
+        await page.goto(`/sosialhjelp/innsyn/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
         await expect(page.getByText("Levert dokument")).not.toBeVisible();
@@ -397,7 +397,7 @@ test.describe("Sort order", () => {
             ],
         });
 
-        await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
+        await page.goto(`/sosialhjelp/innsyn/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
         const vilkarRegion = page.getByRole("region", { name: "Vilkår", exact: true });
@@ -423,7 +423,7 @@ test.describe("Sort order", () => {
             ],
         });
 
-        await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
+        await page.goto(`/sosialhjelp/innsyn/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
         const vilkarRegion = page.getByRole("region", { name: "Vilkår", exact: true });
@@ -452,7 +452,7 @@ test.describe("Sort order", () => {
             ],
         });
 
-        await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
+        await page.goto(`/sosialhjelp/innsyn/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
         const vilkarRegion = page.getByRole("region", { name: "Vilkår", exact: true });
@@ -479,7 +479,7 @@ test.describe("Sort order", () => {
             ],
         });
 
-        await page.goto(`/sosialhjelp/innsyn/nb/soknad/${uuid}`);
+        await page.goto(`/sosialhjelp/innsyn/soknad/${uuid}`);
         await page.getByRole("main").waitFor({ state: "visible" });
 
         const vilkarRegion = page.getByRole("region", { name: "Vilkår", exact: true });

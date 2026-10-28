@@ -8,7 +8,7 @@ test.describe("Driftsmeldinger on Landingsside", () => {
         const msw = createMswHelper(request, baseURL!);
         await msw.mockEmptyState();
 
-        await page.goto("/sosialhjelp/innsyn/nb");
+        await page.goto("/sosialhjelp/innsyn");
         await expect(page.getByTestId(/driftsmelding/)).not.toBeVisible();
     });
 
@@ -37,7 +37,7 @@ test.describe("Driftsmeldinger on Landingsside", () => {
             } satisfies Driftsmelding,
         ]);
 
-        await page.goto("/sosialhjelp/innsyn/nb");
+        await page.goto("/sosialhjelp/innsyn");
         await expect(page.getByTestId("driftsmelding-1")).toBeVisible();
         await expect(page.getByTestId("driftsmelding-2")).toBeVisible();
         await expect(page.getByText(/Dette er en test/)).toBeVisible();

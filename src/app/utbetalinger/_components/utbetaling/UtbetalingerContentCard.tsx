@@ -6,7 +6,7 @@ import cx from "classnames";
 import { Link as NextLink } from "@i18n/navigation";
 import { UtbetalingDto } from "@generated/model";
 
-import styles from "../../../../../utbetalinger/utbetalinger.module.css";
+import styles from "../../../../utbetalinger/utbetalinger.module.css";
 
 import { Utbetalingsmetode } from "./Utbetalingsmetode";
 
