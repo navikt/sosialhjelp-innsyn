@@ -100,7 +100,9 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
                 docState={docState}
                 contextId={uploadContextId}
                 onSelect={(files) => {
-                    resetMutation();
+                    if (!isPending) {
+                        resetMutation();
+                    }
                     if (!opplastingId.current) {
                         opplastingId.current = crypto.randomUUID();
                         umamiCustomTrack("opplasting startet", {
