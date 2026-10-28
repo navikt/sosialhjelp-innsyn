@@ -422,15 +422,19 @@
             "beskrivelse2": "Du kan lese om <klageInfo>klagebehandling og mulige utfall her</klageInfo>. Har du spørsmål om klagen din kan du kontakte <navKontor>ditt Nav-kontor</navKontor> eller ringe oss på <tel>55 55 33 33</tel>."
         },
         "ettersendelse": {
-            "tittel": "Ettersend vedlegg",
-            "beskrivelse": "Last opp dokumenter eller opplysninger du vil sende inn til klagen din."
+            "opplastingTittel": "Last opp dokumentasjon",
+            "opplastingBeskrivelse": "Hvis du har andre opplysninger som kan ha betydning for klagen din, kan du laste dem opp her."
         },
         "seVedtak": "Se vedtaket du har klaget på"
+    },
+    "KlageDokumentasjon": {
+        "tittel": "Ettersend dokumentasjon"
     },
     "KlageDokumenter": {
         "tittel": "Dokumenter",
         "klagePdfDefaultTittel": "Klage på vedtak om økonomisk sosialhjelp",
-        "ettersendelseDefaultTittel": "Ukjent filnavn"
+        "ettersendelseDefaultTittel": "Ukjent filnavn",
+        "visFlereDokumenter": "dokumenter"
     },
     "KlageProsessenVidere": {
         "steg1": {

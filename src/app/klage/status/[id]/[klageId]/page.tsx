@@ -2,15 +2,13 @@ import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { FileTextIcon } from "@navikt/aksel-icons";
-import { randomUUID } from "node:crypto";
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import { hentKlage } from "@generated/ssr/klage-controller/klage-controller";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 
 import UnderUtviklingInfo from "./_components/UnderUtviklingInfo";
-import Dokumenter from "./_components/Dokumenter";
-import KlageEttersendelse from "./_components/KlageEttersendelse";
+import KlageDokumentasjon from "./_components/KlageDokumentasjon";
 import ProsessenVidere from "@components/klage/ProsessenVidere";
 import { hentSakForVedtak } from "@generated/ssr";
 
@@ -53,8 +51,13 @@ const Page = async ({
                     {t("seVedtak")}
                 </DigisosLinkCard>
                 <ProsessenVidere navKontor={paaklagetSak.navEnhetNavn} />
-                <KlageEttersendelse fiksDigisosId={fiksDigisosId} klageId={klageId} contextId={randomUUID()} />
-                <Dokumenter klagePdf={klage.klagePdf} ettersendelser={klage.ettersendelser} />
+                <KlageDokumentasjon
+                    fiksDigisosId={fiksDigisosId}
+                    klageId={klageId}
+                    klagePdf={klage.klagePdf}
+                    opplastedeVedlegg={klage.opplastedeVedlegg}
+                    ettersendelser={klage.ettersendelser}
+                />
             </VStack>
         </>
     );

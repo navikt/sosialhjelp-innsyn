@@ -1,46 +1,55 @@
-import { Heading, VStack } from "@navikt/ds-react";
+"use client";
+
+import { Heading } from "@navikt/ds-react";
 import { FileUploadItem } from "@navikt/ds-react/FileUpload";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
+import * as R from "remeda";
 import { EttersendelseDto, VedleggResponse } from "@generated/model";
+import ExpandableList from "@components/showmore/ExpandableList";
 
 type Props = {
     klagePdf: VedleggResponse;
+    opplastedeVedlegg: VedleggResponse[];
     ettersendelser: EttersendelseDto[];
 };
 
-const Dokumenter = async ({ klagePdf, ettersendelser }: Props) => {
-    const t = await getTranslations("KlageDokumenter");
+const LABELLED_BY_ID = "klage-dokumenter-tittel";
+
+const Dokumenter = ({ klagePdf, opplastedeVedlegg, ettersendelser }: Props) => {
+    const t = useTranslations("KlageDokumenter");
+
+    const vedlegg = R.sortBy(
+        [...opplastedeVedlegg, ...ettersendelser.flatMap((ettersendelse) => ettersendelse.vedlegg)],
+        [(v) => new Date(v.datoLagtTil).getTime(), "desc"]
+    ).map((v) => ({ ...v, defaultTittel: t("ettersendelseDefaultTittel") }));
+
+    const filer = klagePdf ? [...vedlegg, { ...klagePdf, defaultTittel: t("klagePdfDefaultTittel") }] : vedlegg;
 
     return (
         <div>
-            <Heading size="medium" level="2" className="mb-4">
+            <Heading size="medium" level="3" className="mb-4" id={LABELLED_BY_ID}>
                 {t("tittel")}
             </Heading>
-            <VStack gap="space-8">
-                {klagePdf && (
-                    <FileUploadItem
-                        href={klagePdf.url}
-                        file={{
-                            name: klagePdf.filnavn?.length ? klagePdf.filnavn : t("klagePdfDefaultTittel"),
-                            size: klagePdf.storrelse,
-                        }}
-                        className="w-full"
-                    />
-                )}
-                {ettersendelser
-                    .flatMap((ettersendelse) => ettersendelse.vedlegg)
-                    .map((vedlegg) => (
+            <ExpandableList
+                items={filer}
+                id="klage-dokumenter-liste"
+                itemsLimit={3}
+                showMoreSuffix={t("visFlereDokumenter")}
+                labelledById={LABELLED_BY_ID}
+            >
+                {(fil, ref) => (
+                    <li key={fil.url} ref={ref} tabIndex={-1}>
                         <FileUploadItem
-                            key={vedlegg.filnavn}
-                            href={vedlegg.url}
+                            href={fil.url}
                             file={{
-                                name: vedlegg.filnavn?.length ? vedlegg.filnavn : t("ettersendelseDefaultTittel"),
-                                size: vedlegg.storrelse,
+                                name: fil.filnavn?.length ? fil.filnavn : fil.defaultTittel,
+                                size: fil.storrelse,
                             }}
                             className="w-full"
                         />
-                    ))}
-            </VStack>
+                    </li>
+                )}
+            </ExpandableList>
         </div>
     );
 };

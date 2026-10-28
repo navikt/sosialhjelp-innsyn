@@ -409,15 +409,19 @@
             "beskrivelse2": "You can read about <klageInfo>the appeal process and possible outcomes here</klageInfo>. If you have questions about your appeal, you can contact <navKontor>your local Nav office</navKontor> or call us at <tel>55 55 33 33</tel>."
         },
         "ettersendelse": {
-            "tittel": "Submit additional attachments",
-            "beskrivelse": "Upload documents or information you want to submit for your appeal."
+            "opplastingTittel": "Upload documentation",
+            "opplastingBeskrivelse": "If you have other information that may be relevant to your appeal, you can upload it here."
         },
         "seVedtak": "View the decision you have appealed"
+    },
+    "KlageDokumentasjon": {
+        "tittel": "Submit additional documentation"
     },
     "KlageDokumenter": {
         "tittel": "Documents",
         "klagePdfDefaultTittel": "Appeal against decision regarding financial assistance.pdf",
-        "ettersendelseDefaultTittel": "Unknown filename"
+        "ettersendelseDefaultTittel": "Unknown filename",
+        "visFlereDokumenter": "documents"
     },
     "KlageProsessenVidere": {
         "steg1": {

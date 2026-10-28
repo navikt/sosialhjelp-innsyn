@@ -1,6 +1,6 @@
 "use client";
 
-import { BodyLong, Button, Heading, VStack } from "@navikt/ds-react";
+import { Button, VStack } from "@navikt/ds-react";
 import { PaperplaneIcon } from "@navikt/aksel-icons";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -45,13 +45,9 @@ const KlageEttersendelse = ({ fiksDigisosId, klageId, contextId }: Props) => {
 
     return (
         <VStack gap="space-16">
-            <VStack gap="space-8">
-                <Heading size="medium" level="2">
-                    {t("tittel")}
-                </Heading>
-                <BodyLong>{t("beskrivelse")}</BodyLong>
-            </VStack>
             <FileSelectNew
+                label={t("opplastingTittel")}
+                description={t("opplastingBeskrivelse")}
                 docState={docState}
                 contextId={contextId}
                 target={{ type: "klage", klageId, navEksternRefId }}
