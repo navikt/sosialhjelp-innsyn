@@ -2,6 +2,7 @@ import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { FileTextIcon } from "@navikt/aksel-icons";
+import { randomUUID } from "node:crypto";
 import { getFlag, getToggles } from "@featuretoggles/unleash";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import { hentKlage } from "@generated/ssr/klage-controller/klage-controller";
@@ -52,7 +53,7 @@ const Page = async ({
                     {t("seVedtak")}
                 </DigisosLinkCard>
                 <ProsessenVidere navKontor={paaklagetSak.navEnhetNavn} />
-                <KlageEttersendelse fiksDigisosId={fiksDigisosId} klageId={klageId} />
+                <KlageEttersendelse fiksDigisosId={fiksDigisosId} klageId={klageId} contextId={randomUUID()} />
                 <Dokumenter klagePdf={klage.klagePdf} ettersendelser={klage.ettersendelser} />
             </VStack>
         </>

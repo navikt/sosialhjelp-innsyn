@@ -13,12 +13,12 @@ import { umamiCustomTrack } from "../../../../../umami";
 interface Props {
     fiksDigisosId: string;
     klageId: string;
+    contextId: string;
 }
 
-const KlageEttersendelse = ({ fiksDigisosId, klageId }: Props) => {
+const KlageEttersendelse = ({ fiksDigisosId, klageId, contextId }: Props) => {
     const t = useTranslations("KlagePage.ettersendelse");
     const tUpload = useTranslations("Opplastingsboks");
-    const [contextId] = useState(() => crypto.randomUUID());
     const [navEksternRefId, setNavEksternRefId] = useState(() => crypto.randomUUID());
     const { state: docState, resetState, addUploads, removeUpload } = useDocumentState(contextId);
     const { upload, resetMutation, isPending, isUploadSuccess, error } = useSendKlageEttersendelseTus(
