@@ -1,55 +1,35 @@
 import { FileObject } from "@navikt/ds-react";
 import { isFolder } from "./utils/validateFiles";
 import * as R from "remeda";
-import { DocumentState, UploadState } from "./api/useDocumentState";
-import { useTranslations } from "next-intl";
+import { UploadState } from "./api/useDocumentState";
 import { Upload } from "tus-js-client";
 import { browserEnv } from "@config/env";
 import { getTusUploader, type UploadTarget } from "./utils/tusUploader";
 import { useState } from "react";
 
-export const liveRegionIndexes = [0, 1] as const;
-type LiveRegionIndex = (typeof liveRegionIndexes)[number];
-
 export const useDocumentUpload = ({
     contextId,
-    docState,
     onUploadRemoved,
     onUploadsAdded,
     onSelect,
     target,
 }: {
     contextId: string;
-    docState: DocumentState;
     onUploadRemoved: (correlationId: string) => void;
     onUploadsAdded: (uploads: UploadState[]) => void;
     onSelect?: (files: FileObject[]) => void;
     target: UploadTarget;
 }) => {
-    const t = useTranslations("Opplastingsboks");
     const [folderDropError, setFolderDropError] = useState(false);
-    const [skjermleserBeskjed, setSkjermleserBeskjed] = useState<{ text: string; activeRegion: LiveRegionIndex }>({
-        text: "",
-        activeRegion: 0,
-    });
 
-    // Bytter mellom to live-regioner slik at samme beskjed kan kunngjøres flere ganger på rad.
-    // Skjermlesere leser ikke alltid opp en aria-live-region hvis tekstinnholdet er likt som sist.
-    const oppdaterSkjermleserBeskjed = (text: string) => {
-        setSkjermleserBeskjed(({ activeRegion }) => ({
-            text,
-            activeRegion: activeRegion === 0 ? 1 : 0,
-        }));
-    };
-
-    const startUpload = (files: FileObject[]) => {
+    // Returnerer antall filer som faktisk ble lagt til.
+    const startUpload = (files: FileObject[]): number => {
         const [folders, validFiles] = R.partition(files, (f) => isFolder(f));
 
         setFolderDropError(folders.length > 0);
 
-        if (validFiles.length === 0) return;
+        if (validFiles.length === 0) return 0;
 
-        oppdaterSkjermleserBeskjed(t("filLagtTil", { count: validFiles.length }));
         onSelect?.(validFiles);
 
         const optimisticUploads: UploadState[] = validFiles.map((file: FileObject) => {
@@ -71,13 +51,13 @@ export const useDocumentUpload = ({
             } satisfies UploadState;
         });
         onUploadsAdded(optimisticUploads);
+        return validFiles.length;
     };
 
     const terminateUpload = async (tusUploadId: string, correlationId?: string) => {
         await Upload.terminate(`${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/tus/files/${tusUploadId}`);
-        oppdaterSkjermleserBeskjed(t("filSlettet", { count: (docState.uploads?.length ?? 1) - 1 }));
         if (correlationId) onUploadRemoved(correlationId);
     };
 
-    return { startUpload, terminateUpload, folderDropError, skjermleserBeskjed };
+    return { startUpload, terminateUpload, folderDropError };
 };

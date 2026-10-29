@@ -14,7 +14,8 @@ interface Props {
     status: UploadStatus;
     size?: number;
     showCancelButton?: boolean;
-    onDelete: () => Promise<void>;
+    // hadFocus: om slett-knappen hadde fokus da den ble trykket. Brukes til å flytte fokus etter sletting.
+    onDelete: (hadFocus: boolean) => Promise<void>;
     deleteDisabled?: boolean;
 }
 
@@ -46,6 +47,10 @@ const FileUploadItem = ({
         retry: false,
     });
 
+    // Aksel sin loading-prop setter native disabled, og da flytter nettleseren fokus til <body>.
+    // Vi viser derfor Loader selv og bruker aria-disabled.
+    const isBusy = isPending;
+
     const isUploading = !url && !validations && status !== "FAILED" && status !== "COMPLETE" && !showCancelButton;
     const uploadStatus = isUploading ? "uploading" : "idle";
     return (
@@ -62,11 +67,19 @@ const FileUploadItem = ({
                             data-color="neutral"
                             type="button"
                             icon={
-                                showCancelButton ? <XMarkIcon title={t("cancel")} /> : <TrashIcon title={t("slett")} />
+                                isBusy ? (
+                                    <Loader size="xsmall" />
+                                ) : showCancelButton ? (
+                                    <XMarkIcon title={t("cancel")} />
+                                ) : (
+                                    <TrashIcon title={t("slett")} />
+                                )
                             }
-                            onClick={() => mutate()}
+                            onClick={(e) => {
+                                if (!isBusy) mutate(document.activeElement === e.currentTarget);
+                            }}
                             disabled={deleteDisabled}
-                            loading={isPending}
+                            aria-disabled={isBusy || deleteDisabled}
                         />
                     </HStack>
                 }
