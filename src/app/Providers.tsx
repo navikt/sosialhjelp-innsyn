@@ -11,7 +11,6 @@ import { getFaro, initInstrumentation, pinoLevelToFaroLevel } from "@faro/faro";
 import { TilgangResponse } from "@generated/model";
 import TilgangskontrollsideApp from "@components/Tilgangskontrollside/Tilgangskontrollside";
 import { getQueryClient } from "@api/queryClient";
-import { LiveAnnouncerProvider } from "@components/liveAnnouncer/LiveAnnouncer";
 import { isSupportedLocale } from "@i18n/common";
 
 initInstrumentation();
@@ -47,9 +46,7 @@ const Providers = ({ togglesPromise, tilgang, children }: PropsWithChildren<Prop
     return (
         <QueryClientProvider client={queryClient}>
             <FlagProvider toggles={toggles}>
-                <LiveAnnouncerProvider>
-                    <TilgangskontrollsideApp harTilgang={harTilgang}>{children}</TilgangskontrollsideApp>
-                </LiveAnnouncerProvider>
+                <TilgangskontrollsideApp harTilgang={harTilgang}>{children}</TilgangskontrollsideApp>
             </FlagProvider>
         </QueryClientProvider>
     );

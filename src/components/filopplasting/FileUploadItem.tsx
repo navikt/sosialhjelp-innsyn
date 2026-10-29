@@ -14,9 +14,9 @@ interface Props {
     status: UploadStatus;
     size?: number;
     showCancelButton?: boolean;
-    onDelete: () => Promise<void>;
+    // hadFocus: om slett-knappen hadde fokus da den ble trykket. Brukes til å flytte fokus etter sletting.
+    onDelete: (hadFocus: boolean) => Promise<void>;
     deleteDisabled?: boolean;
-    buttonRef?: (el: HTMLButtonElement | null) => void;
 }
 
 const SeOverDescription = () => {
@@ -40,7 +40,6 @@ const FileUploadItem = ({
     onDelete,
     deleteDisabled,
     isConverted,
-    buttonRef,
 }: Props) => {
     const t = useTranslations("FileUploadItem");
     const { mutate, isPending } = useMutation({
@@ -64,7 +63,6 @@ const FileUploadItem = ({
                     <HStack align="center" gap="space-4">
                         {showCancelButton && <Loader />}
                         <Button
-                            ref={buttonRef}
                             variant="tertiary"
                             data-color="neutral"
                             type="button"
@@ -77,8 +75,8 @@ const FileUploadItem = ({
                                     <TrashIcon title={t("slett")} />
                                 )
                             }
-                            onClick={() => {
-                                if (!isBusy) mutate();
+                            onClick={(e) => {
+                                if (!isBusy) mutate(document.activeElement === e.currentTarget);
                             }}
                             disabled={deleteDisabled}
                             aria-disabled={isBusy || deleteDisabled}

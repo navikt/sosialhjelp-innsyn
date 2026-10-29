@@ -1,9 +1,9 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
+import { BodyShort, FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
-import { ReactNode, useRef } from "react";
+import { ReactNode, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
 
 import FileUploadItem from "./FileUploadItem";
@@ -12,6 +12,15 @@ import { browserEnv } from "@config/env";
 import useSlowProcessingWarning from "@components/filopplasting/useSlowProcessingWarning";
 import { useDocumentUpload } from "./useDocumentUpload";
 import { UploadTarget } from "./utils/tusUploader";
+
+// Filvelgeren er nettopp lukket, og nettleseren gir fokus tilbake til «Velg filer».
+// Vi venter litt slik at vår fokusflytting kommer etter nettleserens.
+const FILE_DIALOG_CLOSE_DELAY_MS = 300;
+
+// Hvorfor fokusflytting og ikke aria-live: VoiceOver leser fokus på «Velg filer» i lang tid etter at
+// filvelgeren lukkes. Firefox forkaster live-meldinger i mellomtiden, og begge nettlesere hopper over
+// en live-melding som er lik den forrige. Fokusflytting leses alltid, og avbryter den lange opplesingen.
+type Announcement = { kind: "added"; count: number } | { kind: "deleted" };
 
 interface Props {
     label?: string | null;
@@ -45,11 +54,13 @@ const FileSelectNew = ({
     headingLevel,
 }: Props) => {
     const t = useTranslations("Opplastingsboks");
-    // Fokusmål som flyttes til før en slettet rad fjernes. Ellers sender nettleseren fokus til <body>.
-    const focusAnchorRef = useRef<HTMLDivElement>(null);
+    const statusId = useId();
+    const listRef = useRef<HTMLUListElement>(null);
+    const emptyStatusRef = useRef<HTMLParagraphElement>(null);
+    const [announcement, setAnnouncement] = useState<Announcement | null>(null);
+    const selectTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
     const { startUpload, terminateUpload, folderDropError } = useDocumentUpload({
-        docState,
         contextId,
         onUploadRemoved,
         onUploadsAdded,
@@ -62,6 +73,39 @@ const FileSelectNew = ({
     const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
 
     const converted = docState.uploads?.some((upload) => upload.converted);
+    const uploadCount = docState.uploads?.length ?? 0;
+
+    const statusText =
+        announcement?.kind === "added"
+            ? t("filLagtTil", { count: announcement.count })
+            : announcement?.kind === "deleted"
+              ? t("filSlettet", { count: uploadCount })
+              : undefined;
+
+    useEffect(() => () => clearTimeout(selectTimer.current), []);
+
+    // Kjører i samme tick som DOM-endringen, slik at en slettet rad aldri rekker å sende fokus til <body>.
+    useLayoutEffect(() => {
+        if (!announcement) return;
+        if (uploadCount > 0) listRef.current?.focus();
+        else emptyStatusRef.current?.focus();
+        // Skal kun kjøre når en ny kunngjøring er satt, ikke ved andre endringer i listen.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [announcement]);
+
+    const handleSelect = (files: FileObject[]) => {
+        const count = startUpload(files);
+        if (count === 0) return;
+        clearTimeout(selectTimer.current);
+        selectTimer.current = setTimeout(() => setAnnouncement({ kind: "added", count }), FILE_DIALOG_CLOSE_DELAY_MS);
+    };
+
+    const handleDelete = async (tusUploadId: string, correlationId: string | undefined, hadFocus: boolean) => {
+        await terminateUpload(tusUploadId, correlationId);
+        // Flytt bare fokus hvis brukeren fortsatt sto på slett-knappen. Raden fjernes og kunngjøringen
+        // settes i samme render, så fokus flyttes før nettleseren mister det.
+        if (hadFocus) setAnnouncement({ kind: "deleted" });
+    };
 
     return (
         <FileUpload
@@ -77,7 +121,10 @@ const FileSelectNew = ({
                 },
             }}
         >
-            <div ref={focusAnchorRef} tabIndex={-1} className="sr-only" />
+            {/* Navnet til listen. Leses av VoiceOver når listen får fokus. */}
+            <span id={statusId} hidden>
+                {statusText}
+            </span>
             <VStack gap="space-24">
                 <FileSelectUpload
                     label={label ?? t("tittel")}
@@ -87,7 +134,7 @@ const FileSelectNew = ({
                     variant={variant === "warning" ? "warning" : "default"}
                     headingLevel={headingLevel}
                     buttonText={t("lastOppFiler")}
-                    onSelect={(files) => startUpload(files)}
+                    onSelect={handleSelect}
                     currentCount={docState.uploads?.length ?? 0}
                 />
 
@@ -95,6 +142,13 @@ const FileSelectNew = ({
                     <InlineStatusMessage variant="error" role="alert">
                         {t("mappeIkkeTillatt")}
                     </InlineStatusMessage>
+                )}
+
+                {uploadCount === 0 && announcement?.kind === "deleted" && (
+                    // Kun for skjermleser. Fjernes når fokus forlater den, slik at den ikke blir liggende igjen.
+                    <BodyShort ref={emptyStatusRef} tabIndex={-1} visuallyHidden onBlur={() => setAnnouncement(null)}>
+                        {statusText}
+                    </BodyShort>
                 )}
 
                 {!!docState.uploads?.length && (
@@ -121,42 +175,35 @@ const FileSelectNew = ({
                                 ))}
                             </>
                         )}
-                        <VStack as="ul" gap="space-8">
-                            {docState.uploads?.map((upload) => {
-                                let deleteButtonEl: HTMLButtonElement | null = null;
-                                return (
-                                    <FileUploadItem
-                                        key={upload.id}
-                                        url={
-                                            upload.url
-                                                ? `${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`
-                                                : undefined
-                                        }
-                                        isConverted={upload.converted}
-                                        convertedFilename={upload.finalFilename}
-                                        originalFilename={upload.originalFilename}
-                                        validations={upload.validations}
-                                        status={upload.status}
-                                        size={upload.size}
-                                        showCancelButton={
-                                            showSlowProcessingWarning &&
-                                            (upload.status === "PENDING" || upload.status === "PROCESSING")
-                                        }
-                                        deleteDisabled={isPending}
-                                        buttonRef={(el) => {
-                                            deleteButtonEl = el;
-                                        }}
-                                        onDelete={() =>
-                                            terminateUpload(upload.id, upload.correlationId, () => {
-                                                // Bare flytt fokus hvis brukeren fortsatt står på denne knappen.
-                                                if (document.activeElement === deleteButtonEl) {
-                                                    focusAnchorRef.current?.focus();
-                                                }
-                                            })
-                                        }
-                                    />
-                                );
-                            })}
+                        <VStack
+                            as="ul"
+                            gap="space-8"
+                            ref={listRef}
+                            tabIndex={-1}
+                            aria-labelledby={statusText ? statusId : undefined}
+                        >
+                            {docState.uploads?.map((upload) => (
+                                <FileUploadItem
+                                    key={upload.id}
+                                    url={
+                                        upload.url
+                                            ? `${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`
+                                            : undefined
+                                    }
+                                    isConverted={upload.converted}
+                                    convertedFilename={upload.finalFilename}
+                                    originalFilename={upload.originalFilename}
+                                    validations={upload.validations}
+                                    status={upload.status}
+                                    size={upload.size}
+                                    showCancelButton={
+                                        showSlowProcessingWarning &&
+                                        (upload.status === "PENDING" || upload.status === "PROCESSING")
+                                    }
+                                    deleteDisabled={isPending}
+                                    onDelete={(hadFocus) => handleDelete(upload.id, upload.correlationId, hadFocus)}
+                                />
+                            ))}
                         </VStack>
                     </VStack>
                 )}
