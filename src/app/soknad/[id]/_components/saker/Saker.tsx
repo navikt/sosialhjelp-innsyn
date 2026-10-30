@@ -9,13 +9,11 @@ import { useHentSaksStatuserSuspense } from "@generated/saks-status-controller/s
 import { useHentKlager } from "@generated/klage-controller/klage-controller";
 import { useParams } from "next/navigation";
 import { sortSaker } from "./sort";
-import useKlageEnabled from "@hooks/useKlageEnabled";
 
 const Saker = () => {
     const { id } = useParams<{ id: string }>();
     const { data: saker } = useHentSaksStatuserSuspense(id);
-    const klageEnabled = useKlageEnabled(id);
-    const { data: klager } = useHentKlager(id, { query: { enabled: klageEnabled } });
+    const { data: klager } = useHentKlager(id);
     if (!saker.length) {
         return null;
     }
