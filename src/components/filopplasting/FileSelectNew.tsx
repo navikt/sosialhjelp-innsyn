@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { BodyShort, FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
+import { FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
 import { ReactNode, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
@@ -56,8 +56,10 @@ const FileSelectNew = ({
     const t = useTranslations("Opplastingsboks");
     const statusId = useId();
     const listRef = useRef<HTMLUListElement>(null);
-    const emptyStatusRef = useRef<HTMLParagraphElement>(null);
+    const selectButtonContainerRef = useRef<HTMLDivElement>(null);
     const [announcement, setAnnouncement] = useState<Announcement | null>(null);
+    // Leses som del av «Velg filer»-knappens beskrivelse etter at siste fil er slettet. Tømmes ved blur.
+    const [deletedMessage, setDeletedMessage] = useState<string | null>(null);
     const selectTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
     const { startUpload, terminateUpload, folderDropError } = useDocumentUpload({
@@ -88,7 +90,9 @@ const FileSelectNew = ({
     useLayoutEffect(() => {
         if (!announcement) return;
         if (uploadCount > 0) listRef.current?.focus();
-        else emptyStatusRef.current?.focus();
+        // Siste fil er slettet: fokus tilbake til «Velg filer». Aksel eksponerer ikke ref til knappen,
+        // så vi finner den i containeren (Dropzone på desktop, Trigger på mobil).
+        else selectButtonContainerRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
         // Skal kun kjøre når en ny kunngjøring er satt, ikke ved andre endringer i listen.
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [announcement]);
@@ -104,7 +108,9 @@ const FileSelectNew = ({
         await terminateUpload(tusUploadId, correlationId);
         // Flytt bare fokus hvis brukeren fortsatt sto på slett-knappen. Raden fjernes og kunngjøringen
         // settes i samme render, så fokus flyttes før nettleseren mister det.
-        if (hadFocus) setAnnouncement({ kind: "deleted" });
+        if (!hadFocus) return;
+        if (uploadCount <= 1) setDeletedMessage(t("filSlettet", { count: 0 }));
+        setAnnouncement({ kind: "deleted" });
     };
 
     return (
@@ -126,29 +132,25 @@ const FileSelectNew = ({
                 {statusText}
             </span>
             <VStack gap="space-24">
-                <FileSelectUpload
-                    label={label ?? t("tittel")}
-                    headerId={`header-id-${contextId}`}
-                    description={description}
-                    tag={tag}
-                    variant={variant === "warning" ? "warning" : "default"}
-                    headingLevel={headingLevel}
-                    buttonText={t("lastOppFiler")}
-                    onSelect={handleSelect}
-                    currentCount={docState.uploads?.length ?? 0}
-                />
+                <div ref={selectButtonContainerRef} onBlur={() => setDeletedMessage(null)}>
+                    <FileSelectUpload
+                        label={label ?? t("tittel")}
+                        headerId={`header-id-${contextId}`}
+                        description={description}
+                        tag={tag}
+                        variant={variant === "warning" ? "warning" : "default"}
+                        headingLevel={headingLevel}
+                        buttonText={t("lastOppFiler")}
+                        onSelect={handleSelect}
+                        currentCount={docState.uploads?.length ?? 0}
+                        srMessage={deletedMessage}
+                    />
+                </div>
 
                 {folderDropError && (
                     <InlineStatusMessage variant="error" role="alert">
                         {t("mappeIkkeTillatt")}
                     </InlineStatusMessage>
-                )}
-
-                {uploadCount === 0 && announcement?.kind === "deleted" && (
-                    // Kun for skjermleser. Fjernes når fokus forlater den, slik at den ikke blir liggende igjen.
-                    <BodyShort ref={emptyStatusRef} tabIndex={-1} visuallyHidden onBlur={() => setAnnouncement(null)}>
-                        {statusText}
-                    </BodyShort>
                 )}
 
                 {!!docState.uploads?.length && (

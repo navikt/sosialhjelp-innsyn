@@ -17,6 +17,8 @@ interface FileSelectUploadProps {
     accept?: string;
     variant?: "default" | "warning";
     headingLevel?: "2" | "3";
+    // Kun for skjermleser. Blir del av knappens beskrivelse, siden knappen peker på overskriften.
+    srMessage?: string | null;
 }
 
 export const FileSelectUpload = ({
@@ -32,6 +34,7 @@ export const FileSelectUpload = ({
     accept = allowedFileTypes,
     variant = "default",
     headingLevel = "3",
+    srMessage,
 }: FileSelectUploadProps) => {
     const isMobile = useIsMobile();
     const dataColor = variant === "warning" ? "warning" : undefined;
@@ -57,6 +60,7 @@ export const FileSelectUpload = ({
     // Mobile: tag on top, label below (flex-col); Desktop: label left, tag right (flex-row)
     const headerSection = (
         <div className="flex flex-col ax-md:flex-row ax-md:justify-between ax-md:items-center gap-2" id={headerId}>
+            {srMessage && <span className="sr-only">{srMessage}</span>}
             <div className="order-2 ax-md:order-1">{labelContent}</div>
             {tag && <div className="order-1 ax-md:order-2">{tag}</div>}
         </div>
