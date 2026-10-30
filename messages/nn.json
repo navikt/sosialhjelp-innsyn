@@ -483,6 +483,7 @@
         "manglerInnhold": "For å halde fram må du forklare kvifor du er usamd i vedtaket, anten i tekstfeltet eller i eit vedlegg.",
         "sendKlage": "Send inn",
         "ingenVedlegg": "Ingen vedlegg",
+        "ikkeTilgjengelig": "Klage er ikkje tilgjengeleg for denne søknaden.",
         "sendingFeilet": "Sending av klaga feila. Prøv igjen seinare eller ta kontakt med ditt lokale NAV-kontor.",
         "oppsummering": {
             "guide": "Sjå over at alt er riktig før du sender inn klaga. Viss du vil endre grunngivinga di eller leggje til meir dokumentasjon, kan du gå tilbake til førre side.",
