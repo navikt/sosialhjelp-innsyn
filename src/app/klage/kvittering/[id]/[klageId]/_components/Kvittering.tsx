@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, InfoCard, Link, VStack } from "@navikt/ds-react";
+import { InfoCard, Link, VStack } from "@navikt/ds-react";
 import { ArrowRedoIcon, CheckmarkCircleIcon, FilePdfIcon, HouseIcon, PaperclipIcon } from "@navikt/aksel-icons";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { useLocale, useTranslations } from "next-intl";
@@ -50,16 +50,7 @@ const Kvittering = ({ klagePdf, navKontor, fiksDigisosId, klageId }: Props) => {
             >
                 {t("apneKlagen")}
             </DigisosLinkCard>
-            <Box
-                borderColor="info-subtle"
-                background="info-soft"
-                borderRadius="12"
-                borderWidth="1"
-                paddingBlock="space-8"
-                paddingInline="space-16"
-            >
-                <ProsessenVidere navKontor={navKontor} />
-            </Box>
+            <ProsessenVidere navKontor={navKontor} />
             <Snarveier hideSokButton>
                 <li>
                     <DigisosLinkCard href={`/soknad/${fiksDigisosId}`} icon={<ArrowRedoIcon aria-hidden />}>

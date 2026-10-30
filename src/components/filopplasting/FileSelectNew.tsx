@@ -89,8 +89,13 @@ const FileSelectNew = ({
                     variant={variant === "warning" ? "warning" : "default"}
                     headingLevel={headingLevel}
                     buttonText={t("lastOppFiler")}
-                    onSelect={(files) => startUpload(files)}
+                    onSelect={(files) => {
+                        if (!isPending) {
+                            startUpload(files);
+                        }
+                    }}
                     currentCount={docState.uploads?.length ?? 0}
+                    disabled={isPending}
                 />
 
                 {folderDropError && (
