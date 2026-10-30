@@ -32,7 +32,14 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
     const { data: oppgaveVedlegg } = useGetVedleggForOppgave(fiksDigisosId, metadata.hendelsereferanse!, {
         query: { enabled: !!metadata.hendelsereferanse },
     });
-    const { state: docState, resetState, addUploads, removeUpload } = useDocumentState(uploadContextId);
+    const {
+        state: docState,
+        resetState,
+        addUploads,
+        removeUpload,
+        hasFiles,
+        canSubmit,
+    } = useDocumentState(uploadContextId);
     const opplastingId = useRef<string | null>(null);
     const {
         upload,
@@ -134,16 +141,12 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
                     </HStack>
                 </InlineStatusMessage>
             )}
-            {!!docState.uploads?.length && (
+            {hasFiles && (
                 <Button
                     onClick={() => upload(docState.submissionId!)}
                     loading={isPending}
                     className="self-start"
-                    disabled={
-                        isPending ||
-                        docState.uploads?.some((upload) => (upload.validations?.length ?? 0) > 0 || !upload.filId) ||
-                        (docState.validations?.length ?? 0) > 0
-                    }
+                    disabled={isPending || !canSubmit}
                     icon={<PaperplaneIcon />}
                     iconPosition={"right"}
                 >

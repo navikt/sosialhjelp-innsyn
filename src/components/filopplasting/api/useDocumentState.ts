@@ -103,6 +103,11 @@ export const useDocumentState = (
     resetState: () => void;
     addUploads: (uploads: UploadState[]) => void;
     removeUpload: (correlationId: string) => void;
+    hasFiles: boolean;
+    noFileErrors: boolean;
+    allFilesUploaded: boolean;
+    hasFormErrors: boolean;
+    canSubmit: boolean;
 } => {
     const [state, dispatch] = useReducer(documentStateReducer, {});
     const { id: fiksDigisosId } = useParams<{ id: string }>();
@@ -122,5 +127,22 @@ export const useDocumentState = (
         return openEventChannel(eventstreamUrl(id, fiksDigisosId), onUpdate);
     }, [id, fiksDigisosId]);
 
-    return { state, resetState, addUploads, removeUpload };
+    const uploads = state.uploads ?? [];
+    const hasFiles = uploads.length > 0;
+    const noFileErrors = uploads.every((upload) => !upload.validations?.length);
+    const allFilesUploaded = uploads.every((upload) => !!upload.filId);
+    const hasFormErrors = !!state.validations?.length;
+    const canSubmit = !!state.submissionId && hasFiles && noFileErrors && allFilesUploaded && !hasFormErrors;
+
+    return {
+        state,
+        resetState,
+        addUploads,
+        removeUpload,
+        hasFiles,
+        noFileErrors,
+        allFilesUploaded,
+        hasFormErrors,
+        canSubmit,
+    };
 };

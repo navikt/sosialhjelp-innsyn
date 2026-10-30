@@ -20,7 +20,7 @@ const KlageEttersendelse = ({ fiksDigisosId, klageId, contextId }: Props) => {
     const t = useTranslations("KlagePage.ettersendelse");
     const tUpload = useTranslations("Opplastingsboks");
     const [navEksternRefId, setNavEksternRefId] = useState(() => crypto.randomUUID());
-    const { state: docState, resetState, addUploads, removeUpload } = useDocumentState(contextId);
+    const { state: docState, resetState, addUploads, removeUpload, hasFiles, canSubmit } = useDocumentState(contextId);
     const { upload, resetMutation, isPending, isUploadSuccess, error } = useSendKlageEttersendelseTus(
         fiksDigisosId,
         klageId,
@@ -36,12 +36,6 @@ const KlageEttersendelse = ({ fiksDigisosId, klageId, contextId }: Props) => {
                 antallDokumenter: docState.uploads?.length ?? 0,
             })
     );
-
-    const kanSendeInn =
-        !!docState.submissionId &&
-        !!docState.uploads?.length &&
-        !docState.uploads.some((vedlegg) => (vedlegg.validations?.length ?? 0) > 0 || !vedlegg.filId) &&
-        (docState.validations?.length ?? 0) === 0;
 
     return (
         <VStack gap="space-16">
@@ -72,12 +66,12 @@ const KlageEttersendelse = ({ fiksDigisosId, klageId, contextId }: Props) => {
                     {tUpload("error")}
                 </InlineStatusMessage>
             )}
-            {!!docState.uploads?.length && (
+            {hasFiles && (
                 <Button
                     onClick={() => upload(docState.submissionId!)}
                     loading={isPending}
                     className="self-start"
-                    disabled={!kanSendeInn || isPending}
+                    disabled={!canSubmit || isPending}
                     icon={<PaperplaneIcon aria-hidden />}
                     iconPosition="right"
                 >
