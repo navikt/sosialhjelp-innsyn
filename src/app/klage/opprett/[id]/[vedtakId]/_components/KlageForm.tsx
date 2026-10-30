@@ -5,7 +5,7 @@ import { FormProvider, SubmitHandler, useForm, useWatch } from "react-hook-form"
 import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { logger } from "@navikt/next-logger";
 import { FilUrl } from "@generated/model";
@@ -17,6 +17,7 @@ import BekreftForkastModal from "./BekreftForkastModal";
 import StegBegrunnelse from "./steg/StegBegrunnelse";
 import StegOppsummering from "./steg/StegOppsummering";
 import { useDocumentState } from "@components/filopplasting/api/useDocumentState";
+import { deleteSubmission } from "@components/filopplasting/api/deleteSubmission";
 
 export type FormValues = {
     background: string | null;
@@ -83,9 +84,24 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
         }
     };
 
-    const forkastKlage = () => {
+    const navigerTilSoknad = () => {
         setVisBekreftForkastModal(false);
-        router.back();
+        router.replace(`/soknad/${fiksDigisosId}`);
+    };
+
+    const forkastMutation = useMutation({
+        mutationFn: deleteSubmission,
+        onError: (error) => logger.warn(`Sletting av opplastinger feilet ved forkasting av klage: ${error}`),
+        onSettled: navigerTilSoknad,
+    });
+
+    const forkastKlage = () => {
+        const harOpplastinger = !!docState.uploads && docState.uploads.length > 0;
+        if (harOpplastinger) {
+            forkastMutation.mutate(contextId);
+        } else {
+            navigerTilSoknad();
+        }
     };
 
     return (
@@ -127,6 +143,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
                 open={visBekreftForkastModal}
                 onClose={() => setVisBekreftForkastModal(false)}
                 forkastKlage={forkastKlage}
+                isLoading={forkastMutation.isPending}
             />
         </>
     );
