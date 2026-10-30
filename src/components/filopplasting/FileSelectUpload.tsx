@@ -1,5 +1,5 @@
 import { Alert, BodyLong, Button, FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
-import { ReactNode } from "react";
+import { ReactNode, useId } from "react";
 import { allowedFileTypes } from "@components/filopplasting/consts";
 import { UploadIcon } from "@navikt/aksel-icons";
 import useIsMobile from "@utils/useIsMobile";
@@ -17,7 +17,7 @@ interface FileSelectUploadProps {
     accept?: string;
     variant?: "default" | "warning";
     headingLevel?: "2" | "3";
-    // Kun for skjermleser. Blir del av knappens beskrivelse, siden knappen peker på overskriften.
+    // Kun for skjermleser. Legges først i knappens navn, slik at den leses før «Velg filer».
     srMessage?: string | null;
 }
 
@@ -37,6 +37,10 @@ export const FileSelectUpload = ({
     srMessage,
 }: FileSelectUploadProps) => {
     const isMobile = useIsMobile();
+    const buttonId = useId();
+    const srMessageId = useId();
+    // Navnet blir «<melding> <knappens egen tekst>». En knapp kan peke på sin egen id i aria-labelledby.
+    const labelledBy = srMessage ? `${srMessageId} ${buttonId}` : undefined;
     const dataColor = variant === "warning" ? "warning" : undefined;
 
     const labelContent =
@@ -60,7 +64,6 @@ export const FileSelectUpload = ({
     // Mobile: tag on top, label below (flex-col); Desktop: label left, tag right (flex-row)
     const headerSection = (
         <div className="flex flex-col ax-md:flex-row ax-md:justify-between ax-md:items-center gap-2" id={headerId}>
-            {srMessage && <span className="sr-only">{srMessage}</span>}
             <div className="order-2 ax-md:order-1">{labelContent}</div>
             {tag && <div className="order-1 ax-md:order-2">{tag}</div>}
         </div>
@@ -68,6 +71,9 @@ export const FileSelectUpload = ({
 
     return (
         <>
+            <span id={srMessageId} hidden>
+                {srMessage}
+            </span>
             {!isMobile ? (
                 <FileUpload.Dropzone
                     className="flex flex-col"
@@ -83,6 +89,8 @@ export const FileSelectUpload = ({
                     multiple
                     disabled={disabled}
                     error={error}
+                    id={buttonId}
+                    aria-labelledby={labelledBy}
                 />
             ) : (
                 <VStack gap="space-16">
@@ -96,8 +104,10 @@ export const FileSelectUpload = ({
                             variant="secondary"
                             icon={<UploadIcon aria-hidden />}
                             disabled={disabled}
+                            id={buttonId}
                             aria-describedby={headerId}
                             aria-label={buttonText}
+                            aria-labelledby={labelledBy}
                         >
                             {buttonText}
                         </Button>
