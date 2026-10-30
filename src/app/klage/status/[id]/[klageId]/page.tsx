@@ -1,8 +1,6 @@
 import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
-import { notFound } from "next/navigation";
 import { FileTextIcon } from "@navikt/aksel-icons";
-import { getFlag, getToggles } from "@featuretoggles/unleash";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import { hentKlage } from "@generated/ssr/klage-controller/klage-controller";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
@@ -20,14 +18,9 @@ const Page = async ({
         klageId: string;
     }>;
 }) => {
-    const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());
     const t = await getTranslations("KlagePage");
     const tCrumbs = await getTranslations("StatusPage.breadcrumbs");
     const { id: fiksDigisosId, klageId } = await params;
-
-    if (!toggle.enabled) {
-        return notFound();
-    }
 
     const klage = await hentKlage(fiksDigisosId, klageId);
     // TODO: Burde denne være inkludert i klage over?

@@ -8,14 +8,12 @@ import SingleSak from "./SingleSak";
 import { useHentSaksStatuserSuspense } from "@generated/saks-status-controller/saks-status-controller";
 import { useHentKlager } from "@generated/klage-controller/klage-controller";
 import { useParams } from "next/navigation";
-import { useFlag } from "@featuretoggles/context";
 import { sortSaker } from "./sort";
 
 const Saker = () => {
     const { id } = useParams<{ id: string }>();
     const { data: saker } = useHentSaksStatuserSuspense(id);
-    const klageEnabled = useFlag("sosialhjelp.innsyn.klage").enabled;
-    const { data: klager } = useHentKlager(id, { query: { enabled: klageEnabled } });
+    const { data: klager } = useHentKlager(id);
     if (!saker.length) {
         return null;
     }

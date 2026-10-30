@@ -3,9 +3,9 @@ import { GavelIcon } from "@navikt/aksel-icons";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { KlageRef } from "@generated/model";
-import { useFlag } from "@featuretoggles/context";
 import { Link } from "@i18n/navigation";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
+import useKlageEnabled from "@hooks/useKlageEnabled";
 
 interface Props {
     vedtakId: string;
@@ -16,9 +16,9 @@ const KlageInfo = ({ vedtakId, innsendtKlage }: Props) => {
     const { id: fiksDigisosId } = useParams<{ id: string }>();
 
     const t = useTranslations("KlageInfo");
-    const klageToggle = useFlag("sosialhjelp.innsyn.klage");
+    const klageEnabled = useKlageEnabled(fiksDigisosId);
 
-    if (klageToggle.enabled && innsendtKlage) {
+    if (innsendtKlage) {
         return (
             <DigisosLinkCard
                 href={`/klage/status/${fiksDigisosId}/${innsendtKlage.klageId}`}
@@ -50,7 +50,7 @@ const KlageInfo = ({ vedtakId, innsendtKlage }: Props) => {
                     })}
                 </BodyLong>
             </VStack>
-            {klageToggle.enabled && (
+            {klageEnabled && (
                 <Button
                     icon={<GavelIcon aria-hidden />}
                     variant="secondary"
