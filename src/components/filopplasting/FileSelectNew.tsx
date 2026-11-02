@@ -141,8 +141,13 @@ const FileSelectNew = ({
                         variant={variant === "warning" ? "warning" : "default"}
                         headingLevel={headingLevel}
                         buttonText={t("lastOppFiler")}
-                        onSelect={handleSelect}
+                        onSelect={(files) => {
+                            if (!isPending) {
+                                handleSelect(files);
+                            }
+                        }}
                         currentCount={docState.uploads?.length ?? 0}
+                        disabled={isPending}
                         srMessage={deletedMessage}
                     />
                 </div>

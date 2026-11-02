@@ -408,11 +408,20 @@
             "beskrivelse1": "Du kan sende inn fleire opplysningar og dokumentasjon til klaga di på denne sida. Når klaga er ferdigbehandla, vil du få svar via Digipost eller fysisk brev.",
             "beskrivelse2": "Du kan lesa om <klageInfo>klagebehandling og moglege utfall her</klageInfo>. Har du spørsmål om klaga di kan du kontakta <navKontor>Nav-kontoret ditt</navKontor> eller ringja oss på <tel>55 55 33 33</tel>."
         },
+        "ettersendelse": {
+            "opplastingTittel": "Last opp dokumentasjon",
+            "opplastingBeskrivelse": "Viss du har andre opplysningar som kan ha betydning for klaga di, kan du laste dei opp her."
+        },
         "seVedtak": "Se vedtaket du har klaget på"
+    },
+    "KlageDokumentasjon": {
+        "tittel": "Ettersend dokumentasjon"
     },
     "KlageDokumenter": {
         "tittel": "Dokumenter",
-        "klagePdfDefaultTittel": "Klage på vedtak om økonomisk sosialhjelp.pdf"
+        "klagePdfDefaultTittel": "Klage på vedtak om økonomisk sosialhjelp.pdf",
+        "ettersendelseDefaultTittel": "Ukjend filnavn",
+        "visFlereDokumenter": "dokument"
     },
     "KlageProsessenVidere": {
         "tittel": "Prosessen vidare",
