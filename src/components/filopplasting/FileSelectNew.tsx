@@ -58,7 +58,7 @@ const FileSelectNew = ({
     const listRef = useRef<HTMLUListElement>(null);
     const selectButtonContainerRef = useRef<HTMLDivElement>(null);
     const [announcement, setAnnouncement] = useState<Announcement | null>(null);
-    // Leses som del av «Velg filer»-knappens beskrivelse etter at siste fil er slettet. Tømmes ved blur.
+    // Leses før «Velg filer» etter at siste fil er slettet. Tømmes ved blur.
     const [deletedMessage, setDeletedMessage] = useState<string | null>(null);
     const selectTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
