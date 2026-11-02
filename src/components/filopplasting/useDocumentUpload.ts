@@ -54,8 +54,10 @@ export const useDocumentUpload = ({
         return validFiles.length;
     };
 
-    const terminateUpload = async (tusUploadId: string, correlationId?: string) => {
+    // beforeRemove kalles etter vellykket sletting, rett før raden fjernes, mens slett-knappen fortsatt finnes i DOM.
+    const terminateUpload = async (tusUploadId: string, correlationId?: string, beforeRemove?: () => void) => {
         await Upload.terminate(`${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/tus/files/${tusUploadId}`);
+        beforeRemove?.();
         if (correlationId) onUploadRemoved(correlationId);
     };
 

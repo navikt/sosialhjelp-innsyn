@@ -14,8 +14,8 @@ interface Props {
     status: UploadStatus;
     size?: number;
     showCancelButton?: boolean;
-    // hadFocus: om slett-knappen hadde fokus da den ble trykket. Brukes til å flytte fokus etter sletting.
-    onDelete: (hadFocus: boolean) => Promise<void>;
+    // button: slett-knappen som ble trykket. Brukes til å sjekke om den fortsatt har fokus når slettingen er ferdig.
+    onDelete: (button: HTMLButtonElement) => Promise<void>;
     deleteDisabled?: boolean;
 }
 
@@ -76,7 +76,7 @@ const FileUploadItem = ({
                                 )
                             }
                             onClick={(e) => {
-                                if (!isBusy) mutate(document.activeElement === e.currentTarget);
+                                if (!isBusy) mutate(e.currentTarget);
                             }}
                             disabled={deleteDisabled}
                             aria-disabled={isBusy || deleteDisabled}
