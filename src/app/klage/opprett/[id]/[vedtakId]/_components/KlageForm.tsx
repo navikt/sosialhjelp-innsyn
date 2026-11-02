@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { logger } from "@navikt/next-logger";
 import { FilUrl } from "@generated/model";
 import { getHentKlagerQueryKey, useSendKlage } from "@generated/klage-controller/klage-controller";
+import { FetchError } from "../../../../../../custom-fetch";
 
 import { MAX_LEN_BACKGROUND } from "../_consts/consts";
 
@@ -58,6 +59,10 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
     const harInnhold = Boolean(background?.trim()) || (!!docState.uploads && docState.uploads.length > 0);
 
     const sendKlageMutation = useSendKlage();
+    const ikkeTilgjengelig =
+        sendKlageMutation.error instanceof FetchError &&
+        sendKlageMutation.error.status === 403 &&
+        (sendKlageMutation.error.responseBody as { error?: string } | undefined)?.error === "klage_ikke_tilgjengelig";
 
     const onSubmit: SubmitHandler<FormValues> = (formValues: FormValues) => {
         startSending(async () => {
@@ -112,7 +117,8 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
                         {aktivtSteg === 2 && (
                             <StegOppsummering
                                 isLoading={sendKlageMutation.isPending || isSending}
-                                isError={sendKlageMutation.isError}
+                                isError={sendKlageMutation.isError && !ikkeTilgjengelig}
+                                ikkeTilgjengelig={ikkeTilgjengelig}
                                 onTilbake={() => setAktivtSteg(1)}
                                 formValues={getValues()}
                                 uploads={(docState.uploads ?? []).filter((upload) => upload.status === "COMPLETE")}

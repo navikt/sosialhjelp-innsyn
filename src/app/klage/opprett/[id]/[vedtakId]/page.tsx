@@ -1,23 +1,22 @@
 import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import React from "react";
 import { randomUUID } from "node:crypto";
-import { getFlag, getToggles } from "@featuretoggles/unleash";
+import { isKlageTilgjengelig } from "../../../_utils/isKlageTilgjengelig";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import { hentSakForVedtak } from "@generated/ssr/sak-controller/sak-controller";
 
 import KlageForm from "./_components/KlageForm";
 
 const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string }> }) => {
-    const toggle = getFlag("sosialhjelp.innsyn.klage", await getToggles());
-    if (!toggle.enabled) {
-        return notFound();
+    const { id: fiksDigisosId, vedtakId } = await params;
+    if (!(await isKlageTilgjengelig(fiksDigisosId))) {
+        redirect(`/soknad/${fiksDigisosId}`);
     }
 
     const t = await getTranslations("OpprettKlagePage");
     const tCrumbs = await getTranslations("StatusPage.breadcrumbs");
-    const { id: fiksDigisosId, vedtakId } = await params;
 
     const sak = await hentSakForVedtak(fiksDigisosId, vedtakId);
     return (

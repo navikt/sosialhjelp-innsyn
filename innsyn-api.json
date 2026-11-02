@@ -411,6 +411,26 @@
                 "responses": { "200": { "description": "OK", "content": {} } }
             }
         },
+        "/api/v1/innsyn/{fiksDigisosId}/klage/tilgjengelig": {
+            "get": {
+                "tags": ["klage-controller"],
+                "operationId": "kanSendeKlage",
+                "parameters": [
+                    {
+                        "name": "fiksDigisosId",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "format": "uuid" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": { "*/*": { "schema": { "$ref": "#/components/schemas/KlageTilgjengeligDto" } } }
+                    }
+                }
+            }
+        },
         "/api/v1/innsyn/{fiksDigisosId}/hendelser/beta": {
             "get": {
                 "tags": ["hendelse-controller"],
@@ -860,6 +880,11 @@
                     "timestampSendt",
                     "vedtakId"
                 ]
+            },
+            "KlageTilgjengeligDto": {
+                "type": "object",
+                "properties": { "kanSendeKlage": { "type": "boolean" } },
+                "required": ["kanSendeKlage"]
             },
             "BehandlesIkke": { "allOf": [{ "$ref": "#/components/schemas/HendelseDto" }], "required": ["tidspunkt"] },
             "DokumentasjonKrav": {

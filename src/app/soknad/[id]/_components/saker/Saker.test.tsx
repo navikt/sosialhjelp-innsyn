@@ -6,12 +6,12 @@ import Saker from "./Saker";
 const mockSaker = vi.hoisted(() => ({ current: [] as Array<Record<string, unknown>> }));
 
 vi.mock("next/navigation", () => ({ useParams: () => ({ id: "soknad-1" }) }));
-vi.mock("@featuretoggles/context", () => ({ useFlag: () => ({ enabled: false }) }));
 vi.mock("@generated/saks-status-controller/saks-status-controller", () => ({
     useHentSaksStatuserSuspense: () => ({ data: mockSaker.current }),
 }));
 vi.mock("@generated/klage-controller/klage-controller", () => ({
     useHentKlager: () => ({ data: undefined }),
+    useKanSendeKlage: () => ({ data: undefined }),
 }));
 
 const vedtak = {

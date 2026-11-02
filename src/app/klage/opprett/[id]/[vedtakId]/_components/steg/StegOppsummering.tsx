@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowLeftIcon, PaperplaneIcon } from "@navikt/aksel-icons";
-import { Alert, Button, FormSummary, GuidePanel, HStack, List, VStack } from "@navikt/ds-react";
+import { Button, FormSummary, GuidePanel, HStack, List, LocalAlert, VStack } from "@navikt/ds-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { parseISO } from "date-fns";
 import { UploadState } from "@components/filopplasting/api/useDocumentState";
@@ -10,6 +10,7 @@ import { FormValues } from "../KlageForm";
 interface Props {
     isLoading: boolean;
     isError: boolean;
+    ikkeTilgjengelig?: boolean;
     onTilbake: () => void;
     formValues: FormValues;
     uploads: UploadState[];
@@ -22,7 +23,15 @@ interface OtherInfo {
     navKontor?: string | null;
 }
 
-const StegOppsummering = ({ isLoading, isError, onTilbake, formValues, uploads, otherInfo }: Props) => {
+const StegOppsummering = ({
+    isLoading,
+    isError,
+    ikkeTilgjengelig = false,
+    onTilbake,
+    formValues,
+    uploads,
+    otherInfo,
+}: Props) => {
     const t = useTranslations("KlageForm");
     const format = useFormatter();
     const formatDate = (date: string) =>
@@ -104,7 +113,20 @@ const StegOppsummering = ({ isLoading, isError, onTilbake, formValues, uploads, 
                         {t("sendKlage")}
                     </Button>
                 </HStack>
-                {isError && <Alert variant="error">{t("sendingFeilet")}</Alert>}
+                {ikkeTilgjengelig && (
+                    <LocalAlert status="warning">
+                        <LocalAlert.Header>
+                            <LocalAlert.Title as="h2">{t("ikkeTilgjengelig")}</LocalAlert.Title>
+                        </LocalAlert.Header>
+                    </LocalAlert>
+                )}
+                {isError && (
+                    <LocalAlert status="error">
+                        <LocalAlert.Header>
+                            <LocalAlert.Title as="h2">{t("sendingFeilet")}</LocalAlert.Title>
+                        </LocalAlert.Header>
+                    </LocalAlert>
+                )}
             </VStack>
         </VStack>
     );

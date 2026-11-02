@@ -9,13 +9,11 @@ import {
     hentSoknadsStatus,
     prefetchHentOriginalSoknadQuery,
 } from "@generated/ssr/soknads-status-controller/soknads-status-controller";
-import { prefetchHentKlagerQuery } from "@generated/ssr/klage-controller/klage-controller";
 import {
     prefetchGetDokumentasjonkravBetaQuery,
     prefetchGetOppgaverBetaQuery,
     prefetchGetVilkarQuery,
 } from "@generated/ssr/oppgave-controller-v-2/oppgave-controller-v-2";
-import { getFlag, getToggles } from "@featuretoggles/unleash";
 
 import Oversikt from "./oversikt/Oversikt";
 import Filopplasting, { FilopplastingSkeleton } from "./dokumenter/Filopplasting";
@@ -41,17 +39,11 @@ export const Soknad = async ({ id }: Props) => {
     const vedleggQueryClient = getQueryClient();
     const oppgaverQueryClient = getQueryClient();
     const dokumentasjonkravQueryClient = getQueryClient();
-    const klageQueryClient = getQueryClient();
     const saksdetaljerQueryClient = getQueryClient();
     const sakerQueryClient = getQueryClient();
     const brevQueryClient = getQueryClient();
 
     const { status, navKontor, tittel } = await hentSoknadsStatus(id);
-    const mottattOrSendt = ["SENDT", "MOTTATT"].includes(status);
-
-    // Fetch feature flag flyttet ut av FIlopplasting komponenten
-    const toggles = await getToggles();
-    const klageToggle = getFlag("sosialhjelp.innsyn.klage", toggles);
 
     // Prefetcher her og putter det i HydrationBoundary slik at det er tilgjengelig i browseren
     prefetchHentVedleggQuery(vedleggQueryClient, id);
@@ -62,9 +54,6 @@ export const Soknad = async ({ id }: Props) => {
     prefetchHentSaksStatuserQuery(sakerQueryClient, id);
     prefetchGetSaksDetaljerQuery(saksdetaljerQueryClient, id);
     prefetchHentBrevQuery(brevQueryClient, id);
-    if (klageToggle.enabled) {
-        prefetchHentKlagerQuery(klageQueryClient, id, { query: { enabled: !mottattOrSendt } });
-    }
 
     return (
         <VStack gap={{ xs: "space-48", md: "space-80" }} className="mt-20">
@@ -86,10 +75,8 @@ export const Soknad = async ({ id }: Props) => {
                 </HydrationBoundary>
             </Suspense>
             <Suspense fallback={null}>
-                <HydrationBoundary state={dehydrate(klageQueryClient)}>
-                    <HydrationBoundary state={dehydrate(sakerQueryClient)}>
-                        <Saker />
-                    </HydrationBoundary>
+                <HydrationBoundary state={dehydrate(sakerQueryClient)}>
+                    <Saker />
                 </HydrationBoundary>
             </Suspense>
             {status !== "FERDIGBEHANDLET" && status !== "BEHANDLES_IKKE" && (

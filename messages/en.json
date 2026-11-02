@@ -482,6 +482,7 @@
         "manglerInnhold": "To continue, explain why you disagree with the decision, either in the text field or by uploading an attachment.",
         "sendKlage": "Send",
         "ingenVedlegg": "No attachments",
+        "ikkeTilgjengelig": "Complaints are not available for this application.",
         "sendingFeilet": "Failed to send the complaint. Please try again later or contact your local NAV office.",
         "oppsummering": {
             "guide": "Check that everything is correct before submitting your appeal. If you want to change your explanation or add more documentation, you can go back to the previous page.",

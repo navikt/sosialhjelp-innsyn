@@ -63,6 +63,9 @@ const getE2eServer = (): SetupServer => {
                 return HttpResponse.json([], { status: 200 });
             }),
 
+            // Klage eligibility
+            http.get("*/api/v1/innsyn/*/klage/tilgjengelig", async () => HttpResponse.json({ kanSendeKlage: true })),
+
             // HarSoknaderMedInnsyn endpoint
             http.get("*/api/v1/innsyn/harSoknaderMedInnsyn", async () => {
                 logger.warn(
