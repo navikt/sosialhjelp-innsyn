@@ -97,9 +97,12 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
 
     const forkastKlage = () => {
         const harOpplastinger = !!docState.uploads && docState.uploads.length > 0;
-        if (harOpplastinger) {
-            forkastMutation.mutate(contextId);
+        if (harOpplastinger && docState.submissionId) {
+            forkastMutation.mutate(docState.submissionId);
         } else {
+            if (harOpplastinger) {
+                logger.warn("Forkaster klage med opplastinger uten submissionId, overlater opprydding til cleanup");
+            }
             navigerTilSoknad();
         }
     };
