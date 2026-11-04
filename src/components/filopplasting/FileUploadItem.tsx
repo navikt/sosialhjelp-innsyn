@@ -68,11 +68,13 @@ const FileUploadItem = ({
                                 isBusy ? (
                                     <Loader size="xsmall" />
                                 ) : showCancelButton ? (
-                                    <XMarkIcon title={t("cancel")} />
+                                    <XMarkIcon aria-hidden />
                                 ) : (
-                                    <TrashIcon title={t("slett")} />
+                                    <TrashIcon aria-hidden />
                                 )
                             }
+                            // Fast navn, slik at knappen ikke leses som Loader-teksten mens slettingen pågår.
+                            aria-label={showCancelButton ? t("cancel") : t("slett")}
                             onClick={(e) => {
                                 if (!isBusy) mutate(e.currentTarget);
                             }}

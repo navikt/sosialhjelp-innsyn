@@ -104,7 +104,16 @@ const FileSelectNew = ({
         const count = startUpload(files);
         if (count === 0) return;
         clearTimeout(selectTimer.current);
-        selectTimer.current = setTimeout(() => setAnnouncement({ kind: "added", count }), FILE_DIALOG_CLOSE_DELAY_MS);
+        selectTimer.current = setTimeout(() => {
+            // Ikke ta fokus fra en bruker som har gått videre (f.eks. dra-og-slipp mens fokus er i et annet felt).
+            const active = document.activeElement;
+            const stillHere =
+                !active ||
+                active === document.body ||
+                !!selectButtonContainerRef.current?.contains(active) ||
+                !!listRef.current?.contains(active);
+            if (stillHere) setAnnouncement({ kind: "added", count });
+        }, FILE_DIALOG_CLOSE_DELAY_MS);
     };
 
     const handleDelete = (tusUploadId: string, correlationId: string | undefined, button: HTMLButtonElement) =>
