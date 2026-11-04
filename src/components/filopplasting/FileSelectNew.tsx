@@ -13,13 +13,11 @@ import useSlowProcessingWarning from "@components/filopplasting/useSlowProcessin
 import { useDocumentUpload } from "./useDocumentUpload";
 import { UploadTarget } from "./utils/tusUploader";
 
-// Filvelgeren er nettopp lukket, og nettleseren gir fokus tilbake til «Velg filer».
-// Vi venter litt slik at vår fokusflytting kommer etter nettleserens.
+// Venter til nettleseren har gitt fokus tilbake til «Velg filer» etter at filvelgeren lukkes.
 const FILE_DIALOG_CLOSE_DELAY_MS = 300;
 
-// Hvorfor fokusflytting og ikke aria-live: VoiceOver leser fokus på «Velg filer» i lang tid etter at
-// filvelgeren lukkes. Firefox forkaster live-meldinger i mellomtiden, og begge nettlesere hopper over
-// en live-melding som er lik den forrige. Fokusflytting leses alltid, og avbryter den lange opplesingen.
+// Fokusflytting i stedet for aria-live: Firefox forkaster live-meldinger mens VoiceOver leser «Velg filer»,
+// og like meldinger på rad hoppes over. Fokusflytting leses alltid.
 type Announcement = { kind: "added"; count: number } | { kind: "deleted" };
 
 interface Props {
@@ -82,26 +80,23 @@ const FileSelectNew = ({
               ? t("filSlettet", { count: uploadCount })
               : undefined;
 
-    // Leses før «Velg filer» når siste fil er slettet. Utledes etter at raden er fjernet, slik at det blir riktig
-    // også når flere slettinger pågår samtidig.
+    // Utledes etter at raden er fjernet, slik at det blir riktig også ved samtidige slettinger.
     const lastDeletedMessage = announcement?.kind === "deleted" && uploadCount === 0 ? statusText : null;
 
     useEffect(() => () => clearTimeout(selectTimer.current), []);
 
-    // Kjører i samme tick som DOM-endringen, slik at en slettet rad aldri rekker å sende fokus til <body>.
+    // Layout-effekt: fokus flyttes før nettleseren rekker å sende det til <body> når raden fjernes.
     useLayoutEffect(() => {
         if (!announcement) return;
         if (uploadCount > 0) {
             const list = listRef.current;
-            // focus() på et element som allerede har fokus gir ingen ny opplesing (f.eks. ny dra-og-slipp mens
-            // listen har fokus). Blur først slik at det blir en ny fokushendelse.
+            // Allerede fokusert element gir ingen ny opplesing ved focus(), så blur først.
             if (list && document.activeElement === list) list.blur();
             list?.focus();
         }
-        // Siste fil er slettet: fokus tilbake til «Velg filer». Aksel eksponerer ikke ref til knappen,
-        // så vi finner den i containeren (Dropzone på desktop, Trigger på mobil).
+        // Aksel eksponerer ikke ref til «Velg filer»-knappen, så vi finner den i containeren.
         else selectButtonContainerRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
-        // Skal kun kjøre når en ny kunngjøring er satt, ikke ved andre endringer i listen.
+        // Skal kun kjøre ved ny kunngjøring, ikke ved andre endringer i listen.
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [announcement]);
 
@@ -114,8 +109,7 @@ const FileSelectNew = ({
 
     const handleDelete = (tusUploadId: string, correlationId: string | undefined, button: HTMLButtonElement) =>
         terminateUpload(tusUploadId, correlationId, () => {
-            // Sjekkes når slettingen er ferdig, ikke ved klikk: har brukeren gått videre, lar vi fokus være.
-            // Raden fjernes og kunngjøringen settes i samme render, så fokus flyttes før nettleseren mister det.
+            // Sjekkes etter slettingen: har brukeren gått videre, lar vi fokus være.
             if (document.activeElement === button) setAnnouncement({ kind: "deleted" });
         });
 
@@ -133,7 +127,6 @@ const FileSelectNew = ({
                 },
             }}
         >
-            {/* Navnet til listen. Leses av VoiceOver når listen får fokus. */}
             <span id={statusId} hidden>
                 {statusText}
             </span>

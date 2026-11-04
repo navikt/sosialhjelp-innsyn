@@ -22,7 +22,6 @@ export const useDocumentUpload = ({
 }) => {
     const [folderDropError, setFolderDropError] = useState(false);
 
-    // Returnerer antall filer som faktisk ble lagt til.
     const startUpload = (files: FileObject[]): number => {
         const [folders, validFiles] = R.partition(files, (f) => isFolder(f));
 
@@ -54,7 +53,7 @@ export const useDocumentUpload = ({
         return validFiles.length;
     };
 
-    // beforeRemove kalles etter vellykket sletting, rett før raden fjernes, mens slett-knappen fortsatt finnes i DOM.
+    // beforeRemove kjøres før raden fjernes, mens slett-knappen fortsatt finnes.
     const terminateUpload = async (tusUploadId: string, correlationId?: string, beforeRemove?: () => void) => {
         await Upload.terminate(`${browserEnv.NEXT_PUBLIC_UPLOAD_API_BASE}/tus/files/${tusUploadId}`);
         beforeRemove?.();

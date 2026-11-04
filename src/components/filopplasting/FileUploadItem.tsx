@@ -14,7 +14,6 @@ interface Props {
     status: UploadStatus;
     size?: number;
     showCancelButton?: boolean;
-    // button: slett-knappen som ble trykket. Brukes til å sjekke om den fortsatt har fokus når slettingen er ferdig.
     onDelete: (button: HTMLButtonElement) => Promise<void>;
     deleteDisabled?: boolean;
 }
@@ -47,8 +46,7 @@ const FileUploadItem = ({
         retry: false,
     });
 
-    // Aksel sin loading-prop setter native disabled, og da flytter nettleseren fokus til <body>.
-    // Vi viser derfor Loader selv og bruker aria-disabled.
+    // Ikke Aksel loading-prop: den setter disabled, og da mister knappen fokus.
     const isBusy = isPending;
 
     const isUploading = !url && !validations && status !== "FAILED" && status !== "COMPLETE" && !showCancelButton;

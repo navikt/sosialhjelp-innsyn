@@ -17,7 +17,7 @@ interface FileSelectUploadProps {
     accept?: string;
     variant?: "default" | "warning";
     headingLevel?: "2" | "3";
-    // Kun for skjermleser. Legges først i knappens navn, slik at den leses før «Velg filer».
+    // Leses før «Velg filer» i knappens navn.
     srMessage?: string | null;
 }
 
@@ -39,7 +39,7 @@ export const FileSelectUpload = ({
     const isMobile = useIsMobile();
     const buttonId = useId();
     const srMessageId = useId();
-    // Navnet blir «<melding> <knappens egen tekst>». En knapp kan peke på sin egen id i aria-labelledby.
+    // En knapp kan peke på sin egen id i aria-labelledby for å beholde sin egen tekst i navnet.
     const labelledBy = srMessage ? `${srMessageId} ${buttonId}` : undefined;
     const dataColor = variant === "warning" ? "warning" : undefined;
 
