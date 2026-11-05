@@ -466,13 +466,13 @@
     },
     "KlageForm": {
         "bakgrunn": {
-            "label": "Kvifor er du usamd?",
+            "label": "Kvifor er du usamd i vedtaket?",
             "beskrivelse": "Oppgi kvifor du er usamd i vedtaket, og kva du ønskjer endra."
         },
         "filOpplasting": {
-            "dineVedlegg": "Vedlegga dine",
-            "label": "Vedlegg",
-            "beskrivelse": "Har du opplysningar som kan vere relevante for klaga di, kan du laste dei opp her."
+            "label": "Last opp dokumentasjon",
+            "vedlegg": "Vedlegg ({count})",
+            "beskrivelse": "Last opp dokument eller bilete som kan bidra til å opplyse klaga di."
         },
         "validering": {
             "maksLengde": "Du kan skrive inn maks {maksLengde} teikn"
@@ -484,7 +484,7 @@
         "gaVidereKnapp": "Sjå oppsummering",
         "tilbakeKnapp": "Tilbake",
         "forkastKlageKnapp": "Avbryt",
-        "manglerInnhold": "For å halde fram må du forklare kvifor du er usamd i vedtaket, anten i tekstfeltet eller i eit vedlegg.",
+        "manglerInnhold": "For å halde fram må du forklare kvifor du er usamd i vedtaket.",
         "sendKlage": "Send inn",
         "ingenVedlegg": "Ingen vedlegg",
         "ikkeTilgjengelig": "Klage er ikkje tilgjengeleg for denne søknaden.",

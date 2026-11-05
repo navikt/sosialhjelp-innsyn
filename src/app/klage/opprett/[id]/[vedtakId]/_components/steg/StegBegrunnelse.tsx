@@ -77,6 +77,7 @@ const StegBegrunnelse = ({
                 contextId={contextId}
                 onUploadsAdded={addUploads}
                 onUploadRemoved={removeUpload}
+                filesLabel={t("filOpplasting.vedlegg", { count: docState.uploads?.length ?? 0 })}
                 label={t("filOpplasting.label")}
                 description={t("filOpplasting.beskrivelse")}
                 headingLevel="2"

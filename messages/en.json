@@ -465,13 +465,13 @@
     },
     "KlageForm": {
         "bakgrunn": {
-            "label": "Why do you disagree?",
+            "label": "Why do you disagree with the decision?",
             "beskrivelse": "Explain why you disagree with the decision and what you want changed."
         },
         "filOpplasting": {
-            "dineVedlegg": "Your attachments",
-            "label": "Attachments",
-            "beskrivelse": "If you have information that may be relevant to your appeal, you can upload it here."
+            "label": "Upload attachments",
+            "vedlegg": "Attachments ({count})",
+            "beskrivelse": "Upload documents or images that can help clarify your appeal."
         },
         "validering": {
             "maksLengde": "You can write a maximum of {maksLengde} characters"
@@ -483,7 +483,7 @@
         "gaVidereKnapp": "View summary",
         "tilbakeKnapp": "Back",
         "forkastKlageKnapp": "Cancel",
-        "manglerInnhold": "To continue, explain why you disagree with the decision, either in the text field or by uploading an attachment.",
+        "manglerInnhold": "To continue, explain why you disagree with the decision.",
         "sendKlage": "Send",
         "ingenVedlegg": "No attachments",
         "ikkeTilgjengelig": "Complaints are not available for this application.",

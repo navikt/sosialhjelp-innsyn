@@ -478,13 +478,13 @@
     },
     "KlageForm": {
         "bakgrunn": {
-            "label": "Hvorfor er du uenig?",
-            "beskrivelse": "Oppgi hvorfor du er uenig med vedtaket, og hva du ønsker endret."
+            "label": "Hvorfor er du uenig i vedtaket?",
+            "beskrivelse": "Oppgi hvorfor du er uenig i vedtaket, og hva du ønsker endret."
         },
         "filOpplasting": {
-            "dineVedlegg": "Dine vedlegg",
-            "label": "Vedlegg",
-            "beskrivelse": "Har du opplysninger som kan være relevante for klagen din, kan du laste dem opp her."
+            "vedlegg": "Vedlegg ({count})",
+            "label": "Last opp dokumentasjon",
+            "beskrivelse": "Last opp dokumenter eller bilder som kan bidra til å opplyse klagen din."
         },
         "validering": {
             "maksLengde": "Du kan skrive inn maks {maksLengde} tegn"
@@ -496,7 +496,7 @@
         "gaVidereKnapp": "Se oppsummering",
         "tilbakeKnapp": "Tilbake",
         "forkastKlageKnapp": "Avbryt",
-        "manglerInnhold": "For å fortsette må du skrive hvorfor du er uenig med vedtaket, enten i tekstfeltet eller lastet opp som et vedlegg.",
+        "manglerInnhold": "For å fortsette må du skrive hvorfor du er uenig i vedtaket.",
         "sendKlage": "Send inn",
         "ingenVedlegg": "Ingen vedlegg",
         "ikkeTilgjengelig": "Klage er ikke tilgjengelig for denne søknaden.",
