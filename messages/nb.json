@@ -158,9 +158,9 @@
     },
     "KlageInfo": {
         "seKlage": "Se din innsendte klage",
-        "tittel": "Uenig i vedtaket?",
-        "beskrivelse": "Dersom du er uenig i vedtaket, har du rett til å klage. <klageinfo>Les mer om dine klagerettigheter</klageinfo>. Fristen for å klage er tre uker etter vedtaksdato. For å klage kan du <klageskjema> skrive ut et klageskjema (pdf)</klageskjema> som du kan sende som dokumentasjon til din søknad.",
-        "klageKnapp": "Klag på vedtaket"
+        "beskrivelse": "Dersom du er uenig i vedtaket har du rett til å klage. <klageinfo>Les om dine klagerettigheter.</klageinfo>",
+        "klageKnapp": "Klag på vedtaket",
+        "klagefrist": "Du kan klage frem til {dato, date, ::ddMMyyyy}"
     },
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
