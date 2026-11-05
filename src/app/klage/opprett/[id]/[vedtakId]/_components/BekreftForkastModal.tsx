@@ -6,9 +6,10 @@ interface BekreftForkastModalProps {
     open: boolean;
     onClose: () => void;
     forkastKlage: () => void;
+    isLoading?: boolean;
 }
 
-const BekreftForkastModal: React.FC<BekreftForkastModalProps> = ({ open, onClose, forkastKlage }) => {
+const BekreftForkastModal: React.FC<BekreftForkastModalProps> = ({ open, onClose, forkastKlage, isLoading }) => {
     const t = useTranslations("ForkastKlageModal");
     return (
         <Modal
@@ -25,10 +26,10 @@ const BekreftForkastModal: React.FC<BekreftForkastModalProps> = ({ open, onClose
                 <BodyLong>{t("beskrivelse")}</BodyLong>
             </Modal.Body>
             <Modal.Footer>
-                <Button type="button" variant="danger" onClick={forkastKlage}>
+                <Button type="button" variant="danger" loading={isLoading} onClick={forkastKlage}>
                     {t("bekreft")}
                 </Button>
-                <Button type="button" variant="secondary" onClick={onClose}>
+                <Button type="button" variant="secondary" disabled={isLoading} onClick={onClose}>
                     {t("avbryt")}
                 </Button>
             </Modal.Footer>
