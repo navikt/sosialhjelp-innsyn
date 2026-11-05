@@ -145,6 +145,10 @@
     },
     "KlageInfo": {
         "seKlage": "View your submitted appeal",
+        "papirklage": {
+            "tittel": "Disagree with the decision?",
+            "beskrivelse": "If you disagree with the decision, you have the right to appeal. <klageinfo>Read more about your appeal rights</klageinfo>. The deadline for appealing is three weeks after the date of the decision. To file an appeal, you can <klageskjema>print out an appeal form (pdf)</klageskjema> that you can submit as documentation for your application."
+        },
         "beskrivelse": "If you disagree with the decision, you have the right to appeal. <klageinfo>Read about your appeal rights.</klageinfo>",
         "klageKnapp": "Appeal the decision",
         "klagefrist": "You can appeal until {dato, date, ::ddMMyyyy}"

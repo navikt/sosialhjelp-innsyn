@@ -1,4 +1,4 @@
-import { Link as AkselLink, BodyLong, VStack } from "@navikt/ds-react";
+import { Link as AkselLink, BodyLong, VStack, Heading } from "@navikt/ds-react";
 import { GavelIcon } from "@navikt/aksel-icons";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
@@ -6,6 +6,7 @@ import { KlageRef } from "@generated/model";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import useKlageEnabled from "@hooks/useKlageEnabled";
 import { addWeeks, parseISO } from "date-fns";
+import { ReactNode } from "react";
 
 interface Props {
     vedtakId: string;
@@ -30,25 +31,14 @@ const KlageInfo = ({ vedtakId, vedtaksdato, innsendtKlage }: Props) => {
         );
     }
 
-    return (
-        <VStack gap="space-16">
-            <VStack gap="space-8">
+    if (klageEnabled) {
+        return (
+            <VStack gap="space-16">
                 <BodyLong>
                     {t.rich("beskrivelse", {
-                        klageinfo: (chunks) => (
-                            <AkselLink href="https://www.nav.no/okonomisk-sosialhjelp#klage" inlineText>
-                                {chunks}
-                            </AkselLink>
-                        ),
-                        klageskjema: (chunks) => (
-                            <AkselLink href="/sosialhjelp/innsyn/papirskjema_klage.pdf" inlineText>
-                                {chunks}
-                            </AkselLink>
-                        ),
+                        klageinfo: KlageInfoLenke,
                     })}
                 </BodyLong>
-            </VStack>
-            {klageEnabled && (
                 <DigisosLinkCard
                     href={`/klage/opprett/${fiksDigisosId}/${vedtakId}`}
                     dataColor="accent"
@@ -56,9 +46,33 @@ const KlageInfo = ({ vedtakId, vedtaksdato, innsendtKlage }: Props) => {
                 >
                     {t("klageKnapp")}
                 </DigisosLinkCard>
-            )}
+            </VStack>
+        );
+    }
+
+    return (
+        <VStack gap="space-8">
+            <Heading size="small" level="3">
+                {t("papirklage.tittel")}
+            </Heading>
+            <BodyLong>
+                {t.rich("papirklage.beskrivelse", {
+                    klageinfo: KlageInfoLenke,
+                    klageskjema: (chunks) => (
+                        <AkselLink href="/sosialhjelp/innsyn/papirskjema_klage.pdf" inlineText>
+                            {chunks}
+                        </AkselLink>
+                    ),
+                })}
+            </BodyLong>
         </VStack>
     );
 };
+
+const KlageInfoLenke = (chunks: ReactNode) => (
+    <AkselLink href="https://www.nav.no/okonomisk-sosialhjelp#klage" inlineText>
+        {chunks}
+    </AkselLink>
+);
 
 export default KlageInfo;

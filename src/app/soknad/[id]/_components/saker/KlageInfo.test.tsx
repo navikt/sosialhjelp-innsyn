@@ -10,7 +10,6 @@ vi.mock("@i18n/navigation", () => ({
 }));
 
 const url = "*/api/v1/innsyn/soknad-1/klage/tilgjengelig";
-const queryInfoCard = () => screen.queryByRole("link", { name: "Klag på vedtaket" });
 
 describe("KlageInfo", () => {
     it("shows the klage link when kanSendeKlage is true", async () => {
@@ -25,13 +24,13 @@ describe("KlageInfo", () => {
     it("hides the klage link when kanSendeKlage is false", async () => {
         server.use(http.get(url, () => HttpResponse.json({ kanSendeKlage: false })));
         render(<KlageInfo vedtakId="vedtak-1" vedtaksdato={new Date().toISOString()} />);
-        expect(queryInfoCard()).not.toBeInTheDocument();
+        await expect(screen.findByRole("link", { name: "Klag på vedtaket" }, { timeout: 100 })).rejects.toThrow();
     });
 
     it("hides the klage link when the call fails", async () => {
         server.use(http.get(url, () => HttpResponse.json({ error: "x" }, { status: 500 })));
         render(<KlageInfo vedtakId="vedtak-1" vedtaksdato={new Date().toISOString()} />);
-        expect(queryInfoCard()).not.toBeInTheDocument();
+        await expect(screen.findByRole("link", { name: "Klag på vedtaket" }, { timeout: 100 })).rejects.toThrow();
     });
 
     it("Shows klagefrist as vedtaksdato + 3 weeks", async () => {
