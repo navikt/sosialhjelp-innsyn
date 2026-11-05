@@ -405,21 +405,27 @@
         "beskrivelse": "Appeal the decision regarding financial social assistance."
     },
     "KlagePage": {
-        "tittel": "Your appeal has been submitted",
+        "tittel": "Decision appeal",
         "beskrivelse": "View your submitted appeal about the decision regarding financial social assistance.",
         "underUtviklingInfo": {
-            "tittel": "This page is under development",
-            "beskrivelse1": "You can submit additional information and documentation for your appeal on this page. When the appeal is processed, you will receive a response via Digipost or physical mail.",
-            "beskrivelse2": "You can read about <klageInfo>the appeal process and possible outcomes here</klageInfo>. If you have questions about your appeal, you can contact <navKontor>your local Nav office</navKontor> or call us at <tel>55 55 33 33</tel>."
+            "tittel": "This page is under construction",
+            "beskrivelse1": "An online appeals process for social assistance is currently under development, and in its initial version, this page will not display status information or updates.",
+            "beskrivelse2": "When the appeal is processed, you will receive a letter in the mail or Digipost with information about the outcome of your appeal."
         },
         "ettersendelse": {
             "opplastingTittel": "Upload documentation",
             "opplastingBeskrivelse": "If you have other information that may be relevant to your appeal, you can upload it here."
         },
-        "seVedtak": "View the decision you have appealed"
+        "klagepdf": "Open the appeal (pdf)",
+        "pdf": "PDF file",
+        "snarveier": {
+            "tilSoknaden": "Return to the application",
+            "ettersendVedlegg": "Submit additional attachments for the appeal",
+            "okonomiskSosialhjelp": "Financial assistance"
+        }
     },
     "KlageDokumentasjon": {
-        "tittel": "Submit additional documentation"
+        "tittel": "Do you have more documentation you want to submit?"
     },
     "KlageDokumenter": {
         "tittel": "Documents",
@@ -428,6 +434,7 @@
         "visFlereDokumenter": "documents"
     },
     "KlageProsessenVidere": {
+        "tittel": "What happens next?",
         "steg1": {
             "tittel": "Your appeal has been submitted",
             "beskrivelse": "Your appeal has been sent to {navKontor}, which will process it as quickly as possible.",

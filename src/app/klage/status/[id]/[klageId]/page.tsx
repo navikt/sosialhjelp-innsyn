@@ -1,6 +1,6 @@
 import { Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
-import { FileTextIcon } from "@navikt/aksel-icons";
+import { ArrowRedoIcon, FilePdfIcon, HouseIcon } from "@navikt/aksel-icons";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import { hentKlage } from "@generated/ssr/klage-controller/klage-controller";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
@@ -9,6 +9,7 @@ import UnderUtviklingInfo from "./_components/UnderUtviklingInfo";
 import KlageDokumentasjon from "./_components/KlageDokumentasjon";
 import ProsessenVidere from "@components/klage/ProsessenVidere";
 import { hentSakForVedtak } from "@generated/ssr";
+import Snarveier from "@components/snarveier/Snarveier";
 
 const Page = async ({
     params,
@@ -40,10 +41,15 @@ const Page = async ({
                     {t("tittel")}
                 </Heading>
                 <UnderUtviklingInfo />
-                <DigisosLinkCard href={`/soknad/${fiksDigisosId}`} icon={<FileTextIcon aria-hidden />}>
-                    {t("seVedtak")}
+                <DigisosLinkCard
+                    href={klage.klagePdf.url}
+                    icon={<FilePdfIcon title={t("pdf")} />}
+                    cardIcon="external-link"
+                    openInNewTab
+                    dataColor="accent"
+                >
+                    {t("klagepdf")}
                 </DigisosLinkCard>
-                <ProsessenVidere navKontor={paaklagetSak.navEnhetNavn} />
                 <KlageDokumentasjon
                     fiksDigisosId={fiksDigisosId}
                     klageId={klageId}
@@ -51,6 +57,19 @@ const Page = async ({
                     opplastedeVedlegg={klage.opplastedeVedlegg}
                     ettersendelser={klage.ettersendelser}
                 />
+                <ProsessenVidere navKontor={paaklagetSak.navEnhetNavn} />
+                <Snarveier hideSokButton>
+                    <li>
+                        <DigisosLinkCard href={`/soknad/${fiksDigisosId}`} icon={<ArrowRedoIcon aria-hidden />}>
+                            {t("snarveier.tilSoknaden")}
+                        </DigisosLinkCard>
+                    </li>
+                    <li>
+                        <DigisosLinkCard href="/" icon={<HouseIcon aria-hidden />}>
+                            {t("snarveier.okonomiskSosialhjelp")}
+                        </DigisosLinkCard>
+                    </li>
+                </Snarveier>
             </VStack>
         </>
     );

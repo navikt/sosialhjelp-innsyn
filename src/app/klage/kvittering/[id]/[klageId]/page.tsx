@@ -23,7 +23,7 @@ const Page = async ({ params }: { params: Promise<{ id: string; klageId: string 
                     { title: tCrumbs("kvittering") },
                 ]}
             />
-            <VStack gap="space-16" className="mt-6">
+            <VStack gap={{ xs: "space-40", md: "space-64" }}>
                 <Heading size="xlarge" level="1">
                     {t("tittel")}
                 </Heading>

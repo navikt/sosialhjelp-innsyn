@@ -418,21 +418,26 @@
         "beskrivelse": "Klag på vedtaket om økonomisk sosialhjelp."
     },
     "KlagePage": {
-        "tittel": "Klagen din er sendt",
+        "tittel": "Klage på vedtak",
         "beskrivelse": "Se din innsendte klage på vedtak om økonomisk sosialhjelp.",
         "underUtviklingInfo": {
-            "tittel": "Denne siden er under utvikling",
-            "beskrivelse1": "Du kan sende inn flere opplysninger og dokumentasjon til klagen din på denne siden. Når klagen er ferdigbehandlet, vil du få svar via Digipost eller fysisk brev.",
-            "beskrivelse2": "Du kan lese om <klageInfo>klagebehandling og mulige utfall her</klageInfo>. Har du spørsmål om klagen din kan du kontakte <navKontor>ditt Nav-kontor</navKontor> eller ringe oss på <tel>55 55 33 33</tel>."
+            "tittel": "Denne siden er under arbeid",
+            "beskrivelse1": "Digital klage for sosialhjelp er under arbeid, og i første versjon vil ikke denne siden vise status eller oppdateringer.",
+            "beskrivelse2": "Når klagen er ferdigbehandlet vil du få et brev i posten eller Digipost med informasjon om utfallet av klagesaken din."
         },
         "ettersendelse": {
             "opplastingTittel": "Last opp dokumentasjon",
             "opplastingBeskrivelse": "Hvis du har andre opplysninger som kan ha betydning for klagen din, kan du laste dem opp her."
         },
-        "seVedtak": "Se vedtaket du har klaget på"
+        "klagepdf": "Åpne klagen (pdf)",
+        "pdf": "PDF-fil",
+        "snarveier": {
+            "tilSoknaden": "Returner til søknaden",
+            "okonomiskSosialhjelp": "Økonomisk sosialhjelp"
+        }
     },
     "KlageDokumentasjon": {
-        "tittel": "Ettersend dokumentasjon"
+        "tittel": "Har du mer dokumentasjon du vil sende inn?"
     },
     "KlageDokumenter": {
         "tittel": "Dokumenter",
@@ -441,6 +446,7 @@
         "visFlereDokumenter": "dokumenter"
     },
     "KlageProsessenVidere": {
+        "tittel": "Hva skjer videre?",
         "steg1": {
             "tittel": "Klagen din er sendt",
             "beskrivelse": "Klagen din er sendt til {navKontor}, som vil behandle den så fort de kan.",

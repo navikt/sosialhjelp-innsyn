@@ -1,6 +1,5 @@
 "use client";
 
-import { VStack } from "@navikt/ds-react";
 import { FormProvider, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -114,39 +113,37 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
 
     return (
         <>
-            <VStack gap="space-12">
-                <FormProvider {...formMethods}>
-                    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20">
-                        {aktivtSteg === 1 && (
-                            <StegBegrunnelse
-                                vedtaksbrev={vedtaksbrev}
-                                vedtaksDato={vedtakMottatt}
-                                klageId={activeKlageId}
-                                contextId={contextId}
-                                vedtakId={vedtakId}
-                                docState={docState}
-                                addUploads={addUploads}
-                                removeUpload={removeUpload}
-                                onGaVidere={handleSubmit(() => setAktivtSteg(2))}
-                                onForkastKlage={forkastKlageButtonEvent}
-                                harInnhold={harInnhold}
-                            />
-                        )}
+            <FormProvider {...formMethods}>
+                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20">
+                    {aktivtSteg === 1 && (
+                        <StegBegrunnelse
+                            vedtaksbrev={vedtaksbrev}
+                            vedtaksDato={vedtakMottatt}
+                            klageId={activeKlageId}
+                            contextId={contextId}
+                            vedtakId={vedtakId}
+                            docState={docState}
+                            addUploads={addUploads}
+                            removeUpload={removeUpload}
+                            onGaVidere={handleSubmit(() => setAktivtSteg(2))}
+                            onForkastKlage={forkastKlageButtonEvent}
+                            harInnhold={harInnhold}
+                        />
+                    )}
 
-                        {aktivtSteg === 2 && (
-                            <StegOppsummering
-                                isLoading={sendKlageMutation.isPending || isSending}
-                                isError={sendKlageMutation.isError && !ikkeTilgjengelig}
-                                ikkeTilgjengelig={ikkeTilgjengelig}
-                                onTilbake={() => setAktivtSteg(1)}
-                                formValues={getValues()}
-                                uploads={(docState.uploads ?? []).filter((upload) => upload.status === "COMPLETE")}
-                                otherInfo={{ navKontor, soknadSendt, vedtakMottatt }}
-                            />
-                        )}
-                    </form>
-                </FormProvider>
-            </VStack>
+                    {aktivtSteg === 2 && (
+                        <StegOppsummering
+                            isLoading={sendKlageMutation.isPending || isSending}
+                            isError={sendKlageMutation.isError && !ikkeTilgjengelig}
+                            ikkeTilgjengelig={ikkeTilgjengelig}
+                            onTilbake={() => setAktivtSteg(1)}
+                            formValues={getValues()}
+                            uploads={(docState.uploads ?? []).filter((upload) => upload.status === "COMPLETE")}
+                            otherInfo={{ navKontor, soknadSendt, vedtakMottatt }}
+                        />
+                    )}
+                </form>
+            </FormProvider>
 
             <BekreftForkastModal
                 open={visBekreftForkastModal}

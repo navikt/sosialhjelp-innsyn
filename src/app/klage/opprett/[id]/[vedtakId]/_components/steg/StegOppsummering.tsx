@@ -1,11 +1,12 @@
 "use client";
 
 import { ArrowLeftIcon, PaperplaneIcon } from "@navikt/aksel-icons";
-import { Button, FormSummary, GuidePanel, HStack, List, LocalAlert, VStack } from "@navikt/ds-react";
+import { Button, FormSummary, GuidePanel, HStack, LocalAlert, VStack } from "@navikt/ds-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { parseISO } from "date-fns";
 import { UploadState } from "@components/filopplasting/api/useDocumentState";
 import { FormValues } from "../KlageForm";
+import useIsMobile from "@utils/useIsMobile";
 
 interface Props {
     isLoading: boolean;
@@ -37,9 +38,11 @@ const StegOppsummering = ({
     const formatDate = (date: string) =>
         format.dateTime(parseISO(date), { day: "numeric", month: "long", year: "numeric" });
 
+    const isMobile = useIsMobile();
+
     return (
-        <VStack gap="space-20">
-            <GuidePanel poster>{t("oppsummering.guide")}</GuidePanel>
+        <VStack gap={{ xs: "space-40", md: "space-64" }}>
+            <GuidePanel poster={isMobile}>{t("oppsummering.guide")}</GuidePanel>
             <FormSummary>
                 <FormSummary.Header>
                     <FormSummary.Heading level="2">{t("oppsummering.tittel")}</FormSummary.Heading>
@@ -55,13 +58,11 @@ const StegOppsummering = ({
                             {uploads.length === 0 ? (
                                 t("ingenVedlegg")
                             ) : (
-                                <List as="ul">
+                                <ul>
                                     {uploads.map((upload) => (
-                                        <List.Item key={upload.id}>
-                                            {upload.finalFilename ?? upload.originalFilename}
-                                        </List.Item>
+                                        <li key={upload.id}>{upload.finalFilename ?? upload.originalFilename}</li>
                                     ))}
-                                </List>
+                                </ul>
                             )}
                         </FormSummary.Value>
                     </FormSummary.Answer>
@@ -91,7 +92,7 @@ const StegOppsummering = ({
                 </FormSummary.Answers>
             </FormSummary>
             <VStack gap="space-8">
-                <HStack gap="space-4">
+                <HStack gap="space-16">
                     <Button
                         onClick={onTilbake}
                         type="button"

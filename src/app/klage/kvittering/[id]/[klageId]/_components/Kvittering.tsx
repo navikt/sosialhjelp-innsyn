@@ -21,7 +21,7 @@ const Kvittering = ({ klagePdf, navKontor, fiksDigisosId, klageId }: Props) => {
     const localeSuffix = locale === "nb" ? "" : `/${locale}`;
 
     return (
-        <VStack gap="space-40">
+        <VStack gap={{ xs: "space-40", md: "space-64" }}>
             <InfoCard data-color="success">
                 <InfoCard.Header icon={<CheckmarkCircleIcon aria-hidden />}>
                     <InfoCard.Title>{t("sendt.tittel")}</InfoCard.Title>
