@@ -69,7 +69,7 @@ test("keeps complaint text when changing language", async ({ page, request, base
     ]);
 
     await page.goto("/sosialhjelp/innsyn/klage/opprett/test-id-1/vedtak-1");
-    const textarea = page.getByRole("textbox", { name: "Hvorfor er du uenig?" });
+    const textarea = page.getByRole("textbox", { name: "Hvorfor er du uenig i vedtaket?" });
     await textarea.fill("Jeg er uenig i vedtaket.");
     await page.context().addCookies([
         {
@@ -90,5 +90,7 @@ test("keeps complaint text when changing language", async ({ page, request, base
     });
 
     await expect(page).toHaveURL(/\/klage\/opprett\/test-id-1\/vedtak-1$/);
-    await expect(page.getByRole("textbox", { name: "Why do you disagree?" })).toHaveValue("Jeg er uenig i vedtaket.");
+    await expect(page.getByRole("textbox", { name: "Why do you disagree with the decision?" })).toHaveValue(
+        "Jeg er uenig i vedtaket."
+    );
 });
