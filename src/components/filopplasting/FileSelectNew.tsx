@@ -3,15 +3,22 @@
 import { useTranslations } from "next-intl";
 import { FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
 
 import FileUploadItem from "./FileUploadItem";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
 import { browserEnv } from "@config/env";
 import useSlowProcessingWarning from "@components/filopplasting/useSlowProcessingWarning";
-import { liveRegionIndexes, useDocumentUpload } from "./useDocumentUpload";
+import { useDocumentUpload } from "./useDocumentUpload";
 import { UploadTarget } from "./utils/tusUploader";
+
+// Venter til nettleseren har gitt fokus tilbake til «Velg filer» etter at filvelgeren lukkes.
+const FILE_DIALOG_CLOSE_DELAY_MS = 300;
+
+// Fokusflytting i stedet for aria-live: Firefox forkaster live-meldinger mens VoiceOver leser «Velg filer»,
+// og like meldinger på rad hoppes over. Fokusflytting leses alltid.
+type Announcement = { kind: "added"; count: number } | { kind: "deleted" };
 
 interface Props {
     label?: string | null;
@@ -45,9 +52,13 @@ const FileSelectNew = ({
     headingLevel,
 }: Props) => {
     const t = useTranslations("Opplastingsboks");
+    const statusId = useId();
+    const listRef = useRef<HTMLUListElement>(null);
+    const selectButtonContainerRef = useRef<HTMLDivElement>(null);
+    const [announcement, setAnnouncement] = useState<Announcement | null>(null);
+    const selectTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-    const { startUpload, terminateUpload, folderDropError, skjermleserBeskjed } = useDocumentUpload({
-        docState,
+    const { startUpload, terminateUpload, folderDropError } = useDocumentUpload({
         contextId,
         onUploadRemoved,
         onUploadsAdded,
@@ -60,6 +71,56 @@ const FileSelectNew = ({
     const showSlowProcessingWarning = useSlowProcessingWarning(hasPendingOrProcessing);
 
     const converted = docState.uploads?.some((upload) => upload.converted);
+    const uploadCount = docState.uploads?.length ?? 0;
+
+    const statusText =
+        announcement?.kind === "added"
+            ? t("filLagtTil", { count: announcement.count })
+            : announcement?.kind === "deleted"
+              ? t("filSlettet", { count: uploadCount })
+              : undefined;
+
+    // Utledes etter at raden er fjernet, slik at det blir riktig også ved samtidige slettinger.
+    const lastDeletedMessage = announcement?.kind === "deleted" && uploadCount === 0 ? statusText : null;
+
+    useEffect(() => () => clearTimeout(selectTimer.current), []);
+
+    // Layout-effekt: fokus flyttes før nettleseren rekker å sende det til <body> når raden fjernes.
+    useLayoutEffect(() => {
+        if (!announcement) return;
+        if (uploadCount > 0) {
+            const list = listRef.current;
+            // Allerede fokusert element gir ingen ny opplesing ved focus(), så blur først.
+            if (list && document.activeElement === list) list.blur();
+            list?.focus();
+        }
+        // Aksel eksponerer ikke ref til «Velg filer»-knappen, så vi finner den i containeren.
+        else selectButtonContainerRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
+        // Skal kun kjøre ved ny kunngjøring, ikke ved andre endringer i listen.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [announcement]);
+
+    const handleSelect = (files: FileObject[]) => {
+        const count = startUpload(files);
+        if (count === 0) return;
+        clearTimeout(selectTimer.current);
+        selectTimer.current = setTimeout(() => {
+            // Ikke ta fokus fra en bruker som har gått videre (f.eks. dra-og-slipp mens fokus er i et annet felt).
+            const active = document.activeElement;
+            const stillHere =
+                !active ||
+                active === document.body ||
+                !!selectButtonContainerRef.current?.contains(active) ||
+                !!listRef.current?.contains(active);
+            if (stillHere) setAnnouncement({ kind: "added", count });
+        }, FILE_DIALOG_CLOSE_DELAY_MS);
+    };
+
+    const handleDelete = (tusUploadId: string, correlationId: string | undefined, button: HTMLButtonElement) =>
+        terminateUpload(tusUploadId, correlationId, () => {
+            // Sjekkes etter slettingen: har brukeren gått videre, lar vi fokus være.
+            if (document.activeElement === button) setAnnouncement({ kind: "deleted" });
+        });
 
     return (
         <FileUpload
@@ -75,28 +136,32 @@ const FileSelectNew = ({
                 },
             }}
         >
-            {liveRegionIndexes.map((index) => (
-                <div key={index} role="status" aria-live="polite" aria-atomic="true" className="sr-only">
-                    {skjermleserBeskjed.activeRegion === index ? skjermleserBeskjed.text : ""}
-                </div>
-            ))}
+            <span id={statusId} hidden>
+                {statusText}
+            </span>
             <VStack gap="space-24">
-                <FileSelectUpload
-                    label={label ?? t("tittel")}
-                    headerId={`header-id-${contextId}`}
-                    description={description}
-                    tag={tag}
-                    variant={variant === "warning" ? "warning" : "default"}
-                    headingLevel={headingLevel}
-                    buttonText={t("lastOppFiler")}
-                    onSelect={(files) => {
-                        if (!isPending) {
-                            startUpload(files);
-                        }
-                    }}
-                    currentCount={docState.uploads?.length ?? 0}
-                    disabled={isPending}
-                />
+                <div
+                    ref={selectButtonContainerRef}
+                    onBlur={() => setAnnouncement((a) => (a?.kind === "deleted" ? null : a))}
+                >
+                    <FileSelectUpload
+                        label={label ?? t("tittel")}
+                        headerId={`header-id-${contextId}`}
+                        description={description}
+                        tag={tag}
+                        variant={variant === "warning" ? "warning" : "default"}
+                        headingLevel={headingLevel}
+                        buttonText={t("lastOppFiler")}
+                        onSelect={(files) => {
+                            if (!isPending) {
+                                handleSelect(files);
+                            }
+                        }}
+                        currentCount={docState.uploads?.length ?? 0}
+                        disabled={isPending}
+                        srMessage={lastDeletedMessage}
+                    />
+                </div>
 
                 {folderDropError && (
                     <InlineStatusMessage variant="error" role="alert">
@@ -128,7 +193,13 @@ const FileSelectNew = ({
                                 ))}
                             </>
                         )}
-                        <VStack as="ul" gap="space-8">
+                        <VStack
+                            as="ul"
+                            gap="space-8"
+                            ref={listRef}
+                            tabIndex={-1}
+                            aria-labelledby={statusText ? statusId : undefined}
+                        >
                             {docState.uploads?.map((upload) => (
                                 <FileUploadItem
                                     key={upload.id}
@@ -148,7 +219,7 @@ const FileSelectNew = ({
                                         (upload.status === "PENDING" || upload.status === "PROCESSING")
                                     }
                                     deleteDisabled={isPending}
-                                    onDelete={() => terminateUpload(upload.id, upload.correlationId)}
+                                    onDelete={(button) => handleDelete(upload.id, upload.correlationId, button)}
                                 />
                             ))}
                         </VStack>
