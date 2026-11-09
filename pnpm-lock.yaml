@@ -4233,9 +4233,9 @@ packages:
     resolution: {integrity: sha512-k9lSsjl36EJdK7I06v7APZCbyGT2vMTsYSRX1Q2nbYmnkBqgUhRkAuzH08Ciotteu/PLJmIF2+tti7o3C/ts2g==}
     engines: {node: '>=18'}
 
-  re2js@2.8.6:
-    resolution: {integrity: sha512-xLgQil4kIUCrAzVk9fRSkxkFNwmygLFjVxXrLc65aE1F0+Zsb8rxumFBy4XKyvgMCTL6kilDq3EZ0piE2dP/Dg==}
-    engines: {node: '>=18.0.0'}
+  re2js@2.9.1:
+    resolution: {integrity: sha512-JIT3bEEUZTOR2YS1walNEIfH4cF/cQeZcBUFq7ldqO6lR6g0X5CBq/S8rsa9omzZcsNf8qc36jCkWpKKtncrZg==}
+    engines: {node: '>=20.0.0'}
 
   react-day-picker@10.0.2:
     resolution: {integrity: sha512-QetiKtZWE9Uaw/pM/SYNv6WPYOTRnSJ2puL0GgwkmUFMIwiY0dtjH1W4B7DOVXVNQM0ZOClGpH/heOfBSzWeiA==}
@@ -8755,7 +8755,7 @@ snapshots:
 
   quick-lru@7.3.0: {}
 
-  re2js@2.8.6: {}
+  re2js@2.9.1: {}
 
   react-day-picker@10.0.2(@types/react@19.2.18)(react@19.3.0):
     dependencies:
@@ -9392,7 +9392,7 @@ snapshots:
       make-fetch-happen: 15.0.6
       murmurhash3js: 3.0.1
       proxy-from-env: 1.1.0
-      re2js: 2.8.6
+      re2js: 2.9.1
       semver: 7.8.5
     transitivePeerDependencies:
       - supports-color
