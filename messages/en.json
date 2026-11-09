@@ -483,6 +483,11 @@
         "validering": {
             "maksLengde": "You can write a maximum of {maksLengde} characters"
         },
+        "textarea": {
+            "maxLength": "Text field with room for {maxLength} characters.",
+            "charsLeft": "{chars} characters left",
+            "charsTooMany": "{chars} over the character limit"
+        },
         "vedtaketDuKlagerPa": "The decision you are appealing",
         "vedtaksBrev": "Download decision letter",
         "mottatt": "Received {dato, date, ::dMMMMy}",

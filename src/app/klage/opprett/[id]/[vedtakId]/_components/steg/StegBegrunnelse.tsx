@@ -1,8 +1,9 @@
 "use client";
 
 import { ArrowRightIcon, FilePdfIcon } from "@navikt/aksel-icons";
-import { Button, HStack, InlineMessage, Label, Textarea, VStack } from "@navikt/ds-react";
-import { useTranslations } from "next-intl";
+import { Button, HStack, InlineMessage, Label, Provider, Textarea, VStack } from "@navikt/ds-react";
+import { en, nb, nn } from "@navikt/ds-react/locales";
+import { useLocale, useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
 
 import { FormValues } from "../KlageForm";
@@ -11,6 +12,9 @@ import { FilUrl } from "@generated/model";
 import { parseISO } from "date-fns";
 import FileSelectNew from "@components/filopplasting/FileSelectNew";
 import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
+import { MAX_LEN_BACKGROUND } from "../../_consts/consts";
+
+const akselLocales = { nb, nn, en };
 
 interface Props {
     contextId: string;
@@ -40,6 +44,7 @@ const StegBegrunnelse = ({
     vedtaksDato,
 }: Props) => {
     const t = useTranslations("KlageForm");
+    const locale = useLocale();
     const {
         register,
         formState: { errors },
@@ -61,14 +66,28 @@ const StegBegrunnelse = ({
                     </DigisosLinkCard>
                 </VStack>
             )}
-            <Textarea
-                id={"klageTextarea" + vedtakId}
-                resize
-                label={t("bakgrunn.label")}
-                description={t("bakgrunn.beskrivelse")}
-                error={errors.background?.message && t(errors.background.message)}
-                {...register("background")}
-            />
+            <Provider
+                locale={akselLocales[locale as keyof typeof akselLocales] ?? nb}
+                translations={{
+                    Textarea: {
+                        maxLength: t.raw("textarea.maxLength"),
+                        charsLeft: t.raw("textarea.charsLeft"),
+                        charsTooMany: t.raw("textarea.charsTooMany"),
+                    },
+                }}
+            >
+                <Textarea
+                    id={"klageTextarea" + vedtakId}
+                    resize
+                    maxLength={MAX_LEN_BACKGROUND}
+                    label={t("bakgrunn.label")}
+                    description={t("bakgrunn.beskrivelse")}
+                    error={
+                        errors.background?.message && t(errors.background.message, { maksLengde: MAX_LEN_BACKGROUND })
+                    }
+                    {...register("background")}
+                />
+            </Provider>
             <FileSelectNew
                 target={{ type: "klage", klageId: klageId }}
                 docState={docState}
