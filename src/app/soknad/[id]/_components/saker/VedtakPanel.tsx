@@ -25,6 +25,7 @@ const VedtakPanel = ({ vedtak, innsendtKlage }: Props) => {
                     <DigisosLinkCard
                         cardIcon="external-link"
                         openInNewTab
+                        dataColor="accent"
                         href={vedtak.vedtaksFilUrl}
                         icon={<EnvelopeClosedIcon aria-hidden />}
                         description={
@@ -45,6 +46,7 @@ const VedtakPanel = ({ vedtak, innsendtKlage }: Props) => {
                         <DigisosLinkCard
                             href="/utbetaling"
                             icon={<BankNoteIcon aria-hidden />}
+                            dataColor="accent"
                             className={"wrap-break-word"}
                         >
                             {t("kommendeUtbetaling")}

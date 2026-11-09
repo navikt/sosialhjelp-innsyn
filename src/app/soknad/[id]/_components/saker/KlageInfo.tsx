@@ -25,6 +25,7 @@ const KlageInfo = ({ vedtakId, vedtaksdato, innsendtKlage }: Props) => {
             <DigisosLinkCard
                 href={`/klage/status/${fiksDigisosId}/${innsendtKlage.klageId}`}
                 icon={<GavelIcon aria-hidden />}
+                dataColor="accent"
             >
                 {t("seKlage")}
             </DigisosLinkCard>

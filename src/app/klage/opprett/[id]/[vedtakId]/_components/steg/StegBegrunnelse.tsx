@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRightIcon, FilePdfIcon } from "@navikt/aksel-icons";
-import { Bleed, Button, HStack, InlineMessage, Label, Textarea, VStack } from "@navikt/ds-react";
+import { Button, HStack, InlineMessage, Label, Textarea, VStack } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
 
@@ -48,20 +48,18 @@ const StegBegrunnelse = ({
     return (
         <VStack gap="space-56">
             {vedtaksbrev && (
-                <Bleed marginInline="full" reflectivePadding className="bg-ax-bg-neutral-soft py-5">
-                    <VStack gap="space-8">
-                        <Label>{t("vedtaketDuKlagerPa")}</Label>
-                        <DigisosLinkCard
-                            dataColor="accent"
-                            cardIcon="external-link"
-                            href={vedtaksbrev.url}
-                            icon={<FilePdfIcon title={t("pdf")} />}
-                            description={t("mottatt", { dato: parseISO(vedtaksDato) })}
-                        >
-                            {t("vedtaksBrev")}
-                        </DigisosLinkCard>
-                    </VStack>
-                </Bleed>
+                <VStack gap="space-8">
+                    <Label>{t("vedtaketDuKlagerPa")}</Label>
+                    <DigisosLinkCard
+                        dataColor="accent"
+                        cardIcon="external-link"
+                        href={vedtaksbrev.url}
+                        icon={<FilePdfIcon title={t("pdf")} />}
+                        description={t("mottatt", { dato: parseISO(vedtaksDato) })}
+                    >
+                        {t("vedtaksBrev")}
+                    </DigisosLinkCard>
+                </VStack>
             )}
             <Textarea
                 id={"klageTextarea" + vedtakId}

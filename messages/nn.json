@@ -108,10 +108,10 @@
         "defaultTittel": "Søknad om økonomisk sosialhjelp"
     },
     "StatusTag": {
-        "INNVILGET": "<b>Utfall</b>: Innvilga",
-        "DELVIS_INNVILGET": "<b>Utfall</b>: Delvis innvilga",
-        "AVVIST": "<b>Utfall</b>: Avvist",
-        "AVSLATT": "<b>Utfall</b>: Avslag",
+        "INNVILGET": "Innvilga",
+        "DELVIS_INNVILGET": "Delvis innvilga",
+        "AVVIST": "Avvist",
+        "AVSLATT": "Avslag",
         "UNDER_BEHANDLING": "Under behandling",
         "IKKE_INNSYN": "Kan ikkje vise status",
         "BEHANDLES_IKKE": "Kan ikkje vise status"
