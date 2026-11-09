@@ -108,10 +108,10 @@
         "defaultTittel": "Application for financial assistance"
     },
     "StatusTag": {
-        "INNVILGET": "<b>Outcome</b>: Granted",
-        "DELVIS_INNVILGET": "<b>Outcome</b>: Partially granted",
-        "AVVIST": "<b>Outcome</b>: Rejected",
-        "AVSLATT": "<b>Outcome</b>: Declined",
+        "INNVILGET": "Granted",
+        "DELVIS_INNVILGET": "Partially granted",
+        "AVVIST": "Rejected",
+        "AVSLATT": "Declined",
         "UNDER_BEHANDLING": "Processing",
         "IKKE_INNSYN": "Cannot display status",
         "BEHANDLES_IKKE": "Cannot display status"

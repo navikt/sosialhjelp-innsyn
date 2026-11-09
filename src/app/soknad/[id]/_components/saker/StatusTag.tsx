@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { BodyShort, Tag, TagProps } from "@navikt/ds-react";
+import { Tag, TagProps } from "@navikt/ds-react";
 import { SaksStatusResponseStatus, SaksStatusResponseUtfallVedtak } from "@generated/model";
 import useIsMobile from "@utils/useIsMobile";
 
@@ -36,13 +36,7 @@ const StatusTag = ({ vedtakUtfall, className, status: statusProp }: StatusTagPro
     if (vedtakUtfall) {
         return (
             <Tag variant={utfallVariant[vedtakUtfall]} className={className} size={size}>
-                {t.rich(vedtakUtfall, {
-                    b: (chunks) => (
-                        <BodyShort size={size} weight="semibold">
-                            {chunks}
-                        </BodyShort>
-                    ),
-                })}
+                {t(vedtakUtfall)}
             </Tag>
         );
     }

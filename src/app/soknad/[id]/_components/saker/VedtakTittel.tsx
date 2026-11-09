@@ -12,7 +12,7 @@ interface Props {
 const VedtakTittel = ({ utfall, dato }: Props) => {
     const t = useTranslations("VedtakTittel");
     return (
-        <HStack gap="space-8" align="center">
+        <HStack gap="space-8" align="center" justify="space-between">
             <Heading size="small" level="3" lang="no">
                 {t("tittel", { dato: new Date(dato) })}
             </Heading>
