@@ -15,7 +15,7 @@ import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppga
 import { PaperplaneIcon, XMarkIcon } from "@navikt/aksel-icons";
 import { umamiCustomTrack } from "../../app/umami";
 
-interface Props {
+export interface Props {
     metadata: Metadata;
     label?: string | null;
     description?: string | null;

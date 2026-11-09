@@ -1,4 +1,48 @@
 {
+    "DirectUploadBox": {
+        "files": "Selected files",
+        "storageError": "We cannot save the information needed to follow up the upload.",
+        "listingError": "We cannot retrieve your files right now. Check the status again.",
+        "stopped": "The remaining files were not uploaded. Check the status before selecting them again.",
+        "error": "Something went wrong. Check the files and try again.",
+        "uncertain": "We cannot confirm whether the documents were submitted. Check the status before trying again.",
+        "preview": "Preview in a new tab",
+        "delete": "Delete {filename}",
+        "discard": "Delete all files",
+        "check": "Check status",
+        "checkSubmission": "Check whether the documents were submitted",
+        "retrySubmission": "Submit the documents",
+        "status": {
+            "UPLOADING": "Uploading",
+            "READY": "Uploaded, not submitted",
+            "UNKNOWN": "We cannot confirm whether the file was uploaded. Contact us for help.",
+            "MISSING": "The file is no longer in temporary storage",
+            "REJECTED": "The file was rejected"
+        }
+    },
+    "DirectUploadPilot": {
+        "title": "File upload test",
+        "warningTitle": "Files are not submitted",
+        "warning": "This is a test. Files are stored temporarily and are not sent to the municipality. They cannot be deleted here.",
+        "previewWarning": "Preview from temporary storage is not available.",
+        "storageError": "We cannot save the information needed to follow up the upload in this tab.",
+        "select": "Upload test files",
+        "selectButton": "Select files",
+        "description": "Each file can be up to 10 MB. You can add up to 30 files.",
+        "invalidFiles": "These files cannot be uploaded. Check their type, name and size: {files}",
+        "stopped": "The remaining files were not uploaded. Check the status before selecting them again.",
+        "files": "Test files",
+        "converted": "The file was converted to PDF.",
+        "preview": "Preview {filename} in a new tab",
+        "check": "Check status for {filename}",
+        "status": {
+            "UPLOADING": "Uploading",
+            "READY": "Uploaded, not submitted",
+            "UNKNOWN": "Unknown status. Check the status before uploading again.",
+            "MISSING": "The file is no longer in temporary storage.",
+            "REJECTED": "The file was rejected. Check it before trying again."
+        }
+    },
     "Tilgangskontrollside": {
         "header": "Hi {fornavn}",
         "info": "We are sorry, you cannot use the digital application for financial assistance. Please contact your local Nav office for assistance with the application.",

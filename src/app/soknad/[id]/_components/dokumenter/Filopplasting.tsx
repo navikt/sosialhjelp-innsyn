@@ -2,7 +2,7 @@
 
 import { Heading, VStack, Box } from "@navikt/ds-react";
 import { useTranslations } from "next-intl";
-import OpplastingsboksTus from "@components/filopplasting/OpplastingsboksTus";
+import OpplastingsboksTus from "@components/filopplasting/Opplastingsboks";
 import { Metadata } from "@components/filopplasting/types";
 import { useHentVedleggSuspense } from "@generated/vedlegg-controller/vedlegg-controller";
 import useIsMobile from "@utils/useIsMobile";

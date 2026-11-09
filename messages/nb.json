@@ -1,4 +1,48 @@
 {
+    "DirectUploadBox": {
+        "files": "Valgte filer",
+        "storageError": "Vi kan ikke lagre informasjonen som trengs for å følge opp opplastingen.",
+        "listingError": "Vi kan ikke hente filene dine nå. Sjekk status igjen.",
+        "stopped": "De resterende filene ble ikke lastet opp. Sjekk status før du velger dem på nytt.",
+        "error": "Noe gikk galt. Kontroller filene og prøv igjen.",
+        "uncertain": "Vi kan ikke bekrefte om dokumentene er sendt. Sjekk status før du prøver igjen.",
+        "preview": "Forhåndsvis i ny fane",
+        "delete": "Slett {filename}",
+        "discard": "Slett alle filene",
+        "check": "Sjekk status",
+        "checkSubmission": "Sjekk om dokumentene er sendt",
+        "retrySubmission": "Send inn dokumentene",
+        "status": {
+            "UPLOADING": "Laster opp",
+            "READY": "Lastet opp, ikke sendt inn",
+            "UNKNOWN": "Vi kan ikke bekrefte om filen ble lastet opp. Kontakt oss for hjelp.",
+            "MISSING": "Filen finnes ikke lenger i mellomlageret",
+            "REJECTED": "Filen ble ikke godtatt"
+        }
+    },
+    "DirectUploadPilot": {
+        "title": "Test av filopplasting",
+        "warningTitle": "Filene blir ikke sendt inn",
+        "warning": "Dette er en test. Filene lagres midlertidig og blir ikke sendt til kommunen. De kan ikke slettes her.",
+        "previewWarning": "Forhåndsvisning fra mellomlageret er ikke tilgjengelig.",
+        "storageError": "Vi kan ikke lagre informasjonen som trengs for å følge opp opplastingen i denne fanen.",
+        "select": "Last opp testfiler",
+        "selectButton": "Velg filer",
+        "description": "Hver fil kan være opptil 10 MB. Du kan legge ved opptil 30 filer.",
+        "invalidFiles": "Disse filene kan ikke lastes opp. Kontroller filtype, filnavn og størrelse: {files}",
+        "stopped": "De resterende filene ble ikke lastet opp. Kontroller statusen før du velger dem på nytt.",
+        "files": "Testfiler",
+        "converted": "Filen ble endret til PDF.",
+        "preview": "Forhåndsvis {filename} i ny fane",
+        "check": "Sjekk status for {filename}",
+        "status": {
+            "UPLOADING": "Laster opp",
+            "READY": "Lastet opp, ikke sendt inn",
+            "UNKNOWN": "Ukjent status. Sjekk status før du laster opp på nytt.",
+            "MISSING": "Filen finnes ikke lenger i mellomlageret.",
+            "REJECTED": "Filen ble ikke godtatt. Kontroller filen før du prøver igjen."
+        }
+    },
     "Tilgangskontrollside": {
         "header": "Hei {fornavn}",
         "info": "Du kan dessverre ikke bruke den digitale søknaden om økonomisk sosialhjelp. Ta kontakt med ditt lokale Nav-kontor for å få hjelp til å søke.",

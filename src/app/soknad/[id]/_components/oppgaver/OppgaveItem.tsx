@@ -1,7 +1,7 @@
 "use client";
 
 import { forwardRef, Ref } from "react";
-import OpplastingsboksTus from "@components/filopplasting/OpplastingsboksTus";
+import OpplastingsboksTus from "@components/filopplasting/Opplastingsboks";
 import { useVisningstekster } from "@hooks/useVisningstekster";
 import { Metadata } from "@components/filopplasting/types";
 import { OppgaveResponseBeta } from "@generated/model";
