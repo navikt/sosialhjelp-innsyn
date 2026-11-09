@@ -13,7 +13,7 @@ import useIsMobile from "@utils/useIsMobile";
 import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
 import { umamiCustomTrack } from "../../app/umami";
 
-interface Props {
+export interface Props {
     metadata: Metadata;
     label?: string | null;
     description?: string | null;

@@ -1,6 +1,6 @@
 "use client";
 
-import OpplastingsboksTus from "@components/filopplasting/OpplastingsboksTus";
+import OpplastingsboksTus from "@components/filopplasting/Opplastingsboks";
 import TaskListItem from "../../tasklistitem/TaskListItem";
 import { DokumentasjonkravDto } from "@generated/model";
 import OppgaveTag from "../../tasklistitem/OppgaveTag";
