@@ -482,6 +482,11 @@
         "validering": {
             "maksLengde": "Du kan skrive inn maks {maksLengde} teikn"
         },
+        "textarea": {
+            "maxLength": "Tekstfelt med plass til {maxLength} teikn.",
+            "charsLeft": "{chars} teikn igjen",
+            "charsTooMany": "{chars} teikn for mykje"
+        },
         "vedtaketDuKlagerPa": "Vedtaket du klagar på",
         "vedtaksBrev": "Last ned vedtaksbrev",
         "mottatt": "Motteken {dato, date, ::dMMMMy}",
