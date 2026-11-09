@@ -12,7 +12,14 @@ vi.mock("next/navigation", () => ({ useRouter: () => ({ replace: mocks.replace, 
 vi.mock("@navikt/next-logger", () => ({ logger: { warn: vi.fn(), error: vi.fn() } }));
 vi.mock("@components/filopplasting/api/deleteSubmission", () => ({ deleteSubmission: mocks.deleteSubmission }));
 vi.mock("@components/filopplasting/api/useDocumentState", () => ({
-    useDocumentState: () => ({ state: mocks.docState, addUploads: vi.fn(), removeUpload: vi.fn() }),
+    useDocumentState: () => ({
+        state: mocks.docState,
+        addUploads: vi.fn(),
+        removeUpload: vi.fn(),
+        allFilesUploaded: true,
+        noFileErrors: true,
+        hasFormErrors: false,
+    }),
 }));
 vi.mock("./steg/StegBegrunnelse", () => ({
     default: ({ onForkastKlage }: { onForkastKlage: () => void }) => (

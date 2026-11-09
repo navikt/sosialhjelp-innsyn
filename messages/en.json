@@ -496,6 +496,8 @@
         "tilbakeKnapp": "Back",
         "forkastKlageKnapp": "Cancel",
         "manglerInnhold": "To continue, explain why you disagree with the decision.",
+        "vedleggLaster": "Wait until all attachments have been uploaded.",
+        "vedleggHarFeil": "Remove attachments with errors before continuing.",
         "sendKlage": "Send",
         "ingenVedlegg": "No attachments",
         "ikkeTilgjengelig": "Complaints are not available for this application.",

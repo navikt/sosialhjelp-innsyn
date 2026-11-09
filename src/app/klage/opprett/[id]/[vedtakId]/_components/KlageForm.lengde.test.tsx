@@ -10,7 +10,14 @@ import KlageForm from "./KlageForm";
 vi.mock("next/navigation", () => ({ useRouter: () => ({ replace: vi.fn(), push: vi.fn() }) }));
 vi.mock("@navikt/next-logger", () => ({ logger: { warn: vi.fn(), error: vi.fn() } }));
 vi.mock("@components/filopplasting/api/useDocumentState", () => ({
-    useDocumentState: () => ({ state: {}, addUploads: vi.fn(), removeUpload: vi.fn() }),
+    useDocumentState: () => ({
+        state: {},
+        addUploads: vi.fn(),
+        removeUpload: vi.fn(),
+        allFilesUploaded: true,
+        noFileErrors: true,
+        hasFormErrors: false,
+    }),
 }));
 vi.mock("@components/filopplasting/FileSelectNew", () => ({ default: () => null }));
 

@@ -26,6 +26,8 @@ interface Props {
     onGaVidere: () => void;
     onForkastKlage: () => void;
     harInnhold: boolean;
+    alleVedleggLastetOpp: boolean;
+    vedleggHarFeil: boolean;
     vedtaksDato: string;
     vedtaksbrev?: FilUrl | undefined;
 }
@@ -35,6 +37,8 @@ const StegBegrunnelse = ({
     vedtakId,
     klageId,
     harInnhold,
+    alleVedleggLastetOpp,
+    vedleggHarFeil,
     vedtaksbrev,
     docState,
     addUploads,
@@ -49,6 +53,13 @@ const StegBegrunnelse = ({
         register,
         formState: { errors },
     } = useFormContext<FormValues>();
+    const beskjed = vedleggHarFeil
+        ? "vedleggHarFeil"
+        : !alleVedleggLastetOpp
+          ? "vedleggLaster"
+          : !harInnhold
+            ? "manglerInnhold"
+            : undefined;
 
     return (
         <VStack gap="space-56">
@@ -108,16 +119,21 @@ const StegBegrunnelse = ({
                         type="button"
                         onClick={onGaVidere}
                         className="mb-4"
-                        disabled={!harInnhold}
+                        disabled={!harInnhold || !alleVedleggLastetOpp || vedleggHarFeil}
+                        aria-describedby={beskjed ? "klage-kan-ikke-ga-videre" : undefined}
                         icon={<ArrowRightIcon aria-hidden />}
                         iconPosition="right"
                     >
                         {t("gaVidereKnapp")}
                     </Button>
                 </HStack>
-                {!harInnhold && (
-                    <InlineMessage id="klage-mangler-innhold" status="info">
-                        {t("manglerInnhold")}
+                {beskjed && (
+                    <InlineMessage
+                        id="klage-kan-ikke-ga-videre"
+                        status={vedleggHarFeil ? "warning" : "info"}
+                        role="status"
+                    >
+                        {t(beskjed)}
                     </InlineMessage>
                 )}
             </VStack>

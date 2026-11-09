@@ -508,6 +508,8 @@
         "tilbakeKnapp": "Tilbake",
         "forkastKlageKnapp": "Avbryt",
         "manglerInnhold": "For å fortsette må du skrive hvorfor du er uenig i vedtaket.",
+        "vedleggLaster": "Vent til alle vedlegg er lastet opp.",
+        "vedleggHarFeil": "Fjern vedlegg med feil før du går videre.",
         "sendKlage": "Send inn",
         "ingenVedlegg": "Ingen vedlegg",
         "ikkeTilgjengelig": "Klage er ikke tilgjengelig for denne søknaden.",
