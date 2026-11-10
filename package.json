@@ -16,7 +16,7 @@
         "@navikt/oasis": "^4.2.2",
         "@next/env": "16.4.5",
         "@tailwindcss/postcss": "^4.3.3",
-        "@tanstack/react-query": "^5.106.1",
+        "@tanstack/react-query": "^5.107.1",
         "@unleash/nextjs": "^1.6.7",
         "classnames": "^2.5.1",
         "date-fns": "^4.4.0",
