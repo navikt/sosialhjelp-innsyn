@@ -51,7 +51,7 @@ const StegOppsummering = ({
                     <FormSummary.Answer>
                         <FormSummary.Label>{t("oppsummering.begrunnelse")}</FormSummary.Label>
                         <FormSummary.Value>
-                            {formValues.background?.length ? (
+                            {formValues.background?.trim().length ? (
                                 formValues.background
                             ) : (
                                 <BodyShort as="span" textColor="subtle">
