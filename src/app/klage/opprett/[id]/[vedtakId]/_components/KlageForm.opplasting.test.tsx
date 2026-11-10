@@ -90,7 +90,9 @@ describe("KlageForm opplasting", () => {
         });
         const button = screen.getByRole("button", { name: "Se oppsummering" });
         expect(button).toBeEnabled();
-        fireEvent.submit(container.querySelector("form")!);
+        await act(async () => {
+            fireEvent.submit(container.querySelector("form")!);
+        });
         await waitFor(() => expect(mocks.send).not.toHaveBeenCalled());
         await userEvent.click(button);
         expect(await screen.findByText("Oppsummering av klagen")).toBeInTheDocument();
