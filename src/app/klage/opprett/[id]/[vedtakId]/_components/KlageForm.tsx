@@ -51,11 +51,11 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
         addUploads,
         removeUpload,
         allFilesUploaded,
-        noFileErrors,
+        allValidated,
         hasFormErrors,
     } = useDocumentState(contextId);
     const vedleggHarFeil =
-        !noFileErrors || hasFormErrors || (docState.uploads ?? []).some((u) => u.status === "FAILED");
+        !allValidated || hasFormErrors || (docState.uploads ?? []).some((u) => u.status === "FAILED");
     const alleVedleggLastetOpp = allFilesUploaded && (docState.uploads ?? []).every((u) => u.status === "COMPLETE");
     const vedleggKlare = alleVedleggLastetOpp && !vedleggHarFeil;
 

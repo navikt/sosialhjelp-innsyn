@@ -1,25 +1,27 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { DocumentState, UploadState, useDocumentState } from "@components/filopplasting/api/useDocumentState";
 import userEvent from "@testing-library/user-event";
 import { render, screen, waitFor } from "@test/test-utils";
 
 const mocks = vi.hoisted(() => ({
     replace: vi.fn(),
     deleteSubmission: vi.fn(),
-    docState: {} as { submissionId?: string; uploads?: { status: string }[] },
+    docState: {} as DocumentState,
 }));
 
 vi.mock("next/navigation", () => ({ useRouter: () => ({ replace: mocks.replace, push: vi.fn() }) }));
 vi.mock("@navikt/next-logger", () => ({ logger: { warn: vi.fn(), error: vi.fn() } }));
 vi.mock("@components/filopplasting/api/deleteSubmission", () => ({ deleteSubmission: mocks.deleteSubmission }));
 vi.mock("@components/filopplasting/api/useDocumentState", () => ({
-    useDocumentState: () => ({
-        state: mocks.docState,
-        addUploads: vi.fn(),
-        removeUpload: vi.fn(),
-        allFilesUploaded: true,
-        noFileErrors: true,
-        hasFormErrors: false,
-    }),
+    useDocumentState: () =>
+        ({
+            state: mocks.docState,
+            addUploads: vi.fn(),
+            removeUpload: vi.fn(),
+            allFilesUploaded: true,
+            allValidated: true,
+            hasFormErrors: false,
+        }) satisfies Partial<ReturnType<typeof useDocumentState>>,
 }));
 vi.mock("./steg/StegBegrunnelse", () => ({
     default: ({ onForkastKlage }: { onForkastKlage: () => void }) => (
@@ -31,6 +33,13 @@ vi.mock("./steg/StegBegrunnelse", () => ({
 
 import KlageForm from "./KlageForm";
 
+const completeUpload: UploadState = {
+    id: "upload-1",
+    originalFilename: "fil.pdf",
+    status: "COMPLETE",
+    converted: false,
+};
+
 const renderForm = () =>
     render(<KlageForm fiksDigisosId="soknad-1" vedtakId="vedtak-1" klageId="klage-1" vedtakMottatt="2025-01-01" />);
 
@@ -41,7 +50,7 @@ describe("KlageForm forkast", () => {
     });
 
     it("deletes by submissionId, not klageId, then navigates to the soknad", async () => {
-        mocks.docState = { submissionId: "submission-9", uploads: [{ status: "COMPLETE" }] };
+        mocks.docState = { submissionId: "submission-9", uploads: [completeUpload] };
         renderForm();
         await userEvent.click(screen.getByText("forkast"));
         await userEvent.click(await screen.findByRole("button", { name: "Ja, forkast klagen" }));
@@ -51,7 +60,7 @@ describe("KlageForm forkast", () => {
     });
 
     it("still navigates when the delete fails", async () => {
-        mocks.docState = { submissionId: "submission-9", uploads: [{ status: "COMPLETE" }] };
+        mocks.docState = { submissionId: "submission-9", uploads: [completeUpload] };
         mocks.deleteSubmission.mockRejectedValue(new Error("boom"));
         renderForm();
         await userEvent.click(screen.getByText("forkast"));
