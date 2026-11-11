@@ -130,7 +130,7 @@
         "vedtaksbrev": "Vedtaksbrev"
     },
     "VedtakTittel": {
-        "tittel": "Vedtak {dato, date, ::ddMMyyyy}"
+        "mottatt": "Motteken {dato, date, ::ddMMyyyy}"
     },
     "BehandlesIkkeInfo": {
         "description1": "Vi kan ikkje vise status for søknaden din på nav.no. Det kan vere fordi søknaden din blir behandla saman med ein annan søknad du har sendt, eller fordi du har trekt tilbake søknaden.",

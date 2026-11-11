@@ -1,4 +1,4 @@
-import { Heading, HStack } from "@navikt/ds-react";
+import { BodyLong, HStack } from "@navikt/ds-react";
 import { VedtakDtoUtfall } from "@generated/model";
 
 import StatusTag from "./StatusTag";
@@ -12,11 +12,9 @@ interface Props {
 const VedtakTittel = ({ utfall, dato }: Props) => {
     const t = useTranslations("VedtakTittel");
     return (
-        <HStack gap="space-8" align="center" justify="space-between">
-            <Heading size="small" level="3" lang="no">
-                {t("tittel", { dato: new Date(dato) })}
-            </Heading>
+        <HStack align="center" justify="space-between">
             <StatusTag vedtakUtfall={utfall} className="self-start" />
+            <BodyLong>{t("mottatt", { dato: new Date(dato) })}</BodyLong>
         </HStack>
     );
 };

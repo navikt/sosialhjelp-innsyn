@@ -1,7 +1,10 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Locator } from "@playwright/test";
 
 import { createMswHelper, mockSoknadEndpoints } from "../helpers/msw-helpers";
 import { VedtakDto } from "../../src/generated/model";
+
+const mottattDatoer = (scope: Locator) =>
+    scope.locator("p:not([aria-hidden])", { hasText: /^Mottatt \d{2}\.\d{2}\.\d{4}$/ });
 
 test.afterEach(async ({ request, baseURL }) => {
     const msw = createMswHelper(request, baseURL!);
@@ -54,15 +57,13 @@ test.describe("Vedtak functionality", () => {
 
         // The newest vedtak is visible first and older vedtak can be expanded.
         await expect(vedtakList.getByRole("listitem")).toHaveCount(1);
-        await expect(vedtakList.getByRole("heading", { name: "Vedtak 25.11.2025" })).toBeVisible();
+        await expect(mottattDatoer(vedtakList)).toHaveText(["Mottatt 25.11.2025"]);
+        await expect(mottattDatoer(vedtakList)).toBeVisible();
         await page.getByRole("button", { name: "Vis flere vedtak (1)" }).click();
 
         await expect(vedtakList.getByRole("listitem")).toHaveCount(2);
         await expect(vedtakList.getByRole("link", { name: "Åpne vedtaksbrev" })).toHaveCount(2);
-        await expect(vedtakList.getByRole("heading", { level: 3, name: /^Vedtak / })).toHaveText([
-            "Vedtak 25.11.2025",
-            "Vedtak 20.11.2025",
-        ]);
+        await expect(mottattDatoer(vedtakList)).toHaveText(["Mottatt 25.11.2025", "Mottatt 20.11.2025"]);
     });
 
     test("should display the latest decision status beside the title", async ({ page, request, baseURL }) => {
@@ -105,7 +106,8 @@ test.describe("Vedtak functionality", () => {
 
         const newestVedtak = page.getByRole("list", { name: "Vedtak" }).getByRole("listitem");
 
-        await expect(newestVedtak.getByRole("heading", { name: "Vedtak 25.11.2025" })).toBeVisible();
+        await expect(mottattDatoer(newestVedtak)).toHaveText(["Mottatt 25.11.2025"]);
+        await expect(mottattDatoer(newestVedtak)).toBeVisible();
         await expect(newestVedtak.getByText(/^(Utfall: )?Avslag$/)).toBeVisible();
     });
 
@@ -193,10 +195,10 @@ test.describe("Vedtak functionality", () => {
 
         await expect(vedtakList.getByRole("listitem")).toHaveCount(3);
         await expect(vedtakList.getByRole("link", { name: "Åpne vedtaksbrev" })).toHaveCount(3);
-        await expect(vedtakList.getByRole("heading", { level: 3, name: /^Vedtak / })).toHaveText([
-            "Vedtak 28.11.2025",
-            "Vedtak 20.11.2025",
-            "Vedtak 15.11.2025",
+        await expect(mottattDatoer(vedtakList)).toHaveText([
+            "Mottatt 28.11.2025",
+            "Mottatt 20.11.2025",
+            "Mottatt 15.11.2025",
         ]);
         await expect(
             vedtakList
@@ -264,13 +266,11 @@ test.describe("Vedtak functionality", () => {
 
         const husleieVedtak = page.getByRole("list", { name: "Husleie" });
         await expect(husleieVedtak.getByRole("listitem")).toHaveCount(1);
-        await expect(husleieVedtak.getByRole("heading", { name: "Vedtak 25.11.2025" })).toBeVisible();
+        await expect(mottattDatoer(husleieVedtak)).toHaveText(["Mottatt 25.11.2025"]);
+        await expect(mottattDatoer(husleieVedtak)).toBeVisible();
         await expect(husleieVedtak.getByText(/^(Utfall: )?Avslag$/)).toBeVisible();
         await page.getByRole("button", { name: "Vis flere vedtak (1)" }).click();
-        await expect(husleieVedtak.getByRole("heading", { level: 3, name: /^Vedtak / })).toHaveText([
-            "Vedtak 25.11.2025",
-            "Vedtak 20.11.2025",
-        ]);
+        await expect(mottattDatoer(husleieVedtak)).toHaveText(["Mottatt 25.11.2025", "Mottatt 20.11.2025"]);
 
         await expect(page.getByRole("list", { name: "Strøm" })).toHaveCount(0);
         await expect(
