@@ -55,7 +55,7 @@ describe("VedtakPanel", () => {
         await user.click(screen.getByRole("button", { name: "Vis flere vedtak (1)" }));
 
         expect(screen.getAllByRole("listitem")).toHaveLength(2);
-        expect(screen.getByRole("heading", { name: "Vedtak 02.02.2026" })).toBeInTheDocument();
+        expect(screen.getByText("Mottatt 02.02.2026", { selector: "p:not([aria-hidden])" })).toBeInTheDocument();
         await waitFor(() => expect(screen.getAllByRole("listitem")[1]).toHaveFocus());
     });
 

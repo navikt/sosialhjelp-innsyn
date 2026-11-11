@@ -1,5 +1,5 @@
 import { BankNoteIcon, EnvelopeClosedIcon } from "@navikt/aksel-icons";
-import { Box, BodyShort, VStack } from "@navikt/ds-react";
+import { Box, BodyShort, VStack, Bleed } from "@navikt/ds-react";
 import { KlageRef, VedtakDto } from "@generated/model";
 import { useTranslations } from "next-intl";
 
@@ -20,6 +20,10 @@ const VedtakPanel = ({ vedtak, innsendtKlage }: Props) => {
         <Box borderWidth="1" borderColor="neutral-subtle" borderRadius="12" overflow="hidden">
             <VStack gap="space-16" padding={{ xs: "space-16", md: "space-24" }}>
                 <VedtakTittel utfall={vedtak.utfall} dato={vedtak.dato} />
+                <Bleed
+                    marginInline={{ xs: "space-16", md: "space-24" }}
+                    className={"border-b border-ax-border-neutral-subtle"}
+                />
                 {vedtak.utfall && <BodyShort>{t(`beskrivelse.${vedtak.utfall}`)}</BodyShort>}
                 <VStack gap="space-8">
                     <DigisosLinkCard

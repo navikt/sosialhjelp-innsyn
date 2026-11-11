@@ -130,7 +130,7 @@
         "vedtaksbrev": "Decision letters"
     },
     "VedtakTittel": {
-        "tittel": "Decision {dato, date, ::ddMMyyyy}"
+        "mottatt": "Received {dato, date, ::ddMMyyyy}"
     },
     "BehandlesIkkeInfo": {
         "description1": "We cannot show the status of your application on nav.no. This may be because your application is being processed together with another application you have submitted, or because you have withdrawn your application.",
