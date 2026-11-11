@@ -1,12 +1,13 @@
 "use client";
 
 import { ArrowLeftIcon, PaperplaneIcon } from "@navikt/aksel-icons";
-import { BodyShort, Button, FormSummary, GuidePanel, HStack, LocalAlert, VStack } from "@navikt/ds-react";
+import { BodyShort, Button, FormSummary, GuidePanel, HStack, Link, LocalAlert, VStack } from "@navikt/ds-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { parseISO } from "date-fns";
 import { UploadState } from "@components/filopplasting/api/useDocumentState";
 import { FormValues } from "../KlageForm";
 import useIsMobile from "@utils/useIsMobile";
+import { browserEnv } from "@config/env";
 
 interface Props {
     isLoading: boolean;
@@ -70,7 +71,13 @@ const StegOppsummering = ({
                             ) : (
                                 <ul>
                                     {uploads.map((upload) => (
-                                        <li key={upload.id}>{upload.finalFilename ?? upload.originalFilename}</li>
+                                        <li key={upload.id}>
+                                            <Link
+                                                href={`${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`}
+                                            >
+                                                {upload.finalFilename ?? upload.originalFilename}
+                                            </Link>
+                                        </li>
                                     ))}
                                 </ul>
                             )}
