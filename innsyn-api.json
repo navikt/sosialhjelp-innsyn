@@ -235,6 +235,33 @@
                 }
             }
         },
+        "/api/v1/innsyn/{fiksDigisosId}/{vedtakId}/klage": {
+            "get": {
+                "tags": ["klage-controller"],
+                "operationId": "hentKlageForVedtak",
+                "parameters": [
+                    {
+                        "name": "fiksDigisosId",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "format": "uuid" }
+                    },
+                    {
+                        "name": "vedtakId",
+                        "in": "path",
+                        "required": true,
+                        "schema": { "type": "string", "format": "uuid" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Klage for vedtaket",
+                        "content": { "*/*": { "schema": { "$ref": "#/components/schemas/KlageDto" } } }
+                    },
+                    "404": { "description": "Ingen klage er sendt for dette vedtaket" }
+                }
+            }
+        },
         "/api/v1/innsyn/{fiksDigisosId}/vedlegg": {
             "get": {
                 "tags": ["vedlegg-controller"],
@@ -702,6 +729,39 @@
                     "tittel"
                 ]
             },
+            "EttersendelseDto": {
+                "type": "object",
+                "properties": {
+                    "navEksternRefId": { "type": "string", "format": "uuid" },
+                    "vedlegg": { "type": "array", "items": { "$ref": "#/components/schemas/VedleggResponse" } },
+                    "timestampSendt": { "type": "integer", "format": "int64" }
+                },
+                "required": ["navEksternRefId", "timestampSendt", "vedlegg"]
+            },
+            "KlageDto": {
+                "type": "object",
+                "properties": {
+                    "digisosId": { "type": "string", "format": "uuid" },
+                    "klageId": { "type": "string", "format": "uuid" },
+                    "vedtakId": { "type": "string", "format": "uuid" },
+                    "klagePdf": { "$ref": "#/components/schemas/VedleggResponse" },
+                    "opplastedeVedlegg": {
+                        "type": "array",
+                        "items": { "$ref": "#/components/schemas/VedleggResponse" }
+                    },
+                    "ettersendelser": { "type": "array", "items": { "$ref": "#/components/schemas/EttersendelseDto" } },
+                    "timestampSendt": { "type": "integer", "format": "int64" }
+                },
+                "required": [
+                    "digisosId",
+                    "ettersendelser",
+                    "klageId",
+                    "klagePdf",
+                    "opplastedeVedlegg",
+                    "timestampSendt",
+                    "vedtakId"
+                ]
+            },
             "VedleggResponse": {
                 "type": "object",
                 "properties": {
@@ -847,39 +907,6 @@
                     "vedtakId": { "type": "string", "format": "uuid" }
                 },
                 "required": ["klageId", "vedtakId"]
-            },
-            "EttersendelseDto": {
-                "type": "object",
-                "properties": {
-                    "navEksternRefId": { "type": "string", "format": "uuid" },
-                    "vedlegg": { "type": "array", "items": { "$ref": "#/components/schemas/VedleggResponse" } },
-                    "timestampSendt": { "type": "integer", "format": "int64" }
-                },
-                "required": ["navEksternRefId", "timestampSendt", "vedlegg"]
-            },
-            "KlageDto": {
-                "type": "object",
-                "properties": {
-                    "digisosId": { "type": "string", "format": "uuid" },
-                    "klageId": { "type": "string", "format": "uuid" },
-                    "vedtakId": { "type": "string", "format": "uuid" },
-                    "klagePdf": { "$ref": "#/components/schemas/VedleggResponse" },
-                    "opplastedeVedlegg": {
-                        "type": "array",
-                        "items": { "$ref": "#/components/schemas/VedleggResponse" }
-                    },
-                    "ettersendelser": { "type": "array", "items": { "$ref": "#/components/schemas/EttersendelseDto" } },
-                    "timestampSendt": { "type": "integer", "format": "int64" }
-                },
-                "required": [
-                    "digisosId",
-                    "ettersendelser",
-                    "klageId",
-                    "klagePdf",
-                    "opplastedeVedlegg",
-                    "timestampSendt",
-                    "vedtakId"
-                ]
             },
             "KlageTilgjengeligDto": {
                 "type": "object",

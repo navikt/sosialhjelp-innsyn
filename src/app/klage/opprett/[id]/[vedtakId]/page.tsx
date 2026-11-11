@@ -8,11 +8,22 @@ import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import { hentSakForVedtak } from "@generated/ssr/sak-controller/sak-controller";
 
 import KlageForm from "./_components/KlageForm";
+import { hentKlageForVedtak } from "@generated/ssr";
 
 const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string }> }) => {
     const { id: fiksDigisosId, vedtakId } = await params;
     if (!(await isKlageTilgjengelig(fiksDigisosId))) {
         redirect(`/soknad/${fiksDigisosId}`);
+    }
+    let eksisterendeKlageId: string | undefined;
+    try {
+        const klage = await hentKlageForVedtak(fiksDigisosId, vedtakId);
+        eksisterendeKlageId = klage.klageId;
+    } catch (_: unknown) {
+        // NOOP: Ignorer feilen
+    }
+    if (eksisterendeKlageId) {
+        redirect(`/klage/status/${fiksDigisosId}/${eksisterendeKlageId}`);
     }
 
     const t = await getTranslations("OpprettKlagePage");
