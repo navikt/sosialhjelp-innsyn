@@ -8,7 +8,7 @@ export const Driftsmeldinger = async () => {
         return null;
     }
     return (
-        <VStack gap="space-16" className="mt-4">
+        <VStack gap="space-16" className="mb-6 ax-md:mb-20">
             {driftsmeldinger?.map(({ severity, text, id }) => (
                 <Alert variant={severity} fullWidth key={id} data-testid={`driftsmelding-${id}`}>
                     <Markdown options={{ overrides: { a: { component: Link, props: { inlineText: true } } } }}>
