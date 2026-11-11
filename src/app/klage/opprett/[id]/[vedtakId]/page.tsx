@@ -8,11 +8,25 @@ import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
 import { hentSakForVedtak } from "@generated/ssr/sak-controller/sak-controller";
 
 import KlageForm from "./_components/KlageForm";
+import { hentKlageForVedtak } from "@generated/ssr";
+import { logger } from "@navikt/next-logger";
+import { AuthenticatedFetchError } from "@api/ssr/authenticatedFetch";
 
 const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string }> }) => {
     const { id: fiksDigisosId, vedtakId } = await params;
     if (!(await isKlageTilgjengelig(fiksDigisosId))) {
         redirect(`/soknad/${fiksDigisosId}`);
+    }
+    try {
+        const klage = await hentKlageForVedtak(fiksDigisosId, vedtakId);
+        redirect(`/klage/${fiksDigisosId}/${klage.klageId}`);
+    } catch (e: unknown) {
+        if (e instanceof AuthenticatedFetchError && e.status === 404) {
+            // noop. Finnes ingen klager fra før
+        } else {
+            logger.error(e, "Feil ved henting av klage for vedtak.");
+            redirect(`/soknad/${fiksDigisosId}`);
+        }
     }
 
     const t = await getTranslations("OpprettKlagePage");
