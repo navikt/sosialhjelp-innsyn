@@ -48,18 +48,18 @@ describe("klage opprett page", () => {
         expect(mocks.redirect).not.toHaveBeenCalled();
     });
 
+    it("does not redirects to the soknad when fetching klage fails", async () => {
+        mocks.tilgjengelig.mockResolvedValue(true);
+        mocks.hentKlage.mockRejectedValue(new mocks.AuthenticatedFetchError(500));
+        await Page({ params });
+        expect(mocks.redirect).not.toHaveBeenCalled();
+    });
+
     it("redirects to the existing klage when one exists", async () => {
         mocks.tilgjengelig.mockResolvedValue(true);
         mocks.hentKlage.mockResolvedValue({ klageId: "klage-1" });
         await expect(Page({ params })).rejects.toThrow("NEXT_REDIRECT");
         expect(mocks.redirect).toHaveBeenCalledTimes(1);
         expect(mocks.redirect).toHaveBeenCalledWith("/klage/status/soknad-1/klage-1");
-    });
-
-    it("redirects to the soknad when fetching klage fails", async () => {
-        mocks.tilgjengelig.mockResolvedValue(true);
-        mocks.hentKlage.mockRejectedValue(new mocks.AuthenticatedFetchError(500));
-        await expect(Page({ params })).rejects.toThrow("NEXT_REDIRECT");
-        expect(mocks.redirect).toHaveBeenCalledWith("/soknad/soknad-1");
     });
 });

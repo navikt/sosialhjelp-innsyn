@@ -9,8 +9,6 @@ import { hentSakForVedtak } from "@generated/ssr/sak-controller/sak-controller";
 
 import KlageForm from "./_components/KlageForm";
 import { hentKlageForVedtak } from "@generated/ssr";
-import { logger } from "@navikt/next-logger";
-import { AuthenticatedFetchError } from "@api/ssr/authenticatedFetch";
 
 const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string }> }) => {
     const { id: fiksDigisosId, vedtakId } = await params;
@@ -21,12 +19,8 @@ const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string
     try {
         const klage = await hentKlageForVedtak(fiksDigisosId, vedtakId);
         eksisterendeKlageId = klage.klageId;
-    } catch (e: unknown) {
-        // 404 betyr at det ikke finnes noen klage fra før
-        if (!(e instanceof AuthenticatedFetchError && e.status === 404)) {
-            logger.error(e, "Feil ved henting av klage for vedtak.");
-            redirect(`/soknad/${fiksDigisosId}`);
-        }
+    } catch (_: unknown) {
+        // NOOP: Ignorer feilen
     }
     if (eksisterendeKlageId) {
         redirect(`/klage/status/${fiksDigisosId}/${eksisterendeKlageId}`);
