@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowLeftIcon, PaperplaneIcon } from "@navikt/aksel-icons";
-import { Button, FormSummary, GuidePanel, HStack, LocalAlert, VStack } from "@navikt/ds-react";
+import { BodyShort, Button, FormSummary, GuidePanel, HStack, LocalAlert, VStack } from "@navikt/ds-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { parseISO } from "date-fns";
 import { UploadState } from "@components/filopplasting/api/useDocumentState";
@@ -50,13 +50,23 @@ const StegOppsummering = ({
                 <FormSummary.Answers>
                     <FormSummary.Answer>
                         <FormSummary.Label>{t("oppsummering.begrunnelse")}</FormSummary.Label>
-                        <FormSummary.Value>{formValues.background}</FormSummary.Value>
+                        <FormSummary.Value>
+                            {formValues.background?.trim().length ? (
+                                formValues.background
+                            ) : (
+                                <BodyShort as="span" textColor="subtle">
+                                    {t("ingenBegrunnelse")}
+                                </BodyShort>
+                            )}
+                        </FormSummary.Value>
                     </FormSummary.Answer>
                     <FormSummary.Answer>
                         <FormSummary.Label>{t("oppsummering.vedlegg")}</FormSummary.Label>
                         <FormSummary.Value>
                             {uploads.length === 0 ? (
-                                t("ingenVedlegg")
+                                <BodyShort as="span" textColor="subtle">
+                                    {t("ingenVedlegg")}
+                                </BodyShort>
                             ) : (
                                 <ul>
                                     {uploads.map((upload) => (

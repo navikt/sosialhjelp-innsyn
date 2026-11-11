@@ -499,6 +499,7 @@
         "vedleggHarFeil": "Fjern vedlegg med feil før du går vidare.",
         "sendKlage": "Send inn",
         "ingenVedlegg": "Ingen vedlegg",
+        "ingenBegrunnelse": "Inga grunngiving oppgitt",
         "ikkeTilgjengelig": "Klage er ikkje tilgjengeleg for denne søknaden.",
         "sendingFeilet": "Sending av klaga feila. Prøv igjen seinare eller ta kontakt med ditt lokale NAV-kontor.",
         "oppsummering": {

@@ -67,7 +67,10 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
     });
     const { handleSubmit, getValues, control } = formMethods;
     const background = useWatch({ control, name: "background" });
-    const harInnhold = Boolean(background?.trim()) || (!!docState.uploads && docState.uploads.length > 0);
+    const validUploads = docState.uploads?.filter(
+        (upload) => upload.status === "COMPLETE" && !upload.validations?.length
+    );
+    const harInnhold = Boolean(background?.trim()) || (!!validUploads && validUploads.length > 0);
 
     const sendKlageMutation = useSendKlage();
     const ikkeTilgjengelig =

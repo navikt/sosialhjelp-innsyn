@@ -500,6 +500,7 @@
         "vedleggHarFeil": "Remove attachments with errors before continuing.",
         "sendKlage": "Send",
         "ingenVedlegg": "No attachments",
+        "ingenBegrunnelse": "No explanation provided",
         "ikkeTilgjengelig": "Complaints are not available for this application.",
         "sendingFeilet": "Failed to send the complaint. Please try again later or contact your local NAV office.",
         "oppsummering": {

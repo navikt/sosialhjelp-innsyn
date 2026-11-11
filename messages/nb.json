@@ -512,6 +512,7 @@
         "vedleggHarFeil": "Fjern vedlegg med feil før du går videre.",
         "sendKlage": "Send inn",
         "ingenVedlegg": "Ingen vedlegg",
+        "ingenBegrunnelse": "Ingen begrunnelse oppgitt",
         "ikkeTilgjengelig": "Klage er ikke tilgjengelig for denne søknaden.",
         "sendingFeilet": "Sending av klage feilet. Prøv igjen senere eller ta kontakt med ditt Nav-kontor.",
         "oppsummering": {
