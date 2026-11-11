@@ -14,7 +14,7 @@ const Page = async () => {
     return (
         <>
             <ClientBreadcrumbs />
-            <VStack gap={{ xs: "space-48", md: "space-80" }} className="mt-6 ax-md:mt-20">
+            <VStack gap={{ xs: "space-48", md: "space-80" }}>
                 <Bleed marginInline={{ lg: "space-24" }} asChild>
                     <Stack
                         gap="space-16"

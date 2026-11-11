@@ -56,7 +56,7 @@ export const Soknad = async ({ id }: Props) => {
     prefetchHentBrevQuery(brevQueryClient, id);
 
     return (
-        <VStack gap={{ xs: "space-48", md: "space-80" }} className="mt-20">
+        <VStack gap={{ xs: "space-48", md: "space-80" }}>
             <VStack gap="space-16">
                 <Heading size="xlarge" level="1" lang={tittel ? "no" : undefined}>
                     {tittel ?? t("defaultTittel")}

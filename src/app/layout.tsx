@@ -91,7 +91,14 @@ export default async function RootLayout({ children }: PropsWithChildren) {
                             }
                         >
                             <Decorator.Header />
-                            <PageBlock as="main" width="md" gutters id="maincontent" tabIndex={-1}>
+                            <PageBlock
+                                as="main"
+                                width="md"
+                                gutters
+                                id="maincontent"
+                                tabIndex={-1}
+                                className="mt-6 ax-md:mt-20"
+                            >
                                 <Driftsmeldinger />
                                 <Providers togglesPromise={toggles} tilgang={harTilgangResponse}>
                                     {children}
