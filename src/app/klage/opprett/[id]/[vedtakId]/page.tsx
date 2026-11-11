@@ -17,16 +17,19 @@ const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string
     if (!(await isKlageTilgjengelig(fiksDigisosId))) {
         redirect(`/soknad/${fiksDigisosId}`);
     }
+    let eksisterendeKlageId: string | undefined;
     try {
         const klage = await hentKlageForVedtak(fiksDigisosId, vedtakId);
-        redirect(`/klage/${fiksDigisosId}/${klage.klageId}`);
+        eksisterendeKlageId = klage.klageId;
     } catch (e: unknown) {
-        if (e instanceof AuthenticatedFetchError && e.status === 404) {
-            // noop. Finnes ingen klager fra før
-        } else {
+        // 404 betyr at det ikke finnes noen klage fra før
+        if (!(e instanceof AuthenticatedFetchError && e.status === 404)) {
             logger.error(e, "Feil ved henting av klage for vedtak.");
             redirect(`/soknad/${fiksDigisosId}`);
         }
+    }
+    if (eksisterendeKlageId) {
+        redirect(`/klage/${fiksDigisosId}/${eksisterendeKlageId}`);
     }
 
     const t = await getTranslations("OpprettKlagePage");
