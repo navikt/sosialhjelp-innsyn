@@ -104,7 +104,7 @@ export const useDocumentState = (
     addUploads: (uploads: UploadState[]) => void;
     removeUpload: (correlationId: string) => void;
     hasFiles: boolean;
-    noFileErrors: boolean;
+    allValidated: boolean;
     allFilesUploaded: boolean;
     hasFormErrors: boolean;
     canSubmit: boolean;
@@ -129,10 +129,10 @@ export const useDocumentState = (
 
     const uploads = state.uploads ?? [];
     const hasFiles = uploads.length > 0;
-    const noFileErrors = uploads.every((upload) => !upload.validations?.length);
+    const allValidated = uploads.every((upload) => !upload.validations?.length);
     const allFilesUploaded = uploads.every((upload) => !!upload.filId);
     const hasFormErrors = !!state.validations?.length;
-    const canSubmit = !!state.submissionId && hasFiles && noFileErrors && allFilesUploaded && !hasFormErrors;
+    const canSubmit = !!state.submissionId && hasFiles && allValidated && allFilesUploaded && !hasFormErrors;
 
     return {
         state,
@@ -140,7 +140,7 @@ export const useDocumentState = (
         addUploads,
         removeUpload,
         hasFiles,
-        noFileErrors,
+        allValidated,
         allFilesUploaded,
         hasFormErrors,
         canSubmit,

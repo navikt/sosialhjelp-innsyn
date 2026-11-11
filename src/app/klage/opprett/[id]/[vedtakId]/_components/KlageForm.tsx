@@ -46,7 +46,18 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
 
     const [activeKlageId] = useState(klageId);
     const contextId = activeKlageId;
-    const { state: docState, addUploads, removeUpload } = useDocumentState(contextId);
+    const {
+        state: docState,
+        addUploads,
+        removeUpload,
+        allFilesUploaded,
+        allValidated,
+        hasFormErrors,
+    } = useDocumentState(contextId);
+    const vedleggHarFeil =
+        !allValidated || hasFormErrors || (docState.uploads ?? []).some((u) => u.status === "FAILED");
+    const alleVedleggLastetOpp = allFilesUploaded && (docState.uploads ?? []).every((u) => u.status === "COMPLETE");
+    const vedleggKlare = alleVedleggLastetOpp && !vedleggHarFeil;
 
     const formMethods = useForm<FormValues>({
         resolver: zodResolver(klageSchema),
@@ -65,6 +76,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
         (sendKlageMutation.error.responseBody as { error?: string } | undefined)?.error === "klage_ikke_tilgjengelig";
 
     const onSubmit: SubmitHandler<FormValues> = (formValues: FormValues) => {
+        if (aktivtSteg !== 2 || !harInnhold || !vedleggKlare) return;
         startSending(async () => {
             try {
                 await sendKlageMutation.mutateAsync({
@@ -125,9 +137,13 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
                             docState={docState}
                             addUploads={addUploads}
                             removeUpload={removeUpload}
-                            onGaVidere={handleSubmit(() => setAktivtSteg(2))}
+                            onGaVidere={handleSubmit(() => {
+                                if (harInnhold && vedleggKlare) setAktivtSteg(2);
+                            })}
                             onForkastKlage={forkastKlageButtonEvent}
                             harInnhold={harInnhold}
+                            alleVedleggLastetOpp={alleVedleggLastetOpp}
+                            vedleggHarFeil={vedleggHarFeil}
                         />
                     )}
 
