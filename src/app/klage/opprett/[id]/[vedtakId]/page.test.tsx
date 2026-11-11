@@ -53,7 +53,7 @@ describe("klage opprett page", () => {
         mocks.hentKlage.mockResolvedValue({ klageId: "klage-1" });
         await expect(Page({ params })).rejects.toThrow("NEXT_REDIRECT");
         expect(mocks.redirect).toHaveBeenCalledTimes(1);
-        expect(mocks.redirect).toHaveBeenCalledWith("/klage/soknad-1/klage-1");
+        expect(mocks.redirect).toHaveBeenCalledWith("/klage/status/soknad-1/klage-1");
     });
 
     it("redirects to the soknad when fetching klage fails", async () => {

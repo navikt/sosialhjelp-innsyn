@@ -29,7 +29,7 @@ const Page = async ({ params }: { params: Promise<{ id: string; vedtakId: string
         }
     }
     if (eksisterendeKlageId) {
-        redirect(`/klage/${fiksDigisosId}/${eksisterendeKlageId}`);
+        redirect(`/klage/status/${fiksDigisosId}/${eksisterendeKlageId}`);
     }
 
     const t = await getTranslations("OpprettKlagePage");
