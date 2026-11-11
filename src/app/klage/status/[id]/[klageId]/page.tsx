@@ -1,4 +1,4 @@
-import { Heading, VStack } from "@navikt/ds-react";
+import { Heading, Tag, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { ArrowRedoIcon, FilePdfIcon, HouseIcon } from "@navikt/aksel-icons";
 import ClientBreadcrumbs from "@components/breadcrumbs/ClientBreadcrumbs";
@@ -37,9 +37,12 @@ const Page = async ({
                 ]}
             />
             <VStack gap="space-80" className="mt-20">
-                <Heading size="xlarge" level="1">
-                    {t("tittel")}
-                </Heading>
+                <VStack gap="space-16" align="start">
+                    <Heading size="xlarge" level="1">
+                        {t("tittel")}
+                    </Heading>
+                    <Tag variant="neutral">{t("sendt", { dato: new Date(klage.timestampSendt) })}</Tag>
+                </VStack>
                 <UnderUtviklingInfo />
                 <DigisosLinkCard
                     href={klage.klagePdf.url}

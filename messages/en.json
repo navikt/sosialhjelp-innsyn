@@ -406,6 +406,7 @@
     },
     "KlagePage": {
         "tittel": "Decision appeal",
+        "sendt": "Sent {dato, date, ::ddMMyyyy}",
         "beskrivelse": "View your submitted appeal about the decision regarding financial social assistance.",
         "underUtviklingInfo": {
             "tittel": "This page is under construction",

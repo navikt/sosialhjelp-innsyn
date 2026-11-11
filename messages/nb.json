@@ -419,6 +419,7 @@
     },
     "KlagePage": {
         "tittel": "Klage på vedtak",
+        "sendt": "Sendt {dato, date, ::ddMMyyyy}",
         "beskrivelse": "Se din innsendte klage på vedtak om økonomisk sosialhjelp.",
         "underUtviklingInfo": {
             "tittel": "Denne siden er under arbeid",
