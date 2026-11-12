@@ -266,8 +266,10 @@
     "Filopplasting": {
         "tittel": "Do you want to submit more documents?",
         "passivTittel": "Submitted documents",
-        "beskrivelse": "If you have more relevant information regarding your application, they can be uploaded here.",
-        "opplastedeVedlegg": "Documents"
+        "beskrivelse": "If you have more relevant information regarding your application, they can be uploaded here."
+    },
+    "DokumentListe": {
+        "tittel": "Documents"
     },
     "VedleggListe": {
         "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}",

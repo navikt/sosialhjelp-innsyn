@@ -1,10 +1,9 @@
-import { Box, Heading, VStack } from "@navikt/ds-react";
 import { getTranslations } from "next-intl/server";
 import { randomUUID } from "node:crypto";
 import { EttersendelseDto, VedleggResponse } from "@generated/model";
+import FilopplastingSection from "@components/filopplasting/FilopplastingSection";
 
 import KlageEttersendelse from "./KlageEttersendelse";
-import Dokumenter from "./Dokumenter";
 
 interface Props {
     fiksDigisosId: string;
@@ -15,31 +14,24 @@ interface Props {
 }
 
 const KlageDokumentasjon = async ({ fiksDigisosId, klageId, klagePdf, opplastedeVedlegg, ettersendelser }: Props) => {
-    const t = await getTranslations("KlageDokumentasjon");
+    const t = await getTranslations("KlageDokumenter");
+    const vedlegg = [...opplastedeVedlegg, ...ettersendelser.flatMap((ettersendelse) => ettersendelse.vedlegg)].map(
+        (fil) => ({ ...fil, filnavn: fil.filnavn || t("ettersendelseDefaultTittel") })
+    );
 
     return (
-        <VStack gap="space-16">
-            <Heading size="medium" level="2">
-                {t("tittel")}
-            </Heading>
-            <Box
-                borderColor="info-subtle"
-                background="info-soft"
-                borderRadius="12"
-                borderWidth="1"
-                paddingBlock="space-8"
-                paddingInline="space-16"
-            >
-                <VStack gap="space-40">
-                    <KlageEttersendelse fiksDigisosId={fiksDigisosId} klageId={klageId} contextId={randomUUID()} />
-                    <Dokumenter
-                        klagePdf={klagePdf}
-                        opplastedeVedlegg={opplastedeVedlegg}
-                        ettersendelser={ettersendelser}
-                    />
-                </VStack>
-            </Box>
-        </VStack>
+        <FilopplastingSection
+            upload={<KlageEttersendelse fiksDigisosId={fiksDigisosId} klageId={klageId} contextId={randomUUID()} />}
+            vedlegg={vedlegg}
+            visType={false}
+            originalSoknad={{
+                url: klagePdf.url,
+                filename: klagePdf.filnavn || t("klagePdfDefaultTittel"),
+                date: klagePdf.datoLagtTil,
+                size: klagePdf.storrelse,
+                skjult: false,
+            }}
+        />
     );
 };
 

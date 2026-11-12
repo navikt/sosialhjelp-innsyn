@@ -16,9 +16,10 @@ interface Props {
     originalSoknad?: OriginalSoknadDto;
     labelledById: string;
     oppgaveBeskrivelse?: string | null;
+    visType?: boolean;
 }
 
-const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveBeskrivelse }: Props) => {
+const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveBeskrivelse, visType = true }: Props) => {
     const t = useTranslations("VedleggListe");
     const getVisningstekster = useVisningstekster();
 
@@ -105,10 +106,16 @@ const VedleggListe = ({ vedlegg, originalSoknad, labelledById, oppgaveBeskrivels
                                     ariaLabel={t("forhandsvisning", { filnavn: fil.filnavn })}
                                     description={
                                         <BodyShort>
-                                            {fil.type === "annet" && fil.tilleggsinfo === "annet"
-                                                ? t("ettersendt")
-                                                : getVisningstekster(fil.type, fil.tilleggsinfo).typeTekst}{" "}
-                                            ({t("sendt", { dato: new Date(fil.datoLagtTil) })})
+                                            {visType ? (
+                                                <>
+                                                    {fil.type === "annet" && fil.tilleggsinfo === "annet"
+                                                        ? t("ettersendt")
+                                                        : getVisningstekster(fil.type, fil.tilleggsinfo).typeTekst}{" "}
+                                                    ({t("sendt", { dato: new Date(fil.datoLagtTil) })})
+                                                </>
+                                            ) : (
+                                                t("sendt", { dato: new Date(fil.datoLagtTil) })
+                                            )}
                                         </BodyShort>
                                     }
                                 >
