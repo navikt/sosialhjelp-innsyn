@@ -1,7 +1,9 @@
 import { test, expect, Page } from "@playwright/test";
 
 import { createMswHelper, mockSoknadEndpoints } from "../helpers/msw-helpers";
-import { HentHendelserBeta200Item } from "../../src/generated/model";
+import { HentHendelserBetaQueryResult } from "../../src/generated";
+
+type HentHendelserBeta200Item = HentHendelserBetaQueryResult[number];
 
 const SOKNAD_ID = "history-test-soknad";
 const PAGE_URL = `/sosialhjelp/innsyn/soknad/${SOKNAD_ID}`;
@@ -98,7 +100,7 @@ test.describe("History", () => {
             },
             { type: "EtterspurtDokumentasjon", tidspunkt: "2025-11-14T10:00:00Z", navKontor: "NAV Grünerløkka" },
             { type: "LevertEtterspurtDokumentasjon", tidspunkt: "2025-11-15T10:00:00Z", antallDokumenter: 2 },
-            { type: "UtbetalingerOppdatert", tidspunkt: "2025-11-16T10:00:00Z" },
+            { type: "UtbetalingerOppdatert", tidspunkt: "2025-11-16T10:00:00Z", status: "UTBETALT" },
         ]);
 
         // 6 events: expand the list so the oldest (ForelopigSvar) is visible
@@ -206,7 +208,7 @@ test.describe("History", () => {
             { type: "SoknadFerdigBehandlet", tidspunkt: "2025-11-20T10:00:00Z" },
             { type: "LevertEtterspurtDokumentasjon", tidspunkt: "2025-11-19T10:00:00Z", antallDokumenter: 1 },
             { type: "EtterspurtDokumentasjon", tidspunkt: "2025-11-18T10:00:00Z", navKontor: "NAV Oslo" },
-            { type: "UtbetalingerOppdatert", tidspunkt: "2025-11-17T10:00:00Z" },
+            { type: "UtbetalingerOppdatert", tidspunkt: "2025-11-17T10:00:00Z", status: "UTBETALT" },
             { type: "SoknadUnderBehandling", tidspunkt: "2025-11-16T10:00:00Z", navKontor: "NAV Oslo" },
             { type: "Mottatt", tidspunkt: "2025-11-15T10:00:00Z", navKontor: "NAV Oslo" },
         ]);
@@ -223,5 +225,38 @@ test.describe("History", () => {
         await expect(
             page.getByRole("listitem").filter({ hasText: /Søknaden din er mottatt hos NAV Oslo/ })
         ).toBeVisible();
+    });
+
+    test("historikken vises under overskriften «Status i søknaden din»", async ({ page, request, baseURL }) => {
+        await gotoWithHendelser(page, request, baseURL!, [
+            { type: "Mottatt", tidspunkt: "2025-11-15T10:00:00Z", navKontor: "NAV Oslo" },
+        ]);
+
+        await expect(page.getByRole("heading", { name: "Status i søknaden din" })).toBeVisible();
+        const tidslinje = page.getByRole("list", { name: "Status i søknaden din" });
+        await expect(tidslinje).toBeVisible();
+        await expect(tidslinje.getByRole("listitem").filter({ hasText: /mottatt hos NAV Oslo/ })).toBeVisible();
+    });
+
+    test("utbetalinger – hver statusendring vises, stoppet har egen tekst og annullert vises ikke", async ({
+        page,
+        request,
+        baseURL,
+    }) => {
+        await gotoWithHendelser(page, request, baseURL!, [
+            { type: "UtbetalingerOppdatert", tidspunkt: "2025-11-10T10:00:00Z", status: "PLANLAGT_UTBETALING" },
+            { type: "UtbetalingerOppdatert", tidspunkt: "2025-11-11T10:00:00Z", status: "UTBETALT" },
+            { type: "UtbetalingerOppdatert", tidspunkt: "2025-11-12T10:00:00Z", status: "STOPPET" },
+            { type: "UtbetalingerOppdatert", tidspunkt: "2025-11-13T10:00:00Z", status: "ANNULLERT" },
+        ]);
+
+        const steg = page.getByRole("list", { name: "Status i søknaden din" }).getByRole("listitem");
+
+        // Annullert er filtrert bort: 3 synlige steg, nyeste først
+        await expect(steg).toHaveCount(3);
+        await expect(steg.nth(0)).toContainText("En utbetaling er stanset");
+        await expect(steg.nth(0).getByRole("link", { name: "Se dine utbetalinger" })).toBeVisible();
+        await expect(steg.nth(1)).toContainText("Dine utbetalinger har blitt oppdatert");
+        await expect(steg.nth(2)).toContainText("Dine utbetalinger har blitt oppdatert");
     });
 });

@@ -173,6 +173,10 @@
             "tittel": "Your payments have been updated",
             "beskrivelse": "See your payments"
         },
+        "UtbetalingStoppetEvent": {
+            "tittel": "A payment has been stopped",
+            "beskrivelse": "See your payments"
+        },
         "DokumentasjonskravEvent": {
             "tittel": "You have received a documentation requirement"
         },

@@ -1051,8 +1051,19 @@
                 "required": ["tidspunkt"]
             },
             "UtbetalingerOppdatert": {
-                "allOf": [{ "$ref": "#/components/schemas/HendelseDto" }],
-                "required": ["tidspunkt"]
+                "allOf": [
+                    { "$ref": "#/components/schemas/HendelseDto" },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "status": {
+                                "type": "string",
+                                "enum": ["PLANLAGT_UTBETALING", "UTBETALT", "STOPPET", "ANNULLERT"]
+                            }
+                        }
+                    }
+                ],
+                "required": ["status", "tidspunkt"]
             },
             "Videresendt": {
                 "allOf": [

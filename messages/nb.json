@@ -186,6 +186,10 @@
             "tittel": "Dine utbetalinger har blitt oppdatert",
             "beskrivelse": "Se dine utbetalinger"
         },
+        "UtbetalingStoppetEvent": {
+            "tittel": "En utbetaling er stanset",
+            "beskrivelse": "Se dine utbetalinger"
+        },
         "DokumentasjonskravEvent": {
             "tittel": "Du har fått et dokumentasjonskrav"
         },
