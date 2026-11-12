@@ -14,7 +14,7 @@ interface Props {
     status: UploadStatus;
     size?: number;
     showCancelButton?: boolean;
-    onDelete: () => Promise<void>;
+    onDelete: (button: HTMLButtonElement) => Promise<void>;
     deleteDisabled?: boolean;
 }
 
@@ -46,6 +46,9 @@ const FileUploadItem = ({
         retry: false,
     });
 
+    // Ikke Aksel loading-prop: den setter disabled, og da mister knappen fokus.
+    const isBusy = isPending;
+
     const isUploading = !url && !validations && status !== "FAILED" && status !== "COMPLETE" && !showCancelButton;
     const uploadStatus = isUploading ? "uploading" : "idle";
     return (
@@ -62,11 +65,21 @@ const FileUploadItem = ({
                             data-color="neutral"
                             type="button"
                             icon={
-                                showCancelButton ? <XMarkIcon title={t("cancel")} /> : <TrashIcon title={t("slett")} />
+                                isBusy ? (
+                                    <Loader size="xsmall" />
+                                ) : showCancelButton ? (
+                                    <XMarkIcon aria-hidden />
+                                ) : (
+                                    <TrashIcon aria-hidden />
+                                )
                             }
-                            onClick={() => mutate()}
+                            // Fast navn, slik at knappen ikke leses som Loader-teksten mens slettingen pågår.
+                            aria-label={showCancelButton ? t("cancel") : t("slett")}
+                            onClick={(e) => {
+                                if (!isBusy) mutate(e.currentTarget);
+                            }}
                             disabled={deleteDisabled}
-                            loading={isPending}
+                            aria-disabled={isBusy || deleteDisabled}
                         />
                     </HStack>
                 }

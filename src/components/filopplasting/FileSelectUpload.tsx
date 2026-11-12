@@ -1,5 +1,5 @@
 import { Alert, BodyLong, Button, FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
-import { ReactNode } from "react";
+import { ReactNode, useId } from "react";
 import { allowedFileTypes } from "@components/filopplasting/consts";
 import { UploadIcon } from "@navikt/aksel-icons";
 import useIsMobile from "@utils/useIsMobile";
@@ -17,6 +17,8 @@ interface FileSelectUploadProps {
     accept?: string;
     variant?: "default" | "warning";
     headingLevel?: "2" | "3";
+    // Leses før «Velg filer» i knappens navn.
+    srMessage?: string | null;
 }
 
 export const FileSelectUpload = ({
@@ -32,8 +34,13 @@ export const FileSelectUpload = ({
     accept = allowedFileTypes,
     variant = "default",
     headingLevel = "3",
+    srMessage,
 }: FileSelectUploadProps) => {
     const isMobile = useIsMobile();
+    const buttonId = useId();
+    const srMessageId = useId();
+    // En knapp kan peke på sin egen id i aria-labelledby for å beholde sin egen tekst i navnet.
+    const labelledBy = srMessage ? `${srMessageId} ${buttonId}` : undefined;
     const dataColor = variant === "warning" ? "warning" : undefined;
 
     const labelContent =
@@ -64,6 +71,9 @@ export const FileSelectUpload = ({
 
     return (
         <>
+            <span id={srMessageId} hidden>
+                {srMessage}
+            </span>
             {!isMobile ? (
                 <FileUpload.Dropzone
                     className="flex flex-col"
@@ -79,6 +89,8 @@ export const FileSelectUpload = ({
                     multiple
                     disabled={disabled}
                     error={error}
+                    id={buttonId}
+                    aria-labelledby={labelledBy}
                 />
             ) : (
                 <VStack gap="space-16">
@@ -92,8 +104,10 @@ export const FileSelectUpload = ({
                             variant="secondary"
                             icon={<UploadIcon aria-hidden />}
                             disabled={disabled}
+                            id={buttonId}
                             aria-describedby={headerId}
                             aria-label={buttonText}
+                            aria-labelledby={labelledBy}
                         >
                             {buttonText}
                         </Button>
