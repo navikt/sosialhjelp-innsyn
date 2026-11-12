@@ -157,14 +157,16 @@
         "description": "Denne saken er under behandling. Når saken er ferdigbehandlet og du har fått et vedtak, vil det vises her."
     },
     "KlageInfo": {
-        "seKlage": "Se din innsendte klage",
+        "duHarKlaget": "Du har klaget på dette vedtaket",
         "papirklage": {
             "tittel": "Uenig i vedtaket?",
             "beskrivelse": "Dersom du er uenig i vedtaket, har du rett til å klage. <klageinfo>Les mer om dine klagerettigheter</klageinfo>. Fristen for å klage er tre uker etter vedtaksdato. For å klage kan du <klageskjema> skrive ut et klageskjema (pdf)</klageskjema> som du kan sende som dokumentasjon til din søknad."
         },
         "beskrivelse": "Dersom du er uenig i vedtaket har du rett til å klage. <klageinfo>Les om dine klagerettigheter.</klageinfo>",
         "klageKnapp": "Klag på vedtaket",
-        "klagefrist": "Du kan klage frem til {dato, date, ::ddMMyyyy}"
+        "ettersendKnapp": "Ettersend dokumentasjon til klagen",
+        "klagefrist": "Du kan klage frem til {dato, date, ::ddMMyyyy}",
+        "ettersendelsefrist": "Du kan sende inn frem til {dato, date, ::ddMMyyyy}"
     },
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"

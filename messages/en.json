@@ -144,14 +144,16 @@
         "description": "This case is being processed. When the case has been processed and you have received a decision, it will be shown here."
     },
     "KlageInfo": {
-        "seKlage": "View your submitted appeal",
+        "duHarKlaget": "You have appealed this decision.",
         "papirklage": {
             "tittel": "Disagree with the decision?",
             "beskrivelse": "If you disagree with the decision, you have the right to appeal. <klageinfo>Read more about your appeal rights</klageinfo>. The deadline for appealing is three weeks after the date of the decision. To file an appeal, you can <klageskjema>print out an appeal form (pdf)</klageskjema> that you can submit as documentation for your application."
         },
         "beskrivelse": "If you disagree with the decision, you have the right to appeal. <klageinfo>Read about your appeal rights.</klageinfo>",
         "klageKnapp": "Appeal the decision",
-        "klagefrist": "You can appeal until {dato, date, ::ddMMyyyy}"
+        "ettersendKnapp": "Submit documentation for the appeal",
+        "klagefrist": "You can appeal until {dato, date, ::ddMMyyyy}",
+        "ettersendelsefrist": "You can submit until {dato, date, ::ddMMyyyy}"
     },
     "SokButton": {
         "sokOmSosialhjelp": "Apply for financial assistance"
