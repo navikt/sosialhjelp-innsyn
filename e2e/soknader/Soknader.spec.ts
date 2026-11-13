@@ -281,6 +281,7 @@ test.describe("Soknader page - application categorization", () => {
                 kommunenummer: "0301",
                 soknadOpprettet: subDays(now, 50).toISOString(),
                 isPapirSoknad: false,
+                hasKlage: false,
             } satisfies SaksListeResponse,
         ];
 
@@ -324,6 +325,7 @@ test.describe("Soknader page - application categorization", () => {
                 kommunenummer: "0301",
                 soknadOpprettet: subDays(now, 70).toISOString(),
                 isPapirSoknad: false,
+                hasKlage: false,
             } satisfies SaksListeResponse,
         ];
 
@@ -367,6 +369,7 @@ test.describe("Soknader page - application categorization", () => {
                 kommunenummer: "0301",
                 soknadOpprettet: subDays(now, 70).toISOString(),
                 isPapirSoknad: false,
+                hasKlage: false,
             } satisfies SaksListeResponse,
         ];
 
@@ -532,6 +535,7 @@ test.describe("SoknadCard rendering logic", () => {
             sistOppdatert: new Date().toISOString(),
             kommunenummer: "0301",
             isPapirSoknad: true,
+            hasKlage: false,
         } satisfies SaksListeResponse;
         await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
         await msw.mockDetaljer(mockSak.fiksDigisosId, {
@@ -711,6 +715,51 @@ test.describe("SoknadCard rendering logic", () => {
         await expect(page.getByText(/Nytt vedtak/)).toBeVisible();
     });
 
+    test("shows the klage tag only on applications with a klage", async ({ page, request, baseURL }) => {
+        const msw = createMswHelper(request, baseURL!);
+        const sistOppdatert = subWeeks(new Date(), 2).toISOString();
+        const saker = [
+            {
+                fiksDigisosId: "soknad-med-klage",
+                soknadTittel: "Søknad med klage",
+                sistOppdatert,
+                isPapirSoknad: false,
+                hasKlage: true,
+            },
+            {
+                fiksDigisosId: "soknad-uten-klage",
+                soknadTittel: "Søknad uten klage",
+                sistOppdatert,
+                isPapirSoknad: false,
+                hasKlage: false,
+            },
+        ] satisfies SaksListeResponse[];
+
+        await msw.mockEndpoint("/api/v1/innsyn/saker", saker);
+        for (const sak of saker) {
+            await msw.mockDetaljer(sak.fiksDigisosId, {
+                fiksDigisosId: sak.fiksDigisosId,
+                soknadTittel: sak.soknadTittel,
+                sistOppdatert,
+                status: "FERDIGBEHANDLET",
+                saker: [{ status: "FERDIGBEHANDLET", antallVedtak: 1, vedtak: [] }],
+            });
+        }
+
+        await page.goto("/sosialhjelp/innsyn/soknader");
+
+        const medKlage = page
+            .getByRole("listitem")
+            .filter({ has: page.getByRole("link", { name: /Søknad med klage/ }) });
+        const utenKlage = page
+            .getByRole("listitem")
+            .filter({ has: page.getByRole("link", { name: /Søknad uten klage/ }) });
+        await expect(medKlage).toBeVisible();
+        await expect(utenKlage).toBeVisible();
+        await expect(medKlage.getByText("Du har klaget", { exact: true })).toBeVisible();
+        await expect(utenKlage.getByText("Du har klaget", { exact: true })).toHaveCount(0);
+    });
+
     test("UNDER_BEHANDLING with forelopigSvar should show forlenget behandlingstid alert", async ({
         page,
         request,
@@ -724,6 +773,7 @@ test.describe("SoknadCard rendering logic", () => {
             kommunenummer: "0301",
             soknadOpprettet: "2025-10-01T10:00:00Z",
             isPapirSoknad: false,
+            hasKlage: false,
         } satisfies SaksListeResponse;
         await msw.mockEndpoint("/api/v1/innsyn/saker", [mockSak]);
         await msw.mockDetaljer(mockSak.fiksDigisosId, {
@@ -945,6 +995,7 @@ test.describe("SoknadCard rendering logic", () => {
                 sistOppdatert: new Date().toISOString(),
                 soknadOpprettet: "2025-10-01T10:00:00Z",
                 isPapirSoknad: false,
+                hasKlage: false,
             } satisfies SaksListeResponse,
         ]);
         await msw.mockDetaljer("test-id", {
@@ -976,6 +1027,7 @@ test.describe("SoknadCard rendering logic", () => {
                 sistOppdatert: new Date().toISOString(),
                 soknadOpprettet: "2025-10-01T10:00:00Z",
                 isPapirSoknad: false,
+                hasKlage: false,
             } satisfies SaksListeResponse,
         ]);
         await msw.mockDetaljer("test-id", {
@@ -1018,6 +1070,7 @@ test.describe("Sorting", () => {
                 kommunenummer: "0301",
                 soknadOpprettet: subDays(now, 15).toISOString(),
                 isPapirSoknad: false,
+                hasKlage: false,
             },
             {
                 fiksDigisosId: "soknad-deadline-later",
@@ -1026,6 +1079,7 @@ test.describe("Sorting", () => {
                 kommunenummer: "0301",
                 soknadOpprettet: subDays(now, 5).toISOString(),
                 isPapirSoknad: false,
+                hasKlage: false,
             },
             {
                 fiksDigisosId: "soknad-tasks-no-deadline",
@@ -1034,6 +1088,7 @@ test.describe("Sorting", () => {
                 kommunenummer: "0301",
                 soknadOpprettet: subDays(now, 3).toISOString(),
                 isPapirSoknad: false,
+                hasKlage: false,
             },
             {
                 fiksDigisosId: "soknad-deadline-soon",
@@ -1042,6 +1097,7 @@ test.describe("Sorting", () => {
                 kommunenummer: "0301",
                 soknadOpprettet: subDays(now, 10).toISOString(),
                 isPapirSoknad: false,
+                hasKlage: false,
             },
             {
                 fiksDigisosId: "soknad-no-tasks-newest",
@@ -1050,6 +1106,7 @@ test.describe("Sorting", () => {
                 kommunenummer: "0301",
                 soknadOpprettet: subDays(now, 2).toISOString(),
                 isPapirSoknad: false,
+                hasKlage: false,
             },
         ];
 

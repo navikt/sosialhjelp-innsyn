@@ -6,12 +6,14 @@ import { InnsendtSoknad, isActiveSoknad } from "@components/soknaderList/list/so
 import { Skeleton, Tag, TagProps } from "@navikt/ds-react";
 import IkkeInnsynTag from "@components/tags/tag/IkkeInnsynTag";
 import useIkkeInnsyn from "@hooks/useIkkeInnsyn";
+import KlageTag from "@components/tags/tag/KlageTag";
 
 interface Props {
     soknad: InnsendtSoknad;
+    hasKlage: boolean;
 }
 
-const Tags = ({ soknad }: Props) => {
+const Tags = ({ soknad, hasKlage }: Props) => {
     const ikkeInnsyn = useIkkeInnsyn(soknad);
     const sendtDato = soknad.soknadOpprettet ? new Date(soknad.soknadOpprettet) : undefined; // Kun satt ved digital søknad
     const mottattDato = soknad.mottattTidspunkt ? new Date(soknad.mottattTidspunkt) : undefined;
@@ -66,6 +68,7 @@ const Tags = ({ soknad }: Props) => {
                     <AlertTag alertType="vilkar" deadline={sisteDokumentasjonKravFrist} />
                 )}
                 {soknad.forelopigSvar?.harMottattForelopigSvar && <AlertTag alertType="forlenget_behandlingstid" />}
+                {hasKlage && <KlageTag />}
             </>
         );
     }
@@ -80,6 +83,7 @@ const Tags = ({ soknad }: Props) => {
                 {antallNyeVilkarOgDokumentasjonKrav > 0 && (
                     <AlertTag alertType="vilkar" deadline={sisteDokumentasjonKravFrist} />
                 )}
+                {hasKlage && <KlageTag />}
             </>
         );
     }

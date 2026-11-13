@@ -799,5 +799,8 @@
             "tittel": "Other documentation",
             "tilleggsinfo": ""
         }
+    },
+    "KlageTag": {
+        "tittel": "You have appealed"
     }
 }

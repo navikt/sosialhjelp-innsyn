@@ -813,5 +813,8 @@
             "tittel": "Anna dokumentasjon",
             "tilleggsinfo": ""
         }
+    },
+    "KlageTag": {
+        "tittel": "Du har klaga"
     }
 }

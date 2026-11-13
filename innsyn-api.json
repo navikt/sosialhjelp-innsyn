@@ -904,9 +904,10 @@
                 "type": "object",
                 "properties": {
                     "klageId": { "type": "string", "format": "uuid" },
-                    "vedtakId": { "type": "string", "format": "uuid" }
+                    "vedtakId": { "type": "string", "format": "uuid" },
+                    "fiksDigisosId": { "type": "string", "format": "uuid" }
                 },
-                "required": ["klageId", "vedtakId"]
+                "required": ["fiksDigisosId", "klageId", "vedtakId"]
             },
             "KlageTilgjengeligDto": {
                 "type": "object",
@@ -1098,9 +1099,10 @@
                     "sistOppdatert": { "type": "string", "format": "date-time" },
                     "kommunenummer": { "type": ["string", "null"] },
                     "soknadOpprettet": { "type": ["string", "null"], "format": "date-time" },
-                    "isPapirSoknad": { "type": "boolean" }
+                    "isPapirSoknad": { "type": "boolean" },
+                    "hasKlage": { "type": "boolean" }
                 },
-                "required": ["fiksDigisosId", "isPapirSoknad", "sistOppdatert", "soknadTittel"]
+                "required": ["fiksDigisosId", "hasKlage", "isPapirSoknad", "sistOppdatert", "soknadTittel"]
             },
             "ForelopigSvar": {
                 "type": "object",
