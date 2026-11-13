@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { TasklistIcon } from "@navikt/aksel-icons";
 import ExpandableList from "@components/showmore/ExpandableList";
 import { OppgaveResponseBeta } from "@generated/model";
-import TipsReadMore from "../TipsReadMore";
+import TipsReadMore from "@components/filopplasting/TipsReadMore";
 import OppgaveItem from "../oppgaver/OppgaveItem";
 
 interface Props {

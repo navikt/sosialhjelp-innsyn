@@ -1,18 +1,16 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Alert, BodyLong, Button, Heading, HStack, VStack } from "@navikt/ds-react";
-import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
+import { Alert, BodyLong, Heading, HStack, VStack } from "@navikt/ds-react";
 import { ReactNode, useRef } from "react";
 import { useParams } from "next/navigation";
 import { Metadata } from "@components/filopplasting/types";
 import { useDocumentState } from "@components/filopplasting/api/useDocumentState";
 import useSendVedleggHelperTus from "@components/filopplasting/api/useSendVedleggHelperTus";
-import FileSelectNew from "@components/filopplasting/FileSelectNew";
+import OpplastingsboksContent from "@components/filopplasting/OpplastingsboksContent";
 import VedleggListe from "@components/filopplasting/VedleggListe";
 import useIsMobile from "@utils/useIsMobile";
 import { useGetVedleggForOppgave } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
-import { PaperplaneIcon, XMarkIcon } from "@navikt/aksel-icons";
 import { umamiCustomTrack } from "../../app/umami";
 
 interface Props {
@@ -99,14 +97,14 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
     }
 
     return (
-        <VStack gap="space-8">
-            <FileSelectNew
-                label={label}
-                description={description}
-                tag={tag}
-                docState={docState}
-                contextId={uploadContextId}
-                onSelect={(files) => {
+        <OpplastingsboksContent
+            fileSelectProps={{
+                label,
+                description,
+                tag,
+                docState,
+                contextId: uploadContextId,
+                onSelect: (files) => {
                     if (!isPending) {
                         resetMutation();
                     }
@@ -120,50 +118,20 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
                             antallDokumenter: files.length,
                         });
                     }
-                }}
-                target={{ type: "soknad", fiksDigisosId: fiksDigisosId }}
-                onUploadsAdded={addUploads}
-                onUploadRemoved={removeUpload}
-                variant={variant}
-                isPending={isPending}
-            />
-            {mutationError && (
-                <InlineStatusMessage variant="error" padding="large" fullWidth>
-                    <HStack justify="space-between" align="start" wrap={false}>
-                        <BodyLong>{t("error")}</BodyLong>
-                        <Button
-                            icon={<XMarkIcon aria-hidden />}
-                            size="small"
-                            onClick={resetMutation}
-                            data-color="neutral"
-                            variant="tertiary-neutral"
-                        />
-                    </HStack>
-                </InlineStatusMessage>
-            )}
-            {hasFiles && (
-                <Button
-                    onClick={() => upload(docState.submissionId!)}
-                    loading={isPending}
-                    className="self-start"
-                    disabled={isPending || !canSubmit}
-                    icon={<PaperplaneIcon />}
-                    iconPosition={"right"}
-                >
-                    {t("sendInn")}
-                </Button>
-            )}
-            {isUploadSuccess && (
-                <InlineStatusMessage
-                    role="status"
-                    variant="success"
-                    padding="large"
-                    size={isMobile ? "small" : "medium"}
-                >
-                    {t("suksess")}
-                </InlineStatusMessage>
-            )}
-        </VStack>
+                },
+                target: { type: "soknad", fiksDigisosId },
+                onUploadsAdded: addUploads,
+                onUploadRemoved: removeUpload,
+                variant,
+                isPending,
+            }}
+            hasFiles={hasFiles}
+            canSubmit={canSubmit}
+            isUploadSuccess={isUploadSuccess}
+            error={mutationError}
+            onSubmit={() => upload(docState.submissionId!)}
+            resetMutation={resetMutation}
+        />
     );
 };
 

@@ -279,8 +279,10 @@
     "Filopplasting": {
         "tittel": "Har du mer dokumentasjon du vil sende inn?",
         "passivTittel": "Vedlagt dokumentasjon",
-        "beskrivelse": "Hvis du har flere opplysninger som kan være relevante for søknaden din, kan de sendes inn her.",
-        "opplastedeVedlegg": "Dokumenter"
+        "beskrivelse": "Hvis du har flere opplysninger som kan være relevante for søknaden din, kan de sendes inn her."
+    },
+    "DokumentListe": {
+        "tittel": "Dokumenter"
     },
     "VedleggListe": {
         "lastetOpp": "lastet opp {dato, date, ::ddMMyyyy}",

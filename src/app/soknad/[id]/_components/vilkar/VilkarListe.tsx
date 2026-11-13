@@ -15,7 +15,7 @@ import { DokumentasjonkravDto } from "@generated/model";
 
 import Vilkar from "./vilkar/Vilkar";
 import VilkarReadMore from "./readmore/VilkarReadMore";
-import TipsReadMore from "../TipsReadMore";
+import TipsReadMore from "@components/filopplasting/TipsReadMore";
 import Dokumentasjonkrav from "./dokumentasjonkrav/Dokumentasjonkrav";
 
 const sortUncompletedDokumentasjonKrav = (items: DokumentasjonkravDto[]) =>
