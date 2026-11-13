@@ -73,6 +73,8 @@ const StegOppsummering = ({
                                     {uploads.map((upload) => (
                                         <li key={upload.id}>
                                             <Link
+                                                rel="noopener noreferrer"
+                                                target="_blank"
                                                 href={`${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`}
                                             >
                                                 {upload.finalFilename ?? upload.originalFilename}
