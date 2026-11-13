@@ -8,19 +8,20 @@ import DokumentListe, { DokumentListeProps } from "./DokumentListe";
 import TipsReadMore from "./TipsReadMore";
 
 interface Props extends DokumentListeProps {
-    upload: ReactNode;
+    upload?: ReactNode;
+    hideReadMore?: boolean;
 }
 
-const FilopplastingSection = ({ upload, vedlegg, originalSoknad, visType }: Props) => {
+const FilopplastingSection = ({ upload, hideReadMore, vedlegg, originalSoknad, visType }: Props) => {
     const t = useTranslations("Filopplasting");
     const isMobile = useIsMobile();
 
     return (
         <VStack gap="space-8">
             <Heading size="medium" level="2">
-                {t("tittel")}
+                {t(hideReadMore ? "passivTittel" : "tittel")}
             </Heading>
-            <TipsReadMore />
+            {!hideReadMore && <TipsReadMore />}
             <Box
                 background="info-soft"
                 padding={{ xs: "space-16", sm: "space-24" }}
