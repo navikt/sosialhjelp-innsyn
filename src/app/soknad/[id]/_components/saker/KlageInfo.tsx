@@ -1,5 +1,5 @@
 import { Link as AkselLink, BodyLong, VStack, Heading } from "@navikt/ds-react";
-import { GavelIcon } from "@navikt/aksel-icons";
+import { PaperclipIcon } from "@navikt/aksel-icons";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { KlageRef } from "@generated/model";
@@ -22,13 +22,17 @@ const KlageInfo = ({ vedtakId, vedtaksdato, innsendtKlage }: Props) => {
 
     if (innsendtKlage) {
         return (
-            <DigisosLinkCard
-                href={`/klage/status/${fiksDigisosId}/${innsendtKlage.klageId}`}
-                icon={<GavelIcon aria-hidden />}
-                dataColor="accent"
-            >
-                {t("seKlage")}
-            </DigisosLinkCard>
+            <VStack gap="space-16">
+                <BodyLong>{t("duHarKlaget")}</BodyLong>
+                <DigisosLinkCard
+                    icon={<PaperclipIcon aria-hidden />}
+                    href={`/klage/status/${fiksDigisosId}/${innsendtKlage.klageId}`}
+                    dataColor="accent"
+                    description={t("ettersendelsefrist", { dato: addWeeks(parseISO(vedtaksdato), 3) })}
+                >
+                    {t("ettersendKnapp")}
+                </DigisosLinkCard>
+            </VStack>
         );
     }
 
