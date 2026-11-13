@@ -797,5 +797,8 @@
             "tittel": "Annen dokumentasjon",
             "tilleggsinfo": ""
         }
+    },
+    "KlageTag": {
+        "tittel": "Du har klaget"
     }
 }

@@ -25,7 +25,7 @@ const SoknadCard = ({ soknad }: Props) => {
         <StatusCard id={id} tittel={sakTittel} ariaTittel={ariaTittel}>
             <LinkCardFooter>
                 <TagsContextProvider size="small">
-                    <Tags soknad={soknad} />
+                    <Tags soknad={soknad} hasKlage={"hasKlage" in soknad && soknad.hasKlage} />
                 </TagsContextProvider>
             </LinkCardFooter>
         </StatusCard>

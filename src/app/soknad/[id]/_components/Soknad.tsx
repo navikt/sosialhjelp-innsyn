@@ -28,6 +28,7 @@ import { prefetchGetSaksDetaljerQuery } from "@generated/ssr/saks-oversikt-contr
 import { TagsSkeleton } from "@components/tags/Tags";
 import SoknadInfoCards from "./info/SoknadInfoCards";
 import { prefetchHentBrevQuery } from "@generated/ssr/brev-controller/brev-controller";
+import { prefetchHentKlagerQuery } from "@generated/ssr/klage-controller/klage-controller";
 import UxSignalsWidget from "@components/widgets/UxSignalsWidget";
 
 interface Props {
@@ -41,6 +42,7 @@ export const Soknad = async ({ id }: Props) => {
     const dokumentasjonkravQueryClient = getQueryClient();
     const saksdetaljerQueryClient = getQueryClient();
     const sakerQueryClient = getQueryClient();
+    const klagerQueryClient = getQueryClient();
     const brevQueryClient = getQueryClient();
 
     const { status, navKontor, tittel } = await hentSoknadsStatus(id);
@@ -54,6 +56,7 @@ export const Soknad = async ({ id }: Props) => {
     prefetchHentSaksStatuserQuery(sakerQueryClient, id);
     prefetchGetSaksDetaljerQuery(saksdetaljerQueryClient, id);
     prefetchHentBrevQuery(brevQueryClient, id);
+    prefetchHentKlagerQuery(klagerQueryClient, id);
 
     return (
         <VStack gap={{ xs: "space-48", md: "space-80" }}>
@@ -63,7 +66,9 @@ export const Soknad = async ({ id }: Props) => {
                 </Heading>
                 <Suspense fallback={<TagsSkeleton size="medium" />}>
                     <HydrationBoundary state={dehydrate(saksdetaljerQueryClient)}>
-                        <TagsAdapter />
+                        <HydrationBoundary state={dehydrate(klagerQueryClient)}>
+                            <TagsAdapter />
+                        </HydrationBoundary>
                     </HydrationBoundary>
                 </Suspense>
             </VStack>
@@ -76,7 +81,9 @@ export const Soknad = async ({ id }: Props) => {
             </Suspense>
             <Suspense fallback={null}>
                 <HydrationBoundary state={dehydrate(sakerQueryClient)}>
-                    <Saker />
+                    <HydrationBoundary state={dehydrate(klagerQueryClient)}>
+                        <Saker />
+                    </HydrationBoundary>
                 </HydrationBoundary>
             </Suspense>
             {status !== "FERDIGBEHANDLET" && status !== "BEHANDLES_IKKE" && (
