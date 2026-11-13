@@ -434,6 +434,7 @@
     },
     "KlageDokumenter": {
         "tittel": "Documents",
+        "fristUtlopt": "The deadline for submitting more documentation for your appeal has passed. Contact your Nav office if you have more documentation that may be relevant but cannot submit it here.",
         "klagePdfDefaultTittel": "Appeal against decision regarding financial assistance.pdf",
         "ettersendelseDefaultTittel": "Unknown filename",
         "visFlereDokumenter": "documents"

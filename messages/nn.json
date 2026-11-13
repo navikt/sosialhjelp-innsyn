@@ -433,6 +433,7 @@
     },
     "KlageDokumenter": {
         "tittel": "Dokumenter",
+        "fristUtlopt": "Fristen for å sende inn meir dokumentasjon til klaga di har gått ut. Ta kontakt med Nav-kontoret ditt dersom du har meir dokumentasjon som kan vere relevant, men ikkje får sendt han her.",
         "klagePdfDefaultTittel": "Klage på vedtak om økonomisk sosialhjelp.pdf",
         "ettersendelseDefaultTittel": "Ukjend filnavn",
         "visFlereDokumenter": "dokument"

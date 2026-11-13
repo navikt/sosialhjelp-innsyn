@@ -59,6 +59,7 @@ const Page = async ({
                     klagePdf={klage.klagePdf}
                     opplastedeVedlegg={klage.opplastedeVedlegg}
                     ettersendelser={klage.ettersendelser}
+                    timestampSendt={klage.timestampSendt}
                 />
                 <ProsessenVidere navKontor={paaklagetSak.navEnhetNavn} />
                 <Snarveier hideSokButton>
