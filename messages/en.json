@@ -152,8 +152,10 @@
         "beskrivelse": "If you disagree with the decision, you have the right to appeal. <klageinfo>Read about your appeal rights.</klageinfo>",
         "klageKnapp": "Appeal the decision",
         "ettersendKnapp": "Submit documentation for the appeal",
+        "seKlagen": "View your appeal",
+        "ettersendelsesfristUtlopt": "The deadline for submitting documentation has passed",
         "klagefrist": "You can appeal until {dato, date, ::ddMMyyyy}",
-        "ettersendelsefrist": "You can submit until {dato, date, ::ddMMyyyy}"
+        "ettersendelsefrist": "You can submit until {dato}"
     },
     "SokButton": {
         "sokOmSosialhjelp": "Apply for financial assistance"
@@ -434,6 +436,7 @@
     },
     "KlageDokumenter": {
         "tittel": "Documents",
+        "fristUtlopt": "The deadline for submitting more documentation for your appeal has passed. Contact your Nav office if you have more documentation that may be relevant but cannot submit it here.",
         "klagePdfDefaultTittel": "Appeal against decision regarding financial assistance.pdf",
         "ettersendelseDefaultTittel": "Unknown filename",
         "visFlereDokumenter": "documents"

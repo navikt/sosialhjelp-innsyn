@@ -905,7 +905,8 @@
                 "properties": {
                     "klageId": { "type": "string", "format": "uuid" },
                     "vedtakId": { "type": "string", "format": "uuid" },
-                    "fiksDigisosId": { "type": "string", "format": "uuid" }
+                    "fiksDigisosId": { "type": "string", "format": "uuid" },
+                    "timestampSendt": { "type": ["integer", "null"], "format": "int64" }
                 },
                 "required": ["fiksDigisosId", "klageId", "vedtakId"]
             },
