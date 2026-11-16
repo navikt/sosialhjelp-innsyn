@@ -3,6 +3,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { render, screen } from "@test/test-utils";
 import { NextIntlClientProvider } from "next-intl";
 import messages from "../../../../../../messages/nb.json";
+import enMessages from "../../../../../../messages/en.json";
+import nnMessages from "../../../../../../messages/nn.json";
 import { server } from "../../../../../mocks/server";
 import KlageInfo from "./KlageInfo";
 
@@ -14,7 +16,10 @@ vi.mock("@i18n/navigation", () => ({
 const url = "*/api/v1/innsyn/soknad-1/klage/tilgjengelig";
 
 describe("KlageInfo", () => {
-    afterEach(() => vi.restoreAllMocks());
+    afterEach(() => {
+        vi.restoreAllMocks();
+        vi.useRealTimers();
+    });
 
     const innsendtKlage = {
         klageId: "klage-1",
@@ -89,8 +94,62 @@ describe("KlageInfo", () => {
     });
 
     it("Shows klagefrist as vedtaksdato + 3 weeks", async () => {
+        vi.setSystemTime(new Date("2026-01-21T12:00:00Z"));
         server.use(http.get(url, () => HttpResponse.json({ kanSendeKlage: true })));
         render(<KlageInfo vedtakId="vedtak-1" vedtaksdato={"2026-01-01"} />);
         expect(await screen.findByText("Du kan klage frem til 22.01.2026")).toBeInTheDocument();
+    });
+
+    it.each([
+        ["nb", messages, "Kontakt Nav-kontoret ditt", "Les om dine klagerettigheter.", ""],
+        ["nn", nnMessages, "Kontakt Nav-kontoret ditt", "Les om klagerettane dine.", "/nn"],
+        ["en", enMessages, "Contact your local Nav office", "Read about your appeal rights.", "/en"],
+    ])(
+        "shows the expired deadline and localized links in %s",
+        async (locale, translations, contact, rights, suffix) => {
+            vi.setSystemTime(new Date("2026-01-22T23:00:00Z"));
+            server.use(http.get(url, () => HttpResponse.json({ kanSendeKlage: true })));
+            render(
+                <NextIntlClientProvider locale={locale} messages={translations} timeZone="America/Los_Angeles">
+                    <KlageInfo vedtakId="vedtak-1" vedtaksdato="2026-01-01" />
+                </NextIntlClientProvider>
+            );
+
+            expect(await screen.findByRole("link", { name: contact })).toHaveAttribute(
+                "href",
+                `https://www.nav.no/finn-nav-kontor${suffix}`
+            );
+            expect(screen.getByRole("link", { name: rights })).toHaveAttribute(
+                "href",
+                `https://www.nav.no/klagerettigheter${suffix}`
+            );
+            expect(
+                screen.queryByRole("link", { name: /Klag på vedtaket|Appeal the decision/ })
+            ).not.toBeInTheDocument();
+            if (locale === "nb") {
+                expect(screen.getByText(/Den ordinære klagefristen på 3 uker har utløpt/)).toHaveTextContent(
+                    "Den ordinære klagefristen på 3 uker har utløpt. Kontakt Nav-kontoret ditt dersom du av god grunn ikke rakk å klage innen fristen, men fortsatt ønsker å klage på vedtaket. Les om dine klagerettigheter."
+                );
+            }
+        }
+    );
+
+    it.each([
+        ["winter", "2026-01-01", "2026-01-22T22:59:59.999Z"],
+        ["summer time transition", "2025-03-10", "2025-03-31T21:59:59.999Z"],
+    ])("keeps the deadline day open in Oslo during %s", async (_season, vedtaksdato, now) => {
+        vi.setSystemTime(new Date(now));
+        server.use(http.get(url, () => HttpResponse.json({ kanSendeKlage: true })));
+        render(<KlageInfo vedtakId="vedtak-1" vedtaksdato={vedtaksdato} />);
+
+        expect(await screen.findByRole("link", { name: "Klag på vedtaket" })).toBeInTheDocument();
+    });
+
+    it("keeps the paper appeal option when digital appeals are unavailable and the deadline has passed", async () => {
+        server.use(http.get(url, () => HttpResponse.json({ kanSendeKlage: false })));
+        render(<KlageInfo vedtakId="vedtak-1" vedtaksdato="2020-01-01" />);
+
+        expect(await screen.findByRole("link", { name: /skrive ut et klageskjema/ })).toBeInTheDocument();
+        expect(screen.queryByText(/Den ordinære klagefristen/)).not.toBeInTheDocument();
     });
 });

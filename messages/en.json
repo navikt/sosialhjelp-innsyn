@@ -154,6 +154,7 @@
         "ettersendKnapp": "Submit documentation for the appeal",
         "seKlagen": "View your appeal",
         "ettersendelsesfristUtlopt": "The deadline for submitting documentation has passed",
+        "klagefristUtlopt": "The ordinary 3-week appeal deadline has passed. <navKontorLenke>Contact your local Nav office</navKontorLenke> if you had a good reason for missing the deadline but still wish to appeal the decision. <klagerettigheterLenke>Read about your appeal rights.</klagerettigheterLenke>",
         "klagefrist": "You can appeal until {dato, date, ::ddMMyyyy}",
         "ettersendelsefrist": "You can submit until {dato}"
     },

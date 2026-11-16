@@ -1,11 +1,12 @@
 import { Link as AkselLink, BodyLong, VStack, Heading } from "@navikt/ds-react";
 import { PaperclipIcon, PersonGavelIcon } from "@navikt/aksel-icons";
-import { useFormatter, useTranslations } from "next-intl";
+import { useFormatter, useLocale, useNow, useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { KlageRef } from "@generated/model";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import useKlageEnabled from "@hooks/useKlageEnabled";
-import { addWeeks, parseISO } from "date-fns";
+import { addWeeks, endOfDay, isAfter, parseISO } from "date-fns";
+import { tz } from "@date-fns/tz";
 import { ReactNode } from "react";
 import { erEttersendelsesfristUtlopt, getEttersendelsesfrist } from "@utils/ettersendelsesfrist";
 
@@ -19,6 +20,9 @@ const KlageInfo = ({ vedtakId, vedtaksdato, innsendtKlage }: Props) => {
     const { id: fiksDigisosId } = useParams<{ id: string }>();
 
     const t = useTranslations("KlageInfo");
+    const locale = useLocale();
+    const localeSuffix = locale === "nb" ? "" : `/${locale}`;
+    const now = useNow({ updateInterval: 60_000 });
     const format = useFormatter();
     const klageEnabled = useKlageEnabled(fiksDigisosId);
 
@@ -54,6 +58,27 @@ const KlageInfo = ({ vedtakId, vedtaksdato, innsendtKlage }: Props) => {
     }
 
     if (klageEnabled) {
+        const klagefrist = addWeeks(parseISO(vedtaksdato, { in: tz("Europe/Oslo") }), 3);
+
+        if (isAfter(now, endOfDay(klagefrist))) {
+            return (
+                <BodyLong>
+                    {t.rich("klagefristUtlopt", {
+                        navKontorLenke: (chunks) => (
+                            <AkselLink href={`https://www.nav.no/finn-nav-kontor${localeSuffix}`} inlineText>
+                                {chunks}
+                            </AkselLink>
+                        ),
+                        klagerettigheterLenke: (chunks) => (
+                            <AkselLink href={`https://www.nav.no/klagerettigheter${localeSuffix}`} inlineText>
+                                {chunks}
+                            </AkselLink>
+                        ),
+                    })}
+                </BodyLong>
+            );
+        }
+
         return (
             <VStack gap="space-16">
                 <BodyLong>
@@ -64,7 +89,7 @@ const KlageInfo = ({ vedtakId, vedtaksdato, innsendtKlage }: Props) => {
                 <DigisosLinkCard
                     href={`/klage/opprett/${fiksDigisosId}/${vedtakId}`}
                     dataColor="accent"
-                    description={t("klagefrist", { dato: addWeeks(parseISO(vedtaksdato), 3) })}
+                    description={t("klagefrist", { dato: klagefrist })}
                 >
                     {t("klageKnapp")}
                 </DigisosLinkCard>

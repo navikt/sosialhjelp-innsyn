@@ -154,6 +154,7 @@
         "ettersendKnapp": "Ettersend dokumentasjon til klaga",
         "seKlagen": "Sjå klaga di",
         "ettersendelsesfristUtlopt": "Fristen for å ettersende dokumentasjon har gått ut",
+        "klagefristUtlopt": "Den ordinære klagefristen på 3 veker har gått ut. <navKontorLenke>Kontakt Nav-kontoret ditt</navKontorLenke> dersom du av god grunn ikkje rakk å klage innan fristen, men framleis ønskjer å klage på vedtaket. <klagerettigheterLenke>Les om klagerettane dine.</klagerettigheterLenke>",
         "klagefrist": "Du kan klage fram til {dato, date, ::ddMMyyyy}",
         "ettersendelsefrist": "Du kan sende inn fram til {dato}"
     },
