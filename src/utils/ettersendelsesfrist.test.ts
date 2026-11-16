@@ -1,7 +1,19 @@
 import { describe, expect, it } from "vitest";
-import { erEttersendelsesfristUtlopt } from "./ettersendelsesfrist";
+import { erEttersendelsesfristUtlopt, getEttersendelsesfrist } from "./ettersendelsesfrist";
 
 describe("ettersendelsesfristen for klage", () => {
+    it("beregner siste fristdag fra norsk dato når klagen sendes rett etter midnatt", () => {
+        const sendt = Date.parse("2025-01-01T23:30:00Z");
+
+        expect(getEttersendelsesfrist(sendt).getTime()).toBe(Date.parse("2025-01-22T23:00:00.000Z"));
+    });
+
+    it("beregner fristdagen i norsk tid ved overgang til sommertid", () => {
+        const sendt = Date.parse("2025-03-10T12:00:00Z");
+
+        expect(getEttersendelsesfrist(sendt).getTime()).toBe(Date.parse("2025-03-30T22:00:00.000Z"));
+    });
+
     it("utløper ved midnatt etter den 21. dagen i norsk tid", () => {
         const sendt = Date.parse("2025-11-01T13:00:00Z");
 

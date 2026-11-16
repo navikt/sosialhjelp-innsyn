@@ -1,12 +1,13 @@
 import { Link as AkselLink, BodyLong, VStack, Heading } from "@navikt/ds-react";
-import { PaperclipIcon } from "@navikt/aksel-icons";
-import { useTranslations } from "next-intl";
+import { PaperclipIcon, PersonGavelIcon } from "@navikt/aksel-icons";
+import { useFormatter, useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { KlageRef } from "@generated/model";
 import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import useKlageEnabled from "@hooks/useKlageEnabled";
 import { addWeeks, parseISO } from "date-fns";
 import { ReactNode } from "react";
+import { erEttersendelsesfristUtlopt, getEttersendelsesfrist } from "@utils/ettersendelsesfrist";
 
 interface Props {
     vedtakId: string;
@@ -18,19 +19,35 @@ const KlageInfo = ({ vedtakId, vedtaksdato, innsendtKlage }: Props) => {
     const { id: fiksDigisosId } = useParams<{ id: string }>();
 
     const t = useTranslations("KlageInfo");
+    const format = useFormatter();
     const klageEnabled = useKlageEnabled(fiksDigisosId);
 
     if (innsendtKlage) {
+        const { timestampSendt } = innsendtKlage;
+        const fristUtlopt = timestampSendt != null && erEttersendelsesfristUtlopt(timestampSendt);
+        const description = fristUtlopt
+            ? t("ettersendelsesfristUtlopt")
+            : timestampSendt != null
+              ? t("ettersendelsefrist", {
+                    dato: format.dateTime(getEttersendelsesfrist(timestampSendt), {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        timeZone: "Europe/Oslo",
+                    }),
+                })
+              : undefined;
+
         return (
             <VStack gap="space-16">
                 <BodyLong>{t("duHarKlaget")}</BodyLong>
                 <DigisosLinkCard
-                    icon={<PaperclipIcon aria-hidden />}
+                    icon={fristUtlopt ? <PersonGavelIcon aria-hidden /> : <PaperclipIcon aria-hidden />}
                     href={`/klage/status/${fiksDigisosId}/${innsendtKlage.klageId}`}
                     dataColor="accent"
-                    description={t("ettersendelsefrist", { dato: addWeeks(parseISO(vedtaksdato), 3) })}
+                    description={description}
                 >
-                    {t("ettersendKnapp")}
+                    {t(fristUtlopt ? "seKlagen" : "ettersendKnapp")}
                 </DigisosLinkCard>
             </VStack>
         );

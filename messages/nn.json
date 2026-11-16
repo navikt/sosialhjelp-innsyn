@@ -152,8 +152,10 @@
         "beskrivelse": "Dersom du er usamd i vedtaket har du rett til å klage. <klageinfo>Les om klagerettane dine.</klageinfo>",
         "klageKnapp": "Klag på vedtaket",
         "ettersendKnapp": "Ettersend dokumentasjon til klaga",
+        "seKlagen": "Sjå klaga di",
+        "ettersendelsesfristUtlopt": "Fristen for å ettersende dokumentasjon har gått ut",
         "klagefrist": "Du kan klage fram til {dato, date, ::ddMMyyyy}",
-        "ettersendelsefrist": "Du kan sende inn fram til {dato, date, ::ddMMyyyy}"
+        "ettersendelsefrist": "Du kan sende inn fram til {dato}"
     },
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"

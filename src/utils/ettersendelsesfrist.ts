@@ -5,7 +5,10 @@ const KLAGE_ETTERSENDELSE_FRIST_DOGN = 21;
 
 const TIDSSONE = "Europe/Oslo";
 
+export const getEttersendelsesfrist = (timestampSendt: number): Date =>
+    addDays(startOfDay(new TZDate(timestampSendt, TIDSSONE)), KLAGE_ETTERSENDELSE_FRIST_DOGN);
+
 export const erEttersendelsesfristUtlopt = (timestampSendt: number, now = Date.now()): boolean => {
-    const frist = addDays(startOfDay(new TZDate(timestampSendt, TIDSSONE)), KLAGE_ETTERSENDELSE_FRIST_DOGN + 1);
+    const frist = addDays(getEttersendelsesfrist(timestampSendt), 1);
     return !isBefore(now, frist);
 };
