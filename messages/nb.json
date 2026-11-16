@@ -523,6 +523,10 @@
         "ingenVedlegg": "Ingen vedlegg",
         "ingenBegrunnelse": "Ingen begrunnelse oppgitt",
         "ikkeTilgjengelig": "Klage er ikke tilgjengelig for denne søknaden.",
+        "klagefristUtlopt": {
+            "tittel": "Klagefristen har gått ut",
+            "beskrivelse": "Den ordinære klagefristen på 4 uker har utløpt. <navKontorLenke>Kontakt Nav-kontoret ditt</navKontorLenke> dersom du av god grunn ikke rakk å klage innen fristen, men fortsatt ønsker å klage på vedtaket. <klagerettigheterLenke>Les om dine klagerettigheter.</klagerettigheterLenke>"
+        },
         "sendingFeilet": "Sending av klage feilet. Prøv igjen senere eller ta kontakt med ditt Nav-kontor.",
         "oppsummering": {
             "guide": "Se over at alt er riktig før du sender inn klagen. Hvis du vil endre begrunnelsen din eller legge til mer dokumentasjon, kan du gå tilbake til forrige side.",

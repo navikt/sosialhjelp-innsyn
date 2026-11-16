@@ -511,6 +511,10 @@
         "ingenVedlegg": "No attachments",
         "ingenBegrunnelse": "No explanation provided",
         "ikkeTilgjengelig": "Complaints are not available for this application.",
+        "klagefristUtlopt": {
+            "tittel": "The deadline for complaints has passed",
+            "beskrivelse": "The ordinary 4-week appeal deadline has passed. <navKontorLenke>Contact your local Nav office</navKontorLenke> if you had a good reason for missing the deadline but still wish to appeal the decision. <klagerettigheterLenke>Read about your appeal rights.</klagerettigheterLenke>"
+        },
         "sendingFeilet": "Failed to send the complaint. Please try again later or contact your local NAV office.",
         "oppsummering": {
             "guide": "Check that everything is correct before submitting your appeal. If you want to change your explanation or add more documentation, you can go back to the previous page.",

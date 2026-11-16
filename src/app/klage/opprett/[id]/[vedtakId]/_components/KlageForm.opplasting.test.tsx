@@ -2,6 +2,7 @@ import { act, fireEvent, render, screen, waitFor } from "@test/test-utils";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { DocumentState, UploadState, ValidationCode } from "@components/filopplasting/api/useDocumentState";
+import { FetchError } from "../../../../../../custom-fetch";
 import KlageForm from "./KlageForm";
 
 const mocks = vi.hoisted(() => ({
@@ -22,10 +23,13 @@ vi.mock("@components/filopplasting/api/openEventChannel", () => ({
     },
 }));
 vi.mock("@components/filopplasting/FileSelectNew", () => ({ default: () => null }));
-vi.mock("@generated/klage-controller/klage-controller", () => ({
-    useSendKlage: () => ({ mutateAsync: mocks.send }),
-    getHentKlagerQueryKey: () => [],
-}));
+vi.mock("@generated/klage-controller/klage-controller", async () => {
+    const { useMutation } = await import("@tanstack/react-query");
+    return {
+        useSendKlage: () => useMutation({ mutationFn: mocks.send }),
+        getHentKlagerQueryKey: () => [],
+    };
+});
 
 const upload: UploadState = {
     id: "upload-1",
@@ -96,5 +100,44 @@ describe("KlageForm opplasting", () => {
         await waitFor(() => expect(mocks.send).not.toHaveBeenCalled());
         await userEvent.click(button);
         expect(await screen.findByText("Oppsummering av klagen")).toBeInTheDocument();
+    });
+
+    it("viser veiledning når klagefristen har utløpt ved innsending", async () => {
+        mocks.send.mockRejectedValue(
+            new FetchError("Bad Request", 400, "Bad Request", "/klage", { error: "klagefrist_utlopt" })
+        );
+        render(<KlageForm fiksDigisosId="soknad-1" vedtakId="vedtak-1" klageId="klage-1" vedtakMottatt="2025-01-01" />);
+
+        await userEvent.type(screen.getByRole("textbox", { name: "Hvorfor er du uenig i vedtaket?" }), "Begrunnelse");
+        await userEvent.click(screen.getByRole("button", { name: "Se oppsummering" }));
+        await userEvent.click(await screen.findByRole("button", { name: "Send inn" }));
+
+        expect(await screen.findByText("Klagefristen har gått ut")).toBeInTheDocument();
+        expect(screen.getByText(/Den ordinære klagefristen på 4 uker har utløpt/)).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: "Kontakt Nav-kontoret ditt" })).toHaveAttribute(
+            "href",
+            "https://www.nav.no/finn-nav-kontor"
+        );
+        expect(screen.getByRole("link", { name: "Les om dine klagerettigheter." })).toHaveAttribute(
+            "href",
+            "https://www.nav.no/klagerettigheter"
+        );
+        expect(screen.queryByText(/Sending av klage feilet/)).not.toBeInTheDocument();
+    });
+
+    it.each([
+        { status: 400, error: "annen_feil", message: "Sending av klage feilet" },
+        { status: 403, error: "klagefrist_utlopt", message: "Sending av klage feilet" },
+        { status: 403, error: "klage_ikke_tilgjengelig", message: "Klage er ikke tilgjengelig for denne søknaden." },
+    ])("viser riktig melding for status $status og feil $error", async ({ status, error, message }) => {
+        mocks.send.mockRejectedValue(new FetchError("Request failed", status, "Error", "/klage", { error }));
+        render(<KlageForm fiksDigisosId="soknad-1" vedtakId="vedtak-1" klageId="klage-1" vedtakMottatt="2025-01-01" />);
+
+        await userEvent.type(screen.getByRole("textbox", { name: "Hvorfor er du uenig i vedtaket?" }), "Begrunnelse");
+        await userEvent.click(screen.getByRole("button", { name: "Se oppsummering" }));
+        await userEvent.click(await screen.findByRole("button", { name: "Send inn" }));
+
+        expect(await screen.findByText(new RegExp(message))).toBeInTheDocument();
+        expect(screen.queryByText("Klagefristen har gått ut")).not.toBeInTheDocument();
     });
 });

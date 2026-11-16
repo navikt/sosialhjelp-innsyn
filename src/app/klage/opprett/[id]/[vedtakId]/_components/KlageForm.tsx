@@ -73,10 +73,10 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
     const harInnhold = Boolean(background?.trim()) || (!!validUploads && validUploads.length > 0);
 
     const sendKlageMutation = useSendKlage();
-    const ikkeTilgjengelig =
-        sendKlageMutation.error instanceof FetchError &&
-        sendKlageMutation.error.status === 403 &&
-        (sendKlageMutation.error.responseBody as { error?: string } | undefined)?.error === "klage_ikke_tilgjengelig";
+    const fetchError = sendKlageMutation.error instanceof FetchError ? sendKlageMutation.error : undefined;
+    const apiError = (fetchError?.responseBody as { error?: string } | undefined)?.error;
+    const ikkeTilgjengelig = fetchError?.status === 403 && apiError === "klage_ikke_tilgjengelig";
+    const klagefristUtlopt = fetchError?.status === 400 && apiError === "klagefrist_utlopt";
 
     const onSubmit: SubmitHandler<FormValues> = (formValues: FormValues) => {
         if (aktivtSteg !== 2 || !harInnhold || !vedleggKlare) return;
@@ -153,8 +153,9 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
                     {aktivtSteg === 2 && (
                         <StegOppsummering
                             isLoading={sendKlageMutation.isPending || isSending}
-                            isError={sendKlageMutation.isError && !ikkeTilgjengelig}
+                            isError={sendKlageMutation.isError && !ikkeTilgjengelig && !klagefristUtlopt}
                             ikkeTilgjengelig={ikkeTilgjengelig}
+                            klagefristUtlopt={klagefristUtlopt}
                             onTilbake={() => setAktivtSteg(1)}
                             formValues={getValues()}
                             uploads={(docState.uploads ?? []).filter((upload) => upload.status === "COMPLETE")}

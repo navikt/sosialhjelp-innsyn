@@ -510,6 +510,10 @@
         "ingenVedlegg": "Ingen vedlegg",
         "ingenBegrunnelse": "Inga grunngiving oppgitt",
         "ikkeTilgjengelig": "Klage er ikkje tilgjengeleg for denne søknaden.",
+        "klagefristUtlopt": {
+            "tittel": "Klagefristen har gått ut",
+            "beskrivelse": "Den ordinære klagefristen på 4 veker har gått ut. <navKontorLenke>Kontakt Nav-kontoret ditt</navKontorLenke> dersom du av god grunn ikkje rakk å klage innan fristen, men framleis ønskjer å klage på vedtaket. <klagerettigheterLenke>Les om klagerettane dine.</klagerettigheterLenke>"
+        },
         "sendingFeilet": "Sending av klaga feila. Prøv igjen seinare eller ta kontakt med ditt lokale NAV-kontor.",
         "oppsummering": {
             "guide": "Sjå over at alt er riktig før du sender inn klaga. Viss du vil endre grunngivinga di eller leggje til meir dokumentasjon, kan du gå tilbake til førre side.",
