@@ -93,11 +93,11 @@ describe("KlageInfo", () => {
         await expect(screen.findByRole("link", { name: "Klag på vedtaket" }, { timeout: 100 })).rejects.toThrow();
     });
 
-    it("Shows klagefrist as vedtaksdato + 3 weeks", async () => {
+    it("Shows klagefrist as vedtaksdato + 4 weeks", async () => {
         vi.setSystemTime(new Date("2026-01-21T12:00:00Z"));
         server.use(http.get(url, () => HttpResponse.json({ kanSendeKlage: true })));
         render(<KlageInfo vedtakId="vedtak-1" vedtaksdato={"2026-01-01"} />);
-        expect(await screen.findByText("Du kan klage frem til 22.01.2026")).toBeInTheDocument();
+        expect(await screen.findByText("Du kan klage frem til 29.01.2026")).toBeInTheDocument();
     });
 
     it.each([
@@ -107,7 +107,7 @@ describe("KlageInfo", () => {
     ])(
         "shows the expired deadline and localized links in %s",
         async (locale, translations, contact, rights, suffix) => {
-            vi.setSystemTime(new Date("2026-01-22T23:00:00Z"));
+            vi.setSystemTime(new Date("2026-01-29T23:00:00Z"));
             server.use(http.get(url, () => HttpResponse.json({ kanSendeKlage: true })));
             render(
                 <NextIntlClientProvider locale={locale} messages={translations} timeZone="America/Los_Angeles">
@@ -127,16 +127,16 @@ describe("KlageInfo", () => {
                 screen.queryByRole("link", { name: /Klag på vedtaket|Appeal the decision/ })
             ).not.toBeInTheDocument();
             if (locale === "nb") {
-                expect(screen.getByText(/Den ordinære klagefristen på 3 uker har utløpt/)).toHaveTextContent(
-                    "Den ordinære klagefristen på 3 uker har utløpt. Kontakt Nav-kontoret ditt dersom du av god grunn ikke rakk å klage innen fristen, men fortsatt ønsker å klage på vedtaket. Les om dine klagerettigheter."
+                expect(screen.getByText(/Den ordinære klagefristen på 4 uker har utløpt/)).toHaveTextContent(
+                    "Den ordinære klagefristen på 4 uker har utløpt. Kontakt Nav-kontoret ditt dersom du av god grunn ikke rakk å klage innen fristen, men fortsatt ønsker å klage på vedtaket. Les om dine klagerettigheter."
                 );
             }
         }
     );
 
     it.each([
-        ["winter", "2026-01-01", "2026-01-22T22:59:59.999Z"],
-        ["summer time transition", "2025-03-10", "2025-03-31T21:59:59.999Z"],
+        ["winter", "2026-01-01", "2026-01-29T22:59:59.999Z"],
+        ["summer time transition", "2025-03-10", "2025-04-07T21:59:59.999Z"],
     ])("keeps the deadline day open in Oslo during %s", async (_season, vedtaksdato, now) => {
         vi.setSystemTime(new Date(now));
         server.use(http.get(url, () => HttpResponse.json({ kanSendeKlage: true })));

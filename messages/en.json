@@ -147,14 +147,14 @@
         "duHarKlaget": "You have appealed this decision.",
         "papirklage": {
             "tittel": "Disagree with the decision?",
-            "beskrivelse": "If you disagree with the decision, you have the right to appeal. <klageinfo>Read more about your appeal rights</klageinfo>. The deadline for appealing is three weeks after the date of the decision. To file an appeal, you can <klageskjema>print out an appeal form (pdf)</klageskjema> that you can submit as documentation for your application."
+            "beskrivelse": "If you disagree with the decision, you have the right to appeal. <klageinfo>Read more about your appeal rights</klageinfo>. The deadline for appealing is four weeks after the date of the decision. To file an appeal, you can <klageskjema>print out an appeal form (pdf)</klageskjema> that you can submit as documentation for your application."
         },
         "beskrivelse": "If you disagree with the decision, you have the right to appeal. <klageinfo>Read about your appeal rights.</klageinfo>",
         "klageKnapp": "Appeal the decision",
         "ettersendKnapp": "Submit documentation for the appeal",
         "seKlagen": "View your appeal",
         "ettersendelsesfristUtlopt": "The deadline for submitting documentation has passed",
-        "klagefristUtlopt": "The ordinary 3-week appeal deadline has passed. <navKontorLenke>Contact your local Nav office</navKontorLenke> if you had a good reason for missing the deadline but still wish to appeal the decision. <klagerettigheterLenke>Read about your appeal rights.</klagerettigheterLenke>",
+        "klagefristUtlopt": "The ordinary 4-week appeal deadline has passed. <navKontorLenke>Contact your local Nav office</navKontorLenke> if you had a good reason for missing the deadline but still wish to appeal the decision. <klagerettigheterLenke>Read about your appeal rights.</klagerettigheterLenke>",
         "klagefrist": "You can appeal until {dato, date, ::ddMMyyyy}",
         "ettersendelsefrist": "You can submit until {dato}"
     },

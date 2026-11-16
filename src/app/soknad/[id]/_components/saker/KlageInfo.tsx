@@ -58,7 +58,7 @@ const KlageInfo = ({ vedtakId, vedtaksdato, innsendtKlage }: Props) => {
     }
 
     if (klageEnabled) {
-        const klagefrist = addWeeks(parseISO(vedtaksdato, { in: tz("Europe/Oslo") }), 3);
+        const klagefrist = addWeeks(parseISO(vedtaksdato, { in: tz("Europe/Oslo") }), 4);
 
         if (isAfter(now, endOfDay(klagefrist))) {
             return (
