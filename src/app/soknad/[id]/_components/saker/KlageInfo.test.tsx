@@ -29,7 +29,7 @@ describe("KlageInfo", () => {
     };
 
     it("shows the submission deadline based on the date the appeal was sent, in Oslo time", () => {
-        vi.spyOn(Date, "now").mockReturnValue(Date.parse("2025-01-22T22:59:59Z"));
+        vi.spyOn(Date, "now").mockReturnValue(Date.parse("2025-04-02T21:59:59Z"));
         render(
             <NextIntlClientProvider locale="nb" messages={messages} timeZone="America/Los_Angeles">
                 <KlageInfo vedtakId="vedtak-1" vedtaksdato="2024-12-01" innsendtKlage={innsendtKlage} />
@@ -40,11 +40,11 @@ describe("KlageInfo", () => {
             "href",
             "/klage/status/soknad-1/klage-1"
         );
-        expect(screen.getByText("Du kan sende inn frem til 23.01.2025")).toBeInTheDocument();
+        expect(screen.getByText("Du kan sende inn frem til 02.04.2025")).toBeInTheDocument();
     });
 
     it("shows the appeal link and expired deadline after midnight in Oslo", () => {
-        vi.spyOn(Date, "now").mockReturnValue(Date.parse("2025-01-23T23:00:00Z"));
+        vi.spyOn(Date, "now").mockReturnValue(Date.parse("2025-04-02T22:00:00Z"));
         render(<KlageInfo vedtakId="vedtak-1" vedtaksdato="2024-12-01" innsendtKlage={innsendtKlage} />);
 
         expect(screen.getByRole("link", { name: "Se klagen din" })).toHaveAttribute(

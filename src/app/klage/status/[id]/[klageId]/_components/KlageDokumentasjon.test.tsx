@@ -22,7 +22,7 @@ describe("KlageDokumentasjon", () => {
     afterEach(() => vi.restoreAllMocks());
 
     it("shows the klage PDF, uploaded attachments and subsequent submissions in the shared list", async () => {
-        vi.spyOn(Date, "now").mockReturnValue(Date.parse("2025-01-22T22:59:59.999Z"));
+        vi.spyOn(Date, "now").mockReturnValue(Date.parse("2025-04-01T21:59:59.999Z"));
         const klagePdf = fil("klage.pdf", "2025-01-01");
         const opplastedeVedlegg = [fil("vedlegg.pdf", "2025-01-02")];
         const ettersendelser = [{ vedlegg: [fil("ettersendt.pdf", "2025-01-03")] }] as EttersendelseDto[];
@@ -51,7 +51,7 @@ describe("KlageDokumentasjon", () => {
     });
 
     it("shows the documents and expiry message instead of the upload and tips after the deadline", async () => {
-        vi.spyOn(Date, "now").mockReturnValue(Date.parse("2025-01-22T23:00:00Z"));
+        vi.spyOn(Date, "now").mockReturnValue(Date.parse("2025-04-01T22:00:00Z"));
 
         render(
             await KlageDokumentasjon({

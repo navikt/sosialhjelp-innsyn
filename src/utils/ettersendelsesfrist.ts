@@ -1,7 +1,7 @@
 import { TZDate } from "@date-fns/tz";
 import { addDays, isBefore, startOfDay } from "date-fns";
 
-const KLAGE_ETTERSENDELSE_FRIST_DOGN = 21;
+const KLAGE_ETTERSENDELSE_FRIST_DOGN = 90;
 
 const TIDSSONE = "Europe/Oslo";
 
