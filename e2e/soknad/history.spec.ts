@@ -1,7 +1,7 @@
 import { test, expect, Page } from "@playwright/test";
 
 import { createMswHelper, mockSoknadEndpoints } from "../helpers/msw-helpers";
-import { HentHendelserBetaQueryResult } from "../../src/generated";
+import type { HentHendelserBetaQueryResult } from "../../src/generated/hendelse-controller/hendelse-controller";
 
 type HentHendelserBeta200Item = HentHendelserBetaQueryResult[number];
 
