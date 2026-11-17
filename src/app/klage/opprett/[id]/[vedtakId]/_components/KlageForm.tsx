@@ -1,7 +1,7 @@
 "use client";
 
 import { FormProvider, SubmitHandler, useForm, useWatch } from "react-hook-form";
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -19,6 +19,8 @@ import StegBegrunnelse from "./steg/StegBegrunnelse";
 import StegOppsummering from "./steg/StegOppsummering";
 import { useDocumentState } from "@components/filopplasting/api/useDocumentState";
 import { deleteSubmission } from "@components/filopplasting/api/deleteSubmission";
+import { useNavigationGuard } from "next-navigation-guard";
+import { useTranslations } from "next-intl";
 
 export type FormValues = {
     background: string | null;
@@ -41,8 +43,10 @@ interface Props {
 const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, soknadSendt, vedtakMottatt }: Props) => {
     const queryClient = useQueryClient();
     const router = useRouter();
+    const t = useTranslations("KlageForm");
     const [visBekreftForkastModal, setVisBekreftForkastModal] = useState(false);
     const [aktivtSteg, setAktivtSteg] = useState(1);
+    const allowedLeave = useRef(false);
     const [isSending, startSending] = useTransition();
 
     const [activeKlageId] = useState(klageId);
@@ -72,6 +76,10 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
         (upload) => upload.status === "COMPLETE" && !upload.validations?.length
     );
     const harInnhold = Boolean(background?.trim()) || (!!validUploads && validUploads.length > 0);
+    useNavigationGuard({
+        enabled: () => harInnhold && !allowedLeave.current,
+        confirm: () => window.confirm(t("forlatSiden")),
+    });
 
     const sendKlageMutation = useSendKlage();
     const fetchError = sendKlageMutation.error instanceof FetchError ? sendKlageMutation.error : undefined;
@@ -92,6 +100,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
                     queryClient.invalidateQueries({ queryKey: getHentKlagerQueryKey(fiksDigisosId) }),
                     queryClient.invalidateQueries({ queryKey: getHentHendelserBetaQueryKey(fiksDigisosId) }),
                 ]);
+                allowedLeave.current = true;
                 startSending(() => router.push(`/klage/kvittering/${fiksDigisosId}/${activeKlageId}`));
             } catch (error) {
                 logger.error(`Opprett klage feilet ved sending til api ${error}, FiksDigisosId: ${fiksDigisosId}`);
@@ -109,6 +118,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
 
     const navigerTilSoknad = () => {
         setVisBekreftForkastModal(false);
+        allowedLeave.current = true;
         router.replace(`/soknad/${fiksDigisosId}`);
     };
 
@@ -133,6 +143,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
     return (
         <>
             <FormProvider {...formMethods}>
+                {/* eslint-disable-next-line react-hooks/refs */}
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20">
                     {aktivtSteg === 1 && (
                         <StegBegrunnelse

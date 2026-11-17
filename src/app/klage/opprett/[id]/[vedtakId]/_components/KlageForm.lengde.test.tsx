@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@test/test-utils";
+import { fireEvent, render as renderWithProviders, screen, waitFor } from "@test/test-utils";
 import type { useDocumentState } from "@components/filopplasting/api/useDocumentState";
 import { NextIntlClientProvider } from "next-intl";
 import { describe, expect, it, vi } from "vitest";
@@ -7,6 +7,10 @@ import nb from "../../../../../../../messages/nb.json";
 import nn from "../../../../../../../messages/nn.json";
 import en from "../../../../../../../messages/en.json";
 import KlageForm from "./KlageForm";
+import { NavigationGuardProvider } from "next-navigation-guard";
+import type { ReactElement } from "react";
+
+const render = (ui: ReactElement) => renderWithProviders(<NavigationGuardProvider>{ui}</NavigationGuardProvider>);
 
 vi.mock("next/navigation", () => ({ useRouter: () => ({ replace: vi.fn(), push: vi.fn() }) }));
 vi.mock("@navikt/next-logger", () => ({ logger: { warn: vi.fn(), error: vi.fn() } }));

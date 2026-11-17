@@ -495,6 +495,7 @@
         }
     },
     "KlageForm": {
+        "forlatSiden": "Hvis du forlater siden, mister du innholdet i klagen. Vil du forlate siden?",
         "bakgrunn": {
             "label": "Hvorfor er du uenig i vedtaket?",
             "beskrivelse": "Oppgi hvorfor du er uenig i vedtaket, og hva du ønsker endret."

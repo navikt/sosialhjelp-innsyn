@@ -482,6 +482,7 @@
         }
     },
     "KlageForm": {
+        "forlatSiden": "Dersom du forlèt sida, mistar du innhaldet i klaga. Vil du forlate sida?",
         "bakgrunn": {
             "label": "Kvifor er du usamd i vedtaket?",
             "beskrivelse": "Oppgi kvifor du er usamd i vedtaket, og kva du ønskjer endra."
