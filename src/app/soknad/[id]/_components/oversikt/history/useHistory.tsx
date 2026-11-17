@@ -59,8 +59,7 @@ const useHistory = (ref: RefObject<HTMLLIElement | null>, refIndex: number) => {
     const steps = R.pipe(
         data,
         mapReduce,
-        // Annullerte utbetalinger sendes fra backend, men vises bevisst ikke i historikken.
-        // Filtreres før map slik at indeksen (brukt til refIndex/fokus) stemmer med det som vises.
+        // Annullert vises bevisst ikke. Filtreres før map, så refIndex/fokus stemmer.
         R.filter((hendelse) => !(hendelse.type === "UtbetalingerOppdatert" && hendelse.status === "ANNULLERT")),
         R.sortBy([R.prop("tidspunkt"), "desc"]),
         R.map((hendelse, index) => {

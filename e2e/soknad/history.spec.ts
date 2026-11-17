@@ -252,7 +252,7 @@ test.describe("History", () => {
 
         const steg = page.getByRole("list", { name: "Status i søknaden din" }).getByRole("listitem");
 
-        // Annullert er filtrert bort: 3 synlige steg, nyeste først
+        // Annullert skjules, nyeste først
         await expect(steg).toHaveCount(3);
         await expect(steg.nth(0)).toContainText("En utbetaling er stanset");
         await expect(steg.nth(0).getByRole("link", { name: "Se dine utbetalinger" })).toBeVisible();
