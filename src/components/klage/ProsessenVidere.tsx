@@ -1,12 +1,8 @@
-import { BodyLong, Box, Heading, ReadMore, VStack } from "@navikt/ds-react";
+import { BodyLong, Box, Heading, Link, ReadMore, VStack } from "@navikt/ds-react";
 import { Process, ProcessEvent } from "@navikt/ds-react/Process";
 import { useTranslations } from "next-intl";
 
-type Props = {
-    navKontor?: string | null;
-};
-
-const ProsessenVidere = ({ navKontor }: Props) => {
+const ProsessenVidere = () => {
     const t = useTranslations("KlageProsessenVidere");
 
     return (
@@ -17,25 +13,44 @@ const ProsessenVidere = ({ navKontor }: Props) => {
             <Box borderColor="info-subtle" background="info-soft" borderRadius="12" borderWidth="1" padding="space-16">
                 <Process>
                     <ProcessEvent bullet={1} title={t("steg1.tittel")}>
-                        {navKontor ? t("steg1.beskrivelse", { navKontor }) : t("steg1.beskrivelseUtenKontor")}
+                        {t("steg1.beskrivelse")}
                     </ProcessEvent>
                     <ProcessEvent bullet={2} title={t("steg2.tittel")}>
                         {t("steg2.beskrivelse")}
                     </ProcessEvent>
+                    <ProcessEvent>{t("steg2.flereOpplysninger")}</ProcessEvent>
                     <ProcessEvent bullet={3} title={t("steg3.tittel")}>
-                        <span>{t("steg3.beskrivelse")}</span>
-                        <ReadMore size="large" header={t("steg3.lesMer.tittel")}>
-                            <BodyLong spacing>
-                                {t.rich("steg3.lesMer.innhold.medhold", {
+                        <VStack gap="space-24">
+                            <BodyLong>{t("steg3.beskrivelse")}</BodyLong>
+                            <BodyLong>
+                                {t.rich("steg3.medhold", {
                                     b: (chunks) => <strong>{chunks}</strong>,
+                                    i: (chunks) => <em>{chunks}</em>,
                                 })}
                             </BodyLong>
                             <BodyLong>
-                                {t.rich("steg3.lesMer.innhold.ikkeMedhold", {
+                                {t.rich("steg3.ikkeMedhold", {
                                     b: (chunks) => <strong>{chunks}</strong>,
+                                    i: (chunks) => <em>{chunks}</em>,
                                 })}
                             </BodyLong>
-                        </ReadMore>
+                            <ReadMore size="large" header={t("lesMer.tittel")}>
+                                <BodyLong spacing>{t("lesMer.avsnitt1")}</BodyLong>
+                                <BodyLong spacing>{t("lesMer.avsnitt2")}</BodyLong>
+                                <Heading size="xsmall" level="3">
+                                    {t("lesMer.uenigTittel")}
+                                </Heading>
+                                <BodyLong>
+                                    {t.rich("lesMer.uenigTekst", {
+                                        lenke: (chunks) => (
+                                            <Link inlineText href="https://www.sivilombudet.no/klage/">
+                                                {chunks}
+                                            </Link>
+                                        ),
+                                    })}
+                                </BodyLong>
+                            </ReadMore>
+                        </VStack>
                     </ProcessEvent>
                 </Process>
             </Box>

@@ -458,23 +458,25 @@
         "tittel": "Hva skjer videre?",
         "steg1": {
             "tittel": "Klagen din er sendt",
-            "beskrivelse": "Klagen din er sendt til {navKontor}, som vil behandle den så fort de kan.",
-            "beskrivelseUtenKontor": "Klagen din er sendt til Nav-kontoret ditt, som vil behandle den så fort de kan."
+            "beskrivelse": "Klagen er sendt til Nav-kontoret som behandlet søknaden din."
         },
         "steg2": {
-            "tittel": "Nav-kontoret vil behandle klagen",
-            "beskrivelse": "Nav-kontoret vil behandle klagen din så fort de kan. Hvis det har gått mer enn én måned fra du klaget, skal du få et brev om at saksbehandlingstiden er forlenget."
+            "tittel": "Klagen din behandles",
+            "beskrivelse": "Klagen din vil behandles så fort som mulig, vanligvis innen 4 uker.",
+            "flereOpplysninger": "Hvis Nav-kontoret trenger flere opplysninger for å behandle klagen, tar de kontakt med deg."
         },
         "steg3": {
-            "tittel": "Du vil motta et vedtak",
-            "beskrivelse": "I hovedsak er det to mulige utfall på en klage: Du vil enten få medhold med et nytt vedtak om innvilget støtte, eller ikke medhold med et nytt vedtak som begrunner avslaget.",
-            "lesMer": {
-                "tittel": "Les mer om mulige utfall",
-                "innhold": {
-                    "medhold": "<b>Hvis Nav-kontoret gir deg medhold i klagen din</b> (de har vurdert saken din på nytt og er enige med deg), vil du få et nytt vedtak med informasjon om hva som vil dekkes. Informasjonen på Min side - Økonomisk sosialhjelp vil bli oppdatert med det nye og gjeldende vedtaket.",
-                    "ikkeMedhold": "<b>Hvis Nav-kontoret ikke gir deg medhold</b>, vil klagen videresendes til Statsforvalteren. De vil enten være enige med deg, slik at Nav-kontoret må behandle søknaden din på nytt og du får et nytt vedtak, eller uenige med deg, og sende deg et brev med begrunnelse for avslaget."
-                }
-            }
+            "tittel": "Du får svar på klagen",
+            "beskrivelse": "Når klagen er ferdigbehandlet, vil du motta svar via brev eller Digipost.",
+            "medhold": "<b>Hvis Nav-kontoret er enige i klagen din</b> (du får <i>medhold</i>), vil det opprinnelige vedtaket endres.",
+            "ikkeMedhold": "<b>Hvis Nav-kontoret ikke er enige i klagen din</b> (du får <i>ikke medhold</i>), vil klagen sendes videre til Statsforvalteren, som behandler klagen på nytt."
+        },
+        "lesMer": {
+            "tittel": "Les mer om klagebehandling hos Statsforvalteren",
+            "avsnitt1": "Statsforvalteren er statens representant i fylket og skal sikre at lover og nasjonale vedtak blir fulgt i hele landet.",
+            "avsnitt2": "Statsforvalteren vil enten være enige eller uenige i vurderingen til Nav-kontoret. Når de har behandlet klagen din, vil du motta svar om endelig utfall via brev eller Digipost.",
+            "uenigTittel": "Hvis du fortsatt er uenig",
+            "uenigTekst": "Når Statsforvalteren har avgjort en klagesak, er den ordinære klageprosessen avsluttet. Hvis du fortsatt mener at vedtaket er feil, kan du <lenke>klage til sivilombudet</lenke> eller bringe saken inn for retten."
         }
     },
     "StegKvittering": {
