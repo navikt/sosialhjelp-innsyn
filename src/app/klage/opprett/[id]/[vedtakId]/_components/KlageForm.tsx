@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { logger } from "@navikt/next-logger";
 import { FilUrl } from "@generated/model";
 import { getHentKlagerQueryKey, useSendKlage } from "@generated/klage-controller/klage-controller";
+import { getHentHendelserBetaQueryKey } from "@generated/hendelse-controller/hendelse-controller";
 import { FetchError } from "../../../../../../custom-fetch";
 
 import { MAX_LEN_BACKGROUND } from "../_consts/consts";
@@ -87,7 +88,10 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
                     data: { klageId: activeKlageId, vedtakId, tekst: formValues.background ?? "" },
                 });
 
-                await queryClient.invalidateQueries({ queryKey: getHentKlagerQueryKey(fiksDigisosId) });
+                await Promise.all([
+                    queryClient.invalidateQueries({ queryKey: getHentKlagerQueryKey(fiksDigisosId) }),
+                    queryClient.invalidateQueries({ queryKey: getHentHendelserBetaQueryKey(fiksDigisosId) }),
+                ]);
                 startSending(() => router.push(`/klage/kvittering/${fiksDigisosId}/${activeKlageId}`));
             } catch (error) {
                 logger.error(`Opprett klage feilet ved sending til api ${error}, FiksDigisosId: ${fiksDigisosId}`);

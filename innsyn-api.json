@@ -478,6 +478,7 @@
                                             { "$ref": "#/components/schemas/DokumentasjonKrav" },
                                             { "$ref": "#/components/schemas/EtterspurtDokumentasjon" },
                                             { "$ref": "#/components/schemas/ForelopigSvarHendelse" },
+                                            { "$ref": "#/components/schemas/KlageSendt" },
                                             { "$ref": "#/components/schemas/LevertEtterspurtDokumentasjon" },
                                             { "$ref": "#/components/schemas/Mottatt" },
                                             { "$ref": "#/components/schemas/SakFerdigBehandlet" },
@@ -821,7 +822,8 @@
                             "ETTERSPOR_IKKE_MER_DOKUMENTASJON",
                             "DOKUMENTASJONKRAV",
                             "SOKNAD_SEND_TIL_KONTOR_LENKETEKST",
-                            "VIS_BREVET_LENKETEKST"
+                            "VIS_BREVET_LENKETEKST",
+                            "KLAGE_SENDT"
                         ]
                     },
                     "link": { "type": "string" }
@@ -968,7 +970,8 @@
                         "Videresendt": "#/components/schemas/Videresendt",
                         "SoknadKanIkkeViseStatus": "#/components/schemas/SoknadKanIkkeViseStatus",
                         "SakKanIkkeViseStatus": "#/components/schemas/SakKanIkkeViseStatus",
-                        "UtbetalingerOppdatert": "#/components/schemas/UtbetalingerOppdatert"
+                        "UtbetalingerOppdatert": "#/components/schemas/UtbetalingerOppdatert",
+                        "KlageSendt": "#/components/schemas/KlageSendt"
                     }
                 },
                 "properties": {
@@ -977,6 +980,7 @@
                 },
                 "required": ["tidspunkt", "type"]
             },
+            "KlageSendt": { "allOf": [{ "$ref": "#/components/schemas/HendelseDto" }], "required": ["tidspunkt"] },
             "LevertEtterspurtDokumentasjon": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },

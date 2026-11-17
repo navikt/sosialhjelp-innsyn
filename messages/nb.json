@@ -187,6 +187,9 @@
     },
     "History": {
         "suffix": "steg",
+        "KlageSendtEvent": {
+            "tittel": "Du klaget på et vedtak"
+        },
         "UtbetalingerOppdatertEvent": {
             "tittel": "Dine utbetalinger har blitt oppdatert",
             "beskrivelse": "Se dine utbetalinger"
