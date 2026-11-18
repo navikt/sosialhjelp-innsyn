@@ -417,7 +417,7 @@
         "sendt": "Sendt {dato, date, ::ddMMyyyy}",
         "beskrivelse": "Sjå den innsendte klaga di på vedtak om økonomisk sosialhjelp.",
         "underUtviklingInfo": {
-            "tittel": "Denne sida er under arbeid",
+            "tittel": "Svar på klaga vil ikkje visast på denne sida",
             "beskrivelse1": "Digital klage for sosialhjelp er under arbeid, og i første versjon vil ikkje denne sida vise status eller oppdateringar.",
             "beskrivelse2": "Når klaga er ferdigbehandla vil du få eit brev i posten eller Digipost med informasjon om utfallet av klagesaka di."
         },
