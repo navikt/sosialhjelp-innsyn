@@ -16,7 +16,6 @@ describe("SoknadCard", () => {
                     soknadOpprettet: new Date().toISOString(),
                     fiksDigisosId: "046f8777-9bdf-467a-9a06-26a315c6c397",
                     kommunenummer: "123",
-                    hasKlage: false,
                 },
             ];
             const detaljer = getGetSaksDetaljerResponseMock({
