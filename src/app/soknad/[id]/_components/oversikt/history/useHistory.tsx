@@ -19,6 +19,7 @@ import UtbetalingerOppdatertEvent from "./events/UtbetalingerOppdatertEvent";
 import VideresendtEvent from "./events/VideresendtEvent";
 import DeltSoknadEvent from "./events/DeltSoknadEvent";
 import BehandlesIkkeEvent from "./events/BehandlesIkkeEvent";
+import KlageSendtEvent from "./events/KlageSendtEvent";
 
 type HentHendelserBeta200Item = HentHendelserBetaQueryResult[number];
 import KanIkkeViseStatusEvent from "./events/KanIkkeViseStatusEvent";
@@ -62,6 +63,14 @@ const useHistory = (ref: RefObject<HTMLLIElement | null>, refIndex: number) => {
         R.map((hendelse, index) => {
             const key = `${hendelse.type}-${hendelse.tidspunkt}-${index}`;
             switch (hendelse.type) {
+                case "KlageSendt":
+                    return (
+                        <KlageSendtEvent
+                            key={key}
+                            ref={index === refIndex ? ref : undefined}
+                            tidspunkt={new Date(hendelse.tidspunkt)}
+                        />
+                    );
                 case "BehandlesIkke":
                     return (
                         <BehandlesIkkeEvent
