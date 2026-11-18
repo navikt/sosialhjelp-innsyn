@@ -532,10 +532,10 @@
         }
     },
     "ForkastKlageModal": {
-        "overskrift": "Are you sure you want to discard the complaint?",
-        "beskrivelse": "Your complaint and attachments will not be saved.",
-        "bekreft": "Yes, discard the complaint",
-        "avbryt": "Cancel"
+        "overskrift": "Are you sure you want to cancel?",
+        "beskrivelse": "If you cancel, your complaint and all its content will be deleted. This includes the explanation you have written and any attachments you have uploaded.",
+        "bekreft": "Yes, cancel and delete the complaint",
+        "behold": "Keep the complaint"
     },
     "Breadcrumbs": {
         "MinSide": "My page",

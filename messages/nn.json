@@ -531,10 +531,10 @@
         }
     },
     "ForkastKlageModal": {
-        "overskrift": "Er du sikker på at du vil forkaste klaga?",
-        "beskrivelse": "Dine kommentarar eller vedlegg vil ikkje bli lagra.",
-        "bekreft": "Ja, forkast klaga",
-        "avbryt": "Avbryt"
+        "overskrift": "Er du sikker på at du vil avbryte?",
+        "beskrivelse": "Når du avbryt, blir klaga di og alt innhald sletta. Dette gjeld også grunngivinga du har skrive og vedlegg du har lasta opp.",
+        "bekreft": "Ja, avbryt og slett klaga",
+        "behold": "Behald klaga"
     },
     "Breadcrumbs": {
         "MinSide": "Min side",
