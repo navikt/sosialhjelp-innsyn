@@ -36,14 +36,31 @@ describe("KlageInfo", () => {
             </NextIntlClientProvider>
         );
 
-        expect(screen.getByRole("link", { name: "Ettersend dokumentasjon til klagen" })).toHaveAttribute(
+        expect(screen.getByRole("link", { name: "Se klagen og ettersend dokumentasjon" })).toHaveAttribute(
             "href",
             "/klage/status/soknad-1/klage-1"
         );
-        expect(screen.getByText("Du kan sende inn frem til 02.04.2025")).toBeInTheDocument();
+        expect(screen.getByText("02.04.2025").tagName).toBe("STRONG");
+        expect(screen.getByText("02.04.2025").parentElement).toHaveTextContent("Du kan sende inn frem til 02.04.2025.");
     });
 
-    it("shows the appeal link and expired deadline after midnight in Oslo", () => {
+    it.each([
+        ["nn", nnMessages, "Sjå klaga og ettersend dokumentasjon", "Du kan sende inn fram til"],
+        ["en", enMessages, "View your appeal and submit documentation", "You can submit until"],
+    ])("shows the submission deadline in %s", (locale, translations, linkText, deadlineText) => {
+        vi.spyOn(Date, "now").mockReturnValue(Date.parse("2025-03-01T12:00:00Z"));
+        render(
+            <NextIntlClientProvider locale={locale} messages={translations} timeZone="Europe/Oslo">
+                <KlageInfo vedtakId="vedtak-1" vedtaksdato="2024-12-01" innsendtKlage={innsendtKlage} />
+            </NextIntlClientProvider>
+        );
+
+        expect(screen.getByRole("link", { name: linkText })).toHaveAttribute("href", "/klage/status/soknad-1/klage-1");
+        const deadline = screen.getByText(deadlineText, { exact: false });
+        expect(deadline.querySelector("strong")).toHaveTextContent(/2025/);
+    });
+
+    it("shows the appeal link without a deadline after midnight in Oslo", () => {
         vi.spyOn(Date, "now").mockReturnValue(Date.parse("2025-04-02T22:00:00Z"));
         render(<KlageInfo vedtakId="vedtak-1" vedtaksdato="2024-12-01" innsendtKlage={innsendtKlage} />);
 
@@ -51,7 +68,7 @@ describe("KlageInfo", () => {
             "href",
             "/klage/status/soknad-1/klage-1"
         );
-        expect(screen.getByText("Fristen for å ettersende dokumentasjon har utløpt")).toBeInTheDocument();
+        expect(screen.queryByText("Fristen for å ettersende dokumentasjon har utløpt")).not.toBeInTheDocument();
         expect(screen.queryByText(/Du kan sende inn frem til/)).not.toBeInTheDocument();
     });
 
@@ -66,7 +83,7 @@ describe("KlageInfo", () => {
                 />
             );
 
-            expect(screen.getByRole("link", { name: "Ettersend dokumentasjon til klagen" })).toBeInTheDocument();
+            expect(screen.getByRole("link", { name: "Se klagen og ettersend dokumentasjon" })).toBeInTheDocument();
             expect(screen.queryByText(/Du kan sende inn frem til/)).not.toBeInTheDocument();
             expect(screen.queryByText("Fristen for å ettersende dokumentasjon har utløpt")).not.toBeInTheDocument();
         }
@@ -101,9 +118,9 @@ describe("KlageInfo", () => {
     });
 
     it.each([
-        ["nb", messages, "Kontakt Nav-kontoret ditt", "Les om dine klagerettigheter.", ""],
-        ["nn", nnMessages, "Kontakt Nav-kontoret ditt", "Les om klagerettane dine.", "/nn"],
-        ["en", enMessages, "Contact your local Nav office", "Read about your appeal rights.", "/en"],
+        ["nb", messages, "Kontakt Nav-kontoret", "Les mer om dine klagerettigheter.", ""],
+        ["nn", nnMessages, "Kontakt Nav-kontoret", "Les meir om klagerettane dine.", "/nn"],
+        ["en", enMessages, "Contact your local Nav office", "Read more about your appeal rights.", "/en"],
     ])(
         "shows the expired deadline and localized links in %s",
         async (locale, translations, contact, rights, suffix) => {
@@ -127,8 +144,8 @@ describe("KlageInfo", () => {
                 screen.queryByRole("link", { name: /Klag på vedtaket|Appeal the decision/ })
             ).not.toBeInTheDocument();
             if (locale === "nb") {
-                expect(screen.getByText(/Den ordinære klagefristen på 4 uker har utløpt/)).toHaveTextContent(
-                    "Den ordinære klagefristen på 4 uker har utløpt. Kontakt Nav-kontoret ditt dersom du av god grunn ikke rakk å klage innen fristen, men fortsatt ønsker å klage på vedtaket. Les om dine klagerettigheter."
+                expect(screen.getByText(/Klagefristen har utløpt/)).toHaveTextContent(
+                    "Klagefristen har utløpt. Kontakt Nav-kontoret ditt dersom du ikke rakk å klage innen fristen, men fortsatt ønsker å klage på vedtaket. Les mer om dine klagerettigheter."
                 );
             }
         }
@@ -145,11 +162,14 @@ describe("KlageInfo", () => {
         expect(await screen.findByRole("link", { name: "Klag på vedtaket" })).toBeInTheDocument();
     });
 
-    it("keeps the paper appeal option when digital appeals are unavailable and the deadline has passed", async () => {
+    it("shows appeal information when digital appeals are unavailable and the deadline has passed", async () => {
         server.use(http.get(url, () => HttpResponse.json({ kanSendeKlage: false })));
         render(<KlageInfo vedtakId="vedtak-1" vedtaksdato="2020-01-01" />);
 
-        expect(await screen.findByRole("link", { name: /skrive ut et klageskjema/ })).toBeInTheDocument();
-        expect(screen.queryByText(/Den ordinære klagefristen/)).not.toBeInTheDocument();
+        expect(
+            await screen.findByRole("link", { name: "Les mer om dine klagerettigheter og hvordan du klager" })
+        ).toHaveAttribute("href", "https://www.nav.no/okonomisk-sosialhjelp#klage");
+        expect(screen.queryByRole("link", { name: /klageskjema/ })).not.toBeInTheDocument();
+        expect(screen.queryByText(/Klagefristen har utløpt/)).not.toBeInTheDocument();
     });
 });

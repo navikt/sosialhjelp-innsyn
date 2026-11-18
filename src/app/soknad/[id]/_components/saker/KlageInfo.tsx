@@ -1,5 +1,4 @@
-import { Link as AkselLink, BodyLong, VStack, Heading } from "@navikt/ds-react";
-import { PaperclipIcon, PersonGavelIcon } from "@navikt/aksel-icons";
+import { Link as AkselLink, BodyLong, VStack } from "@navikt/ds-react";
 import { useFormatter, useLocale, useNow, useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { KlageRef } from "@generated/model";
@@ -29,24 +28,23 @@ const KlageInfo = ({ vedtakId, vedtaksdato, innsendtKlage }: Props) => {
     if (innsendtKlage) {
         const { timestampSendt } = innsendtKlage;
         const fristUtlopt = timestampSendt != null && erEttersendelsesfristUtlopt(timestampSendt);
-        const description = fristUtlopt
-            ? t("ettersendelsesfristUtlopt")
-            : timestampSendt != null
-              ? t("ettersendelsefrist", {
-                    dato: format.dateTime(getEttersendelsesfrist(timestampSendt), {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                        timeZone: "Europe/Oslo",
-                    }),
-                })
-              : undefined;
+        const description =
+            !fristUtlopt && timestampSendt != null
+                ? t.rich("ettersendelsefrist", {
+                      dato: format.dateTime(getEttersendelsesfrist(timestampSendt), {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                          timeZone: "Europe/Oslo",
+                      }),
+                      strong: (chunks) => <strong>{chunks}</strong>,
+                  })
+                : undefined;
 
         return (
             <VStack gap="space-16">
                 <BodyLong>{t("duHarKlaget")}</BodyLong>
                 <DigisosLinkCard
-                    icon={fristUtlopt ? <PersonGavelIcon aria-hidden /> : <PaperclipIcon aria-hidden />}
                     href={`/klage/status/${fiksDigisosId}/${innsendtKlage.klageId}`}
                     dataColor="accent"
                     description={description}
@@ -98,21 +96,11 @@ const KlageInfo = ({ vedtakId, vedtaksdato, innsendtKlage }: Props) => {
     }
 
     return (
-        <VStack gap="space-8">
-            <Heading size="small" level="3">
-                {t("papirklage.tittel")}
-            </Heading>
-            <BodyLong>
-                {t.rich("papirklage.beskrivelse", {
-                    klageinfo: KlageInfoLenke,
-                    klageskjema: (chunks) => (
-                        <AkselLink href="/sosialhjelp/innsyn/papirskjema_klage.pdf" inlineText>
-                            {chunks}
-                        </AkselLink>
-                    ),
-                })}
-            </BodyLong>
-        </VStack>
+        <BodyLong>
+            {t.rich("papirklage.beskrivelse", {
+                klageinfo: KlageInfoLenke,
+            })}
+        </BodyLong>
     );
 };
 

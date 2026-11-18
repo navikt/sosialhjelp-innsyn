@@ -146,17 +146,15 @@
     "KlageInfo": {
         "duHarKlaget": "Du har klaga på dette vedtaket.",
         "papirklage": {
-            "tittel": "Usamd i vedtaket",
-            "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <klageinfo>Les meir om klagerettane dine</klageinfo>. Fristen for å klage er fire veker etter vedtaksdato. For å klage kan du <klageskjema>skrive ut eit klageskjema (pdf)</klageskjema> som du kan sende som dokumentasjon til søknaden din."
+            "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <klageinfo>Les meir om klagerettane dine og korleis du klagar</klageinfo>."
         },
         "beskrivelse": "Dersom du er usamd i vedtaket har du rett til å klage. <klageinfo>Les om klagerettane dine.</klageinfo>",
         "klageKnapp": "Klag på vedtaket",
-        "ettersendKnapp": "Ettersend dokumentasjon til klaga",
+        "ettersendKnapp": "Sjå klaga og ettersend dokumentasjon",
         "seKlagen": "Sjå klaga di",
-        "ettersendelsesfristUtlopt": "Fristen for å ettersende dokumentasjon har gått ut",
-        "klagefristUtlopt": "Den ordinære klagefristen på 4 veker har gått ut. <navKontorLenke>Kontakt Nav-kontoret ditt</navKontorLenke> dersom du av god grunn ikkje rakk å klage innan fristen, men framleis ønskjer å klage på vedtaket. <klagerettigheterLenke>Les om klagerettane dine.</klagerettigheterLenke>",
+        "klagefristUtlopt": "Klagefristen har gått ut. <navKontorLenke>Kontakt Nav-kontoret</navKontorLenke> ditt dersom du ikkje rakk å klage innan fristen, men framleis ønskjer å klage på vedtaket. <klagerettigheterLenke>Les meir om klagerettane dine.</klagerettigheterLenke>",
         "klagefrist": "Du kan klage fram til {dato, date, ::ddMMyyyy}",
-        "ettersendelsefrist": "Du kan sende inn fram til {dato}"
+        "ettersendelsefrist": "Du kan sende inn fram til <strong>{dato}</strong>."
     },
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"

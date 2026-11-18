@@ -157,19 +157,17 @@
         "description": "Denne saken er under behandling. Når saken er ferdigbehandlet og du har fått et vedtak, vil det vises her."
     },
     "KlageInfo": {
-        "duHarKlaget": "Du har klaget på dette vedtaket",
+        "duHarKlaget": "Du har klaget på dette vedtaket.",
         "papirklage": {
-            "tittel": "Uenig i vedtaket?",
-            "beskrivelse": "Dersom du er uenig i vedtaket, har du rett til å klage. <klageinfo>Les mer om dine klagerettigheter</klageinfo>. Fristen for å klage er fire uker etter vedtaksdato. For å klage kan du <klageskjema> skrive ut et klageskjema (pdf)</klageskjema> som du kan sende som dokumentasjon til din søknad."
+            "beskrivelse": "Dersom du er uenig i vedtaket, har du rett til å klage. <klageinfo>Les mer om dine klagerettigheter og hvordan du klager</klageinfo>."
         },
         "beskrivelse": "Dersom du er uenig i vedtaket har du rett til å klage. <klageinfo>Les om dine klagerettigheter.</klageinfo>",
         "klageKnapp": "Klag på vedtaket",
-        "ettersendKnapp": "Ettersend dokumentasjon til klagen",
+        "ettersendKnapp": "Se klagen og ettersend dokumentasjon",
         "seKlagen": "Se klagen din",
-        "ettersendelsesfristUtlopt": "Fristen for å ettersende dokumentasjon har utløpt",
-        "klagefristUtlopt": "Den ordinære klagefristen på 4 uker har utløpt. <navKontorLenke>Kontakt Nav-kontoret ditt</navKontorLenke> dersom du av god grunn ikke rakk å klage innen fristen, men fortsatt ønsker å klage på vedtaket. <klagerettigheterLenke>Les om dine klagerettigheter.</klagerettigheterLenke>",
+        "klagefristUtlopt": "Klagefristen har utløpt. <navKontorLenke>Kontakt Nav-kontoret</navKontorLenke> ditt dersom du ikke rakk å klage innen fristen, men fortsatt ønsker å klage på vedtaket. <klagerettigheterLenke>Les mer om dine klagerettigheter.</klagerettigheterLenke>",
         "klagefrist": "Du kan klage frem til {dato, date, ::ddMMyyyy}",
-        "ettersendelsefrist": "Du kan sende inn frem til {dato}"
+        "ettersendelsefrist": "Du kan sende inn frem til <strong>{dato}</strong>."
     },
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
