@@ -77,7 +77,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
     );
     const harInnhold = Boolean(background?.trim()) || (!!validUploads && validUploads.length > 0);
     useNavigationGuard({
-        enabled: () => harInnhold && !allowedLeave.current,
+        enabled: ({ type }) => type !== "refresh" && harInnhold && !allowedLeave.current,
         confirm: () => window.confirm(t("forlatSiden")),
     });
 
