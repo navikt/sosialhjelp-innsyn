@@ -2,13 +2,18 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { http, HttpResponse } from "msw";
 import type { DocumentState, UploadState, useDocumentState } from "@components/filopplasting/api/useDocumentState";
 import userEvent from "@testing-library/user-event";
-import { queryClient, render, screen, waitFor } from "@test/test-utils";
+import { NavigationGuardProvider } from "next-navigation-guard";
+import type { ReactElement } from "react";
+
+import { queryClient, screen, waitFor, render as renderWithProviders } from "@test/test-utils";
 import { getHentKlagerQueryKey } from "@generated/klage-controller/klage-controller";
 import { getSendKlageMockHandler } from "@generated/klage-controller/klage-controller.msw";
 import { getHentHendelserBetaQueryKey } from "@generated/hendelse-controller/hendelse-controller";
 import { server } from "../../../../../../mocks/server";
 
 import KlageForm from "./KlageForm";
+
+const render = (ui: ReactElement) => renderWithProviders(<NavigationGuardProvider>{ui}</NavigationGuardProvider>);
 
 const mocks = vi.hoisted(() => ({
     push: vi.fn(),
@@ -123,6 +128,9 @@ describe("KlageForm forkast", () => {
         await waitFor(() => expect(mocks.replace).toHaveBeenCalledWith("/soknad/soknad-1"));
         expect(mocks.deleteSubmission).toHaveBeenCalledTimes(1);
         expect(mocks.deleteSubmission.mock.calls[0][0]).toBe("submission-9");
+        const event = new Event("beforeunload", { cancelable: true });
+        window.dispatchEvent(event);
+        expect(event.defaultPrevented).toBe(false);
     });
 
     it("still navigates when the delete fails", async () => {

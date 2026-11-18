@@ -483,6 +483,7 @@
         }
     },
     "KlageForm": {
+        "forlatSiden": "If you leave this page, you will lose the contents of your appeal. Do you want to leave?",
         "bakgrunn": {
             "label": "Why do you disagree with the decision?",
             "beskrivelse": "Explain why you disagree with the decision and what you want changed."

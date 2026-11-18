@@ -1,17 +1,22 @@
-import { act, fireEvent, render, screen, waitFor } from "@test/test-utils";
+import { act, fireEvent, render as renderWithProviders, screen, waitFor } from "@test/test-utils";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { DocumentState, UploadState, ValidationCode } from "@components/filopplasting/api/useDocumentState";
 import { FetchError } from "../../../../../../custom-fetch";
 import KlageForm from "./KlageForm";
+import { NavigationGuardProvider } from "next-navigation-guard";
+import type { ReactElement } from "react";
+
+const render = (ui: ReactElement) => renderWithProviders(<NavigationGuardProvider>{ui}</NavigationGuardProvider>);
 
 const mocks = vi.hoisted(() => ({
     onUpdate: undefined as ((state: Partial<DocumentState>) => void) | undefined,
     send: vi.fn(),
+    push: vi.fn(),
 }));
 
 vi.mock("next/navigation", () => ({
-    useRouter: () => ({ replace: vi.fn(), push: vi.fn() }),
+    useRouter: () => ({ replace: vi.fn(), push: mocks.push }),
     useParams: () => ({ id: "soknad-1" }),
 }));
 vi.mock("@navikt/next-logger", () => ({ logger: { warn: vi.fn(), error: vi.fn() } }));
@@ -42,10 +47,47 @@ const updateUploads = (state: Partial<DocumentState>) => {
     act(() => mocks.onUpdate?.({ submissionId: "submission-1", ...state }));
 };
 
+const beforeUnloadPrevented = () => {
+    const event = new Event("beforeunload", { cancelable: true });
+    window.dispatchEvent(event);
+    return event.defaultPrevented;
+};
+
 describe("KlageForm opplasting", () => {
     beforeEach(() => {
         mocks.onUpdate = undefined;
         mocks.send.mockReset();
+        mocks.push.mockReset();
+    });
+
+    it("advarer ved tekst og slutter å advare når teksten fjernes", () => {
+        render(<KlageForm fiksDigisosId="soknad-1" vedtakId="vedtak-1" klageId="klage-1" vedtakMottatt="2025-01-01" />);
+        const textbox = screen.getByRole("textbox", { name: "Hvorfor er du uenig i vedtaket?" });
+
+        expect(beforeUnloadPrevented()).toBe(false);
+        fireEvent.change(textbox, { target: { value: "Begrunnelse" } });
+        expect(beforeUnloadPrevented()).toBe(true);
+        fireEvent.change(textbox, { target: { value: "" } });
+        expect(beforeUnloadPrevented()).toBe(false);
+    });
+
+    it("advarer ved opplastet vedlegg uten tekst", () => {
+        render(<KlageForm fiksDigisosId="soknad-1" vedtakId="vedtak-1" klageId="klage-1" vedtakMottatt="2025-01-01" />);
+
+        updateUploads({ uploads: [{ ...upload, status: "COMPLETE", filId: "fil-1" }] });
+        expect(beforeUnloadPrevented()).toBe(true);
+    });
+
+    it("slutter å advare etter vellykket innsending", async () => {
+        mocks.send.mockResolvedValue(undefined);
+        render(<KlageForm fiksDigisosId="soknad-1" vedtakId="vedtak-1" klageId="klage-1" vedtakMottatt="2025-01-01" />);
+
+        await userEvent.type(screen.getByRole("textbox", { name: "Hvorfor er du uenig i vedtaket?" }), "Begrunnelse");
+        await userEvent.click(screen.getByRole("button", { name: "Se oppsummering" }));
+        await userEvent.click(await screen.findByRole("button", { name: "Send inn" }));
+
+        await waitFor(() => expect(mocks.push).toHaveBeenCalledWith("/klage/kvittering/soknad-1/klage-1"));
+        await waitFor(() => expect(beforeUnloadPrevented()).toBe(false));
     });
 
     it("venter på at alle vedlegg er fullført før brukeren kan gå videre", async () => {
@@ -113,6 +155,7 @@ describe("KlageForm opplasting", () => {
         await userEvent.click(await screen.findByRole("button", { name: "Send inn" }));
 
         expect(await screen.findByText("Klagefristen har gått ut")).toBeInTheDocument();
+        expect(beforeUnloadPrevented()).toBe(true);
         expect(screen.getByText(/Den ordinære klagefristen på 4 uker har utløpt/)).toBeInTheDocument();
         expect(screen.getByRole("link", { name: "Kontakt Nav-kontoret ditt" })).toHaveAttribute(
             "href",
