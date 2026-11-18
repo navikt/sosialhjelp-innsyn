@@ -120,10 +120,40 @@ describe("KlageForm innsending", () => {
 });
 
 describe("KlageForm forkast", () => {
+    it("keeps the complaint when the confirmation is dismissed", async () => {
+        const user = userEvent.setup();
+        renderForm();
+        await user.click(screen.getByText("forkast"));
+
+        const dialog = await screen.findByRole("dialog", { name: "Er du sikker på at du vil avbryte?" });
+        expect(dialog).toBeVisible();
+        expect(dialog).toHaveAccessibleDescription(
+            "Når du avbryter vil klagen din og alt av innhold bli slettet. Dette inkluderer begrunnelsen du har skrevet og vedlegg du har lastet opp."
+        );
+        await user.click(screen.getByRole("button", { name: "Behold klagen" }));
+
+        await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
+        expect(mocks.deleteSubmission).not.toHaveBeenCalled();
+        expect(mocks.replace).not.toHaveBeenCalled();
+    });
+
+    it("keeps the dialog open while deletion is in progress", async () => {
+        mocks.deleteSubmission.mockReturnValue(new Promise(() => {}));
+        const user = userEvent.setup();
+        renderForm();
+        await user.click(screen.getByText("forkast"));
+        await user.click(await screen.findByRole("button", { name: "Ja, avbryt og slett klagen" }));
+
+        await waitFor(() => expect(screen.getByRole("button", { name: "Behold klagen" })).toBeDisabled());
+        await user.keyboard("{Escape}");
+        expect(screen.getByRole("dialog", { name: "Er du sikker på at du vil avbryte?" })).toBeVisible();
+        expect(mocks.replace).not.toHaveBeenCalled();
+    });
+
     it("deletes by submissionId, not klageId, then navigates to the soknad", async () => {
         renderForm();
         await userEvent.click(screen.getByText("forkast"));
-        await userEvent.click(await screen.findByRole("button", { name: "Ja, forkast klagen" }));
+        await userEvent.click(await screen.findByRole("button", { name: "Ja, avbryt og slett klagen" }));
 
         await waitFor(() => expect(mocks.replace).toHaveBeenCalledWith("/soknad/soknad-1"));
         expect(mocks.deleteSubmission).toHaveBeenCalledTimes(1);
@@ -137,7 +167,7 @@ describe("KlageForm forkast", () => {
         mocks.deleteSubmission.mockRejectedValue(new Error("boom"));
         renderForm();
         await userEvent.click(screen.getByText("forkast"));
-        await userEvent.click(await screen.findByRole("button", { name: "Ja, forkast klagen" }));
+        await userEvent.click(await screen.findByRole("button", { name: "Ja, avbryt og slett klagen" }));
 
         await waitFor(() => expect(mocks.replace).toHaveBeenCalledWith("/soknad/soknad-1"));
     });

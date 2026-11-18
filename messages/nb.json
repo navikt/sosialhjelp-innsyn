@@ -544,10 +544,10 @@
         }
     },
     "ForkastKlageModal": {
-        "overskrift": "Er du sikker på at du vil forkaste klagen?",
-        "beskrivelse": "Dine kommentarer eller vedlegg vil ikke bli lagret.",
-        "bekreft": "Ja, forkast klagen",
-        "avbryt": "Avbryt"
+        "overskrift": "Er du sikker på at du vil avbryte?",
+        "beskrivelse": "Når du avbryter vil klagen din og alt av innhold bli slettet. Dette inkluderer begrunnelsen du har skrevet og vedlegg du har lastet opp.",
+        "bekreft": "Ja, avbryt og slett klagen",
+        "behold": "Behold klagen"
     },
     "Breadcrumbs": {
         "MinSide": "Min side",
