@@ -44,7 +44,6 @@ const StegOppsummering = ({
         format.dateTime(parseISO(date), { day: "numeric", month: "long", year: "numeric" });
 
     const isMobile = useIsMobile();
-
     return (
         <VStack gap={{ xs: "space-40", md: "space-64" }}>
             <GuidePanel poster={isMobile}>{t("oppsummering.guide")}</GuidePanel>
@@ -55,7 +54,7 @@ const StegOppsummering = ({
                 <FormSummary.Answers>
                     <FormSummary.Answer>
                         <FormSummary.Label>{t("oppsummering.begrunnelse")}</FormSummary.Label>
-                        <FormSummary.Value>
+                        <FormSummary.Value className="whitespace-pre-wrap">
                             {formValues.background?.trim().length ? (
                                 formValues.background
                             ) : (
