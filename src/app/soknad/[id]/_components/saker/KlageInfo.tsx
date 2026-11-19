@@ -37,7 +37,7 @@ const KlageInfo = ({ vedtakId, vedtaksdato, innsendtKlage }: Props) => {
                           year: "numeric",
                           timeZone: "Europe/Oslo",
                       }),
-                      strong: (chunks) => <strong>{chunks}</strong>,
+                      strong: (chunks) => <b>{chunks}</b>,
                   })
                 : undefined;
 
@@ -87,7 +87,15 @@ const KlageInfo = ({ vedtakId, vedtaksdato, innsendtKlage }: Props) => {
                 <DigisosLinkCard
                     href={`/klage/opprett/${fiksDigisosId}/${vedtakId}`}
                     dataColor="accent"
-                    description={t("klagefrist", { dato: klagefrist })}
+                    description={t.rich("klagefrist", {
+                        dato: format.dateTime(klagefrist, {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            timeZone: "Europe/Oslo",
+                        }),
+                        strong: (chunks) => <b>{chunks}</b>,
+                    })}
                 >
                     {t("klageKnapp")}
                 </DigisosLinkCard>
