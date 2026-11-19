@@ -19,7 +19,7 @@ const SingleSak = ({ sak, klager }: Props) => {
     }
 
     return (
-        <VStack gap="space-16">
+        <VStack gap="space-8">
             <Heading id="vedtak-heading" size="medium" level="2">
                 {t("vedtak")}
             </Heading>
