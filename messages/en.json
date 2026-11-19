@@ -144,14 +144,17 @@
         "description": "This case is being processed. When the case has been processed and you have received a decision, it will be shown here."
     },
     "KlageInfo": {
-        "seKlage": "View your submitted appeal",
+        "duHarKlaget": "You have appealed this decision.",
         "papirklage": {
-            "tittel": "Disagree with the decision?",
-            "beskrivelse": "If you disagree with the decision, you have the right to appeal. <klageinfo>Read more about your appeal rights</klageinfo>. The deadline for appealing is three weeks after the date of the decision. To file an appeal, you can <klageskjema>print out an appeal form (pdf)</klageskjema> that you can submit as documentation for your application."
+            "beskrivelse": "If you disagree with the decision, you have the right to appeal. <klageinfo>Read more about your appeal rights and how to appeal</klageinfo>."
         },
         "beskrivelse": "If you disagree with the decision, you have the right to appeal. <klageinfo>Read about your appeal rights.</klageinfo>",
         "klageKnapp": "Appeal the decision",
-        "klagefrist": "You can appeal until {dato, date, ::ddMMyyyy}"
+        "ettersendKnapp": "View your appeal and submit documentation",
+        "seKlagen": "View your appeal",
+        "klagefristUtlopt": "The appeal deadline has passed. <navKontorLenke>Contact your local Nav office</navKontorLenke> if you missed the deadline but still wish to appeal the decision. <klagerettigheterLenke>Read more about your appeal rights.</klagerettigheterLenke>",
+        "klagefrist": "You can appeal until {dato, date, ::ddMMyyyy}",
+        "ettersendelsefrist": "You can submit until <strong>{dato}</strong>."
     },
     "SokButton": {
         "sokOmSosialhjelp": "Apply for financial assistance"
@@ -169,6 +172,9 @@
     },
     "History": {
         "suffix": "steps",
+        "KlageSendtEvent": {
+            "tittel": "You appealed a decision"
+        },
         "UtbetalingerOppdatertEvent": {
             "tittel": "Your payments have been updated",
             "beskrivelse": "See your payments"
@@ -270,8 +276,10 @@
     "Filopplasting": {
         "tittel": "Do you want to submit more documents?",
         "passivTittel": "Submitted documents",
-        "beskrivelse": "If you have more relevant information regarding your application, they can be uploaded here.",
-        "opplastedeVedlegg": "Documents"
+        "beskrivelse": "If you have more relevant information regarding your application, they can be uploaded here."
+    },
+    "DokumentListe": {
+        "tittel": "Documents"
     },
     "VedleggListe": {
         "lastetOpp": "uploaded: {dato, date, ::ddMMyyyy}",
@@ -413,7 +421,7 @@
         "sendt": "Sent {dato, date, ::ddMMyyyy}",
         "beskrivelse": "View your submitted appeal about the decision regarding financial social assistance.",
         "underUtviklingInfo": {
-            "tittel": "This page is under construction",
+            "tittel": "The response to the complaint will not be displayed on this page",
             "beskrivelse1": "An online appeals process for social assistance is currently under development, and in its initial version, this page will not display status information or updates.",
             "beskrivelse2": "When the appeal is processed, you will receive a letter in the mail or Digipost with information about the outcome of your appeal."
         },
@@ -434,6 +442,7 @@
     },
     "KlageDokumenter": {
         "tittel": "Documents",
+        "fristUtlopt": "The deadline for submitting more documentation for your appeal has passed. Contact your Nav office if you have more documentation that may be relevant but cannot submit it here.",
         "klagePdfDefaultTittel": "Appeal against decision regarding financial assistance.pdf",
         "ettersendelseDefaultTittel": "Unknown filename",
         "visFlereDokumenter": "documents"
@@ -441,24 +450,26 @@
     "KlageProsessenVidere": {
         "tittel": "What happens next?",
         "steg1": {
-            "tittel": "Your appeal has been submitted",
-            "beskrivelse": "Your appeal has been sent to {navKontor}, which will process it as quickly as possible.",
-            "beskrivelseUtenKontor": "Your appeal has been sent to your Nav office, which will process it as quickly as possible."
+            "tittel": "Your appeal has been sent",
+            "beskrivelse": "The appeal has been sent to the Nav office that processed your application."
         },
         "steg2": {
-            "tittel": "The Nav office will process your appeal",
-            "beskrivelse": "The Nav office will process your appeal as quickly as possible. If more than one month has passed since you appealed, you will receive a letter saying that the processing time has been extended."
+            "tittel": "Your appeal is being processed",
+            "beskrivelse": "Your appeal will be processed as soon as possible, usually within 4 weeks.",
+            "flereOpplysninger": "If the Nav office needs more information to process the appeal, they will contact you."
         },
         "steg3": {
-            "tittel": "You will receive a decision",
-            "beskrivelse": "There are generally two possible outcomes to an appeal: Your appeal will either be upheld and you will receive a new decision granting support, or it will not be upheld and you will receive a new decision explaining the refusal.",
-            "lesMer": {
-                "tittel": "Read more about possible outcomes",
-                "innhold": {
-                    "medhold": "<b>If the Nav office rules in your favour</b> (they have reassessed your case and agree with you), you will receive a new decision with information about what will be covered. The information on My page - Financial assistance will be updated with the new, current decision.",
-                    "ikkeMedhold": "<b>If the Nav office does not rule in your favour</b>, your appeal will be forwarded to the County Governor (Statsforvalteren). They will either agree with you, in which case the Nav office must process your application again and you will receive a new decision, or disagree with you and send you a letter explaining the reasons for the rejection."
-                }
-            }
+            "tittel": "You will receive a response to your appeal",
+            "beskrivelse": "When the appeal has been processed, you will receive a response by letter or Digipost.",
+            "medhold": "<b>If the Nav office agrees with your appeal</b> (your appeal is <i>upheld</i>), the original decision will be changed.",
+            "ikkeMedhold": "<b>If the Nav office does not agree with your appeal</b> (your appeal is <i>not upheld</i>), it will be forwarded to the County Governor (Statsforvalteren), who will review it again."
+        },
+        "lesMer": {
+            "tittel": "Read more about how the County Governor handles appeals",
+            "avsnitt1": "The County Governor represents the state in the county and ensures that laws and national decisions are followed throughout the country.",
+            "avsnitt2": "The County Governor will either agree or disagree with the Nav office's assessment. When they have processed your appeal, you will receive the final outcome by letter or Digipost.",
+            "uenigTittel": "If you still disagree",
+            "uenigTekst": "Once the County Governor has decided an appeal, the ordinary appeal process is over. If you still believe the decision is wrong, you can <lenke>complain to the Parliamentary Ombud</lenke> or take the case to court."
         }
     },
     "StegKvittering": {
@@ -476,6 +487,7 @@
         }
     },
     "KlageForm": {
+        "forlatSiden": "If you leave this page, you will lose the contents of your appeal. Do you want to leave?",
         "bakgrunn": {
             "label": "Why do you disagree with the decision?",
             "beskrivelse": "Explain why you disagree with the decision and what you want changed."
@@ -507,6 +519,10 @@
         "ingenVedlegg": "No attachments",
         "ingenBegrunnelse": "No explanation provided",
         "ikkeTilgjengelig": "Complaints are not available for this application.",
+        "klagefristUtlopt": {
+            "tittel": "The deadline for complaints has passed",
+            "beskrivelse": "The ordinary 4-week appeal deadline has passed. <navKontorLenke>Contact your local Nav office</navKontorLenke> if you had a good reason for missing the deadline but still wish to appeal the decision. <klagerettigheterLenke>Read about your appeal rights.</klagerettigheterLenke>"
+        },
         "sendingFeilet": "Failed to send the complaint. Please try again later or contact your local NAV office.",
         "oppsummering": {
             "guide": "Check that everything is correct before submitting your appeal. If you want to change your explanation or add more documentation, you can go back to the previous page.",
@@ -520,10 +536,10 @@
         }
     },
     "ForkastKlageModal": {
-        "overskrift": "Are you sure you want to discard the complaint?",
-        "beskrivelse": "Your complaint and attachments will not be saved.",
-        "bekreft": "Yes, discard the complaint",
-        "avbryt": "Cancel"
+        "overskrift": "Are you sure you want to cancel?",
+        "beskrivelse": "If you cancel, your complaint and all its content will be deleted. This includes the explanation you have written and any attachments you have uploaded.",
+        "bekreft": "Yes, cancel and delete the complaint",
+        "behold": "Keep the complaint"
     },
     "Breadcrumbs": {
         "MinSide": "My page",
@@ -801,5 +817,8 @@
             "tittel": "Other documentation",
             "tilleggsinfo": ""
         }
+    },
+    "KlageTag": {
+        "tittel": "You have appealed"
     }
 }

@@ -8,7 +8,6 @@ import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import UnderUtviklingInfo from "./_components/UnderUtviklingInfo";
 import KlageDokumentasjon from "./_components/KlageDokumentasjon";
 import ProsessenVidere from "@components/klage/ProsessenVidere";
-import { hentSakForVedtak } from "@generated/ssr";
 import Snarveier from "@components/snarveier/Snarveier";
 
 const Page = async ({
@@ -24,8 +23,6 @@ const Page = async ({
     const { id: fiksDigisosId, klageId } = await params;
 
     const klage = await hentKlage(fiksDigisosId, klageId);
-    // TODO: Burde denne være inkludert i klage over?
-    const paaklagetSak = await hentSakForVedtak(klage.digisosId, klage.vedtakId);
 
     return (
         <>
@@ -59,8 +56,9 @@ const Page = async ({
                     klagePdf={klage.klagePdf}
                     opplastedeVedlegg={klage.opplastedeVedlegg}
                     ettersendelser={klage.ettersendelser}
+                    timestampSendt={klage.timestampSendt}
                 />
-                <ProsessenVidere navKontor={paaklagetSak.navEnhetNavn} />
+                <ProsessenVidere />
                 <Snarveier hideSokButton>
                     <li>
                         <DigisosLinkCard href={`/soknad/${fiksDigisosId}`} icon={<ArrowRedoIcon aria-hidden />}>

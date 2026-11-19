@@ -2,7 +2,7 @@
 
 import { ArrowLeftIcon, PaperplaneIcon } from "@navikt/aksel-icons";
 import { BodyShort, Button, FormSummary, GuidePanel, HStack, Link, LocalAlert, VStack } from "@navikt/ds-react";
-import { useFormatter, useTranslations } from "next-intl";
+import { useFormatter, useLocale, useTranslations } from "next-intl";
 import { parseISO } from "date-fns";
 import { UploadState } from "@components/filopplasting/api/useDocumentState";
 import { FormValues } from "../KlageForm";
@@ -13,6 +13,7 @@ interface Props {
     isLoading: boolean;
     isError: boolean;
     ikkeTilgjengelig?: boolean;
+    klagefristUtlopt?: boolean;
     onTilbake: () => void;
     formValues: FormValues;
     uploads: UploadState[];
@@ -29,12 +30,15 @@ const StegOppsummering = ({
     isLoading,
     isError,
     ikkeTilgjengelig = false,
+    klagefristUtlopt = false,
     onTilbake,
     formValues,
     uploads,
     otherInfo,
 }: Props) => {
     const t = useTranslations("KlageForm");
+    const locale = useLocale();
+    const localeSuffix = locale === "nb" ? "" : `/${locale}`;
     const format = useFormatter();
     const formatDate = (date: string) =>
         format.dateTime(parseISO(date), { day: "numeric", month: "long", year: "numeric" });
@@ -73,6 +77,8 @@ const StegOppsummering = ({
                                     {uploads.map((upload) => (
                                         <li key={upload.id}>
                                             <Link
+                                                rel="noopener noreferrer"
+                                                target="_blank"
                                                 href={`${browserEnv.NEXT_PUBLIC_BASE_PATH}/api/upload-api${upload.url}`}
                                             >
                                                 {upload.finalFilename ?? upload.originalFilename}
@@ -136,6 +142,27 @@ const StegOppsummering = ({
                         <LocalAlert.Header>
                             <LocalAlert.Title as="h2">{t("ikkeTilgjengelig")}</LocalAlert.Title>
                         </LocalAlert.Header>
+                    </LocalAlert>
+                )}
+                {klagefristUtlopt && (
+                    <LocalAlert status="warning">
+                        <LocalAlert.Header>
+                            <LocalAlert.Title as="h2">{t("klagefristUtlopt.tittel")}</LocalAlert.Title>
+                        </LocalAlert.Header>
+                        <LocalAlert.Content>
+                            {t.rich("klagefristUtlopt.beskrivelse", {
+                                navKontorLenke: (chunks) => (
+                                    <Link href={`https://www.nav.no/finn-nav-kontor${localeSuffix}`} inlineText>
+                                        {chunks}
+                                    </Link>
+                                ),
+                                klagerettigheterLenke: (chunks) => (
+                                    <Link href={`https://www.nav.no/klagerettigheter${localeSuffix}`} inlineText>
+                                        {chunks}
+                                    </Link>
+                                ),
+                            })}
+                        </LocalAlert.Content>
                     </LocalAlert>
                 )}
                 {isError && (

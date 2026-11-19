@@ -478,6 +478,7 @@
                                             { "$ref": "#/components/schemas/DokumentasjonKrav" },
                                             { "$ref": "#/components/schemas/EtterspurtDokumentasjon" },
                                             { "$ref": "#/components/schemas/ForelopigSvarHendelse" },
+                                            { "$ref": "#/components/schemas/KlageSendt" },
                                             { "$ref": "#/components/schemas/LevertEtterspurtDokumentasjon" },
                                             { "$ref": "#/components/schemas/Mottatt" },
                                             { "$ref": "#/components/schemas/SakFerdigBehandlet" },
@@ -821,7 +822,8 @@
                             "ETTERSPOR_IKKE_MER_DOKUMENTASJON",
                             "DOKUMENTASJONKRAV",
                             "SOKNAD_SEND_TIL_KONTOR_LENKETEKST",
-                            "VIS_BREVET_LENKETEKST"
+                            "VIS_BREVET_LENKETEKST",
+                            "KLAGE_SENDT"
                         ]
                     },
                     "link": { "type": "string" }
@@ -904,9 +906,11 @@
                 "type": "object",
                 "properties": {
                     "klageId": { "type": "string", "format": "uuid" },
-                    "vedtakId": { "type": "string", "format": "uuid" }
+                    "vedtakId": { "type": "string", "format": "uuid" },
+                    "fiksDigisosId": { "type": "string", "format": "uuid" },
+                    "timestampSendt": { "type": ["integer", "null"], "format": "int64" }
                 },
-                "required": ["klageId", "vedtakId"]
+                "required": ["fiksDigisosId", "klageId", "vedtakId"]
             },
             "KlageTilgjengeligDto": {
                 "type": "object",
@@ -966,7 +970,8 @@
                         "Videresendt": "#/components/schemas/Videresendt",
                         "SoknadKanIkkeViseStatus": "#/components/schemas/SoknadKanIkkeViseStatus",
                         "SakKanIkkeViseStatus": "#/components/schemas/SakKanIkkeViseStatus",
-                        "UtbetalingerOppdatert": "#/components/schemas/UtbetalingerOppdatert"
+                        "UtbetalingerOppdatert": "#/components/schemas/UtbetalingerOppdatert",
+                        "KlageSendt": "#/components/schemas/KlageSendt"
                     }
                 },
                 "properties": {
@@ -975,6 +980,7 @@
                 },
                 "required": ["tidspunkt", "type"]
             },
+            "KlageSendt": { "allOf": [{ "$ref": "#/components/schemas/HendelseDto" }], "required": ["tidspunkt"] },
             "LevertEtterspurtDokumentasjon": {
                 "allOf": [
                     { "$ref": "#/components/schemas/HendelseDto" },
@@ -1109,9 +1115,10 @@
                     "sistOppdatert": { "type": "string", "format": "date-time" },
                     "kommunenummer": { "type": ["string", "null"] },
                     "soknadOpprettet": { "type": ["string", "null"], "format": "date-time" },
-                    "isPapirSoknad": { "type": "boolean" }
+                    "isPapirSoknad": { "type": "boolean" },
+                    "hasKlage": { "type": "boolean" }
                 },
-                "required": ["fiksDigisosId", "isPapirSoknad", "sistOppdatert", "soknadTittel"]
+                "required": ["fiksDigisosId", "hasKlage", "isPapirSoknad", "sistOppdatert", "soknadTittel"]
             },
             "ForelopigSvar": {
                 "type": "object",

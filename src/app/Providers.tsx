@@ -12,6 +12,7 @@ import { TilgangResponse } from "@generated/model";
 import TilgangskontrollsideApp from "@components/Tilgangskontrollside/Tilgangskontrollside";
 import { getQueryClient } from "@api/queryClient";
 import { isSupportedLocale } from "@i18n/common";
+import { NavigationGuardProvider } from "next-navigation-guard";
 
 initInstrumentation();
 configureLogger({
@@ -28,6 +29,16 @@ interface Props {
 }
 
 const Providers = ({ togglesPromise, tilgang, children }: PropsWithChildren<Props>) => {
+    return (
+        <NavigationGuardProvider>
+            <AppProviders togglesPromise={togglesPromise} tilgang={tilgang}>
+                {children}
+            </AppProviders>
+        </NavigationGuardProvider>
+    );
+};
+
+const AppProviders = ({ togglesPromise, tilgang, children }: PropsWithChildren<Props>) => {
     const harTilgang = use(tilgang);
     const toggles = use(togglesPromise);
     const router = useRouter();

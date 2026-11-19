@@ -144,14 +144,17 @@
         "description": "Denne saka er under behandling. Når saka er ferdigbehandla og du har fått eit vedtak, vil det visast her."
     },
     "KlageInfo": {
-        "seKlage": "Se din innsendte klage",
+        "duHarKlaget": "Du har klaga på dette vedtaket.",
         "papirklage": {
-            "tittel": "Usamd i vedtaket",
-            "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <klageinfo>Les meir om klagerettane dine</klageinfo>. Fristen for å klage er tre uker etter vedtaksdato. For å klage kan du <klageskjema>skrive ut eit klageskjema (pdf)</klageskjema> som du kan sende som dokumentasjon til søknaden din."
+            "beskrivelse": "Dersom du er usamd i vedtaket, har du rett til å klage. <klageinfo>Les meir om klagerettane dine og korleis du klagar</klageinfo>."
         },
         "beskrivelse": "Dersom du er usamd i vedtaket har du rett til å klage. <klageinfo>Les om klagerettane dine.</klageinfo>",
         "klageKnapp": "Klag på vedtaket",
-        "klagefrist": "Du kan klage frem til {dato, date, ::ddMMyyyy}"
+        "ettersendKnapp": "Sjå klaga og ettersend dokumentasjon",
+        "seKlagen": "Sjå klaga di",
+        "klagefristUtlopt": "Klagefristen har gått ut. <navKontorLenke>Kontakt Nav-kontoret</navKontorLenke> ditt dersom du ikkje rakk å klage innan fristen, men framleis ønskjer å klage på vedtaket. <klagerettigheterLenke>Les meir om klagerettane dine.</klagerettigheterLenke>",
+        "klagefrist": "Du kan klage fram til {dato, date, ::ddMMyyyy}",
+        "ettersendelsefrist": "Du kan sende inn fram til <strong>{dato}</strong>."
     },
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
@@ -169,6 +172,9 @@
     },
     "History": {
         "suffix": "steg",
+        "KlageSendtEvent": {
+            "tittel": "Du klaga på eit vedtak"
+        },
         "UtbetalingerOppdatertEvent": {
             "tittel": "Dine utbetalingar har blitt oppdaterte",
             "beskrivelse": "Sjå dine utbetalingar"
@@ -270,8 +276,10 @@
     "Filopplasting": {
         "tittel": "Har du meir dokumentasjon du vil sende inn?",
         "passivTittel": "Vedlagd dokumentasjon",
-        "beskrivelse": "Om du har fleire opplysningar som kan vere relevante for søknaden din, kan dei sendast inn her.",
-        "opplastedeVedlegg": "Dokumenta"
+        "beskrivelse": "Om du har fleire opplysningar som kan vere relevante for søknaden din, kan dei sendast inn her."
+    },
+    "DokumentListe": {
+        "tittel": "Dokumenta"
     },
     "VedleggListe": {
         "lastetOpp": "lasta opp {dato, date, ::ddMMyyyy}",
@@ -413,7 +421,7 @@
         "sendt": "Sendt {dato, date, ::ddMMyyyy}",
         "beskrivelse": "Sjå den innsendte klaga di på vedtak om økonomisk sosialhjelp.",
         "underUtviklingInfo": {
-            "tittel": "Denne sida er under arbeid",
+            "tittel": "Svar på klaga vil ikkje visast på denne sida",
             "beskrivelse1": "Digital klage for sosialhjelp er under arbeid, og i første versjon vil ikkje denne sida vise status eller oppdateringar.",
             "beskrivelse2": "Når klaga er ferdigbehandla vil du få eit brev i posten eller Digipost med informasjon om utfallet av klagesaka di."
         },
@@ -433,6 +441,7 @@
     },
     "KlageDokumenter": {
         "tittel": "Dokumenter",
+        "fristUtlopt": "Fristen for å sende inn meir dokumentasjon til klaga di har gått ut. Ta kontakt med Nav-kontoret ditt dersom du har meir dokumentasjon som kan vere relevant, men ikkje får sendt han her.",
         "klagePdfDefaultTittel": "Klage på vedtak om økonomisk sosialhjelp.pdf",
         "ettersendelseDefaultTittel": "Ukjend filnavn",
         "visFlereDokumenter": "dokument"
@@ -440,24 +449,26 @@
     "KlageProsessenVidere": {
         "tittel": "Kva skjer vidare?",
         "steg1": {
-            "tittel": "Klaga di er sendt",
-            "beskrivelse": "Klaga di er sendt til {navKontor}, som vil behandle henne så raskt dei kan.",
-            "beskrivelseUtenKontor": "Klaga di er sendt til Nav-kontoret ditt, som vil behandle henne så raskt dei kan."
+            "tittel": "Klaga di er send",
+            "beskrivelse": "Klaga er send til Nav-kontoret som behandla søknaden din."
         },
         "steg2": {
-            "tittel": "Nav-kontoret vil behandle klaga",
-            "beskrivelse": "Nav-kontoret vil behandle klaga di så raskt dei kan. Dersom det har gått meir enn ein månad sidan du klaga, skal du få eit brev om at saksbehandlingstida er forlenga."
+            "tittel": "Klaga di blir behandla",
+            "beskrivelse": "Klaga di vil bli behandla så fort som mogleg, vanlegvis innan 4 veker.",
+            "flereOpplysninger": "Viss Nav-kontoret treng fleire opplysingar for å behandle klaga, tek dei kontakt med deg."
         },
         "steg3": {
-            "tittel": "Du vil få eit vedtak",
-            "beskrivelse": "I hovudsak er det to moglege utfall av ei klage: Du vil anten få medhald med eit nytt vedtak om innvilga støtte, eller ikkje medhald med eit nytt vedtak som grunngir avslaget.",
-            "lesMer": {
-                "tittel": "Les meir om moglege utfall",
-                "innhold": {
-                    "medhold": "<b>Viss Nav-kontoret gir deg medhald i klaga di</b> (dei har vurdert saka di på nytt og er einige med deg), får du eit nytt vedtak med informasjon om kva som blir dekt. Informasjonen på Min side - Økonomisk sosialhjelp blir oppdatert med det nye og gjeldande vedtaket.",
-                    "ikkeMedhold": "<b>Viss Nav-kontoret ikkje gir deg medhald</b>, blir klaga send vidare til Statsforvaltaren. Dei vil anten vere einige med deg, slik at Nav-kontoret må behandle søknaden din på nytt og du får eit nytt vedtak, eller vere usamde med deg og sende deg eit brev med grunngiving for avslaget."
-                }
-            }
+            "tittel": "Du får svar på klaga",
+            "beskrivelse": "Når klaga er ferdigbehandla, vil du få svar via brev eller Digipost.",
+            "medhold": "<b>Viss Nav-kontoret er samde i klaga di</b> (du får <i>medhald</i>), vil det opphavlege vedtaket bli endra.",
+            "ikkeMedhold": "<b>Viss Nav-kontoret ikkje er samde i klaga di</b> (du får <i>ikkje medhald</i>), vil klaga bli send vidare til Statsforvaltaren, som behandlar klaga på nytt."
+        },
+        "lesMer": {
+            "tittel": "Les meir om klagebehandling hos Statsforvaltaren",
+            "avsnitt1": "Statsforvaltaren er representanten til staten i fylket og skal sikre at lover og nasjonale vedtak blir følgde i heile landet.",
+            "avsnitt2": "Statsforvaltaren vil anten vere samd eller usamd i vurderinga til Nav-kontoret. Når dei har behandla klaga di, vil du få svar om endeleg utfall via brev eller Digipost.",
+            "uenigTittel": "Viss du framleis er usamd",
+            "uenigTekst": "Når Statsforvaltaren har avgjort ei klagesak, er den ordinære klageprosessen avslutta. Viss du framleis meiner at vedtaket er feil, kan du <lenke>klage til Sivilombodet</lenke> eller bringe saka inn for retten."
         }
     },
     "StegKvittering": {
@@ -475,6 +486,7 @@
         }
     },
     "KlageForm": {
+        "forlatSiden": "Dersom du forlèt sida, mistar du innhaldet i klaga. Vil du forlate sida?",
         "bakgrunn": {
             "label": "Kvifor er du usamd i vedtaket?",
             "beskrivelse": "Oppgi kvifor du er usamd i vedtaket, og kva du ønskjer endra."
@@ -506,6 +518,10 @@
         "ingenVedlegg": "Ingen vedlegg",
         "ingenBegrunnelse": "Inga grunngiving oppgitt",
         "ikkeTilgjengelig": "Klage er ikkje tilgjengeleg for denne søknaden.",
+        "klagefristUtlopt": {
+            "tittel": "Klagefristen har gått ut",
+            "beskrivelse": "Den ordinære klagefristen på 4 veker har gått ut. <navKontorLenke>Kontakt Nav-kontoret ditt</navKontorLenke> dersom du av god grunn ikkje rakk å klage innan fristen, men framleis ønskjer å klage på vedtaket. <klagerettigheterLenke>Les om klagerettane dine.</klagerettigheterLenke>"
+        },
         "sendingFeilet": "Sending av klaga feila. Prøv igjen seinare eller ta kontakt med ditt lokale NAV-kontor.",
         "oppsummering": {
             "guide": "Sjå over at alt er riktig før du sender inn klaga. Viss du vil endre grunngivinga di eller leggje til meir dokumentasjon, kan du gå tilbake til førre side.",
@@ -519,10 +535,10 @@
         }
     },
     "ForkastKlageModal": {
-        "overskrift": "Er du sikker på at du vil forkaste klaga?",
-        "beskrivelse": "Dine kommentarar eller vedlegg vil ikkje bli lagra.",
-        "bekreft": "Ja, forkast klaga",
-        "avbryt": "Avbryt"
+        "overskrift": "Er du sikker på at du vil avbryte?",
+        "beskrivelse": "Når du avbryt, blir klaga di og alt innhald sletta. Dette gjeld også grunngivinga du har skrive og vedlegg du har lasta opp.",
+        "bekreft": "Ja, avbryt og slett klaga",
+        "behold": "Behald klaga"
     },
     "Breadcrumbs": {
         "MinSide": "Min side",
@@ -815,5 +831,8 @@
             "tittel": "Anna dokumentasjon",
             "tilleggsinfo": ""
         }
+    },
+    "KlageTag": {
+        "tittel": "Du har klaga"
     }
 }

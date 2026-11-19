@@ -17,7 +17,7 @@ const SakBlokk = ({ sak, klager, index }: Props) => {
     const vedtak = sortVedtak(sak.vedtak);
 
     return (
-        <VStack gap="space-4">
+        <VStack gap="space-8">
             <Heading id={headingId} size="medium" level="2" lang="no">
                 {sak.tittel}
             </Heading>

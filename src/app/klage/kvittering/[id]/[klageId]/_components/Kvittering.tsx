@@ -10,12 +10,11 @@ import ProsessenVidere from "@components/klage/ProsessenVidere";
 
 interface Props {
     klagePdf: VedleggResponse;
-    navKontor?: string | null;
     fiksDigisosId: string;
     klageId: string;
 }
 
-const Kvittering = ({ klagePdf, navKontor, fiksDigisosId, klageId }: Props) => {
+const Kvittering = ({ klagePdf, fiksDigisosId, klageId }: Props) => {
     const t = useTranslations("StegKvittering");
     const locale = useLocale();
     const localeSuffix = locale === "nb" ? "" : `/${locale}`;
@@ -50,7 +49,7 @@ const Kvittering = ({ klagePdf, navKontor, fiksDigisosId, klageId }: Props) => {
             >
                 {t("apneKlagen")}
             </DigisosLinkCard>
-            <ProsessenVidere navKontor={navKontor} />
+            <ProsessenVidere />
             <Snarveier hideSokButton>
                 <li>
                     <DigisosLinkCard href={`/soknad/${fiksDigisosId}`} icon={<ArrowRedoIcon aria-hidden />}>

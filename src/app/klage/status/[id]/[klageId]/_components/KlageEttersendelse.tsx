@@ -1,11 +1,8 @@
 "use client";
 
-import { Button, VStack } from "@navikt/ds-react";
-import { PaperplaneIcon } from "@navikt/aksel-icons";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import FileSelectNew from "@components/filopplasting/FileSelectNew";
-import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
+import OpplastingsboksContent from "@components/filopplasting/OpplastingsboksContent";
 import { useDocumentState } from "@components/filopplasting/api/useDocumentState";
 import useSendKlageEttersendelseTus from "@components/filopplasting/api/useSendKlageEttersendelseTus";
 import { umamiCustomTrack } from "../../../../../umami";
@@ -18,7 +15,6 @@ interface Props {
 
 const KlageEttersendelse = ({ fiksDigisosId, klageId, contextId }: Props) => {
     const t = useTranslations("KlagePage.ettersendelse");
-    const tUpload = useTranslations("Opplastingsboks");
     const [navEksternRefId, setNavEksternRefId] = useState(() => crypto.randomUUID());
     const { state: docState, resetState, addUploads, removeUpload, hasFiles, canSubmit } = useDocumentState(contextId);
     const { upload, resetMutation, isPending, isUploadSuccess, error } = useSendKlageEttersendelseTus(
@@ -38,14 +34,14 @@ const KlageEttersendelse = ({ fiksDigisosId, klageId, contextId }: Props) => {
     );
 
     return (
-        <VStack gap="space-16">
-            <FileSelectNew
-                label={t("opplastingTittel")}
-                description={t("opplastingBeskrivelse")}
-                docState={docState}
-                contextId={contextId}
-                target={{ type: "klage", klageId, navEksternRefId }}
-                onSelect={(files) => {
+        <OpplastingsboksContent
+            fileSelectProps={{
+                label: t("opplastingTittel"),
+                description: t("opplastingBeskrivelse"),
+                docState,
+                contextId,
+                target: { type: "klage", klageId, navEksternRefId },
+                onSelect: (files) => {
                     if (!isPending) {
                         resetMutation();
                     }
@@ -55,35 +51,18 @@ const KlageEttersendelse = ({ fiksDigisosId, klageId, contextId }: Props) => {
                         digisosId: fiksDigisosId,
                         antallDokumenter: files.length,
                     });
-                }}
-                onUploadsAdded={addUploads}
-                onUploadRemoved={removeUpload}
-                isPending={isPending}
-                headingLevel="3"
-            />
-            {error && (
-                <InlineStatusMessage variant="error" padding="large" fullWidth role="alert">
-                    {tUpload("error")}
-                </InlineStatusMessage>
-            )}
-            {hasFiles && (
-                <Button
-                    onClick={() => upload(docState.submissionId!)}
-                    loading={isPending}
-                    className="self-start"
-                    disabled={!canSubmit || isPending}
-                    icon={<PaperplaneIcon aria-hidden />}
-                    iconPosition="right"
-                >
-                    {tUpload("sendInn")}
-                </Button>
-            )}
-            {isUploadSuccess && (
-                <InlineStatusMessage variant="success" padding="large" role="status">
-                    {tUpload("suksess")}
-                </InlineStatusMessage>
-            )}
-        </VStack>
+                },
+                onUploadsAdded: addUploads,
+                onUploadRemoved: removeUpload,
+                isPending,
+            }}
+            hasFiles={hasFiles}
+            canSubmit={canSubmit}
+            isUploadSuccess={isUploadSuccess}
+            error={error}
+            onSubmit={() => upload(docState.submissionId!)}
+            resetMutation={resetMutation}
+        />
     );
 };
 
