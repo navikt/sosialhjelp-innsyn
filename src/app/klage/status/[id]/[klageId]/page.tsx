@@ -38,7 +38,7 @@ const Page = async ({
                     <Heading size="xlarge" level="1">
                         {t("tittel")}
                     </Heading>
-                    <Tag variant="neutral">{t("sendt", { dato: new Date(klage.timestampSendt) })}</Tag>
+                    <Tag variant="moderate">{t("sendt", { dato: new Date(klage.timestampSendt) })}</Tag>
                 </VStack>
                 <UnderUtviklingInfo />
                 <DigisosLinkCard
