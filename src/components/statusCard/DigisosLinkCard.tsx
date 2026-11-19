@@ -79,7 +79,7 @@ const DigisosLinkCard = (
                     <Link
                         href={href}
                         ref={ref}
-                        className={cx("min-w-0 flex-1 break-all whitespace-normal", className)}
+                        className={cx("min-w-0 flex-1 break-normal whitespace-normal", className)}
                         {...dataAttrs}
                         {...(openInNewTab ? { rel: "noopener noreferrer", target: "_blank" } : {})}
                         {...(ariaLabel ? { "aria-label": ariaLabel } : {})}
