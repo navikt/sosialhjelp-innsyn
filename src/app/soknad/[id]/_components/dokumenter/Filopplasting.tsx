@@ -10,6 +10,7 @@ import { useHentOriginalSoknadSuspense } from "@generated/soknads-status-control
 import { useHentSaksStatuserSuspense } from "@generated/saks-status-controller/saks-status-controller";
 import { SoknadsStatusResponseStatus } from "@generated/model";
 import FilopplastingSection from "@components/filopplasting/FilopplastingSection";
+import { useUploadMode } from "@components/filopplasting/useUploadMode";
 import DokumentListe from "@components/filopplasting/DokumentListe";
 
 const metadata = { dokumentKontekst: "ettersendelse", type: "annet", tilleggsinfo: "annet" } satisfies Metadata;
@@ -21,6 +22,7 @@ interface Props {
 
 const Filopplasting = ({ id, soknadStatus }: Props) => {
     const t = useTranslations("Filopplasting");
+    const mode = useUploadMode();
     const { data: vedlegg } = useHentVedleggSuspense(id);
     const { data: originalSoknad } = useHentOriginalSoknadSuspense(id);
     const { data: saker } = useHentSaksStatuserSuspense(id);
@@ -51,7 +53,14 @@ const Filopplasting = ({ id, soknadStatus }: Props) => {
 
     return (
         <FilopplastingSection
-            upload={<OpplastingsboksTus metadata={metadata} uploadContextId={id} description={t("beskrivelse")} />}
+            upload={
+                <OpplastingsboksTus
+                    metadata={metadata}
+                    uploadContextId={id}
+                    description={t("beskrivelse")}
+                    mode={mode}
+                />
+            }
             vedlegg={vedlegg}
             originalSoknad={originalSoknad}
         />

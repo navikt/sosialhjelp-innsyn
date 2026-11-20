@@ -14,6 +14,7 @@ interface Props {
     status: UploadStatus;
     size?: number;
     showCancelButton?: boolean;
+    onRetry?: () => void;
     onDelete: (button: HTMLButtonElement) => Promise<void>;
     deleteDisabled?: boolean;
 }
@@ -37,6 +38,7 @@ const FileUploadItem = ({
     size,
     showCancelButton,
     onDelete,
+    onRetry,
     deleteDisabled,
     isConverted,
 }: Props) => {
@@ -49,17 +51,28 @@ const FileUploadItem = ({
     // Ikke Aksel loading-prop: den setter disabled, og da mister knappen fokus.
     const isBusy = isPending;
 
-    const isUploading = !url && !validations && status !== "FAILED" && status !== "COMPLETE" && !showCancelButton;
+    const isUploading =
+        !url &&
+        !validations &&
+        status !== "FAILED" &&
+        status !== "RETRYABLE_FAILED" &&
+        status !== "COMPLETE" &&
+        !showCancelButton;
     const uploadStatus = isUploading ? "uploading" : "idle";
     return (
         <>
             <FileUpload.Item
-                file={{ name: convertedFilename ?? originalFilename, size }}
+                file={{ name: convertedFilename ?? originalFilename ?? "", size }}
                 as="li"
                 status={uploadStatus}
                 button={
                     <HStack align="center" gap="space-4">
                         {showCancelButton && <Loader />}
+                        {status === "RETRYABLE_FAILED" && onRetry && (
+                            <Button variant="tertiary" size="small" type="button" onClick={onRetry}>
+                                {t("retry")}
+                            </Button>
+                        )}
                         <Button
                             variant="tertiary"
                             data-color="neutral"
@@ -89,7 +102,7 @@ const FileUploadItem = ({
                 error={
                     validations?.length
                         ? t(`validation.${validations[0]}`)
-                        : status === "FAILED"
+                        : status === "FAILED" || status === "RETRYABLE_FAILED"
                           ? t("uploadFailed")
                           : undefined
                 }

@@ -4,13 +4,14 @@ import { useTranslations } from "next-intl";
 import { FileObject, FileUpload, Heading, VStack } from "@navikt/ds-react";
 import InlineStatusMessage from "@components/filopplasting/InlineStatusMessage";
 import { ReactNode, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
-import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
+import { DocumentState, UploadMode, UploadState } from "@components/filopplasting/api/useDocumentState";
 
 import FileUploadItem from "./FileUploadItem";
 import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
 import { browserEnv } from "@config/env";
 import useSlowProcessingWarning from "@components/filopplasting/useSlowProcessingWarning";
 import { useDocumentUpload } from "./useDocumentUpload";
+import { useDocumentUploadSync } from "./useDocumentUploadSync";
 import { UploadTarget } from "./utils/tusUploader";
 
 // Venter til nettleseren har gitt fokus tilbake til «Velg filer» etter at filvelgeren lukkes.
@@ -32,6 +33,9 @@ interface Props {
     onSelect?: (files: FileObject[]) => void;
     onUploadsAdded: (uploads: UploadState[]) => void;
     onUploadRemoved: (correlationId: string) => void;
+    mode?: UploadMode;
+    onUploadResult?: (correlationId: string, upload: UploadState, submissionId?: string) => void;
+    onForbidden?: () => void;
     variant?: "normal" | "warning";
     headingLevel?: "2" | "3";
 }
@@ -50,6 +54,9 @@ const FileSelectNew = ({
     onUploadRemoved,
     isPending,
     headingLevel,
+    mode = "tus",
+    onUploadResult,
+    onForbidden,
 }: Props) => {
     const t = useTranslations("Opplastingsboks");
     const statusId = useId();
@@ -58,13 +65,19 @@ const FileSelectNew = ({
     const [announcement, setAnnouncement] = useState<Announcement | null>(null);
     const selectTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-    const { startUpload, terminateUpload, folderDropError } = useDocumentUpload({
+    // Modus er fast for hele komponentens levetid, så begge hooks kalles alltid i samme rekkefølge.
+    const tusUpload = useDocumentUpload({ contextId, onUploadRemoved, onUploadsAdded, onSelect, target });
+    const syncUpload = useDocumentUploadSync({
         contextId,
         onUploadRemoved,
         onUploadsAdded,
+        onUploadResult: onUploadResult ?? (() => undefined),
+        onForbidden,
         onSelect,
         target,
     });
+    const { startUpload, terminateUpload, folderDropError } = mode === "sync" ? syncUpload : tusUpload;
+    const { retryUpload } = syncUpload;
 
     const hasPendingOrProcessing = docState.uploads?.some((u) => u.status === "PENDING" || u.status === "PROCESSING");
 
@@ -219,6 +232,11 @@ const FileSelectNew = ({
                                         (upload.status === "PENDING" || upload.status === "PROCESSING")
                                     }
                                     deleteDisabled={isPending}
+                                    onRetry={
+                                        mode === "sync" && upload.correlationId
+                                            ? () => retryUpload(upload.correlationId!)
+                                            : undefined
+                                    }
                                     onDelete={(button) => handleDelete(upload.id, upload.correlationId, button)}
                                 />
                             ))}

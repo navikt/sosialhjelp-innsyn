@@ -17,6 +17,7 @@
     "FileUploadItem": {
         "uploadFailed": "Upload failed. Please try again later.",
         "lasterOpp": "Uploading...",
+        "retry": "Try again",
         "cancel": "Cancel",
         "validation": {
             "ENCRYPTED_PDF": "The PDF is password protected and we cannot process it",
@@ -243,6 +244,8 @@
         "filLagtTil": "{count, plural, one {# file added} other {# files added}}",
         "konvertert": "One or more files were changed to another format (PDF) so that it can be submitted.",
         "mappeIkkeTillatt": "Folders cannot be uploaded. Please select individual files instead.",
+        "filesMissing": "Some files were not found. Please upload them again:",
+        "uploadsInProgress": "Uploads are in progress, wait a moment and try again",
         "processingWarning": "Upload may take some time. The upload will be cancelled automatically after 3 minutes.",
         "error": "An error occurred while uploading the files. Please try again.",
         "suksess": "Your documentation have been submitted.",

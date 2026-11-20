@@ -2,10 +2,10 @@
 
 import { useTranslations } from "next-intl";
 import { Alert, BodyLong, Heading, HStack, VStack } from "@navikt/ds-react";
-import { ReactNode, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 import { Metadata } from "@components/filopplasting/types";
-import { useDocumentState } from "@components/filopplasting/api/useDocumentState";
+import { UploadMode, useDocumentState } from "@components/filopplasting/api/useDocumentState";
 import useSendVedleggHelperTus from "@components/filopplasting/api/useSendVedleggHelperTus";
 import OpplastingsboksContent from "@components/filopplasting/OpplastingsboksContent";
 import VedleggListe from "@components/filopplasting/VedleggListe";
@@ -21,9 +21,19 @@ interface Props {
     completed?: boolean;
     uploadContextId: string;
     variant?: "normal" | "warning";
+    mode?: UploadMode;
 }
 
-const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uploadContextId, variant }: Props) => {
+const OpplastingsboksTus = ({
+    metadata,
+    label,
+    description,
+    tag,
+    completed,
+    uploadContextId,
+    variant,
+    mode = "tus",
+}: Props) => {
     const t = useTranslations("Opplastingsboks");
     const isMobile = useIsMobile();
     const { id: fiksDigisosId } = useParams<{ id: string }>();
@@ -37,7 +47,9 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
         removeUpload,
         hasFiles,
         canSubmit,
-    } = useDocumentState(uploadContextId);
+        uploadResult,
+        refresh,
+    } = useDocumentState(uploadContextId, { mode });
     const opplastingId = useRef<string | null>(null);
     const {
         upload,
@@ -56,7 +68,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
         },
         async () => {
             umamiCustomTrack("opplasting fullført", {
-                uploadVariant: "tus",
+                uploadVariant: mode === "sync" ? "sync" : "tus",
                 dokumentKontekst: metadata.dokumentKontekst,
                 digisosId: fiksDigisosId,
                 opplastingId: opplastingId.current,
@@ -66,6 +78,11 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
             resetState();
         }
     );
+
+    const filesMissing = !!mutationError && "errors" in mutationError && mutationError.errors.includes("FILES_MISSING");
+    useEffect(() => {
+        if (mode === "sync" && filesMissing) void refresh();
+    }, [mode, filesMissing, refresh]);
 
     if (completed) {
         return (
@@ -111,7 +128,7 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
                     if (!opplastingId.current) {
                         opplastingId.current = crypto.randomUUID();
                         umamiCustomTrack("opplasting startet", {
-                            uploadVariant: "tus",
+                            uploadVariant: mode === "sync" ? "sync" : "tus",
                             dokumentKontekst: metadata.dokumentKontekst,
                             digisosId: fiksDigisosId,
                             opplastingId: opplastingId.current,
@@ -124,6 +141,9 @@ const OpplastingsboksTus = ({ metadata, label, description, tag, completed, uplo
                 onUploadRemoved: removeUpload,
                 variant,
                 isPending,
+                mode,
+                onUploadResult: uploadResult,
+                onForbidden: resetState,
             }}
             hasFiles={hasFiles}
             canSubmit={canSubmit}

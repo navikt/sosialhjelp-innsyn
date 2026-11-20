@@ -1,6 +1,7 @@
 "use client";
 
 import { forwardRef, Ref } from "react";
+import { useUploadMode } from "@components/filopplasting/useUploadMode";
 import OpplastingsboksTus from "@components/filopplasting/OpplastingsboksTus";
 import { useVisningstekster } from "@hooks/useVisningstekster";
 import { Metadata } from "@components/filopplasting/types";
@@ -16,6 +17,7 @@ interface Props {
 
 const OppgaveItem = ({ oppgave }: Props, ref: Ref<HTMLLIElement>) => {
     const { id: fiksDigisosId } = useParams<{ id: string }>();
+    const mode = useUploadMode();
 
     const rawContextId = oppgave.hendelsereferanse
         ? `${fiksDigisosId}-${oppgave.hendelsereferanse}`
@@ -37,6 +39,7 @@ const OppgaveItem = ({ oppgave }: Props, ref: Ref<HTMLLIElement>) => {
         <TaskListItem ref={ref} variant={oppgave.erLastetOpp || !oppgave.erFraInnsyn ? "normal" : "warning"}>
             {contextId && (
                 <OpplastingsboksTus
+                    mode={mode}
                     uploadContextId={contextId}
                     completed={oppgave.erLastetOpp}
                     label={typeTekst}

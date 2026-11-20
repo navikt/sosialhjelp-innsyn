@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
 import { Metadata } from "../types";
-import { SubmissionError, submitUpload } from "./submitUpload";
+import { SubmissionErrorBody, submitUpload } from "./submitUpload";
 
 const useSendKlageEttersendelseTus = (
     fiksDigisosId: string,
@@ -12,7 +12,7 @@ const useSendKlageEttersendelseTus = (
 ) => {
     const router = useRouter();
 
-    const mutation = useMutation<void, { errors: SubmissionError[] } | Error, { submissionId: string }>({
+    const mutation = useMutation<void, SubmissionErrorBody | Error, { submissionId: string }>({
         mutationFn: ({ submissionId }) =>
             submitUpload({
                 submissionId,

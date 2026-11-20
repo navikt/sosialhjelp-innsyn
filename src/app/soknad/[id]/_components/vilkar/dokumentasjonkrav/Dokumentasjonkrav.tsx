@@ -1,5 +1,6 @@
 "use client";
 
+import { useUploadMode } from "@components/filopplasting/useUploadMode";
 import OpplastingsboksTus from "@components/filopplasting/OpplastingsboksTus";
 import TaskListItem from "../../tasklistitem/TaskListItem";
 import { DokumentasjonkravDto } from "@generated/model";
@@ -13,11 +14,13 @@ interface Props {
 
 const Dokumentasjonkrav = ({ dokKrav }: Props) => {
     const { id: fiksDigisosId } = useParams<{ id: string }>();
+    const mode = useUploadMode();
     const contextId = useContextId(`${fiksDigisosId}-${dokKrav.dokumentasjonkravId}`);
     return (
         <TaskListItem variant={dokKrav.erLastetOpp ? "normal" : "warning"}>
             {contextId && (
                 <OpplastingsboksTus
+                    mode={mode}
                     uploadContextId={contextId}
                     metadata={{
                         dokumentKontekst: "dokumentasjonkrav",

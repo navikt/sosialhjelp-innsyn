@@ -6,7 +6,7 @@ import {
     getGetOppgaverBetaQueryKey,
     GetOppgaverBetaQueryResult,
 } from "@generated/oppgave-controller-v-2/oppgave-controller-v-2";
-import { SubmissionError, submitUpload } from "./submitUpload";
+import { SubmissionErrorBody, submitUpload } from "./submitUpload";
 
 import { Metadata } from "../types";
 import { getQueryKeysForInvalidation } from "./queryKeys";
@@ -22,7 +22,7 @@ const useSendVedleggHelperTus = (metadata: Required<Metadata>, onSuccess: () => 
         error,
     } = useMutation<
         void,
-        { errors: SubmissionError[] } | Error,
+        SubmissionErrorBody | Error,
         {
             body: {
                 fiksDigisosId: string;

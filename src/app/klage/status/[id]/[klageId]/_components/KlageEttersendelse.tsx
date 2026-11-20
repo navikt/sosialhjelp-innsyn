@@ -1,8 +1,9 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OpplastingsboksContent from "@components/filopplasting/OpplastingsboksContent";
+import { useUploadMode } from "@components/filopplasting/useUploadMode";
 import { useDocumentState } from "@components/filopplasting/api/useDocumentState";
 import useSendKlageEttersendelseTus from "@components/filopplasting/api/useSendKlageEttersendelseTus";
 import { umamiCustomTrack } from "../../../../../umami";
@@ -16,7 +17,17 @@ interface Props {
 const KlageEttersendelse = ({ fiksDigisosId, klageId, contextId }: Props) => {
     const t = useTranslations("KlagePage.ettersendelse");
     const [navEksternRefId, setNavEksternRefId] = useState(() => crypto.randomUUID());
-    const { state: docState, resetState, addUploads, removeUpload, hasFiles, canSubmit } = useDocumentState(contextId);
+    const mode = useUploadMode();
+    const {
+        state: docState,
+        resetState,
+        addUploads,
+        removeUpload,
+        hasFiles,
+        canSubmit,
+        uploadResult,
+        refresh,
+    } = useDocumentState(contextId, { mode });
     const { upload, resetMutation, isPending, isUploadSuccess, error } = useSendKlageEttersendelseTus(
         fiksDigisosId,
         klageId,
@@ -26,12 +37,17 @@ const KlageEttersendelse = ({ fiksDigisosId, klageId, contextId }: Props) => {
         },
         () =>
             umamiCustomTrack("opplasting fullført", {
-                uploadVariant: "tus",
+                uploadVariant: mode,
                 dokumentKontekst: "klage-ettersendelse",
                 digisosId: fiksDigisosId,
                 antallDokumenter: docState.uploads?.length ?? 0,
             })
     );
+
+    const filesMissing = !!error && "errors" in error && error.errors.includes("FILES_MISSING");
+    useEffect(() => {
+        if (mode === "sync" && filesMissing) void refresh();
+    }, [mode, filesMissing, refresh]);
 
     return (
         <OpplastingsboksContent
@@ -46,7 +62,7 @@ const KlageEttersendelse = ({ fiksDigisosId, klageId, contextId }: Props) => {
                         resetMutation();
                     }
                     umamiCustomTrack("opplasting startet", {
-                        uploadVariant: "tus",
+                        uploadVariant: mode,
                         dokumentKontekst: "klage-ettersendelse",
                         digisosId: fiksDigisosId,
                         antallDokumenter: files.length,
@@ -55,6 +71,9 @@ const KlageEttersendelse = ({ fiksDigisosId, klageId, contextId }: Props) => {
                 onUploadsAdded: addUploads,
                 onUploadRemoved: removeUpload,
                 isPending,
+                mode,
+                onUploadResult: uploadResult,
+                onForbidden: resetState,
             }}
             hasFiles={hasFiles}
             canSubmit={canSubmit}

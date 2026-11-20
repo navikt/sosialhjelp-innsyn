@@ -17,6 +17,7 @@
     "FileUploadItem": {
         "uploadFailed": "Opplasting feilet. Prøv på nytt senere.",
         "lasterOpp": "Laster opp...",
+        "retry": "Prøv igjen",
         "cancel": "Avbryt",
         "validation": {
             "ENCRYPTED_PDF": "PDFen er passordbeskyttet og vi kan ikke behandle den",
@@ -256,6 +257,8 @@
         "filLagtTil": "{count, plural, one {# fil lagt til} other {# filer lagt til}}",
         "konvertert": "En eller flere filer ble endret til et annet format (PDF) slik at det kan sendes inn.",
         "mappeIkkeTillatt": "Mapper kan ikke lastes opp. Velg enkeltfiler i stedet.",
+        "filesMissing": "Noen filer ble ikke funnet hos oss. Last dem opp på nytt:",
+        "uploadsInProgress": "Opplastinger pågår, vent litt og prøv igjen",
         "processingWarning": "Opplasting kan ta litt tid. Opplastingen avbrytes automatisk etter 3 minutter.",
         "error": "Det oppstod en feil under opplastingen. Vennligst prøv igjen.",
         "suksess": "Dokumentasjonen din ble sendt inn.",

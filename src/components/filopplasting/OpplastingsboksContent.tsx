@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { ComponentProps } from "react";
 import useIsMobile from "@utils/useIsMobile";
 import FileSelectNew from "./FileSelectNew";
+import { SubmissionErrorBody } from "./api/submitUpload";
 import InlineStatusMessage from "./InlineStatusMessage";
 
 interface Props {
@@ -31,6 +32,9 @@ const OpplastingsboksContent = ({
     const tClose = useTranslations("FilePreviewModal");
     const isMobile = useIsMobile();
     const { isPending } = fileSelectProps;
+    const body = error && typeof error === "object" && "errors" in error ? (error as SubmissionErrorBody) : undefined;
+    const filesMissing = body?.errors.includes("FILES_MISSING") ?? false;
+    const inProgress = body?.errors.includes("UPLOADS_IN_PROGRESS") ?? false;
 
     return (
         <VStack gap="space-8">
@@ -38,7 +42,20 @@ const OpplastingsboksContent = ({
             {!!error && (
                 <InlineStatusMessage variant="error" padding="large" fullWidth role="alert">
                     <HStack justify="space-between" align="start" wrap={false}>
-                        <BodyLong>{t("error")}</BodyLong>
+                        {filesMissing ? (
+                            <VStack gap="space-8">
+                                <BodyLong>{t("filesMissing")}</BodyLong>
+                                <ul>
+                                    {body?.missing?.map((m) => (
+                                        <li key={m.uploadId}>{m.originalFilename}</li>
+                                    ))}
+                                </ul>
+                            </VStack>
+                        ) : inProgress ? (
+                            <BodyLong>{t("uploadsInProgress")}</BodyLong>
+                        ) : (
+                            <BodyLong>{t("error")}</BodyLong>
+                        )}
                         <Button
                             icon={<XMarkIcon aria-hidden />}
                             aria-label={tClose("lukk")}

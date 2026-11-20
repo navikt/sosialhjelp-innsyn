@@ -1,8 +1,11 @@
-import { useEffect, useReducer } from "react";
+import { useCallback, useEffect, useReducer } from "react";
+import { fetchSubmissionStatus, type SubmissionState } from "./fetchSubmissionStatus";
 import { eventstreamUrl, openEventChannel } from "@components/filopplasting/api/openEventChannel";
 import { useParams } from "next/navigation";
 
-export type UploadStatus = "PROCESSING" | "FAILED" | "COMPLETE" | "PENDING";
+export type UploadStatus = "PROCESSING" | "FAILED" | "COMPLETE" | "PENDING" | "RETRYABLE_FAILED";
+
+export type UploadMode = "tus" | "sync";
 
 export type UploadState = {
     originalFilename: string;
@@ -43,9 +46,11 @@ export type DocumentStateUpdate =
       }
     | { type: "clear" }
     | { type: "addUploads"; uploads: UploadState[] }
-    | { type: "removeUpload"; correlationId: string };
+    | { type: "removeUpload"; correlationId: string }
+    | { type: "uploadResult"; correlationId: string; upload: UploadState; submissionId?: string }
+    | { type: "refresh"; state: SubmissionState };
 
-const documentStateReducer = (state: DocumentState, payload: DocumentStateUpdate): DocumentState => {
+export const documentStateReducer = (state: DocumentState, payload: DocumentStateUpdate): DocumentState => {
     const { type } = payload;
     if (type === "update") {
         const { newState } = payload;
@@ -93,11 +98,38 @@ const documentStateReducer = (state: DocumentState, payload: DocumentStateUpdate
             uploads: (state.uploads ?? []).filter((u) => u.correlationId !== payload.correlationId),
         };
     }
+    if (type === "uploadResult") {
+        const { correlationId, upload, submissionId } = payload;
+        const existing = state.uploads ?? [];
+        return {
+            ...state,
+            submissionId: submissionId || state.submissionId,
+            uploads: existing.map((u) => (u.correlationId === correlationId ? upload : u)),
+        };
+    }
+    if (type === "refresh") {
+        const { state: server } = payload;
+        const serverUploads = server.uploads ?? [];
+        // Behold kun klientside-rader (uten filId) som serveren ikke kjenner til.
+        const clientOnly = (state.uploads ?? []).filter(
+            (u) =>
+                !u.filId &&
+                !serverUploads.some((s) => s.id === u.id || (!!s.correlationId && s.correlationId === u.correlationId))
+        );
+        return {
+            ...state,
+            submissionId: server.submissionId || state.submissionId,
+            error: server.error,
+            validations: server.validations ?? [],
+            uploads: [...serverUploads, ...clientOnly],
+        };
+    }
     throw new Error("Unsupported type");
 };
 
 export const useDocumentState = (
-    id: string
+    id: string,
+    { mode = "tus" }: { mode?: UploadMode } = {}
 ): {
     state: DocumentState;
     resetState: () => void;
@@ -108,6 +140,9 @@ export const useDocumentState = (
     allFilesUploaded: boolean;
     hasFormErrors: boolean;
     canSubmit: boolean;
+    pendingRequests: number;
+    uploadResult: (correlationId: string, upload: UploadState, submissionId?: string) => void;
+    refresh: () => Promise<void>;
 } => {
     const [state, dispatch] = useReducer(documentStateReducer, {});
     const { id: fiksDigisosId } = useParams<{ id: string }>();
@@ -124,15 +159,35 @@ export const useDocumentState = (
         dispatch({ type: "update", newState: payload });
     };
     useEffect(() => {
+        if (mode === "sync") return;
         return openEventChannel(eventstreamUrl(id, fiksDigisosId), onUpdate);
-    }, [id, fiksDigisosId]);
+    }, [id, fiksDigisosId, mode]);
+
+    const uploadResult = (correlationId: string, upload: UploadState, submissionId?: string) =>
+        dispatch({ type: "uploadResult", correlationId, upload, submissionId });
+
+    const refresh = useCallback(async () => {
+        try {
+            const result = await fetchSubmissionStatus(id);
+            if (result.kind === "forbidden") return dispatch({ type: "clear" });
+            dispatch({ type: "refresh", state: result.state });
+        } catch {
+            // Status hentes på nytt ved neste handling; ingen logging av innhold.
+        }
+    }, [id]);
+
+    useEffect(() => {
+        if (mode === "sync") void refresh();
+    }, [mode, refresh]);
 
     const uploads = state.uploads ?? [];
     const hasFiles = uploads.length > 0;
     const allValidated = uploads.every((upload) => !upload.validations?.length);
     const allFilesUploaded = uploads.every((upload) => !!upload.filId);
     const hasFormErrors = !!state.validations?.length;
-    const canSubmit = !!state.submissionId && hasFiles && allValidated && allFilesUploaded && !hasFormErrors;
+    const pendingRequests = uploads.filter((upload) => upload.status === "PENDING" && !upload.filId).length;
+    const canSubmit =
+        !!state.submissionId && pendingRequests === 0 && hasFiles && allValidated && allFilesUploaded && !hasFormErrors;
 
     return {
         state,
@@ -144,5 +199,8 @@ export const useDocumentState = (
         allFilesUploaded,
         hasFormErrors,
         canSubmit,
+        pendingRequests,
+        uploadResult,
+        refresh,
     };
 };

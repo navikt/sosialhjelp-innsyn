@@ -71,4 +71,20 @@ describe("submitUpload", () => {
 
         await expect(submitUpload(request)).rejects.toThrow("Feil ved opplasting av vedlegg: 500 Error");
     });
+
+    it("throws FILES_MISSING body on 409", async () => {
+        const body = { errors: ["FILES_MISSING"], missing: [{ uploadId: "u1", originalFilename: "a.pdf" }] };
+        vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(JSON.stringify(body), { status: 409 })));
+        await expect(submitUpload(request)).rejects.toEqual(body);
+    });
+
+    it("throws UPLOADS_IN_PROGRESS body on 409", async () => {
+        vi.stubGlobal(
+            "fetch",
+            vi
+                .fn()
+                .mockResolvedValue(new Response(JSON.stringify({ errors: ["UPLOADS_IN_PROGRESS"] }), { status: 409 }))
+        );
+        await expect(submitUpload(request)).rejects.toEqual({ errors: ["UPLOADS_IN_PROGRESS"] });
+    });
 });

@@ -11,7 +11,7 @@ import DigisosLinkCard from "@components/statusCard/DigisosLinkCard";
 import { FilUrl } from "@generated/model";
 import { parseISO } from "date-fns";
 import FileSelectNew from "@components/filopplasting/FileSelectNew";
-import { DocumentState, UploadState } from "@components/filopplasting/api/useDocumentState";
+import { DocumentState, UploadMode, UploadState } from "@components/filopplasting/api/useDocumentState";
 import { MAX_LEN_BACKGROUND } from "../../_consts/consts";
 
 const akselLocales = { nb, nn, en };
@@ -23,6 +23,9 @@ interface Props {
     docState: DocumentState;
     addUploads: (uploads: UploadState[]) => void;
     removeUpload: (correlationId: string) => void;
+    mode?: UploadMode;
+    onUploadResult?: (correlationId: string, upload: UploadState, submissionId?: string) => void;
+    onForbidden?: () => void;
     onGaVidere: () => void;
     onForkastKlage: () => void;
     harInnhold: boolean;
@@ -43,6 +46,9 @@ const StegBegrunnelse = ({
     docState,
     addUploads,
     removeUpload,
+    mode,
+    onUploadResult,
+    onForbidden,
     onGaVidere,
     onForkastKlage,
     vedtaksDato,
@@ -105,6 +111,9 @@ const StegBegrunnelse = ({
                 contextId={contextId}
                 onUploadsAdded={addUploads}
                 onUploadRemoved={removeUpload}
+                mode={mode}
+                onUploadResult={onUploadResult}
+                onForbidden={onForbidden}
                 filesLabel={t("filOpplasting.vedlegg", { count: docState.uploads?.length ?? 0 })}
                 label={t("filOpplasting.label")}
                 description={t("filOpplasting.beskrivelse")}

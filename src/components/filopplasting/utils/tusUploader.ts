@@ -6,7 +6,7 @@ import { browserEnv } from "@config/env";
 export type UploadTarget =
     { type: "soknad"; fiksDigisosId: string } | { type: "klage"; klageId: string; navEksternRefId?: string };
 
-const targetMetadata = (target: UploadTarget): Record<string, string> => {
+export const targetMetadata = (target: UploadTarget): Record<string, string> => {
     switch (target.type) {
         case "soknad":
             return { fiksDigisosId: target.fiksDigisosId };

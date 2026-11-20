@@ -21,6 +21,7 @@ import { useDocumentState } from "@components/filopplasting/api/useDocumentState
 import { deleteSubmission } from "@components/filopplasting/api/deleteSubmission";
 import { useNavigationGuard } from "next-navigation-guard";
 import { useTranslations } from "next-intl";
+import { useUploadMode } from "@components/filopplasting/useUploadMode";
 
 export type FormValues = {
     background: string | null;
@@ -49,16 +50,19 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
     const allowedLeave = useRef(false);
     const [isSending, startSending] = useTransition();
 
+    const mode = useUploadMode();
     const [activeKlageId] = useState(klageId);
     const contextId = activeKlageId;
     const {
         state: docState,
+        resetState,
+        uploadResult,
         addUploads,
         removeUpload,
         allFilesUploaded,
         allValidated,
         hasFormErrors,
-    } = useDocumentState(contextId);
+    } = useDocumentState(contextId, { mode });
     const vedleggHarFeil =
         !allValidated || hasFormErrors || (docState.uploads ?? []).some((u) => u.status === "FAILED");
     const alleVedleggLastetOpp = allFilesUploaded && (docState.uploads ?? []).every((u) => u.status === "COMPLETE");
@@ -155,6 +159,9 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
                             docState={docState}
                             addUploads={addUploads}
                             removeUpload={removeUpload}
+                            mode={mode}
+                            onUploadResult={uploadResult}
+                            onForbidden={resetState}
                             onGaVidere={handleSubmit(() => {
                                 if (harInnhold && vedleggKlare) setAktivtSteg(2);
                             })}
