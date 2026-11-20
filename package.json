@@ -6,7 +6,7 @@
     "dependencies": {
         "@date-fns/tz": "^1.5.0",
         "@grafana/faro-web-sdk": "^2.13.0",
-        "@hookform/resolvers": "^5.9.1",
+        "@hookform/resolvers": "^7.0.6",
         "@navikt/aksel-icons": "^8.22.1",
         "@navikt/ds-css": "^8.22.1",
         "@navikt/ds-react": "^8.22.1",
