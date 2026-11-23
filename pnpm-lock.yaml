@@ -206,17 +206,17 @@ importers:
         specifier: ^5.9.1
         version: 5.9.2(ajv@8.20.0)(react-hook-form@7.92.0(@types/react@19.2.18)(react@19.3.1))(zod@4.6.7)
       '@navikt/aksel-icons':
-        specifier: ^8.22.1
-        version: 8.22.1
+        specifier: ^8.23.0
+        version: 8.23.0
       '@navikt/ds-css':
-        specifier: ^8.22.1
-        version: 8.22.1
+        specifier: ^8.23.0
+        version: 8.23.0
       '@navikt/ds-react':
-        specifier: ^8.22.1
-        version: 8.22.1(@types/react@19.2.18)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        specifier: ^8.23.0
+        version: 8.23.0(@types/react@19.2.18)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@navikt/ds-tailwind':
-        specifier: ^8.22.1
-        version: 8.22.1
+        specifier: ^8.23.0
+        version: 8.23.0
       '@navikt/nav-dekoratoren-moduler':
         specifier: ^4.6.0
         version: 4.6.0(html-react-parser@6.1.9(@types/react@19.2.18)(react@19.3.1))(react@19.3.1)
@@ -236,8 +236,8 @@ importers:
         specifier: ^4.3.3
         version: 4.3.5
       '@tanstack/react-query':
-        specifier: ^5.106.1
-        version: 5.107.1(@types/react@19.2.18)(react@19.3.1)
+        specifier: ^5.108.1
+        version: 5.108.1(@types/react@19.2.18)(react@19.3.1)
       '@unleash/nextjs':
         specifier: ^1.6.7
         version: 1.6.7(next@16.4.6(@babel/core@7.29.13)(@opentelemetry/api@1.10.0)(@playwright/test@1.65.1)(@types/node@25.9.9)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -284,8 +284,8 @@ importers:
         specifier: ^17.6.1
         version: 17.6.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       remeda:
-        specifier: ^2.58.0
-        version: 2.61.0
+        specifier: ^2.62.2
+        version: 2.62.2
       tus-js-client:
         specifier: ^4.3.1
         version: 4.3.1
@@ -348,8 +348,8 @@ importers:
         specifier: ^30.1.1
         version: 30.1.3
       knip:
-        specifier: ^6.44.1
-        version: 6.45.1
+        specifier: ^6.46.1
+        version: 6.46.1
       lint-staged:
         specifier: ^17.6.0
         version: 17.6.1
@@ -361,7 +361,7 @@ importers:
         version: 1.0.5(next@16.4.6(@babel/core@7.29.13)(@opentelemetry/api@1.10.0)(@playwright/test@1.65.1)(@types/node@25.9.9)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       orval:
         specifier: ^8.46.0
-        version: 8.48.0(@faker-js/faker@10.6.0)(@tanstack/react-query@5.107.1(@types/react@19.2.18)(react@19.3.1))(msw@2.15.0(@types/node@25.9.9)(typescript@6.0.3))(prettier@3.10.1)(zod@4.6.7)
+        version: 8.48.0(@faker-js/faker@10.6.0)(@tanstack/react-query@5.108.1(@types/react@19.2.18)(react@19.3.1))(msw@2.15.0(@types/node@25.9.9)(typescript@6.0.3))(prettier@3.10.1)(zod@4.6.7)
       pino-pretty:
         specifier: ^13.2.0
         version: 13.2.0
@@ -1156,28 +1156,28 @@ packages:
       '@emnapi/core': ^1.7.1 || 2.0.0-beta.2 || 2.0.0-beta.3
       '@emnapi/runtime': ^1.7.1 || 2.0.0-beta.2 || 2.0.0-beta.3
 
-  '@navikt/aksel-icons@8.22.1':
-    resolution: {integrity: sha512-NmNg4vK6Hrabw8CleI6jJCwOb4aXnMjkE9Rw4OQjbfgHrg4UXWnUFgQJ3/Rk/unGdfXGNxV591RTwPNc2dZoTA==, tarball: https://npm.pkg.github.com/download/@navikt/aksel-icons/8.22.1/c93a3bad8be4134bd833ecc08db4583034be4d75}
+  '@navikt/aksel-icons@8.23.0':
+    resolution: {integrity: sha512-Nm7cP5l6A9oI4iw1zN2hllwmQFqTUq3sLVPYQULsg5yjeu4OHy4thNXg6ljb7Q+W0X/r/Gv0drAsKAqlfN9CFg==, tarball: https://npm.pkg.github.com/download/@navikt/aksel-icons/8.23.0/311555ce46b07fdc883d5398adbb0c7a47be45cd}
 
   '@navikt/analytics-types@0.0.9':
     resolution: {integrity: sha512-bopCvqEogyFcmrJiBxK/Mr25d6yPKF7GR36MGrJqiHCPJYf1rDu6lK4cpooTG4Q//D/1xTkHRom8ZH5BI6dTew==, tarball: https://npm.pkg.github.com/download/@navikt/analytics-types/0.0.9/5919241a6dbb782eb101fff3234ce5c36d16e942}
     engines: {node: '>=20.0.0', npm: '>=9.0.0'}
 
-  '@navikt/ds-css@8.22.1':
-    resolution: {integrity: sha512-whWza4g9GAssC9qWOEtrnPYcffaGGT6ko347A6KggccrC7/G7drxJj2aQVk+2bHFWT7GClg20dDxlmZKm9CcTA==, tarball: https://npm.pkg.github.com/download/@navikt/ds-css/8.22.1/623473ad66bd13b979cd026acb51b996b25a62a4}
+  '@navikt/ds-css@8.23.0':
+    resolution: {integrity: sha512-F2mErCyfcKUOXXMF56TVW4OtTzLqIceEO/Y3V3opc8B6jh8TfaK4QD2UysmPPZ+QY6XnWKp93X3dsqyIQNTewg==, tarball: https://npm.pkg.github.com/download/@navikt/ds-css/8.23.0/25c581536d7651058a0d1652a6814b4657761dc0}
 
-  '@navikt/ds-react@8.22.1':
-    resolution: {integrity: sha512-rS7wmk/pE3KIDTV3Oimbnx/vd9nxQs3AQt7QgxILNrIGvE+uih5ohbcz9UOk970beUDc+xeQ5jmRK209dzNfcw==, tarball: https://npm.pkg.github.com/download/@navikt/ds-react/8.22.1/864ade4ec3891f9bf5e94a71089665433ce351d7}
+  '@navikt/ds-react@8.23.0':
+    resolution: {integrity: sha512-tTD8PgqQTlCh5xovdKneM8l62Jy7KswP+N2WNKs1U5JvO8ruwZ9X6oROJKHdOzkEdXvWPAP8Y67qNws2+si1Eg==, tarball: https://npm.pkg.github.com/download/@navikt/ds-react/8.23.0/2719a502c207c16a55528c580b2d5fc88697d0b1}
     peerDependencies:
       '@types/react': ^17.0.30 || ^18 || ^19
       react: ^17 || ^18 || ^19
       react-dom: ^17 || ^18 || ^19
 
-  '@navikt/ds-tailwind@8.22.1':
-    resolution: {integrity: sha512-dglib5tqiXehwcPWUpPs6b4ZW197RgGp2PoqWnMCuiFLo1/GpOW0jHBRBOuNSVOHXfCiD4gslEu2jsr+SM+Suw==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tailwind/8.22.1/340fe46132cf9eaae78f7011b5126474bb0ee984}
+  '@navikt/ds-tailwind@8.23.0':
+    resolution: {integrity: sha512-0XzOAIhLjxo0Wxv7Uer8/2DOxGXxf5JOj48lL9Cnm8dvDDL8IW4/6YRAnfREMOz6rqCYIbwnPFAw6SRcQv82LQ==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tailwind/8.23.0/f55efc25956862cf2dbf6569c2770a96b54f70b8}
 
-  '@navikt/ds-tokens@8.22.1':
-    resolution: {integrity: sha512-cDmfPn5Q0HmE8eTie5jkj76zKMrS/AeZcAKscxtZFTL6sFdIFKON8AwWcS0pdRuC3yxYNGRmO176xGjn2POLCQ==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tokens/8.22.1/43f354b993b9a56b9b4329ab54a9e17c5decf92b}
+  '@navikt/ds-tokens@8.23.0':
+    resolution: {integrity: sha512-+GXKDpfZixeCblvKJEnSG1/vlZp27xjqX6NNhzs0442Y1jGuEadGUJ+nxndYpmgZ4QcZCE2VEsKvluXctfHVYA==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tokens/8.23.0/569a10706977258093e2ecf396f29884b03562f9}
 
   '@navikt/nav-dekoratoren-moduler@4.6.0':
     resolution: {integrity: sha512-1Yrbbmap/zuC5zGic6/+pOp6hbveoApTyMPQEBHB3a4Ac9mMdKqnLJyDtcYJCVhpMByD4KaRm5NgBaLpy17JmA==, tarball: https://npm.pkg.github.com/download/@navikt/nav-dekoratoren-moduler/4.6.0/6c8cbd3d81091b0eb1e35818598aa81b0fc16295}
@@ -2140,11 +2140,11 @@ packages:
   '@tailwindcss/postcss@4.3.5':
     resolution: {integrity: sha512-FAV37Tlx9wBiT/hkfgVD0Q6CWsP2oUX3lf28nrfjW8+ksILjnpuFulUqWDfNR4/ZiEHHDRBX8DUTzD1Rys687A==}
 
-  '@tanstack/query-core@5.107.1':
-    resolution: {integrity: sha512-PSyAik11oQBEVOiVy5hjZWHmoUqOXqK1WYy4v55mcxozEfKaQgpUMsgnXhWjuESzSht8JfzqMS1m6M/9CpNgvg==}
+  '@tanstack/query-core@5.108.1':
+    resolution: {integrity: sha512-GBX6Xsc9E+9eVLLxuM7orQNbssQjpruOCbocBYwT78MjxOWT5I+CWdvEo0N+UM6+oCZEKxuSud1oFLvE3OEmIg==}
 
-  '@tanstack/react-query@5.107.1':
-    resolution: {integrity: sha512-udCOOLp3ZAheUrIHLCe+ZZge6nr2ZUrGMSWcCuXsjY1Bf2JeeE09oxst97PILiCY6N8xo/7bIo3Hvz13zh06FA==}
+  '@tanstack/react-query@5.108.1':
+    resolution: {integrity: sha512-8/p7fpIdmUiKIukQ5ddAMUUSKC7Z8CcgUOBR2r3WqRvMg9Lzc4CXeoFchjfATKvqi23SyYFvesDdOULrvyunNg==}
     peerDependencies:
       '@types/react': ^18 || ^19
       react: ^18 || ^19
@@ -3543,8 +3543,8 @@ packages:
   keyv@5.6.0:
     resolution: {integrity: sha512-CYDD3SOtsHtyXeEORYRx2qBtpDJFjRTGXUtmNEMGyzYOKj1TE3tycdlho7kA1Ufx9OYWZzg52QFBGALTirzDSw==}
 
-  knip@6.45.1:
-    resolution: {integrity: sha512-zp3zXKy2cZWiIttdlWU5fisKxVQaLSU6471ej0KGz1GdHdaHxpzTAO/LIyFNc3gU3v1W7LJaqvYumoO3l/u+6A==}
+  knip@6.46.1:
+    resolution: {integrity: sha512-5/ajqjZfmuv8O74+McrKBOSArKG6tsUgy6yJird36VZh9HiUq75qY4U39uqf9wjchEUOLrStuOZpFP057CZFRw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
@@ -4225,8 +4225,8 @@ packages:
     resolution: {integrity: sha512-dYqgNSZbDwkaJ2ceRd9ojCGjBq+mOm9LmtXnAnEGyHhN/5R7iDW2TRw3h+o/jCFxus3P2LfWIIiwowAjANm7IA==}
     engines: {node: '>= 0.4'}
 
-  remeda@2.61.0:
-    resolution: {integrity: sha512-x8v7/slXeMnUy4izdZecOVlorISUQC5sHbc2GIdaf2pNYQUKt30NREbGa68Ag/3bjkaK64e9qDu1X4S47bUZAQ==}
+  remeda@2.62.2:
+    resolution: {integrity: sha512-yhYfowrECXAgq0Izf4ucBIxBMUnHZQmqlV7h0483V2Ej8sjGwI2qivOvJB2Yiaqo16xP/okIhv7X9jjT0Vla2Q==}
     engines: {node: '>=18.0.0'}
 
   require-directory@2.1.1:
@@ -5523,27 +5523,27 @@ snapshots:
       '@tybys/wasm-util': 0.10.5
     optional: true
 
-  '@navikt/aksel-icons@8.22.1': {}
+  '@navikt/aksel-icons@8.23.0': {}
 
   '@navikt/analytics-types@0.0.9': {}
 
-  '@navikt/ds-css@8.22.1': {}
+  '@navikt/ds-css@8.23.0': {}
 
-  '@navikt/ds-react@8.22.1(@types/react@19.2.18)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+  '@navikt/ds-react@8.23.0(@types/react@19.2.18)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
       '@floating-ui/react': 0.27.20(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@floating-ui/react-dom': 2.1.9(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      '@navikt/aksel-icons': 8.22.1
-      '@navikt/ds-tokens': 8.22.1
+      '@navikt/aksel-icons': 8.23.0
+      '@navikt/ds-tokens': 8.23.0
       '@types/react': 19.2.18
       date-fns: 4.4.0
       react: 19.3.1
       react-day-picker: 10.0.2(@types/react@19.2.18)(react@19.3.1)
       react-dom: 19.3.1(react@19.3.1)
 
-  '@navikt/ds-tailwind@8.22.1': {}
+  '@navikt/ds-tailwind@8.23.0': {}
 
-  '@navikt/ds-tokens@8.22.1': {}
+  '@navikt/ds-tokens@8.23.0': {}
 
   '@navikt/nav-dekoratoren-moduler@4.6.0(html-react-parser@6.1.9(@types/react@19.2.18)(react@19.3.1))(react@19.3.1)':
     dependencies:
@@ -5783,12 +5783,12 @@ snapshots:
       - '@faker-js/faker'
       - '@modelcontextprotocol/server'
 
-  '@orval/query@8.48.0(@faker-js/faker@10.6.0)(@tanstack/react-query@5.107.1(@types/react@19.2.18)(react@19.3.1))':
+  '@orval/query@8.48.0(@faker-js/faker@10.6.0)(@tanstack/react-query@5.108.1(@types/react@19.2.18)(react@19.3.1))':
     dependencies:
       '@orval/core': 8.48.0(@faker-js/faker@10.6.0)
       '@orval/fetch': 8.48.0(@faker-js/faker@10.6.0)
     optionalDependencies:
-      '@tanstack/react-query': 5.107.1(@types/react@19.2.18)(react@19.3.1)
+      '@tanstack/react-query': 5.108.1(@types/react@19.2.18)(react@19.3.1)
     transitivePeerDependencies:
       - '@faker-js/faker'
       - '@modelcontextprotocol/server'
@@ -6272,11 +6272,11 @@ snapshots:
       postcss: 8.5.33
       tailwindcss: 4.3.5
 
-  '@tanstack/query-core@5.107.1': {}
+  '@tanstack/query-core@5.108.1': {}
 
-  '@tanstack/react-query@5.107.1(@types/react@19.2.18)(react@19.3.1)':
+  '@tanstack/react-query@5.108.1(@types/react@19.2.18)(react@19.3.1)':
     dependencies:
-      '@tanstack/query-core': 5.107.1
+      '@tanstack/query-core': 5.108.1
       react: 19.3.1
     optionalDependencies:
       '@types/react': 19.2.18
@@ -7847,7 +7847,7 @@ snapshots:
     dependencies:
       '@keyv/serialize': 1.1.1
 
-  knip@6.45.1:
+  knip@6.46.1:
     dependencies:
       formatly: 0.11.4
       get-tsconfig: 4.14.3
@@ -8265,7 +8265,7 @@ snapshots:
       type-check: 0.4.0
       word-wrap: 1.2.5
 
-  orval@8.48.0(@faker-js/faker@10.6.0)(@tanstack/react-query@5.107.1(@types/react@19.2.18)(react@19.3.1))(msw@2.15.0(@types/node@25.9.9)(typescript@6.0.3))(prettier@3.10.1)(zod@4.6.7):
+  orval@8.48.0(@faker-js/faker@10.6.0)(@tanstack/react-query@5.108.1(@types/react@19.2.18)(react@19.3.1))(msw@2.15.0(@types/node@25.9.9)(typescript@6.0.3))(prettier@3.10.1)(zod@4.6.7):
     dependencies:
       '@commander-js/extra-typings': 15.1.0(commander@15.1.0)
       '@orval/angular': 8.48.0(@faker-js/faker@10.6.0)
@@ -8277,7 +8277,7 @@ snapshots:
       '@orval/mcp': 8.48.0(@faker-js/faker@10.6.0)(zod@4.6.7)
       '@orval/mock': 8.48.0(@faker-js/faker@10.6.0)(msw@2.15.0(@types/node@25.9.9)(typescript@6.0.3))
       '@orval/pinia-colada': 8.48.0(@faker-js/faker@10.6.0)
-      '@orval/query': 8.48.0(@faker-js/faker@10.6.0)(@tanstack/react-query@5.107.1(@types/react@19.2.18)(react@19.3.1))
+      '@orval/query': 8.48.0(@faker-js/faker@10.6.0)(@tanstack/react-query@5.108.1(@types/react@19.2.18)(react@19.3.1))
       '@orval/solid-start': 8.48.0(@faker-js/faker@10.6.0)
       '@orval/swr': 8.48.0(@faker-js/faker@10.6.0)
       '@orval/valibot': 8.48.0(@faker-js/faker@10.6.0)
@@ -8616,7 +8616,7 @@ snapshots:
       gopd: 1.2.0
       set-function-name: 2.0.2
 
-  remeda@2.61.0: {}
+  remeda@2.62.2: {}
 
   require-directory@2.1.1: {}
 
