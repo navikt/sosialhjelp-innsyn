@@ -50,7 +50,7 @@ jobs:
           fi
 
       - name: "Deploy ${{ matrix.env }} to ${{ env.CLUSTER }}"
-        uses: nais/deploy/actions/deploy@9850be311389ca754d9a9f2280615419d738c891 # v3
+        uses: nais/deploy/actions/deploy@427e29c94d911626a023a76f402f6dcae1f840b7 # v3
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           RESOURCE: wonderwall/${{ matrix.env }}/wonderwall.yml
