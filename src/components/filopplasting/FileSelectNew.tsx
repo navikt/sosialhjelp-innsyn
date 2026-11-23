@@ -11,7 +11,7 @@ import { FileSelectUpload } from "@components/filopplasting/FileSelectUpload";
 import { browserEnv } from "@config/env";
 import useSlowProcessingWarning from "@components/filopplasting/useSlowProcessingWarning";
 import { useDocumentUpload } from "./useDocumentUpload";
-import { useDocumentUploadSync } from "./useDocumentUploadSync";
+import { useDocumentUploadSync, type UploadResultHandler } from "./useDocumentUploadSync";
 import { UploadTarget } from "./utils/tusUploader";
 
 // Venter til nettleseren har gitt fokus tilbake til «Velg filer» etter at filvelgeren lukkes.
@@ -34,7 +34,7 @@ interface Props {
     onUploadsAdded: (uploads: UploadState[]) => void;
     onUploadRemoved: (correlationId: string) => void;
     mode?: UploadMode;
-    onUploadResult?: (correlationId: string, upload: UploadState, submissionId?: string) => void;
+    onUploadResult?: UploadResultHandler;
     onForbidden?: () => void;
     variant?: "normal" | "warning";
     headingLevel?: "2" | "3";

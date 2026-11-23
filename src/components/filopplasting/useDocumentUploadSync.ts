@@ -1,15 +1,18 @@
 import { FileObject } from "@navikt/ds-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { isFolder } from "./utils/validateFiles";
 import * as R from "remeda";
 import { UploadState, ValidationCode } from "./api/useDocumentState";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { uploadFile } from "./api/uploadFile";
 import { deleteFile } from "./api/deleteFile";
 import { targetMetadata, type UploadTarget } from "./utils/tusUploader";
 
-const MAX_REQUESTS_IN_FLIGHT = 2;
+export type UploadResultHandler = (correlationId: string, upload: Partial<UploadState>, submissionId?: string) => void;
 
-export type UploadResultHandler = (correlationId: string, upload: UploadState, submissionId?: string) => void;
+type UploadVariables = { correlationId: string; file: File };
+
+const syncUploadKey = (contextId: string) => ["sync-upload", contextId] as const;
 
 export const useDocumentUploadSync = ({
     contextId,
@@ -29,83 +32,49 @@ export const useDocumentUploadSync = ({
     target: UploadTarget;
 }) => {
     const [folderDropError, setFolderDropError] = useState(false);
-    const files = useRef(new Map<string, File>());
-    const placeholders = useRef(new Map<string, UploadState>());
-    const queue = useRef<string[]>([]);
-    const inFlight = useRef(0);
-    const active = useRef(new Set<string>());
-    const removed = useRef(new Set<string>());
-    const latest = useRef({ contextId, onUploadRemoved, onUploadResult, onForbidden, target });
-    useEffect(() => {
-        latest.current = { contextId, onUploadRemoved, onUploadResult, onForbidden, target };
-    });
+    const queryClient = useQueryClient();
+    const mutationKey = syncUploadKey(contextId);
+    // Rader slettet mens forespørselen var underveis: resultatet skal slettes, ikke rapporteres.
+    const cancelled = useRef(new Set<string>());
 
-    const settle = (correlationId: string, upload: Partial<UploadState>) => {
-        const placeholder = placeholders.current.get(correlationId);
-        if (!placeholder) return;
-        const next = { ...placeholder, ...upload };
-        placeholders.current.set(correlationId, next);
-        latest.current.onUploadResult(correlationId, next);
-    };
-
-    const run = async (correlationId: string) => {
-        const file = files.current.get(correlationId);
-        if (!file) return;
-        const { contextId: ctx, target: tgt } = latest.current;
-        inFlight.current++;
-        active.current.add(correlationId);
-        const result = await uploadFile({
-            file,
-            contextId: ctx,
-            correlationId,
-            targetFields: targetMetadata(tgt),
-        });
-        inFlight.current--;
-        active.current.delete(correlationId);
-
-        if (removed.current.has(correlationId)) {
-            removed.current.delete(correlationId);
-            files.current.delete(correlationId);
-            placeholders.current.delete(correlationId);
-            if (result.kind === "stored") await deleteFile(result.upload.id).catch(() => undefined);
-        } else {
+    // Filen til «prøv igjen» ligger i variables og forsvinner etter gcTime (5 min).
+    const { mutate } = useMutation({
+        mutationKey,
+        mutationFn: ({ correlationId, file }: UploadVariables) =>
+            uploadFile({ file, contextId, correlationId, targetFields: targetMetadata(target) }),
+        onSuccess: async (result, { correlationId }) => {
+            if (cancelled.current.delete(correlationId)) {
+                if (result.kind === "stored") await deleteFile(result.upload.id).catch(() => undefined);
+                return;
+            }
             switch (result.kind) {
                 case "stored":
-                    files.current.delete(correlationId);
-                    placeholders.current.delete(correlationId);
-                    latest.current.onUploadResult(correlationId, result.upload, result.submissionId);
+                    onUploadResult(correlationId, result.upload, result.submissionId);
                     break;
                 case "rejected":
-                    files.current.delete(correlationId);
-                    settle(correlationId, { status: "FAILED", validations: result.validations });
+                    onUploadResult(correlationId, { status: "FAILED", validations: result.validations });
                     break;
                 case "tooLarge":
-                    files.current.delete(correlationId);
-                    settle(correlationId, { status: "FAILED", validations: [ValidationCode.FILE_TOO_LARGE] });
+                    onUploadResult(correlationId, { status: "FAILED", validations: [ValidationCode.FILE_TOO_LARGE] });
                     break;
                 case "invalid":
-                    files.current.delete(correlationId);
-                    settle(correlationId, { status: "FAILED" });
+                    onUploadResult(correlationId, { status: "FAILED" });
                     break;
                 case "forbidden":
-                    files.current.clear();
-                    placeholders.current.clear();
-                    queue.current = [];
-                    latest.current.onForbidden?.();
+                    onForbidden?.();
                     break;
                 case "failed":
-                    settle(correlationId, { status: "RETRYABLE_FAILED" });
+                    onUploadResult(correlationId, { status: "RETRYABLE_FAILED" });
                     break;
             }
-        }
-        pump();
-    };
-
-    const pump = () => {
-        while (inFlight.current < MAX_REQUESTS_IN_FLIGHT && queue.current.length > 0) {
-            void run(queue.current.shift()!);
-        }
-    };
+        },
+        onError: (_error, { correlationId }) => {
+            if (cancelled.current.delete(correlationId)) {
+                return;
+            }
+            onUploadResult(correlationId, { status: "RETRYABLE_FAILED" });
+        },
+    });
 
     const startUpload = (selected: FileObject[]): number => {
         const [folders, validFiles] = R.partition(selected, (f) => isFolder(f));
@@ -114,50 +83,55 @@ export const useDocumentUploadSync = ({
 
         onSelect?.(validFiles);
 
-        const optimisticUploads: UploadState[] = validFiles.map((file: FileObject) => {
-            const correlationId = crypto.randomUUID();
-            files.current.set(correlationId, file.file);
-            queue.current.push(correlationId);
-            const placeholder = {
-                id: correlationId,
-                correlationId,
-                converted: false,
-                originalFilename: file.file.name,
-                size: file.file.size,
-                status: "PENDING" as const,
-            } satisfies UploadState;
-            placeholders.current.set(correlationId, placeholder);
-            return placeholder;
-        });
-        onUploadsAdded(optimisticUploads);
-        pump();
+        const uploads = validFiles.map(({ file }) => ({ correlationId: crypto.randomUUID(), file }));
+        onUploadsAdded(
+            uploads.map(
+                ({ correlationId, file }) =>
+                    ({
+                        id: correlationId,
+                        correlationId,
+                        converted: false,
+                        originalFilename: file.name,
+                        size: file.size,
+                        status: "PENDING" as const,
+                    }) satisfies UploadState
+            )
+        );
+        uploads.forEach((upload) => mutate(upload));
         return validFiles.length;
     };
 
+    // «Prøv igjen» vises bare for RETRYABLE_FAILED, og status settes til PENDING her, så dobbeltklikk er ikke mulig.
     const retryUpload = (correlationId: string) => {
-        if (!files.current.has(correlationId) || queue.current.includes(correlationId)) return;
-        settle(correlationId, { status: "PENDING" });
-        queue.current.push(correlationId);
-        pump();
+        const variables = queryClient.getMutationCache().find<unknown, Error, UploadVariables>({
+            mutationKey,
+            predicate: (m) => (m.state.variables as UploadVariables | undefined)?.correlationId === correlationId,
+        })?.state.variables;
+        if (!variables) {
+            // Mutasjonen er garbage-collected: filen finnes ikke lenger, så brukeren må velge den på nytt.
+            onUploadResult(correlationId, { status: "FAILED" });
+            return;
+        }
+        onUploadResult(correlationId, { status: "PENDING" });
+        mutate(variables);
     };
 
     // beforeRemove kjøres før raden fjernes, mens slett-knappen fortsatt finnes.
     const terminateUpload = async (uploadId: string, correlationId?: string, beforeRemove?: () => void) => {
         const isPlaceholder = !!correlationId && uploadId === correlationId;
         if (isPlaceholder) {
-            if (active.current.has(correlationId)) {
-                // Forespørselen er underveis: slett resultatet når den er ferdig.
-                removed.current.add(correlationId);
-            } else {
-                files.current.delete(correlationId);
-                placeholders.current.delete(correlationId);
-                queue.current = queue.current.filter((c) => c !== correlationId);
-            }
+            // Hvis forespørselen er underveis, sletter onSuccess resultatet når den er ferdig.
+            cancelled.current.add(correlationId);
         } else {
-            await deleteFile(uploadId);
+            try {
+                await deleteFile(uploadId);
+            } catch {
+                // Raden beholdes slik at brukeren kan prøve igjen.
+                return;
+            }
         }
         beforeRemove?.();
-        if (correlationId) latest.current.onUploadRemoved(correlationId);
+        if (correlationId) onUploadRemoved(correlationId);
     };
 
     return { startUpload, terminateUpload, retryUpload, folderDropError };

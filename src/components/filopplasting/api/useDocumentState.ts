@@ -47,7 +47,7 @@ export type DocumentStateUpdate =
     | { type: "clear" }
     | { type: "addUploads"; uploads: UploadState[] }
     | { type: "removeUpload"; correlationId: string }
-    | { type: "uploadResult"; correlationId: string; upload: UploadState; submissionId?: string }
+    | { type: "uploadResult"; correlationId: string; upload: Partial<UploadState>; submissionId?: string }
     | { type: "refresh"; state: SubmissionState };
 
 export const documentStateReducer = (state: DocumentState, payload: DocumentStateUpdate): DocumentState => {
@@ -104,7 +104,7 @@ export const documentStateReducer = (state: DocumentState, payload: DocumentStat
         return {
             ...state,
             submissionId: submissionId || state.submissionId,
-            uploads: existing.map((u) => (u.correlationId === correlationId ? upload : u)),
+            uploads: existing.map((u) => (u.correlationId === correlationId ? { ...u, ...upload } : u)),
         };
     }
     if (type === "refresh") {
@@ -141,7 +141,7 @@ export const useDocumentState = (
     hasFormErrors: boolean;
     canSubmit: boolean;
     pendingRequests: number;
-    uploadResult: (correlationId: string, upload: UploadState, submissionId?: string) => void;
+    uploadResult: (correlationId: string, upload: Partial<UploadState>, submissionId?: string) => void;
     refresh: () => Promise<void>;
 } => {
     const [state, dispatch] = useReducer(documentStateReducer, {});
@@ -163,7 +163,7 @@ export const useDocumentState = (
         return openEventChannel(eventstreamUrl(id, fiksDigisosId), onUpdate);
     }, [id, fiksDigisosId, mode]);
 
-    const uploadResult = (correlationId: string, upload: UploadState, submissionId?: string) =>
+    const uploadResult = (correlationId: string, upload: Partial<UploadState>, submissionId?: string) =>
         dispatch({ type: "uploadResult", correlationId, upload, submissionId });
 
     const refresh = useCallback(async () => {

@@ -12,6 +12,7 @@ import { FilUrl } from "@generated/model";
 import { parseISO } from "date-fns";
 import FileSelectNew from "@components/filopplasting/FileSelectNew";
 import { DocumentState, UploadMode, UploadState } from "@components/filopplasting/api/useDocumentState";
+import type { UploadResultHandler } from "@components/filopplasting/useDocumentUploadSync";
 import { MAX_LEN_BACKGROUND } from "../../_consts/consts";
 
 const akselLocales = { nb, nn, en };
@@ -24,7 +25,7 @@ interface Props {
     addUploads: (uploads: UploadState[]) => void;
     removeUpload: (correlationId: string) => void;
     mode?: UploadMode;
-    onUploadResult?: (correlationId: string, upload: UploadState, submissionId?: string) => void;
+    onUploadResult?: UploadResultHandler;
     onForbidden?: () => void;
     onGaVidere: () => void;
     onForkastKlage: () => void;

@@ -1,5 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { act, renderHook } from "@testing-library/react";
+import { act, renderHook, waitFor } from "@testing-library/react";
+import { createElement, type ReactNode } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useDocumentUploadSync } from "./useDocumentUploadSync";
 import * as uploadModule from "./api/uploadFile";
 import * as deleteModule from "./api/deleteFile";
@@ -7,6 +9,10 @@ import * as deleteModule from "./api/deleteFile";
 vi.mock("./api/uploadFile");
 vi.mock("./api/deleteFile");
 
+const makeWrapper = (client: QueryClient) =>
+    function Wrapper({ children }: { children: ReactNode }) {
+        return createElement(QueryClientProvider, { client }, children);
+    };
 const fileObj = (name: string) => ({ file: new File(["x"], name), error: false }) as never;
 const setup = () => {
     const props = {
@@ -16,25 +22,56 @@ const setup = () => {
         onUploadResult: vi.fn(),
         target: { type: "soknad" as const, fiksDigisosId: "d" },
     };
-    return { props, ...renderHook(() => useDocumentUploadSync(props)) };
+    const queryClient = new QueryClient();
+    return {
+        props,
+        queryClient,
+        ...renderHook(() => useDocumentUploadSync(props), { wrapper: makeWrapper(queryClient) }),
+    };
 };
 
 describe("useDocumentUploadSync", () => {
     beforeEach(() => vi.resetAllMocks());
     afterEach(() => vi.unstubAllGlobals());
 
-    it("limits to 2 requests in flight", async () => {
-        const resolvers: (() => void)[] = [];
-        vi.mocked(uploadModule.uploadFile).mockImplementation(
-            () => new Promise((res) => resolvers.push(() => res({ kind: "failed" })))
-        );
+    it("starts all uploads immediately", async () => {
+        vi.mocked(uploadModule.uploadFile).mockImplementation(() => new Promise(() => undefined));
         const { result } = setup();
         act(() => {
             result.current.startUpload([fileObj("1.pdf"), fileObj("2.pdf"), fileObj("3.pdf")]);
         });
-        expect(uploadModule.uploadFile).toHaveBeenCalledTimes(2);
-        await act(async () => resolvers[0]());
-        expect(uploadModule.uploadFile).toHaveBeenCalledTimes(3);
+        await waitFor(() => expect(uploadModule.uploadFile).toHaveBeenCalledTimes(3));
+    });
+
+    it("deletes the stored file when removed during upload, without reporting the result", async () => {
+        let resolve!: (r: Awaited<ReturnType<typeof uploadModule.uploadFile>>) => void;
+        vi.mocked(uploadModule.uploadFile).mockImplementation(() => new Promise((res) => (resolve = res)));
+        vi.mocked(deleteModule.deleteFile).mockResolvedValue();
+        const { result, props } = setup();
+        act(() => {
+            result.current.startUpload([fileObj("1.pdf")]);
+        });
+        await waitFor(() => expect(uploadModule.uploadFile).toHaveBeenCalledTimes(1));
+        const cid = vi.mocked(uploadModule.uploadFile).mock.calls[0][0].correlationId;
+        await act(async () => result.current.terminateUpload(cid, cid));
+        expect(props.onUploadRemoved).toHaveBeenCalledWith(cid);
+
+        await act(async () =>
+            resolve({
+                kind: "stored",
+                submissionId: "s",
+                upload: { id: "server-id", correlationId: cid } as never,
+            })
+        );
+        await waitFor(() => expect(deleteModule.deleteFile).toHaveBeenCalledWith("server-id"));
+        expect(props.onUploadResult).not.toHaveBeenCalled();
+    });
+
+    it("keeps the row when backend delete fails", async () => {
+        vi.mocked(deleteModule.deleteFile).mockRejectedValue(new Error("boom"));
+        const { result, props } = setup();
+        await act(async () => result.current.terminateUpload("server-id", "c1"));
+        expect(props.onUploadRemoved).not.toHaveBeenCalled();
     });
 
     it("reuses correlationId on retry", async () => {
@@ -43,10 +80,27 @@ describe("useDocumentUploadSync", () => {
         await act(async () => {
             result.current.startUpload([fileObj("1.pdf")]);
         });
+        await waitFor(() => expect(uploadModule.uploadFile).toHaveBeenCalledTimes(1));
         const cid = vi.mocked(uploadModule.uploadFile).mock.calls[0][0].correlationId;
-        expect(props.onUploadResult).toHaveBeenCalledWith(cid, expect.objectContaining({ status: "RETRYABLE_FAILED" }));
-        await act(async () => result.current.retryUpload(cid));
+        await waitFor(() => expect(props.onUploadResult).toHaveBeenCalledWith(cid, { status: "RETRYABLE_FAILED" }));
+        act(() => result.current.retryUpload(cid));
+        await waitFor(() => expect(uploadModule.uploadFile).toHaveBeenCalledTimes(2));
         expect(vi.mocked(uploadModule.uploadFile).mock.calls[1][0].correlationId).toBe(cid);
+    });
+
+    it("marks the row FAILED when retrying after the mutation was garbage-collected", async () => {
+        vi.mocked(uploadModule.uploadFile).mockResolvedValue({ kind: "failed" });
+        const { result, props, queryClient } = setup();
+        await act(async () => {
+            result.current.startUpload([fileObj("1.pdf")]);
+        });
+        await waitFor(() => expect(uploadModule.uploadFile).toHaveBeenCalledTimes(1));
+        const cid = vi.mocked(uploadModule.uploadFile).mock.calls[0][0].correlationId;
+        await waitFor(() => expect(props.onUploadResult).toHaveBeenCalledWith(cid, { status: "RETRYABLE_FAILED" }));
+        queryClient.getMutationCache().clear();
+        act(() => result.current.retryUpload(cid));
+        expect(props.onUploadResult).toHaveBeenLastCalledWith(cid, { status: "FAILED" });
+        expect(uploadModule.uploadFile).toHaveBeenCalledTimes(1);
     });
 
     it.each([
@@ -62,10 +116,11 @@ describe("useDocumentUploadSync", () => {
             onUploadResult: vi.fn(),
             target,
         };
-        const { result } = renderHook(() => useDocumentUploadSync(props));
+        const { result } = renderHook(() => useDocumentUploadSync(props), { wrapper: makeWrapper(new QueryClient()) });
         await act(async () => {
             result.current.startUpload([fileObj("1.pdf")]);
         });
+        await waitFor(() => expect(uploadModule.uploadFile).toHaveBeenCalled());
         expect(vi.mocked(uploadModule.uploadFile).mock.calls[0][0].targetFields).toEqual(fields);
     });
 
@@ -78,9 +133,11 @@ describe("useDocumentUploadSync", () => {
         await act(async () => {
             result.current.startUpload([fileObj("1.pdf")]);
         });
-        expect(props.onUploadResult).toHaveBeenCalledWith(
-            expect.any(String),
-            expect.objectContaining({ status: "FAILED", validations: ["ENCRYPTED_PDF"] })
+        await waitFor(() =>
+            expect(props.onUploadResult).toHaveBeenCalledWith(expect.any(String), {
+                status: "FAILED",
+                validations: ["ENCRYPTED_PDF"],
+            })
         );
     });
 

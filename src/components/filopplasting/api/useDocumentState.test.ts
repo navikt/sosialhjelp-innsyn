@@ -20,6 +20,14 @@ describe("documentStateReducer uploadResult", () => {
         expect(state.uploads).toEqual([stored, placeholder("c2")]);
     });
 
+    it("merges a partial result into the existing row", () => {
+        const state = documentStateReducer(
+            { uploads: [placeholder("c1")] },
+            { type: "uploadResult", correlationId: "c1", upload: { status: "FAILED", validations: [] } }
+        );
+        expect(state.uploads?.[0]).toEqual({ ...placeholder("c1"), status: "FAILED", validations: [] });
+    });
+
     it("keeps existing submissionId when none is given", () => {
         const state = documentStateReducer(
             { submissionId: "s0", uploads: [placeholder("c1")] },
