@@ -40,8 +40,8 @@ describe("KlageInfo", () => {
             "href",
             "/klage/status/soknad-1/klage-1"
         );
-        expect(screen.getByText("02.04.2025").tagName).toBe("STRONG");
-        expect(screen.getByText("02.04.2025").parentElement).toHaveTextContent("Du kan sende inn frem til 02.04.2025.");
+        expect(screen.getByText("02.04.2025").tagName).toBe("B");
+        expect(screen.getByText("02.04.2025").parentElement).toHaveTextContent("Du kan sende inn frem til 02.04.2025");
     });
 
     it.each([
@@ -57,7 +57,7 @@ describe("KlageInfo", () => {
 
         expect(screen.getByRole("link", { name: linkText })).toHaveAttribute("href", "/klage/status/soknad-1/klage-1");
         const deadline = screen.getByText(deadlineText, { exact: false });
-        expect(deadline.querySelector("strong")).toHaveTextContent(/2025/);
+        expect(deadline.querySelector("b")).toHaveTextContent(/2025/);
     });
 
     it("shows the appeal link without a deadline after midnight in Oslo", () => {
@@ -114,7 +114,9 @@ describe("KlageInfo", () => {
         vi.setSystemTime(new Date("2026-01-21T12:00:00Z"));
         server.use(http.get(url, () => HttpResponse.json({ kanSendeKlage: true })));
         render(<KlageInfo vedtakId="vedtak-1" vedtaksdato={"2026-01-01"} />);
-        expect(await screen.findByText("Du kan klage frem til 29.01.2026")).toBeInTheDocument();
+        const dato = await screen.findByText("29.01.2026");
+        expect(dato.tagName).toBe("B");
+        expect(dato.parentElement).toHaveTextContent("Du kan klage frem til 29.01.2026");
     });
 
     it.each([

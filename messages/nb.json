@@ -166,8 +166,8 @@
         "ettersendKnapp": "Se klagen og ettersend dokumentasjon",
         "seKlagen": "Se klagen din",
         "klagefristUtlopt": "Klagefristen har utløpt. <navKontorLenke>Kontakt Nav-kontoret</navKontorLenke> ditt dersom du ikke rakk å klage innen fristen, men fortsatt ønsker å klage på vedtaket. <klagerettigheterLenke>Les mer om dine klagerettigheter.</klagerettigheterLenke>",
-        "klagefrist": "Du kan klage frem til {dato, date, ::ddMMyyyy}",
-        "ettersendelsefrist": "Du kan sende inn frem til <strong>{dato}</strong>."
+        "klagefrist": "Du kan klage frem til <strong>{dato}</strong>",
+        "ettersendelsefrist": "Du kan sende inn frem til <strong>{dato}</strong>"
     },
     "SokButton": {
         "sokOmSosialhjelp": "Søk om økonomisk sosialhjelp"
@@ -454,7 +454,7 @@
     },
     "KlageDokumenter": {
         "tittel": "Dokumenter",
-        "fristUtlopt": "Fristen for å sende inn mer dokumentasjon til klagen din har utløpt. Ta kontakt med Nav-kontoret ditt hvis du har mer dokumentasjon som kan være relevant, men ikke får sendt det her.",
+        "fristUtlopt": "Fristen for å sende inn mer dokumentasjon til klagen din har utløpt. Ta kontakt med Nav-kontoret ditt hvis du har mer dokumentasjon som kan være relevant.",
         "klagePdfDefaultTittel": "Klage på vedtak om økonomisk sosialhjelp",
         "ettersendelseDefaultTittel": "Ukjent filnavn",
         "visFlereDokumenter": "dokumenter"
