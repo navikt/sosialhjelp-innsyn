@@ -116,7 +116,7 @@ describe("KlageInfo", () => {
         render(<KlageInfo vedtakId="vedtak-1" vedtaksdato={"2026-01-01"} />);
         const dato = await screen.findByText("29.01.2026");
         expect(dato.tagName).toBe("B");
-        expect(dato.parentElement).toHaveTextContent("Du kan klage frem til 29.01.2026");
+        expect(dato.parentElement).toHaveTextContent("Du kan klage digitalt frem til 29.01.2026");
     });
 
     it.each([

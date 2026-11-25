@@ -166,7 +166,7 @@
         "ettersendKnapp": "Se klagen og ettersend dokumentasjon",
         "seKlagen": "Se klagen din",
         "klagefristUtlopt": "Klagefristen har utløpt. <navKontorLenke>Kontakt Nav-kontoret</navKontorLenke> ditt dersom du ikke rakk å klage innen fristen, men fortsatt ønsker å klage på vedtaket. <klagerettigheterLenke>Les mer om dine klagerettigheter.</klagerettigheterLenke>",
-        "klagefrist": "Du kan klage frem til <strong>{dato}</strong>",
+        "klagefrist": "Du kan klage digitalt frem til <strong>{dato}</strong>",
         "ettersendelsefrist": "Du kan sende inn frem til <strong>{dato}</strong>"
     },
     "SokButton": {
