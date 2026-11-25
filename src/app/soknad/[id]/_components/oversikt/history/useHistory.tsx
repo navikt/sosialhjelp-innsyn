@@ -16,6 +16,7 @@ import VedtakFattetEvent from "./events/VedtakFattetEvent";
 import { RefObject } from "react";
 import DokumentasjonskravEvent from "./events/DokumentasjonskravEvent";
 import UtbetalingerOppdatertEvent from "./events/UtbetalingerOppdatertEvent";
+import UtbetalingStoppetEvent from "./events/UtbetalingStoppetEvent";
 import VideresendtEvent from "./events/VideresendtEvent";
 import DeltSoknadEvent from "./events/DeltSoknadEvent";
 import BehandlesIkkeEvent from "./events/BehandlesIkkeEvent";
@@ -59,6 +60,8 @@ const useHistory = (ref: RefObject<HTMLLIElement | null>, refIndex: number) => {
     const steps = R.pipe(
         data,
         mapReduce,
+        // Annullert vises bevisst ikke. Filtreres før map, så refIndex/fokus stemmer.
+        R.filter((hendelse) => !(hendelse.type === "UtbetalingerOppdatert" && hendelse.status === "ANNULLERT")),
         R.sortBy([R.prop("tidspunkt"), "desc"]),
         R.map((hendelse, index) => {
             const key = `${hendelse.type}-${hendelse.tidspunkt}-${index}`;
@@ -181,6 +184,15 @@ const useHistory = (ref: RefObject<HTMLLIElement | null>, refIndex: number) => {
                         />
                     );
                 case "UtbetalingerOppdatert":
+                    if (hendelse.status === "STOPPET") {
+                        return (
+                            <UtbetalingStoppetEvent
+                                key={key}
+                                ref={index === refIndex ? ref : undefined}
+                                tidspunkt={new Date(hendelse.tidspunkt)}
+                            />
+                        );
+                    }
                     return (
                         <UtbetalingerOppdatertEvent
                             key={key}
