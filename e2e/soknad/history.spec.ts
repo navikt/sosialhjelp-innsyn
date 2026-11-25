@@ -254,7 +254,7 @@ test.describe("History", () => {
 
         // Annullert skjules, nyeste først
         await expect(steg).toHaveCount(3);
-        await expect(steg.nth(0)).toContainText("En utbetaling er stanset");
+        await expect(steg.nth(0)).toContainText("En utbetaling er stoppet");
         await expect(steg.nth(0).getByRole("link", { name: "Se dine utbetalinger" })).toBeVisible();
         await expect(steg.nth(1)).toContainText("Dine utbetalinger har blitt oppdatert");
         await expect(steg.nth(2)).toContainText("Dine utbetalinger har blitt oppdatert");

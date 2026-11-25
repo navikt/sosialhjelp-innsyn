@@ -180,7 +180,7 @@
             "beskrivelse": "Sjå dine utbetalingar"
         },
         "UtbetalingStoppetEvent": {
-            "tittel": "Ei utbetaling er stansa",
+            "tittel": "Ei utbetaling er stoppa",
             "beskrivelse": "Sjå dine utbetalingar"
         },
         "DokumentasjonskravEvent": {

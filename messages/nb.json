@@ -193,7 +193,7 @@
             "beskrivelse": "Se dine utbetalinger"
         },
         "UtbetalingStoppetEvent": {
-            "tittel": "En utbetaling er stanset",
+            "tittel": "En utbetaling er stoppet",
             "beskrivelse": "Se dine utbetalinger"
         },
         "DokumentasjonskravEvent": {
