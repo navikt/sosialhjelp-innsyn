@@ -10,8 +10,20 @@ vi.mock("next/navigation", () => ({ useParams: () => ({ id: "soknad-1" }) }));
 vi.mock("@featuretoggles/context", () => ({ useFlag: () => ({ enabled: false }) }));
 
 const vedtak = [
-    { id: "newest", vedtaksFilUrl: "https://example.test/newest", dato: "2026-03-03", utfall: "INNVILGET" as const },
-    { id: "older", vedtaksFilUrl: "https://example.test/older", dato: "2026-02-02", utfall: "AVSLATT" as const },
+    {
+        id: "newest",
+        vedtaksFilUrl: "https://example.test/newest",
+        dato: "2026-03-03",
+        utfall: "INNVILGET" as const,
+        kanKlage: true,
+    },
+    {
+        id: "older",
+        vedtaksFilUrl: "https://example.test/older",
+        dato: "2026-02-02",
+        utfall: "AVSLATT" as const,
+        kanKlage: true,
+    },
 ];
 
 describe("VedtakPanel", () => {

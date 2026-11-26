@@ -12,10 +12,11 @@ import { erEttersendelsesfristUtlopt, getEttersendelsesfrist } from "@utils/ette
 interface Props {
     vedtakId: string;
     vedtaksdato: string;
+    kanKlage: boolean;
     innsendtKlage?: KlageRef;
 }
 
-const KlageInfo = ({ vedtakId, vedtaksdato, innsendtKlage }: Props) => {
+const KlageInfo = ({ vedtakId, vedtaksdato, kanKlage, innsendtKlage }: Props) => {
     const { id: fiksDigisosId } = useParams<{ id: string }>();
 
     const t = useTranslations("KlageInfo");
@@ -55,7 +56,7 @@ const KlageInfo = ({ vedtakId, vedtaksdato, innsendtKlage }: Props) => {
         );
     }
 
-    if (klageEnabled) {
+    if (klageEnabled && kanKlage) {
         const klagefrist = addWeeks(parseISO(vedtaksdato, { in: tz("Europe/Oslo") }), 4);
 
         if (isAfter(now, endOfDay(klagefrist))) {
