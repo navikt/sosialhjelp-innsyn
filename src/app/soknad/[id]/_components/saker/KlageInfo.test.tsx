@@ -32,7 +32,12 @@ describe("KlageInfo", () => {
         vi.spyOn(Date, "now").mockReturnValue(Date.parse("2025-04-02T21:59:59Z"));
         render(
             <NextIntlClientProvider locale="nb" messages={messages} timeZone="America/Los_Angeles">
-                <KlageInfo vedtakId="vedtak-1" vedtaksdato="2024-12-01" innsendtKlage={innsendtKlage} />
+                <KlageInfo
+                    vedtakId="vedtak-1"
+                    vedtaksdato="2024-12-01"
+                    kanKlage={false}
+                    innsendtKlage={innsendtKlage}
+                />
             </NextIntlClientProvider>
         );
 
@@ -51,7 +56,7 @@ describe("KlageInfo", () => {
         vi.spyOn(Date, "now").mockReturnValue(Date.parse("2025-03-01T12:00:00Z"));
         render(
             <NextIntlClientProvider locale={locale} messages={translations} timeZone="Europe/Oslo">
-                <KlageInfo vedtakId="vedtak-1" vedtaksdato="2024-12-01" innsendtKlage={innsendtKlage} />
+                <KlageInfo vedtakId="vedtak-1" vedtaksdato="2024-12-01" kanKlage={true} innsendtKlage={innsendtKlage} />
             </NextIntlClientProvider>
         );
 
@@ -62,7 +67,9 @@ describe("KlageInfo", () => {
 
     it("shows the appeal link without a deadline after midnight in Oslo", () => {
         vi.spyOn(Date, "now").mockReturnValue(Date.parse("2025-04-02T22:00:00Z"));
-        render(<KlageInfo vedtakId="vedtak-1" vedtaksdato="2024-12-01" innsendtKlage={innsendtKlage} />);
+        render(
+            <KlageInfo vedtakId="vedtak-1" vedtaksdato="2024-12-01" kanKlage={true} innsendtKlage={innsendtKlage} />
+        );
 
         expect(screen.getByRole("link", { name: "Se klagen din" })).toHaveAttribute(
             "href",
@@ -79,6 +86,7 @@ describe("KlageInfo", () => {
                 <KlageInfo
                     vedtakId="vedtak-1"
                     vedtaksdato="2024-12-01"
+                    kanKlage={true}
                     innsendtKlage={{ ...innsendtKlage, timestampSendt }}
                 />
             );
@@ -91,7 +99,7 @@ describe("KlageInfo", () => {
 
     it("shows the klage link when kanSendeKlage is true", async () => {
         server.use(http.get(url, () => HttpResponse.json({ kanSendeKlage: true })));
-        render(<KlageInfo vedtakId="vedtak-1" vedtaksdato={new Date().toISOString()} />);
+        render(<KlageInfo vedtakId="vedtak-1" vedtaksdato={new Date().toISOString()} kanKlage={true} />);
         expect(await screen.findByRole("link", { name: "Klag på vedtaket" })).toHaveAttribute(
             "href",
             "/klage/opprett/soknad-1/vedtak-1"
@@ -100,20 +108,20 @@ describe("KlageInfo", () => {
 
     it("hides the klage link when kanSendeKlage is false", async () => {
         server.use(http.get(url, () => HttpResponse.json({ kanSendeKlage: false })));
-        render(<KlageInfo vedtakId="vedtak-1" vedtaksdato={new Date().toISOString()} />);
+        render(<KlageInfo vedtakId="vedtak-1" vedtaksdato={new Date().toISOString()} kanKlage={true} />);
         await expect(screen.findByRole("link", { name: "Klag på vedtaket" }, { timeout: 100 })).rejects.toThrow();
     });
 
     it("hides the klage link when the call fails", async () => {
         server.use(http.get(url, () => HttpResponse.json({ error: "x" }, { status: 500 })));
-        render(<KlageInfo vedtakId="vedtak-1" vedtaksdato={new Date().toISOString()} />);
+        render(<KlageInfo vedtakId="vedtak-1" vedtaksdato={new Date().toISOString()} kanKlage={true} />);
         await expect(screen.findByRole("link", { name: "Klag på vedtaket" }, { timeout: 100 })).rejects.toThrow();
     });
 
     it("Shows klagefrist as vedtaksdato + 4 weeks", async () => {
         vi.setSystemTime(new Date("2026-01-21T12:00:00Z"));
         server.use(http.get(url, () => HttpResponse.json({ kanSendeKlage: true })));
-        render(<KlageInfo vedtakId="vedtak-1" vedtaksdato={"2026-01-01"} />);
+        render(<KlageInfo vedtakId="vedtak-1" vedtaksdato={"2026-01-01"} kanKlage={true} />);
         const dato = await screen.findByText("29.01.2026");
         expect(dato.tagName).toBe("B");
         expect(dato.parentElement).toHaveTextContent("Du kan klage digitalt frem til 29.01.2026");
@@ -130,7 +138,7 @@ describe("KlageInfo", () => {
             server.use(http.get(url, () => HttpResponse.json({ kanSendeKlage: true })));
             render(
                 <NextIntlClientProvider locale={locale} messages={translations} timeZone="America/Los_Angeles">
-                    <KlageInfo vedtakId="vedtak-1" vedtaksdato="2026-01-01" />
+                    <KlageInfo vedtakId="vedtak-1" vedtaksdato="2026-01-01" kanKlage={true} />
                 </NextIntlClientProvider>
             );
 
@@ -159,19 +167,31 @@ describe("KlageInfo", () => {
     ])("keeps the deadline day open in Oslo during %s", async (_season, vedtaksdato, now) => {
         vi.setSystemTime(new Date(now));
         server.use(http.get(url, () => HttpResponse.json({ kanSendeKlage: true })));
-        render(<KlageInfo vedtakId="vedtak-1" vedtaksdato={vedtaksdato} />);
+        render(<KlageInfo vedtakId="vedtak-1" vedtaksdato={vedtaksdato} kanKlage={true} />);
 
         expect(await screen.findByRole("link", { name: "Klag på vedtaket" })).toBeInTheDocument();
     });
 
     it("shows appeal information when digital appeals are unavailable and the deadline has passed", async () => {
         server.use(http.get(url, () => HttpResponse.json({ kanSendeKlage: false })));
-        render(<KlageInfo vedtakId="vedtak-1" vedtaksdato="2020-01-01" />);
+        render(<KlageInfo vedtakId="vedtak-1" vedtaksdato="2020-01-01" kanKlage={true} />);
 
         expect(
             await screen.findByRole("link", { name: "Les mer om dine klagerettigheter og hvordan du klager" })
         ).toHaveAttribute("href", "https://www.nav.no/okonomisk-sosialhjelp#klage");
         expect(screen.queryByRole("link", { name: /klageskjema/ })).not.toBeInTheDocument();
         expect(screen.queryByText(/Klagefristen har utløpt/)).not.toBeInTheDocument();
+    });
+
+    it("shows appeal information instead of the digital link for an ineligible decision", async () => {
+        server.use(http.get(url, () => HttpResponse.json({ kanSendeKlage: true })));
+        const dato = new Date().toISOString();
+        const { rerender } = render(<KlageInfo vedtakId="vedtak-1" vedtaksdato={dato} kanKlage={true} />);
+        expect(await screen.findByRole("link", { name: "Klag på vedtaket" })).toBeInTheDocument();
+        rerender(<KlageInfo vedtakId="vedtak-1" vedtaksdato={dato} kanKlage={false} />);
+        expect(
+            await screen.findByRole("link", { name: "Les mer om dine klagerettigheter og hvordan du klager" })
+        ).toBeInTheDocument();
+        expect(screen.queryByRole("link", { name: "Klag på vedtaket" })).not.toBeInTheDocument();
     });
 });

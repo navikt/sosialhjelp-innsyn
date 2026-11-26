@@ -24,8 +24,20 @@ describe("SoknadCard", () => {
                         status: "FERDIGBEHANDLET",
                         antallVedtak: 2,
                         vedtak: [
-                            { vedtaksFilUrl: "url1", id: "id1", dato: new Date().toISOString(), utfall: "INNVILGET" },
-                            { vedtaksFilUrl: "url2", id: "id2", dato: new Date().toISOString(), utfall: "INNVILGET" },
+                            {
+                                vedtaksFilUrl: "url1",
+                                id: "id1",
+                                dato: new Date().toISOString(),
+                                utfall: "INNVILGET",
+                                kanKlage: true,
+                            },
+                            {
+                                vedtaksFilUrl: "url2",
+                                id: "id2",
+                                dato: new Date().toISOString(),
+                                utfall: "INNVILGET",
+                                kanKlage: true,
+                            },
                         ],
                     },
                 ],

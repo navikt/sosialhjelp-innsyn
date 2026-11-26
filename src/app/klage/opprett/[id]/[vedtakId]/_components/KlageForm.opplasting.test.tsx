@@ -146,7 +146,7 @@ describe("KlageForm opplasting", () => {
 
     it("viser veiledning når klagefristen har utløpt ved innsending", async () => {
         mocks.send.mockRejectedValue(
-            new FetchError("Bad Request", 400, "Bad Request", "/klage", { error: "klagefrist_utlopt" })
+            new FetchError("Bad Request", 400, "Bad Request", "/klage", { type: "klagefrist_utlopt" })
         );
         render(<KlageForm fiksDigisosId="soknad-1" vedtakId="vedtak-1" klageId="klage-1" vedtakMottatt="2025-01-01" />);
 
@@ -173,7 +173,7 @@ describe("KlageForm opplasting", () => {
         { status: 403, error: "klagefrist_utlopt", message: "Sending av klage feilet" },
         { status: 403, error: "klage_ikke_tilgjengelig", message: "Klage er ikke tilgjengelig for denne søknaden." },
     ])("viser riktig melding for status $status og feil $error", async ({ status, error, message }) => {
-        mocks.send.mockRejectedValue(new FetchError("Request failed", status, "Error", "/klage", { error }));
+        mocks.send.mockRejectedValue(new FetchError("Request failed", status, "Error", "/klage", { type: error }));
         render(<KlageForm fiksDigisosId="soknad-1" vedtakId="vedtak-1" klageId="klage-1" vedtakMottatt="2025-01-01" />);
 
         await userEvent.type(screen.getByRole("textbox", { name: "Hvorfor er du uenig i vedtaket?" }), "Begrunnelse");

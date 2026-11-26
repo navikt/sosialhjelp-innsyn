@@ -59,7 +59,12 @@ const VedtakPanel = ({ vedtak, innsendtKlage }: Props) => {
                 </VStack>
             </VStack>
             <Box padding="space-16" borderWidth="1 0 0 0" borderColor="neutral-subtle" background="neutral-soft">
-                <KlageInfo innsendtKlage={innsendtKlage} vedtakId={vedtak.id} vedtaksdato={vedtak.dato} />
+                <KlageInfo
+                    innsendtKlage={innsendtKlage}
+                    vedtakId={vedtak.id}
+                    vedtaksdato={vedtak.dato}
+                    kanKlage={vedtak.kanKlage}
+                />
             </Box>
         </Box>
     );

@@ -3,72 +3,6 @@
     "info": { "title": "OpenAPI definition", "version": "v0" },
     "servers": [{ "url": "http://localhost:8080/sosialhjelp/innsyn-api", "description": "Generated server url" }],
     "paths": {
-        "/api/v1/innsyn/{fiksDigisosId}/{navEksternRefId}/vedlegg": {
-            "post": {
-                "tags": ["klage-controller"],
-                "operationId": "uploadDocuments",
-                "parameters": [
-                    {
-                        "name": "fiksDigisosId",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string", "format": "uuid" }
-                    },
-                    {
-                        "name": "navEksternRefId",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string", "format": "uuid" }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "files": { "type": "array", "items": { "type": "string", "format": "binary" } }
-                                },
-                                "required": ["files"]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": { "*/*": { "schema": { "$ref": "#/components/schemas/DocumentsForKlage" } } }
-                    }
-                }
-            }
-        },
-        "/api/v1/innsyn/{fiksDigisosId}/klage/{klageId}/ettersendelse/{ettersendelseId}": {
-            "post": {
-                "tags": ["klage-controller"],
-                "operationId": "sendEttersendelse",
-                "parameters": [
-                    {
-                        "name": "fiksDigisosId",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string", "format": "uuid" }
-                    },
-                    {
-                        "name": "klageId",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string", "format": "uuid" }
-                    },
-                    {
-                        "name": "ettersendelseId",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string", "format": "uuid" }
-                    }
-                ],
-                "responses": { "200": { "description": "OK", "content": {} } }
-            }
-        },
         "/api/v1/innsyn/{fiksDigisosId}/klage/send": {
             "post": {
                 "tags": ["klage-controller"],
@@ -417,27 +351,6 @@
                 }
             }
         },
-        "/api/v1/innsyn/{fiksDigisosId}/klage/{klageId}/avbryt": {
-            "get": {
-                "tags": ["klage-controller"],
-                "operationId": "cancelKlage",
-                "parameters": [
-                    {
-                        "name": "fiksDigisosId",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string", "format": "uuid" }
-                    },
-                    {
-                        "name": "klageId",
-                        "in": "path",
-                        "required": true,
-                        "schema": { "type": "string", "format": "uuid" }
-                    }
-                ],
-                "responses": { "200": { "description": "OK", "content": {} } }
-            }
-        },
         "/api/v1/innsyn/{fiksDigisosId}/klage/tilgjengelig": {
             "get": {
                 "tags": ["klage-controller"],
@@ -590,22 +503,6 @@
     },
     "components": {
         "schemas": {
-            "DocumentForKlage": {
-                "type": "object",
-                "properties": {
-                    "klageId": { "type": "string", "format": "uuid" },
-                    "documentId": { "type": "string", "format": "uuid" },
-                    "filename": { "type": "string" }
-                },
-                "required": ["documentId", "filename", "klageId"]
-            },
-            "DocumentsForKlage": {
-                "type": "object",
-                "properties": {
-                    "documents": { "type": "array", "items": { "$ref": "#/components/schemas/DocumentForKlage" } }
-                },
-                "required": ["documents"]
-            },
             "KlageInput": {
                 "type": "object",
                 "properties": {
@@ -876,9 +773,10 @@
                         "enum": ["INNVILGET", "DELVIS_INNVILGET", "AVSLATT", "AVVIST"]
                     },
                     "vedtaksFilUrl": { "type": "string" },
-                    "dato": { "type": "string", "format": "date" }
+                    "dato": { "type": "string", "format": "date" },
+                    "kanKlage": { "type": "boolean" }
                 },
-                "required": ["dato", "id", "vedtaksFilUrl"]
+                "required": ["dato", "id", "kanKlage", "vedtaksFilUrl"]
             },
             "SakResponse": {
                 "type": "object",
@@ -1057,8 +955,19 @@
                 "required": ["tidspunkt"]
             },
             "UtbetalingerOppdatert": {
-                "allOf": [{ "$ref": "#/components/schemas/HendelseDto" }],
-                "required": ["tidspunkt"]
+                "allOf": [
+                    { "$ref": "#/components/schemas/HendelseDto" },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "status": {
+                                "type": "string",
+                                "enum": ["PLANLAGT_UTBETALING", "UTBETALT", "STOPPET", "ANNULLERT"]
+                            }
+                        }
+                    }
+                ],
+                "required": ["status", "tidspunkt"]
             },
             "Videresendt": {
                 "allOf": [

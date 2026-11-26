@@ -23,7 +23,7 @@ const mocks = vi.hoisted(() => ({
 }));
 
 vi.mock("next/navigation", () => ({ useRouter: () => ({ replace: mocks.replace, push: mocks.push }) }));
-vi.mock("@navikt/next-logger", () => ({ logger: { warn: vi.fn(), error: vi.fn() } }));
+vi.mock("@navikt/next-logger", () => ({ logger: { info: vi.fn(), warn: vi.fn(), error: vi.fn() } }));
 vi.mock("@components/filopplasting/api/deleteSubmission", () => ({ deleteSubmission: mocks.deleteSubmission }));
 vi.mock("@components/filopplasting/api/useDocumentState", () => ({
     useDocumentState: () =>
@@ -49,10 +49,11 @@ vi.mock("./steg/StegBegrunnelse", () => ({
     ),
 }));
 vi.mock("./steg/StegOppsummering", () => ({
-    default: ({ isError }: { isError: boolean }) => (
+    default: ({ isError, ikkeTilgjengelig }: { isError: boolean; ikkeTilgjengelig: boolean }) => (
         <>
             <button type="submit">Send klage</button>
             {isError && <p role="alert">Sending feilet</p>}
+            {ikkeTilgjengelig && <p role="alert">Klage er ikke tilgjengelig</p>}
         </>
     ),
 }));
@@ -116,6 +117,17 @@ describe("KlageForm innsending", () => {
         expect(queryClient.getQueryState(complaintsKey)?.isInvalidated).toBe(false);
         expect(mocks.push).not.toHaveBeenCalled();
         expect(mocks.replace).not.toHaveBeenCalled();
+    });
+
+    it("shows the unavailable warning when the decision becomes ineligible", async () => {
+        server.use(
+            http.post("*/api/v1/innsyn/soknad-1/klage/send", () =>
+                HttpResponse.json({ type: "klage_ikke_tilgjengelig" }, { status: 403 })
+            )
+        );
+        await submitComplaint();
+        expect(await screen.findByRole("alert")).toHaveTextContent("Klage er ikke tilgjengelig");
+        expect(mocks.push).not.toHaveBeenCalled();
     });
 });
 

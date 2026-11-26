@@ -22,6 +22,7 @@ test.describe("Vedtak functionality", () => {
 
         // Create two vedtak with different dates - oldest first, newest last
         const olderVedtak: VedtakDto = {
+            kanKlage: true,
             id: "vedtak-1",
             utfall: "INNVILGET",
             vedtaksFilUrl: "/vedtak/1.pdf",
@@ -29,6 +30,7 @@ test.describe("Vedtak functionality", () => {
         };
 
         const newerVedtak: VedtakDto = {
+            kanKlage: true,
             id: "vedtak-2",
             utfall: "DELVIS_INNVILGET",
             vedtaksFilUrl: "/vedtak/2.pdf",
@@ -70,6 +72,7 @@ test.describe("Vedtak functionality", () => {
         const msw = createMswHelper(request, baseURL!);
 
         const olderVedtak: VedtakDto = {
+            kanKlage: true,
             id: "vedtak-1",
             utfall: "INNVILGET",
             vedtaksFilUrl: "/vedtak/1.pdf",
@@ -77,6 +80,7 @@ test.describe("Vedtak functionality", () => {
         };
 
         const newerVedtak: VedtakDto = {
+            kanKlage: true,
             id: "vedtak-2",
             utfall: "AVSLATT",
             vedtaksFilUrl: "/vedtak/2.pdf",
@@ -119,6 +123,7 @@ test.describe("Vedtak functionality", () => {
         const msw = createMswHelper(request, baseURL!);
 
         const singleVedtak: VedtakDto = {
+            kanKlage: true,
             id: "vedtak-1",
             utfall: "INNVILGET",
             vedtaksFilUrl: "/vedtak/1.pdf",
@@ -151,6 +156,7 @@ test.describe("Vedtak functionality", () => {
 
         // Create three vedtak with different dates
         const oldestVedtak: VedtakDto = {
+            kanKlage: true,
             id: "vedtak-1",
             utfall: "INNVILGET",
             vedtaksFilUrl: "/vedtak/1.pdf",
@@ -158,6 +164,7 @@ test.describe("Vedtak functionality", () => {
         };
 
         const middleVedtak: VedtakDto = {
+            kanKlage: true,
             id: "vedtak-2",
             utfall: "DELVIS_INNVILGET",
             vedtaksFilUrl: "/vedtak/2.pdf",
@@ -165,6 +172,7 @@ test.describe("Vedtak functionality", () => {
         };
 
         const newestVedtak: VedtakDto = {
+            kanKlage: true,
             id: "vedtak-3",
             utfall: "AVSLATT",
             vedtaksFilUrl: "/vedtak/3.pdf",

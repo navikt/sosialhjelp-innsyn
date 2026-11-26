@@ -83,7 +83,7 @@ const KlageForm = ({ fiksDigisosId, vedtakId, klageId, vedtaksbrev, navKontor, s
 
     const sendKlageMutation = useSendKlage();
     const fetchError = sendKlageMutation.error instanceof FetchError ? sendKlageMutation.error : undefined;
-    const apiError = (fetchError?.responseBody as { error?: string } | undefined)?.error;
+    const apiError = (fetchError?.responseBody as { type?: string } | undefined)?.type;
     const ikkeTilgjengelig = fetchError?.status === 403 && apiError === "klage_ikke_tilgjengelig";
     const klagefristUtlopt = fetchError?.status === 400 && apiError === "klagefrist_utlopt";
 

@@ -16,7 +16,13 @@ test.beforeEach(async ({ request, baseURL }) => {
                 referanse: "sak-1",
                 skalViseVedtakInfoPanel: false,
                 vedtak: [
-                    { id: "vedtak-1", utfall: "AVSLATT", dato: new Date().toISOString(), vedtaksFilUrl: "/vedtak.pdf" },
+                    {
+                        id: "vedtak-1",
+                        utfall: "AVSLATT",
+                        dato: new Date().toISOString(),
+                        vedtaksFilUrl: "/vedtak.pdf",
+                        kanKlage: true,
+                    },
                 ],
             },
         ],
@@ -68,4 +74,33 @@ test("back from an empty form does not warn", async ({ page }) => {
     });
     await page.goBack();
     await expect(page).toHaveURL(new RegExp(`${soknadUrl}$`));
+});
+
+test("an ineligible decision does not offer a digital appeal", async ({ page, request, baseURL }) => {
+    const msw = createMswHelper(request, baseURL!);
+    await mockSoknadEndpoints(msw, id, {
+        saksStatus: [
+            {
+                status: "FERDIGBEHANDLET",
+                tittel: "Sak",
+                referanse: "sak-1",
+                skalViseVedtakInfoPanel: false,
+                vedtak: [
+                    {
+                        id: "vedtak-1",
+                        utfall: "AVSLATT",
+                        dato: new Date().toISOString(),
+                        vedtaksFilUrl: "/vedtak.pdf",
+                        kanKlage: false,
+                    },
+                ],
+            },
+        ],
+    });
+    await msw.mockEndpoint(`/api/v1/innsyn/${id}/klage/tilgjengelig`, { kanSendeKlage: true });
+    await page.goto(soknadUrl);
+    await expect(
+        page.getByRole("link", { name: "Les mer om dine klagerettigheter og hvordan du klager" })
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: "Klag på vedtaket" })).toHaveCount(0);
 });

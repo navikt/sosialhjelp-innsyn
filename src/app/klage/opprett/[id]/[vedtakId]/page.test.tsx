@@ -38,6 +38,7 @@ describe("klage opprett page", () => {
     it("redirects to the soknad when klage is not available", async () => {
         mocks.tilgjengelig.mockResolvedValue(false);
         await expect(Page({ params })).rejects.toThrow("NEXT_REDIRECT");
+        expect(mocks.tilgjengelig).toHaveBeenCalledWith("soknad-1");
         expect(mocks.redirect).toHaveBeenCalledWith("/soknad/soknad-1");
     });
 
