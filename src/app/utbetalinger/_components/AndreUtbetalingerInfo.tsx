@@ -17,7 +17,9 @@ const AndreUtbetalingerInfo = async () => {
                 <BodyLong>
                     {t.rich("beskrivelse", {
                         lenke: (chunks) => (
-                            <AkselLink href="https://www.nav.no/utbetalingsoversikt">{chunks}</AkselLink>
+                            <AkselLink inlineText href="https://www.nav.no/utbetalingsoversikt">
+                                {chunks}
+                            </AkselLink>
                         ),
                     })}
                 </BodyLong>
