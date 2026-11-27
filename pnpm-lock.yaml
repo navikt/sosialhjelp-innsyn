@@ -200,23 +200,23 @@ importers:
         specifier: ^1.5.0
         version: 1.5.0
       '@grafana/faro-web-sdk':
-        specifier: ^2.13.0
-        version: 2.14.0
+        specifier: ^2.15.0
+        version: 2.15.0
       '@hookform/resolvers':
         specifier: ^5.9.1
         version: 5.9.2(ajv@8.20.0)(react-hook-form@7.92.0(@types/react@19.2.18)(react@19.3.1))(zod@4.6.7)
       '@navikt/aksel-icons':
-        specifier: ^8.22.1
-        version: 8.22.1
+        specifier: ^8.23.1
+        version: 8.23.1
       '@navikt/ds-css':
-        specifier: ^8.22.1
-        version: 8.22.1
+        specifier: ^8.23.1
+        version: 8.23.1
       '@navikt/ds-react':
-        specifier: ^8.22.1
-        version: 8.22.1(@types/react@19.2.18)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        specifier: ^8.23.1
+        version: 8.23.1(@types/react@19.2.18)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@navikt/ds-tailwind':
-        specifier: ^8.22.1
-        version: 8.22.1
+        specifier: ^8.23.1
+        version: 8.23.1
       '@navikt/nav-dekoratoren-moduler':
         specifier: ^4.6.0
         version: 4.6.0(html-react-parser@6.1.9(@types/react@19.2.18)(react@19.3.1))(react@19.3.1)
@@ -236,8 +236,8 @@ importers:
         specifier: ^4.3.3
         version: 4.3.5
       '@tanstack/react-query':
-        specifier: ^5.106.1
-        version: 5.107.1(@types/react@19.2.18)(react@19.3.1)
+        specifier: ^5.108.4
+        version: 5.108.4(@types/react@19.2.18)(react@19.3.1)
       '@unleash/nextjs':
         specifier: ^1.6.7
         version: 1.6.7(next@16.4.6(@babel/core@7.29.13)(@opentelemetry/api@1.10.0)(@playwright/test@1.65.1)(@types/node@25.9.9)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -251,14 +251,14 @@ importers:
         specifier: ^3.0.8
         version: 3.0.8
       markdown-to-jsx:
-        specifier: ^9.10.3
-        version: 9.10.6(react@19.3.1)
+        specifier: ^9.11.0
+        version: 9.11.0(react@19.3.1)
       next:
         specifier: 16.4.6
         version: 16.4.6(@babel/core@7.29.13)(@opentelemetry/api@1.10.0)(@playwright/test@1.65.1)(@types/node@25.9.9)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       next-intl:
-        specifier: ^4.14.9
-        version: 4.15.1(@swc/helpers@0.5.23)(@types/react@19.2.18)(next@16.4.6(@babel/core@7.29.13)(@opentelemetry/api@1.10.0)(@playwright/test@1.65.1)(@types/node@25.9.9)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
+        specifier: ^4.16.0
+        version: 4.16.0(@swc/helpers@0.5.23)(@types/react@19.2.18)(next@16.4.6(@babel/core@7.29.13)(@opentelemetry/api@1.10.0)(@playwright/test@1.65.1)(@types/node@25.9.9)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       next-logger:
         specifier: ^5.0.2
         version: 5.0.2(next@16.4.6(@babel/core@7.29.13)(@opentelemetry/api@1.10.0)(@playwright/test@1.65.1)(@types/node@25.9.9)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(pino@10.4.0)
@@ -284,8 +284,8 @@ importers:
         specifier: ^17.6.1
         version: 17.6.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       remeda:
-        specifier: ^2.58.0
-        version: 2.61.0
+        specifier: ^2.62.3
+        version: 2.62.3
       tus-js-client:
         specifier: ^4.3.1
         version: 4.3.1
@@ -348,8 +348,8 @@ importers:
         specifier: ^30.1.1
         version: 30.1.3
       knip:
-        specifier: ^6.44.1
-        version: 6.45.1
+        specifier: ^6.48.0
+        version: 6.48.0
       lint-staged:
         specifier: ^17.6.0
         version: 17.6.1
@@ -360,8 +360,8 @@ importers:
         specifier: ^1.0.5
         version: 1.0.5(next@16.4.6(@babel/core@7.29.13)(@opentelemetry/api@1.10.0)(@playwright/test@1.65.1)(@types/node@25.9.9)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)
       orval:
-        specifier: ^8.46.0
-        version: 8.48.0(@faker-js/faker@10.6.0)(@tanstack/react-query@5.107.1(@types/react@19.2.18)(react@19.3.1))(msw@2.15.0(@types/node@25.9.9)(typescript@6.0.3))(prettier@3.10.1)(zod@4.6.7)
+        specifier: ^8.49.0
+        version: 8.49.0(@faker-js/faker@10.6.0)(@tanstack/react-query@5.108.4(@types/react@19.2.18)(react@19.3.1))(msw@2.15.0(@types/node@25.9.9)(typescript@6.0.3))(prettier@3.10.1)(zod@4.6.7)
       pino-pretty:
         specifier: ^13.2.0
         version: 13.2.0
@@ -540,11 +540,17 @@ packages:
   '@eloqnt/config@0.1.2':
     resolution: {integrity: sha512-0pdjiCFur3M1fxuoPIoLS/ElTNerOdmkjToiLi399ITOLE/HRvHxJ5OjuOPQqPIZcbYXr2+WAWu3dnXMjt/WZg==}
 
+  '@eloqnt/extractor@0.1.0':
+    resolution: {integrity: sha512-ZesGo0H7jCqGLvCE2e0vyUNhRPBnIRc3xuCtCMsrSXTc+DTtjhXfyF+BtCmDk2WVEgExL0e8Y3bJQygjmr3qdw==}
+
   '@eloqnt/format-json@0.1.1':
     resolution: {integrity: sha512-Pp8DZPMSWBZy8CydZ293LhXnopdiIVdKO0z//fWFA+Cq1CK9vk2DdoigEFxjWl4CqYfXrRQYPdaKEKTC/9e1CQ==}
 
   '@eloqnt/format-po@0.1.2':
     resolution: {integrity: sha512-bohkA1SmJ9rJQG+tNsY8gWrdSo+pJazdjI+dTW+Wt2eg+UuwejXuYOkZDVcWRBCt6MH1dhHo0UuDau0jUmu/+Q==}
+
+  '@eloqnt/messages@0.1.0':
+    resolution: {integrity: sha512-/YIr/bPaRCJmPGR5OrqVoado0j5ijcD7q95jZlkIzd0ipmEM4s+805c9PafoLUKCrudMEI4gqIUsZ24hZ0d2pQ==}
 
   '@emnapi/core@1.11.2':
     resolution: {integrity: sha512-TC8MkTuZUtcTSiFeuC0ksCh9QIJ5+F21MvZ4Wn4ORfYaFJ/0dsiudv5tVkejgwZlwQ39jL9WWDe2lz8x0WglOA==}
@@ -809,11 +815,11 @@ packages:
     resolution: {integrity: sha512-GmzA9ckNokPypTg10pgpeHNQe7ph+iIKKmhKu3Ob9ANkswreCx7R3cKmY781K8QK3AqVL3xVh9A42JvIAbkkSA==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
-  '@grafana/faro-core@2.14.0':
-    resolution: {integrity: sha512-U1dydD2pQa3sgnaoGQsmsDoecef2S90Y6kVYyhdXjaSg8+bzJWwW5mGtO+7V15PjZSKA4tdXGKRHa1RGGJPY8Q==}
+  '@grafana/faro-core@2.15.0':
+    resolution: {integrity: sha512-kya8i2FHCKT7oVoh42KY5zUYZmeyPpmAJ5dfAwbv0YYzgakTytPkXD+zYCx17A8LHysQZzl5mz81zsgtDjufUw==}
 
-  '@grafana/faro-web-sdk@2.14.0':
-    resolution: {integrity: sha512-ZZu5GmNvx+2pA+ma8dMER7GiJ/UVbI5qXWV5rK5ms6uK6hrh2xXKNETp9s1R+U/yVfHlo7n/ArtjQB/8/8noTw==}
+  '@grafana/faro-web-sdk@2.15.0':
+    resolution: {integrity: sha512-d9xMaHUCoqZ2rwFd6emFxmz7Vdw1fJPhdbEoz4pke2m2eGG8dd6acqQBCA+rPAtVfOI39/GlwGXNR1fhgE1+6w==}
 
   '@hookform/resolvers@5.9.2':
     resolution: {integrity: sha512-RtjTnZqsC38s4NKp2XO3fD8IA5uyN4tB7McQ5C6uiMPcV+WWO8F+wVa3e+BXUpH2ScgxghAlwFRMVqjT9WChAQ==}
@@ -1156,28 +1162,28 @@ packages:
       '@emnapi/core': ^1.7.1 || 2.0.0-beta.2 || 2.0.0-beta.3
       '@emnapi/runtime': ^1.7.1 || 2.0.0-beta.2 || 2.0.0-beta.3
 
-  '@navikt/aksel-icons@8.22.1':
-    resolution: {integrity: sha512-NmNg4vK6Hrabw8CleI6jJCwOb4aXnMjkE9Rw4OQjbfgHrg4UXWnUFgQJ3/Rk/unGdfXGNxV591RTwPNc2dZoTA==, tarball: https://npm.pkg.github.com/download/@navikt/aksel-icons/8.22.1/c93a3bad8be4134bd833ecc08db4583034be4d75}
+  '@navikt/aksel-icons@8.23.1':
+    resolution: {integrity: sha512-c07DAdYtpt0DO/pfmLMXM31DPVI+m7mkA3qZ+zY/RuDCDgwlHpNsMFN23ddF1kbf/YXsTvMbxx0x42cBzCKqdQ==, tarball: https://npm.pkg.github.com/download/@navikt/aksel-icons/8.23.1/79d51d70ed84fed0c7193a47b634fc9752344214}
 
   '@navikt/analytics-types@0.0.9':
     resolution: {integrity: sha512-bopCvqEogyFcmrJiBxK/Mr25d6yPKF7GR36MGrJqiHCPJYf1rDu6lK4cpooTG4Q//D/1xTkHRom8ZH5BI6dTew==, tarball: https://npm.pkg.github.com/download/@navikt/analytics-types/0.0.9/5919241a6dbb782eb101fff3234ce5c36d16e942}
     engines: {node: '>=20.0.0', npm: '>=9.0.0'}
 
-  '@navikt/ds-css@8.22.1':
-    resolution: {integrity: sha512-whWza4g9GAssC9qWOEtrnPYcffaGGT6ko347A6KggccrC7/G7drxJj2aQVk+2bHFWT7GClg20dDxlmZKm9CcTA==, tarball: https://npm.pkg.github.com/download/@navikt/ds-css/8.22.1/623473ad66bd13b979cd026acb51b996b25a62a4}
+  '@navikt/ds-css@8.23.1':
+    resolution: {integrity: sha512-8pHnprrJvpkXcT06K9GZ7qSlIVmdAwmhSrXesXw/ac+8J36PGUy3XPLE0RjARMVlhbgPfqxM9nynAh7ZdKFZ2A==, tarball: https://npm.pkg.github.com/download/@navikt/ds-css/8.23.1/6bde9b8856d4a733e02df5fca8d034fc0551e687}
 
-  '@navikt/ds-react@8.22.1':
-    resolution: {integrity: sha512-rS7wmk/pE3KIDTV3Oimbnx/vd9nxQs3AQt7QgxILNrIGvE+uih5ohbcz9UOk970beUDc+xeQ5jmRK209dzNfcw==, tarball: https://npm.pkg.github.com/download/@navikt/ds-react/8.22.1/864ade4ec3891f9bf5e94a71089665433ce351d7}
+  '@navikt/ds-react@8.23.1':
+    resolution: {integrity: sha512-VjyBxOSKkvJfsewW/NL/O3PpwiAgcO3gil3S881UeQKpBqfw/eNZzQHpTk3DCm8/G45uhPtHWVRGdnMwnXnSlQ==, tarball: https://npm.pkg.github.com/download/@navikt/ds-react/8.23.1/3542d53cf505c65151bd2a89090b2d7200c73f0d}
     peerDependencies:
       '@types/react': ^17.0.30 || ^18 || ^19
       react: ^17 || ^18 || ^19
       react-dom: ^17 || ^18 || ^19
 
-  '@navikt/ds-tailwind@8.22.1':
-    resolution: {integrity: sha512-dglib5tqiXehwcPWUpPs6b4ZW197RgGp2PoqWnMCuiFLo1/GpOW0jHBRBOuNSVOHXfCiD4gslEu2jsr+SM+Suw==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tailwind/8.22.1/340fe46132cf9eaae78f7011b5126474bb0ee984}
+  '@navikt/ds-tailwind@8.23.1':
+    resolution: {integrity: sha512-CVUfa2MpCsvPmBi1PT2nMpP4flw1eSasZU+nTT8EnWdKqNDQiAjcJC6nBrdwszN7bcJDWVxTwgAJJUhcQsS0HQ==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tailwind/8.23.1/54ed1bdffd02575323869286ae61bfd7c55586e2}
 
-  '@navikt/ds-tokens@8.22.1':
-    resolution: {integrity: sha512-cDmfPn5Q0HmE8eTie5jkj76zKMrS/AeZcAKscxtZFTL6sFdIFKON8AwWcS0pdRuC3yxYNGRmO176xGjn2POLCQ==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tokens/8.22.1/43f354b993b9a56b9b4329ab54a9e17c5decf92b}
+  '@navikt/ds-tokens@8.23.1':
+    resolution: {integrity: sha512-iGu3qUgsYnj22cMJWiTgKcFUfquZS9kKHLK3mW0BCToyetlCT9kWulVttW0/e1xjLK06DI7kaOIJuZryy9SwGw==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tokens/8.23.1/6521a0934c33893be932c2f0bfdaf2969f8b959c}
 
   '@navikt/nav-dekoratoren-moduler@4.6.0':
     resolution: {integrity: sha512-1Yrbbmap/zuC5zGic6/+pOp6hbveoApTyMPQEBHB3a4Ac9mMdKqnLJyDtcYJCVhpMByD4KaRm5NgBaLpy17JmA==, tarball: https://npm.pkg.github.com/download/@navikt/nav-dekoratoren-moduler/4.6.0/6c8cbd3d81091b0eb1e35818598aa81b0fc16295}
@@ -1362,14 +1368,14 @@ packages:
     resolution: {integrity: sha512-aOP45mbcOKbQVvFWfQmgoOPT8R2iwbbbgl83k4CujGV9BrJhFr3qG55MFpwFs4YLabpuW3HhzUY9eQxPlDqaZw==}
     engines: {node: '>=14'}
 
-  '@orval/angular@8.48.0':
-    resolution: {integrity: sha512-J93uRDtPhnvrVSTsbaIb1Ftd0kk336ILlorZZNInXk1V4n94infK9tPHdFM27pxs9oiwPaEFupmn+2jvut36kg==}
+  '@orval/angular@8.49.0':
+    resolution: {integrity: sha512-3uFmo8Aq16t5fN4ArAxXe0IF+CZFDBZ0m2UL2Uy2vfzxea64dhFoii1vDK030tWl401H/o3DmsuK3nfGdrtkpw==}
 
-  '@orval/axios@8.48.0':
-    resolution: {integrity: sha512-oZgtFhctfAVO6eDaCXtPuoyUyPjghnU1kQUGBH5a1+V9IKVQriCBuXFcenTq92cvU2WzunDT2hIy6O1F3Yw/Rw==}
+  '@orval/axios@8.49.0':
+    resolution: {integrity: sha512-d7624qDObbtlkZgZgF7t/IFaJTZNQt9s9nEXDCSQaUsTzB4XN/3GeZvzSJ7VR+I90zOy4vVdmPSQ7su39eH8ZA==}
 
-  '@orval/core@8.48.0':
-    resolution: {integrity: sha512-kAKho1nWwq5015We5Zz/Fwm7zI5MQzgDZm1qOOqWLHUR6fK7h6m1fQg45FsrvgKcRs7jnYPM1cMO8ERwLZxDvA==}
+  '@orval/core@8.49.0':
+    resolution: {integrity: sha512-drPTW7JBMoXk54SkJrfufXzZvuLO6APJzprCRZftkikC0UaPGE8IBGntlmMo6D3JT6EIZ6XlVmNSKslMKrMqGA==}
     peerDependencies:
       '@faker-js/faker': '>=8'
       '@modelcontextprotocol/server': '>=2'
@@ -1379,30 +1385,30 @@ packages:
       '@modelcontextprotocol/server':
         optional: true
 
-  '@orval/effect@8.48.0':
-    resolution: {integrity: sha512-O9JZVJkU2zqcW5jD28IWs9z0jhBSQ1uJiCxMrAucYbyppUltPKO66OpSsazG2qxD3U4UdWnp1E3XJ2pRTtwnAQ==}
+  '@orval/effect@8.49.0':
+    resolution: {integrity: sha512-yq7zw8Qpqzb8rpIGjSXCjYQWQAT11WhibMMIINuxI9dS4ZY8fQMwPkKf/V/3dcqeXTfuYyKnW5PRb8uDe/BR5Q==}
     peerDependencies:
       effect: '>=3'
     peerDependenciesMeta:
       effect:
         optional: true
 
-  '@orval/fetch@8.48.0':
-    resolution: {integrity: sha512-/LHHyOtgLC7LngstpJbxZyMq6tAPe69Tt5U8UiaqCN9NwuLQlR4t15jK9ukEkmzjvvN/92lh0Mbdff431jsbxA==}
+  '@orval/fetch@8.49.0':
+    resolution: {integrity: sha512-2SE03EfjWzk3tXGr48p1fJr7j9KVIqfMVW5cRejRzWMlZPz8uP0NMSUglnOVQKoaA4qiXRlTfJM6L4TtdQBJtA==}
 
-  '@orval/hono@8.48.0':
-    resolution: {integrity: sha512-7KL89RNRirUikMfpGfYDioV6SVF5e0LYNTMQcrG7Fw94KWqsH/oY24wScVNhFiPTMUOIU+cMCHDXqXFEpwmNkw==}
+  '@orval/hono@8.49.0':
+    resolution: {integrity: sha512-NdOXw9n6alPxn4IHtoHo1Z3MI1L8G8YPsC2h/EgDYL7mhzhfbNQOscdupqiyJJCA2cRD2vHXg1KhAq4eK6teXw==}
 
-  '@orval/mcp@8.48.0':
-    resolution: {integrity: sha512-/MSTq9y1cqawZ0Zr1USER2HTUcLFVGMb1//eM3+lCC5FmCMD270GepOqUdrFJc9nPHHKDZIti/7sRGb3cQ90ig==}
+  '@orval/mcp@8.49.0':
+    resolution: {integrity: sha512-0Krl1ajhiYYITZuXdweb9ASHRZKXCOC/ZqrAKkgX/xKWn5t2aJFuh1YHuj5dvX+3TVq592AOdPkkKHWRz/CfxQ==}
     peerDependencies:
       '@modelcontextprotocol/server': '>=2'
     peerDependenciesMeta:
       '@modelcontextprotocol/server':
         optional: true
 
-  '@orval/mock@8.48.0':
-    resolution: {integrity: sha512-Plum/Sc+wYSNipQW6tTKkK8GtKvko3FC1g3cFMCEQB0XFIlVU68tP1eQ9fVq1jGe+V5D+yn5mxl5bb02G5hS7g==}
+  '@orval/mock@8.49.0':
+    resolution: {integrity: sha512-PXfMiQdO33ZSyqtpP/olM5iEgVnS4BafVGtIQKxdIl1cdt4s6yxPtBpcG3I1Fy018KTuu6q8PxzeWObqohXW/A==}
     peerDependencies:
       '@faker-js/faker': '>=8'
       msw: '>=2'
@@ -1412,23 +1418,26 @@ packages:
       msw:
         optional: true
 
-  '@orval/pinia-colada@8.48.0':
-    resolution: {integrity: sha512-yRASEG7fu+vznKOMU4OPMnCfGa9VHwQtJIti82loSBDBRKxOjj79RD3AUEY2tdN8Zgv1PV12M+6i674wIV7/WQ==}
+  '@orval/pinia-colada@8.49.0':
+    resolution: {integrity: sha512-uKqWTo+1XLK0pm/w1gOXB3EvO8HthQDxJeQfAmDFgZdNu3Fy4vfemR6IvDXfGVbD3gGMt73nWY+MbPqslFrKRQ==}
     peerDependencies:
       '@pinia/colada': ^1.4.4
     peerDependenciesMeta:
       '@pinia/colada':
         optional: true
 
-  '@orval/query@8.48.0':
-    resolution: {integrity: sha512-GsSd+HcLqNmEP++jMt9QqN3SAibmwF739SWqHKGHlxucZHddMtJR7kDp4pYmB6dW77B5Ao0zsuF2Ca2h8adbLA==}
+  '@orval/query@8.49.0':
+    resolution: {integrity: sha512-zyYBwsWuVavVu00CTiHCIvRc1cgR0IeBjbgmZt5GSZ+fpWNnQnWfYlMF+dsvaxJ1/b9wr+/SPSN7+9AcuqmnJA==}
     peerDependencies:
+      '@tanstack/angular-query': '>=5'
       '@tanstack/angular-query-experimental': '>=5'
       '@tanstack/react-query': '>=4'
       '@tanstack/solid-query': '>=4'
       '@tanstack/svelte-query': '>=4'
       '@tanstack/vue-query': '>=4'
     peerDependenciesMeta:
+      '@tanstack/angular-query':
+        optional: true
       '@tanstack/angular-query-experimental':
         optional: true
       '@tanstack/react-query':
@@ -1440,27 +1449,27 @@ packages:
       '@tanstack/vue-query':
         optional: true
 
-  '@orval/solid-start@8.48.0':
-    resolution: {integrity: sha512-7CStjrxxRrAR33Dnc0Jt8SuyP3eEhRHQrlip6L0pFl21o814qdiyMazd1D1eFXI1sLt18U6iiKOR64yMS7zXSw==}
+  '@orval/solid-start@8.49.0':
+    resolution: {integrity: sha512-qHpIfk65EDavx1g7YQyb9XCIcQMl+rK4qLmzavoZsVuy3Pn8KgYiFDYk/C8SCYC3krPc7WwkOS479BSckiFLZg==}
 
-  '@orval/swr@8.48.0':
-    resolution: {integrity: sha512-uqkTxV6EXdLnUDZnb0rwnxV7GbZxhcLCdKnK39Yf0AZ7tIUCBYRQz1IDi7jzDlJ9Nh6g64bdstRTatf4+66cIw==}
+  '@orval/swr@8.49.0':
+    resolution: {integrity: sha512-TP4LPr5Kjg/olA85qiFErLR9rpBFJKcQIbZOqlr/IEJCgKnnE7+MR8TUt3d28JXrYJMsbTZ5oaFocTu5kwB5EQ==}
     peerDependencies:
       swr: '>=2'
     peerDependenciesMeta:
       swr:
         optional: true
 
-  '@orval/valibot@8.48.0':
-    resolution: {integrity: sha512-7C2PGcruq306iuhxZk8CHkK9jPAD/ZQ6JILzk0qBOGCMW4XOMLoenXotJ/h2kAE1+Iu5CY1W5Lfg0DwpvY3J0w==}
+  '@orval/valibot@8.49.0':
+    resolution: {integrity: sha512-3dhW9ZvMkwdTZZNw6J23dpLM8q135oaT1RekDUgM45CVkznE9jDYV82sEljhLVRHFHuPuGBukai8IANo8BrLCw==}
     peerDependencies:
       valibot: '>=1'
     peerDependenciesMeta:
       valibot:
         optional: true
 
-  '@orval/zod@8.48.0':
-    resolution: {integrity: sha512-kPsI0MGY7x27DJt/oDE4540rL/KhqVLf07muIQ0AeopchVLXVEISactSYdVW89SKWQxpeXek/wEnSyCNhIH0cg==}
+  '@orval/zod@8.49.0':
+    resolution: {integrity: sha512-Oi+WqynT9Ws11precxI9yZVJdhuuiwp/0cHiaN+Q8GizlmJycxw8j6bMozeh6zci4wgYXVuttVJkntdo9Jvcig==}
     peerDependencies:
       zod: '>=3'
     peerDependenciesMeta:
@@ -1473,8 +1482,20 @@ packages:
     cpu: [arm]
     os: [android]
 
+  '@oxc-parser/binding-android-arm-eabi@0.159.0':
+    resolution: {integrity: sha512-9/yHxYVeyVzS3CEilO17axbtudUEmySuCL5x4nRz63nld21u4sdxXNhAOLeLCw/c8puAu9RmMb1+FWpq6jJYeQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm]
+    os: [android]
+
   '@oxc-parser/binding-android-arm64@0.156.0':
     resolution: {integrity: sha512-mwkWKhOBpmh8fWc3m4MiLsmEAtx0YuHmvyo9ff557cnb3QZ2kt2eauSz75wCGIpiZG3gUsJ4WwzEjm4R4/BHig==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [android]
+
+  '@oxc-parser/binding-android-arm64@0.159.0':
+    resolution: {integrity: sha512-w9/NlA/feGMweV8DD1yzNwRAgusdGawCxqK+p3bVhDhXDeg8ahIeJxK/iVTOSA8s4dcnRS8hZYumznAFiKMf5Q==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [android]
@@ -1485,8 +1506,20 @@ packages:
     cpu: [arm64]
     os: [darwin]
 
+  '@oxc-parser/binding-darwin-arm64@0.159.0':
+    resolution: {integrity: sha512-ybQsbjJR9K/vpmUFfpp8mz7gUPVUZRgI4Oci+g0QwKZAh0m5fSzayXvGrrBIIEQwYPa+Q83kvFUluc0RlNZxTg==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [darwin]
+
   '@oxc-parser/binding-darwin-x64@0.156.0':
     resolution: {integrity: sha512-M9QghL7uCAqMKjYJv1rDGblfEvkeQu3QzTPd7Uwo16gG3uO7m9ikVQ9OL8FZTnKzU4vbCEby6kTlEkqN+JeEMA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [darwin]
+
+  '@oxc-parser/binding-darwin-x64@0.159.0':
+    resolution: {integrity: sha512-J2wQ6NVZGRgnIaw1CHotZPwIqFtLb3Bm/rh5Bsa45/kaeRqYN21IiaSY0CM7HPd49tt5lWkLEgLzWF1RcGY/nw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [darwin]
@@ -1497,8 +1530,20 @@ packages:
     cpu: [x64]
     os: [freebsd]
 
+  '@oxc-parser/binding-freebsd-x64@0.159.0':
+    resolution: {integrity: sha512-2m2Ei566aZdgHw1lpdEsYFJyvfTfMfYqZa7FqYSdLAsatNI4uj1G7dt9TuRKzSC8sd870MvIK2j/jBqHwYRo+g==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [freebsd]
+
   '@oxc-parser/binding-linux-arm-gnueabihf@0.156.0':
     resolution: {integrity: sha512-iPgYpasRcqk7X3TGncQg7B+6RotDvG8weug0UrgF+FXLf4KmaNDyT91BKONlqbHcNgK9Nryp7AEZGuQn32fP6g==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm]
+    os: [linux]
+
+  '@oxc-parser/binding-linux-arm-gnueabihf@0.159.0':
+    resolution: {integrity: sha512-E2MRPHA/CKm81FU6wOoFbuGt7AoEdQYOjTiUgpNp5UgSFTX8Na5iR986TiG4GXxMaxHiXBMqRF2UXSqrVmUzrQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [linux]
@@ -1509,8 +1554,21 @@ packages:
     cpu: [arm]
     os: [linux]
 
+  '@oxc-parser/binding-linux-arm-musleabihf@0.159.0':
+    resolution: {integrity: sha512-BMJjs3iDvWef8t/FoBdhF7RpyNTk5Zm/6BveT+6JNsl2FK6jy4zG71T8rfJbYEyP9TRJ7jnm8Glb0O6VeJXIrA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm]
+    os: [linux]
+
   '@oxc-parser/binding-linux-arm64-gnu@0.156.0':
     resolution: {integrity: sha512-mrQs5OdRiqKskRuWEORPKT6YGIFhrpVvCvL9hqVaIh60EzgR4qjPvSsV6hWZcOfyWHBTbdEvfnDJPh/eQlxPRQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
+
+  '@oxc-parser/binding-linux-arm64-gnu@0.159.0':
+    resolution: {integrity: sha512-O+kPugGeoMKraX3ItOs0U0d6DvWVcgVf9jA6YaGmEnngJIBdcIU/DFmNlLJwRD+ZuiDl+nAM+C6JZ+cOXGN9wA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
@@ -1523,8 +1581,22 @@ packages:
     os: [linux]
     libc: [musl]
 
+  '@oxc-parser/binding-linux-arm64-musl@0.159.0':
+    resolution: {integrity: sha512-7rRQZZZjdr49S7Y550sM2KWTQtLyhz74+l6A8dUgHq0rxqJWt1GHJnZPIVSc5G6dwtPcx39ZUYf8CXmaxIQu3g==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
+
   '@oxc-parser/binding-linux-ppc64-gnu@0.156.0':
     resolution: {integrity: sha512-ZuGRT/adReZZJn3PYNneb1HQIOH0iIZ2fzFgC1/XJYpMQ5KsRKmWIEzy3wEFsUwIOTomCmnmTZ/zbFYo9z9VeA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [ppc64]
+    os: [linux]
+    libc: [glibc]
+
+  '@oxc-parser/binding-linux-ppc64-gnu@0.159.0':
+    resolution: {integrity: sha512-5PXsuw1HeAPrGHFkoAuWtqKh6spW7s5u/OKORhlr2KMqrROAj3azYg0MfsjWbcSr5VBqnS2sp7aNz88MoEhSQw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ppc64]
     os: [linux]
@@ -1537,8 +1609,22 @@ packages:
     os: [linux]
     libc: [glibc]
 
+  '@oxc-parser/binding-linux-riscv64-gnu@0.159.0':
+    resolution: {integrity: sha512-dd8F9Fv+gYN4S2O53vn+JtMrjZLyiwzdzH6u8iC2zrloDtRBLgJRXWWAZ03gCIoEtAmynoIDCl3HvSZD0sSp6Q==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [riscv64]
+    os: [linux]
+    libc: [glibc]
+
   '@oxc-parser/binding-linux-riscv64-musl@0.156.0':
     resolution: {integrity: sha512-wL55bI2kVKfwdxScbw60zVgzAqbQbmE5zpSPWPZoZ9RSG8egm6ITE/UWE5mDWlglxz1QElJCcUbpaJCtHD11BQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [riscv64]
+    os: [linux]
+    libc: [musl]
+
+  '@oxc-parser/binding-linux-riscv64-musl@0.159.0':
+    resolution: {integrity: sha512-JHie9br++hDW7Y5z7Z3HgyUp+ToYzZLQ6r0XY1fdIAoKBDuknKdZh7uR1yxMflv3NzIRwCZk6j0vKiSAYnIuOA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [riscv64]
     os: [linux]
@@ -1551,8 +1637,22 @@ packages:
     os: [linux]
     libc: [glibc]
 
+  '@oxc-parser/binding-linux-s390x-gnu@0.159.0':
+    resolution: {integrity: sha512-BMvYKECH7wCb70/2xHF8R94jjIX8zG4n58fLkN9wdjTI079x7FOGPd+Gp5dfQ8ouv2pZJZ5p9wA1Kbm0BYMVYw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [s390x]
+    os: [linux]
+    libc: [glibc]
+
   '@oxc-parser/binding-linux-x64-gnu@0.156.0':
     resolution: {integrity: sha512-jRfwpN4xKrsEpC+SgrUPY5k0mINYZn7aLrt22I3uQFoumiSgHgsLYgS9f84ntbkvSydH4HiwGuDa2b1XCHaJzw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [linux]
+    libc: [glibc]
+
+  '@oxc-parser/binding-linux-x64-gnu@0.159.0':
+    resolution: {integrity: sha512-dH2vcVJi2sqSd2S51WB/LXyoJKho+TL7UoCDOuMZ+0mggFF9Gf4fjspo89hZnT/KrINBJg3UsGlfogHGHUmQNA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
@@ -1565,8 +1665,21 @@ packages:
     os: [linux]
     libc: [musl]
 
+  '@oxc-parser/binding-linux-x64-musl@0.159.0':
+    resolution: {integrity: sha512-QTuiVVnxBfelO1dokkRh5scfEkodbvpeiXfgnb7N3196/FIiCwVt44UXwnuU3RI2QjdeLQgr7CfN0SJ0UdvfGg==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
+
   '@oxc-parser/binding-openharmony-arm64@0.156.0':
     resolution: {integrity: sha512-WSN6rQZZc9KqgZ4lMfjVDvqKhVOCjey/YEZIPisGXmwBqwgWOzru207dyiH50LHcf1n9LO2oceGk/id6RL9v0g==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [openharmony]
+
+  '@oxc-parser/binding-openharmony-arm64@0.159.0':
+    resolution: {integrity: sha512-lropr2CN3zGJ46uEY0AXviiXip6jRo3p7Hr6AqGFZx34EU9j58kWFHM3boqjjbrQkiPRBH/ZsTHolAf6ZehYmw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [openharmony]
@@ -1577,8 +1690,20 @@ packages:
     cpu: [arm64]
     os: [win32]
 
+  '@oxc-parser/binding-win32-arm64-msvc@0.159.0':
+    resolution: {integrity: sha512-8Mpnrt5JMCz4YJZsliH2L4LivJ1Go8Z9VEFbjqIHmp7yUO9XMwqqvcetl+uqcBbj9+vTXDLw8GPWhiVLv670fA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [win32]
+
   '@oxc-parser/binding-win32-ia32-msvc@0.156.0':
     resolution: {integrity: sha512-CUq0ZFl/RODqPiIgfNNSamkpTj5x8AjBTkR/y1DNVIQiTGnmWqjHcn3o08ZW3q/LgkI4g9G9g6UirmmQFvuOZw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [ia32]
+    os: [win32]
+
+  '@oxc-parser/binding-win32-ia32-msvc@0.159.0':
+    resolution: {integrity: sha512-Rzwjdp1yCMXmBvf3/L6wMg2JnkRF7lLacSHvq7NwKMYD6gNwsdwnQrotnY3CCDyng7C2b0GKA9TtrN321LoU4w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ia32]
     os: [win32]
@@ -1589,8 +1714,17 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@oxc-parser/binding-win32-x64-msvc@0.159.0':
+    resolution: {integrity: sha512-cZIw4RN4DvSdFONNCbR3PR7vvfviFnlbU6pflZFXH9ll/fuaPkgcXrQq3DLISmDnZ3E3Vly9zHmIdJgjsD+W0w==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [win32]
+
   '@oxc-project/types@0.156.0':
     resolution: {integrity: sha512-1Duyg48TdJNdyhEB8Xn1L36bT9Pv6GUtlKjHxOys8xkaF/rQq3XJE+bAurSK/AgIz5mGFsb77cn9Pb20+WCScw==}
+
+  '@oxc-project/types@0.159.0':
+    resolution: {integrity: sha512-QWjWhxheluOJ82kDHNyps00UvRpQCtI34B5A/SzpgQycUD/79FuvT4I0aQIfE/bdPwKmX4QPftnywFBH6FxJhQ==}
 
   '@oxc-resolver/binding-android-arm-eabi@11.24.2':
     resolution: {integrity: sha512-y09e0L0SRI2OA2tUIrjBgoV3eH5hvUKXNkJqXmNo5V2WxIjyC7I7aJfRLMEVpA8yi95f90gFDvO0VMgrDw+vwA==}
@@ -2140,11 +2274,11 @@ packages:
   '@tailwindcss/postcss@4.3.5':
     resolution: {integrity: sha512-FAV37Tlx9wBiT/hkfgVD0Q6CWsP2oUX3lf28nrfjW8+ksILjnpuFulUqWDfNR4/ZiEHHDRBX8DUTzD1Rys687A==}
 
-  '@tanstack/query-core@5.107.1':
-    resolution: {integrity: sha512-PSyAik11oQBEVOiVy5hjZWHmoUqOXqK1WYy4v55mcxozEfKaQgpUMsgnXhWjuESzSht8JfzqMS1m6M/9CpNgvg==}
+  '@tanstack/query-core@5.108.4':
+    resolution: {integrity: sha512-2Ks5dlLWz4eXJrthOyG0qW3SLt3xx0RrQmAmN0rnmogiaaOYuWiAe6HAm9KE2b2v8nig+vraNz8fsfZ6fF6zFg==}
 
-  '@tanstack/react-query@5.107.1':
-    resolution: {integrity: sha512-udCOOLp3ZAheUrIHLCe+ZZge6nr2ZUrGMSWcCuXsjY1Bf2JeeE09oxst97PILiCY6N8xo/7bIo3Hvz13zh06FA==}
+  '@tanstack/react-query@5.108.4':
+    resolution: {integrity: sha512-GlTa94kfEKTVsbzXe58rFA3GZ0ZE7N1aFtbZAfOS3XxMv8YNn4C+8rsz40LorHLazdm5PsqCroWaYAR+ZkMXMQ==}
     peerDependencies:
       '@types/react': ^18 || ^19
       react: ^18 || ^19
@@ -3298,8 +3432,8 @@ packages:
     resolution: {integrity: sha512-IKXpvIzjnC9XTAUbVBcMfGS0EPaIXtW6v+zr+RRp+hqULEpo0owZax6wyRwPOJbWbzjYspQwusTsfVr0ifh4uQ==}
     engines: {node: '>=0.10.0'}
 
-  icu-minify@4.15.2:
-    resolution: {integrity: sha512-IsgBR7/1RBkYWUqP2wS+vE9BBBfH4HjNjDbSPF3uK2Jjlzlsd7R+loUhjEEUySU6tjGmUIuft7w3qp7PI0KkXA==}
+  icu-minify@4.15.3:
+    resolution: {integrity: sha512-sDQdvX7BG43XOCO+TyR7lGQYyvhltSWpQBXcKwipu7bRF/afr22S5pzjtcwPsSxFQl34tQzy1jEp8DcqPc4Qhg==}
 
   ignore@5.3.2:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
@@ -3543,8 +3677,8 @@ packages:
   keyv@5.6.0:
     resolution: {integrity: sha512-CYDD3SOtsHtyXeEORYRx2qBtpDJFjRTGXUtmNEMGyzYOKj1TE3tycdlho7kA1Ufx9OYWZzg52QFBGALTirzDSw==}
 
-  knip@6.45.1:
-    resolution: {integrity: sha512-zp3zXKy2cZWiIttdlWU5fisKxVQaLSU6471ej0KGz1GdHdaHxpzTAO/LIyFNc3gU3v1W7LJaqvYumoO3l/u+6A==}
+  knip@6.48.0:
+    resolution: {integrity: sha512-v+Gfp6uiOeXaaj+Khk2Z7/fTTZYWLnDwxZapQUyy8WoQFLYXiUHXqRdFJTwRnrKNA1gPXTPi5NGTKKLXyImVrg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
@@ -3696,8 +3830,8 @@ packages:
     resolution: {integrity: sha512-Je0fLJ0F5atA7F+eIlLzk+Wkcl57JDf4kf+EW8xiP5E31xOQxkIxTbgf1Oi1Lw9tRI9UEMRdI5Vz2xTzoNU1Jw==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
-  markdown-to-jsx@9.10.6:
-    resolution: {integrity: sha512-vvd4cMAAK6RDCzklzRYykG8Tos1Wyid8IoxenyiSAnGb1JIX2fTzn6MuU5QBu9Kb4BdjOCnKlbs84NQRVsaaVA==}
+  markdown-to-jsx@9.11.0:
+    resolution: {integrity: sha512-g9DFUSPOD0HkdY8F2d30w3XxL4OUhJXGO/MzqB8zPnh18AhANsDhr/da+R0idzIcBRpL7MZWi+aiD3x0sOb5LQ==}
     engines: {node: '>= 18'}
     peerDependencies:
       react: '>= 16.0.0'
@@ -3834,8 +3968,8 @@ packages:
   next-intl-swc-plugin-extractor@4.15.1:
     resolution: {integrity: sha512-n+CrfyQ3obIpZoaHtlHvtTLg6EuFcmSC3c71Yv0Kh4/5zenBJ8WeYP/xAnsiwQjZcaK9zie0SHwWeIG+5OJaBw==}
 
-  next-intl@4.15.1:
-    resolution: {integrity: sha512-b0KOLdd2pv+uWTma2Lv8OlSLCAqa2zasCx6ZXo2n/0/rAGWkzgRdQ0nD7sl0xtuDFRPNu8sNm+cWgJic16Sbmg==}
+  next-intl@4.16.0:
+    resolution: {integrity: sha512-dVhvKZhvXEmvkT81evsmAZqqX29TG8H2e6V4jxItDUWwDaMb9oH2Fy5daL7hnwMBHajzDKb1Om+5KHiOBO0Aww==}
     peerDependencies:
       '@types/react': ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       next: ^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
@@ -3956,8 +4090,8 @@ packages:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
     engines: {node: '>= 0.8.0'}
 
-  orval@8.48.0:
-    resolution: {integrity: sha512-Bmqv5t3xWUTuMANveJ+ubLP2H1NttEegvZywbLBNnohaoO25dtnyFfeu4kaYQCi7vdr9i1qVYYqU0TY4YSjn6g==}
+  orval@8.49.0:
+    resolution: {integrity: sha512-JtsQb09qXeYtx1WTJYGujqQiLMfSXeL5tVx86hPa6hyN3SmYijp6hVf7xFrYnv7WHAUZktFsq6JOayv05RHGoQ==}
     engines: {node: '>=22.18.0'}
     hasBin: true
     peerDependencies:
@@ -3981,6 +4115,10 @@ packages:
 
   oxc-parser@0.156.0:
     resolution: {integrity: sha512-7JhjgOfZjrIFJH5TlHrpRua864Si5GvwrPr5+eIRCY2sszhKXo6pyhP0HQKOGTtfO4UowwZ72XTGba0+lZphOQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+
+  oxc-parser@0.159.0:
+    resolution: {integrity: sha512-Z1OaHU1EeTtobDHlYOAijfCTZr13PpWs/ZvwbJHaz5zOHfV6fLSmYZwB6klE8cggz51syi8HmLikHju0orJr4g==}
     engines: {node: ^20.19.0 || >=22.12.0}
 
   oxc-resolver@11.24.2:
@@ -4225,8 +4363,8 @@ packages:
     resolution: {integrity: sha512-dYqgNSZbDwkaJ2ceRd9ojCGjBq+mOm9LmtXnAnEGyHhN/5R7iDW2TRw3h+o/jCFxus3P2LfWIIiwowAjANm7IA==}
     engines: {node: '>= 0.4'}
 
-  remeda@2.61.0:
-    resolution: {integrity: sha512-x8v7/slXeMnUy4izdZecOVlorISUQC5sHbc2GIdaf2pNYQUKt30NREbGa68Ag/3bjkaK64e9qDu1X4S47bUZAQ==}
+  remeda@2.62.3:
+    resolution: {integrity: sha512-7rebeLjgp2yBshmygFQ8OvXl1y9vL7iFdY/8yjjQod/8eRMnik/drFDAlcjKRS8uIGJmRzIBRC0j2ZWygct2jg==}
     engines: {node: '>=18.0.0'}
 
   require-directory@2.1.1:
@@ -5100,6 +5238,14 @@ snapshots:
 
   '@eloqnt/config@0.1.2': {}
 
+  '@eloqnt/extractor@0.1.0(@swc/helpers@0.5.23)':
+    dependencies:
+      '@eloqnt/messages': 0.1.0
+      '@swc/core': 1.16.22(@swc/helpers@0.5.23)
+      next-intl-swc-plugin-extractor: 4.15.1
+    transitivePeerDependencies:
+      - '@swc/helpers'
+
   '@eloqnt/format-json@0.1.1':
     dependencies:
       '@eloqnt/config': 0.1.2
@@ -5108,6 +5254,12 @@ snapshots:
     dependencies:
       '@eloqnt/config': 0.1.2
       po-parser: 2.2.0
+
+  '@eloqnt/messages@0.1.0':
+    dependencies:
+      '@eloqnt/config': 0.1.2
+      '@eloqnt/format-json': 0.1.1
+      '@eloqnt/format-po': 0.1.2
 
   '@emnapi/core@1.11.2':
     dependencies:
@@ -5302,14 +5454,14 @@ snapshots:
 
   '@gar/promise-retry@1.0.3': {}
 
-  '@grafana/faro-core@2.14.0':
+  '@grafana/faro-core@2.15.0':
     dependencies:
       '@opentelemetry/api': 1.10.0
       '@opentelemetry/otlp-transformer': 0.223.2(@opentelemetry/api@1.10.0)
 
-  '@grafana/faro-web-sdk@2.14.0':
+  '@grafana/faro-web-sdk@2.15.0':
     dependencies:
-      '@grafana/faro-core': 2.14.0
+      '@grafana/faro-core': 2.15.0
       ua-parser-js: 1.0.41
       web-vitals: 6.2.3
 
@@ -5523,27 +5675,27 @@ snapshots:
       '@tybys/wasm-util': 0.10.5
     optional: true
 
-  '@navikt/aksel-icons@8.22.1': {}
+  '@navikt/aksel-icons@8.23.1': {}
 
   '@navikt/analytics-types@0.0.9': {}
 
-  '@navikt/ds-css@8.22.1': {}
+  '@navikt/ds-css@8.23.1': {}
 
-  '@navikt/ds-react@8.22.1(@types/react@19.2.18)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+  '@navikt/ds-react@8.23.1(@types/react@19.2.18)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
       '@floating-ui/react': 0.27.20(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@floating-ui/react-dom': 2.1.9(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      '@navikt/aksel-icons': 8.22.1
-      '@navikt/ds-tokens': 8.22.1
+      '@navikt/aksel-icons': 8.23.1
+      '@navikt/ds-tokens': 8.23.1
       '@types/react': 19.2.18
       date-fns: 4.4.0
       react: 19.3.1
       react-day-picker: 10.0.2(@types/react@19.2.18)(react@19.3.1)
       react-dom: 19.3.1(react@19.3.1)
 
-  '@navikt/ds-tailwind@8.22.1': {}
+  '@navikt/ds-tailwind@8.23.1': {}
 
-  '@navikt/ds-tokens@8.22.1': {}
+  '@navikt/ds-tokens@8.23.1': {}
 
   '@navikt/nav-dekoratoren-moduler@4.6.0(html-react-parser@6.1.9(@types/react@19.2.18)(react@19.3.1))(react@19.3.1)':
     dependencies:
@@ -5705,21 +5857,21 @@ snapshots:
 
   '@opentelemetry/semantic-conventions@1.45.0': {}
 
-  '@orval/angular@8.48.0(@faker-js/faker@10.6.0)':
+  '@orval/angular@8.49.0(@faker-js/faker@10.6.0)':
     dependencies:
-      '@orval/core': 8.48.0(@faker-js/faker@10.6.0)
+      '@orval/core': 8.49.0(@faker-js/faker@10.6.0)
     transitivePeerDependencies:
       - '@faker-js/faker'
       - '@modelcontextprotocol/server'
 
-  '@orval/axios@8.48.0(@faker-js/faker@10.6.0)':
+  '@orval/axios@8.49.0(@faker-js/faker@10.6.0)':
     dependencies:
-      '@orval/core': 8.48.0(@faker-js/faker@10.6.0)
+      '@orval/core': 8.49.0(@faker-js/faker@10.6.0)
     transitivePeerDependencies:
       - '@faker-js/faker'
       - '@modelcontextprotocol/server'
 
-  '@orval/core@8.48.0(@faker-js/faker@10.6.0)':
+  '@orval/core@8.49.0(@faker-js/faker@10.6.0)':
     dependencies:
       '@scalar/openapi-types': 0.9.8
       acorn: 8.19.0
@@ -5732,95 +5884,96 @@ snapshots:
     optionalDependencies:
       '@faker-js/faker': 10.6.0
 
-  '@orval/effect@8.48.0(@faker-js/faker@10.6.0)':
+  '@orval/effect@8.49.0(@faker-js/faker@10.6.0)':
     dependencies:
-      '@orval/core': 8.48.0(@faker-js/faker@10.6.0)
+      '@orval/core': 8.49.0(@faker-js/faker@10.6.0)
     transitivePeerDependencies:
       - '@faker-js/faker'
       - '@modelcontextprotocol/server'
 
-  '@orval/fetch@8.48.0(@faker-js/faker@10.6.0)':
+  '@orval/fetch@8.49.0(@faker-js/faker@10.6.0)':
     dependencies:
-      '@orval/core': 8.48.0(@faker-js/faker@10.6.0)
+      '@orval/core': 8.49.0(@faker-js/faker@10.6.0)
     transitivePeerDependencies:
       - '@faker-js/faker'
       - '@modelcontextprotocol/server'
 
-  '@orval/hono@8.48.0(@faker-js/faker@10.6.0)(zod@4.6.7)':
+  '@orval/hono@8.49.0(@faker-js/faker@10.6.0)(zod@4.6.7)':
     dependencies:
-      '@orval/core': 8.48.0(@faker-js/faker@10.6.0)
-      '@orval/zod': 8.48.0(@faker-js/faker@10.6.0)(zod@4.6.7)
-      typescript: 6.0.3
+      '@orval/core': 8.49.0(@faker-js/faker@10.6.0)
+      '@orval/zod': 8.49.0(@faker-js/faker@10.6.0)(zod@4.6.7)
+      oxc-parser: 0.159.0
     transitivePeerDependencies:
       - '@faker-js/faker'
       - '@modelcontextprotocol/server'
       - zod
 
-  '@orval/mcp@8.48.0(@faker-js/faker@10.6.0)(zod@4.6.7)':
+  '@orval/mcp@8.49.0(@faker-js/faker@10.6.0)(zod@4.6.7)':
     dependencies:
-      '@orval/core': 8.48.0(@faker-js/faker@10.6.0)
-      '@orval/fetch': 8.48.0(@faker-js/faker@10.6.0)
-      '@orval/zod': 8.48.0(@faker-js/faker@10.6.0)(zod@4.6.7)
+      '@orval/core': 8.49.0(@faker-js/faker@10.6.0)
+      '@orval/fetch': 8.49.0(@faker-js/faker@10.6.0)
+      '@orval/zod': 8.49.0(@faker-js/faker@10.6.0)(zod@4.6.7)
     transitivePeerDependencies:
       - '@faker-js/faker'
       - zod
 
-  '@orval/mock@8.48.0(@faker-js/faker@10.6.0)(msw@2.15.0(@types/node@25.9.9)(typescript@6.0.3))':
+  '@orval/mock@8.49.0(@faker-js/faker@10.6.0)(msw@2.15.0(@types/node@25.9.9)(typescript@6.0.3))':
     dependencies:
-      '@orval/core': 8.48.0(@faker-js/faker@10.6.0)
+      '@orval/core': 8.49.0(@faker-js/faker@10.6.0)
     optionalDependencies:
       '@faker-js/faker': 10.6.0
       msw: 2.15.0(@types/node@25.9.9)(typescript@6.0.3)
     transitivePeerDependencies:
       - '@modelcontextprotocol/server'
 
-  '@orval/pinia-colada@8.48.0(@faker-js/faker@10.6.0)':
+  '@orval/pinia-colada@8.49.0(@faker-js/faker@10.6.0)':
     dependencies:
-      '@orval/axios': 8.48.0(@faker-js/faker@10.6.0)
-      '@orval/core': 8.48.0(@faker-js/faker@10.6.0)
-      '@orval/fetch': 8.48.0(@faker-js/faker@10.6.0)
+      '@orval/axios': 8.49.0(@faker-js/faker@10.6.0)
+      '@orval/core': 8.49.0(@faker-js/faker@10.6.0)
+      '@orval/fetch': 8.49.0(@faker-js/faker@10.6.0)
     transitivePeerDependencies:
       - '@faker-js/faker'
       - '@modelcontextprotocol/server'
 
-  '@orval/query@8.48.0(@faker-js/faker@10.6.0)(@tanstack/react-query@5.107.1(@types/react@19.2.18)(react@19.3.1))':
+  '@orval/query@8.49.0(@faker-js/faker@10.6.0)(@tanstack/react-query@5.108.4(@types/react@19.2.18)(react@19.3.1))':
     dependencies:
-      '@orval/core': 8.48.0(@faker-js/faker@10.6.0)
-      '@orval/fetch': 8.48.0(@faker-js/faker@10.6.0)
+      '@orval/core': 8.49.0(@faker-js/faker@10.6.0)
+      '@orval/fetch': 8.49.0(@faker-js/faker@10.6.0)
     optionalDependencies:
-      '@tanstack/react-query': 5.107.1(@types/react@19.2.18)(react@19.3.1)
+      '@tanstack/react-query': 5.108.4(@types/react@19.2.18)(react@19.3.1)
     transitivePeerDependencies:
       - '@faker-js/faker'
       - '@modelcontextprotocol/server'
 
-  '@orval/solid-start@8.48.0(@faker-js/faker@10.6.0)':
+  '@orval/solid-start@8.49.0(@faker-js/faker@10.6.0)':
     dependencies:
-      '@orval/core': 8.48.0(@faker-js/faker@10.6.0)
+      '@orval/core': 8.49.0(@faker-js/faker@10.6.0)
     transitivePeerDependencies:
       - '@faker-js/faker'
       - '@modelcontextprotocol/server'
 
-  '@orval/swr@8.48.0(@faker-js/faker@10.6.0)':
+  '@orval/swr@8.49.0(@faker-js/faker@10.6.0)':
     dependencies:
-      '@orval/core': 8.48.0(@faker-js/faker@10.6.0)
-      '@orval/fetch': 8.48.0(@faker-js/faker@10.6.0)
+      '@orval/core': 8.49.0(@faker-js/faker@10.6.0)
+      '@orval/fetch': 8.49.0(@faker-js/faker@10.6.0)
     transitivePeerDependencies:
       - '@faker-js/faker'
       - '@modelcontextprotocol/server'
 
-  '@orval/valibot@8.48.0(@faker-js/faker@10.6.0)':
+  '@orval/valibot@8.49.0(@faker-js/faker@10.6.0)':
     dependencies:
-      '@orval/core': 8.48.0(@faker-js/faker@10.6.0)
+      '@orval/core': 8.49.0(@faker-js/faker@10.6.0)
     transitivePeerDependencies:
       - '@faker-js/faker'
       - '@modelcontextprotocol/server'
 
-  '@orval/zod@8.48.0(@faker-js/faker@10.6.0)(zod@4.6.7)':
+  '@orval/zod@8.49.0(@faker-js/faker@10.6.0)(zod@4.6.7)':
     dependencies:
-      '@orval/core': 8.48.0(@faker-js/faker@10.6.0)
+      '@orval/core': 8.49.0(@faker-js/faker@10.6.0)
+      acorn: 8.19.0
+      eslint-scope: 9.1.2
       globals: 17.14.0
       jsesc: 3.1.0
-      typescript: 6.0.3
     optionalDependencies:
       zod: 4.6.7
     transitivePeerDependencies:
@@ -5830,61 +5983,120 @@ snapshots:
   '@oxc-parser/binding-android-arm-eabi@0.156.0':
     optional: true
 
+  '@oxc-parser/binding-android-arm-eabi@0.159.0':
+    optional: true
+
   '@oxc-parser/binding-android-arm64@0.156.0':
+    optional: true
+
+  '@oxc-parser/binding-android-arm64@0.159.0':
     optional: true
 
   '@oxc-parser/binding-darwin-arm64@0.156.0':
     optional: true
 
+  '@oxc-parser/binding-darwin-arm64@0.159.0':
+    optional: true
+
   '@oxc-parser/binding-darwin-x64@0.156.0':
+    optional: true
+
+  '@oxc-parser/binding-darwin-x64@0.159.0':
     optional: true
 
   '@oxc-parser/binding-freebsd-x64@0.156.0':
     optional: true
 
+  '@oxc-parser/binding-freebsd-x64@0.159.0':
+    optional: true
+
   '@oxc-parser/binding-linux-arm-gnueabihf@0.156.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-arm-gnueabihf@0.159.0':
     optional: true
 
   '@oxc-parser/binding-linux-arm-musleabihf@0.156.0':
     optional: true
 
+  '@oxc-parser/binding-linux-arm-musleabihf@0.159.0':
+    optional: true
+
   '@oxc-parser/binding-linux-arm64-gnu@0.156.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-arm64-gnu@0.159.0':
     optional: true
 
   '@oxc-parser/binding-linux-arm64-musl@0.156.0':
     optional: true
 
+  '@oxc-parser/binding-linux-arm64-musl@0.159.0':
+    optional: true
+
   '@oxc-parser/binding-linux-ppc64-gnu@0.156.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-ppc64-gnu@0.159.0':
     optional: true
 
   '@oxc-parser/binding-linux-riscv64-gnu@0.156.0':
     optional: true
 
+  '@oxc-parser/binding-linux-riscv64-gnu@0.159.0':
+    optional: true
+
   '@oxc-parser/binding-linux-riscv64-musl@0.156.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-riscv64-musl@0.159.0':
     optional: true
 
   '@oxc-parser/binding-linux-s390x-gnu@0.156.0':
     optional: true
 
+  '@oxc-parser/binding-linux-s390x-gnu@0.159.0':
+    optional: true
+
   '@oxc-parser/binding-linux-x64-gnu@0.156.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-x64-gnu@0.159.0':
     optional: true
 
   '@oxc-parser/binding-linux-x64-musl@0.156.0':
     optional: true
 
+  '@oxc-parser/binding-linux-x64-musl@0.159.0':
+    optional: true
+
   '@oxc-parser/binding-openharmony-arm64@0.156.0':
+    optional: true
+
+  '@oxc-parser/binding-openharmony-arm64@0.159.0':
     optional: true
 
   '@oxc-parser/binding-win32-arm64-msvc@0.156.0':
     optional: true
 
+  '@oxc-parser/binding-win32-arm64-msvc@0.159.0':
+    optional: true
+
   '@oxc-parser/binding-win32-ia32-msvc@0.156.0':
+    optional: true
+
+  '@oxc-parser/binding-win32-ia32-msvc@0.159.0':
     optional: true
 
   '@oxc-parser/binding-win32-x64-msvc@0.156.0':
     optional: true
 
+  '@oxc-parser/binding-win32-x64-msvc@0.159.0':
+    optional: true
+
   '@oxc-project/types@0.156.0': {}
+
+  '@oxc-project/types@0.159.0': {}
 
   '@oxc-resolver/binding-android-arm-eabi@11.24.2':
     optional: true
@@ -6272,11 +6484,11 @@ snapshots:
       postcss: 8.5.33
       tailwindcss: 4.3.5
 
-  '@tanstack/query-core@5.107.1': {}
+  '@tanstack/query-core@5.108.4': {}
 
-  '@tanstack/react-query@5.107.1(@types/react@19.2.18)(react@19.3.1)':
+  '@tanstack/react-query@5.108.4(@types/react@19.2.18)(react@19.3.1)':
     dependencies:
-      '@tanstack/query-core': 5.107.1
+      '@tanstack/query-core': 5.108.4
       react: 19.3.1
     optionalDependencies:
       '@types/react': 19.2.18
@@ -7604,7 +7816,7 @@ snapshots:
       safer-buffer: 2.1.2
     optional: true
 
-  icu-minify@4.15.2:
+  icu-minify@4.15.3:
     dependencies:
       '@formatjs/icu-messageformat-parser': 3.5.23
 
@@ -7847,7 +8059,7 @@ snapshots:
     dependencies:
       '@keyv/serialize': 1.1.1
 
-  knip@6.45.1:
+  knip@6.48.0:
     dependencies:
       formatly: 0.11.4
       get-tsconfig: 4.14.3
@@ -7996,7 +8208,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  markdown-to-jsx@9.10.6(react@19.3.1):
+  markdown-to-jsx@9.11.0(react@19.3.1):
     optionalDependencies:
       react: 19.3.1
 
@@ -8122,15 +8334,17 @@ snapshots:
 
   next-intl-swc-plugin-extractor@4.15.1: {}
 
-  next-intl@4.15.1(@swc/helpers@0.5.23)(@types/react@19.2.18)(next@16.4.6(@babel/core@7.29.13)(@opentelemetry/api@1.10.0)(@playwright/test@1.65.1)(@types/node@25.9.9)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1):
+  next-intl@4.16.0(@swc/helpers@0.5.23)(@types/react@19.2.18)(next@16.4.6(@babel/core@7.29.13)(@opentelemetry/api@1.10.0)(@playwright/test@1.65.1)(@types/node@25.9.9)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1):
     dependencies:
       '@eloqnt/config': 0.1.2
+      '@eloqnt/extractor': 0.1.0(@swc/helpers@0.5.23)
       '@eloqnt/format-json': 0.1.1
       '@eloqnt/format-po': 0.1.2
+      '@eloqnt/messages': 0.1.0
       '@formatjs/intl-localematcher': 0.8.14
       '@parcel/watcher': 2.6.0
       '@swc/core': 1.16.22(@swc/helpers@0.5.23)
-      icu-minify: 4.15.2
+      icu-minify: 4.15.3
       negotiator: 1.1.0
       next: 16.4.6(@babel/core@7.29.13)(@opentelemetry/api@1.10.0)(@playwright/test@1.65.1)(@types/node@25.9.9)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       next-intl-swc-plugin-extractor: 4.15.1
@@ -8265,23 +8479,23 @@ snapshots:
       type-check: 0.4.0
       word-wrap: 1.2.5
 
-  orval@8.48.0(@faker-js/faker@10.6.0)(@tanstack/react-query@5.107.1(@types/react@19.2.18)(react@19.3.1))(msw@2.15.0(@types/node@25.9.9)(typescript@6.0.3))(prettier@3.10.1)(zod@4.6.7):
+  orval@8.49.0(@faker-js/faker@10.6.0)(@tanstack/react-query@5.108.4(@types/react@19.2.18)(react@19.3.1))(msw@2.15.0(@types/node@25.9.9)(typescript@6.0.3))(prettier@3.10.1)(zod@4.6.7):
     dependencies:
       '@commander-js/extra-typings': 15.1.0(commander@15.1.0)
-      '@orval/angular': 8.48.0(@faker-js/faker@10.6.0)
-      '@orval/axios': 8.48.0(@faker-js/faker@10.6.0)
-      '@orval/core': 8.48.0(@faker-js/faker@10.6.0)
-      '@orval/effect': 8.48.0(@faker-js/faker@10.6.0)
-      '@orval/fetch': 8.48.0(@faker-js/faker@10.6.0)
-      '@orval/hono': 8.48.0(@faker-js/faker@10.6.0)(zod@4.6.7)
-      '@orval/mcp': 8.48.0(@faker-js/faker@10.6.0)(zod@4.6.7)
-      '@orval/mock': 8.48.0(@faker-js/faker@10.6.0)(msw@2.15.0(@types/node@25.9.9)(typescript@6.0.3))
-      '@orval/pinia-colada': 8.48.0(@faker-js/faker@10.6.0)
-      '@orval/query': 8.48.0(@faker-js/faker@10.6.0)(@tanstack/react-query@5.107.1(@types/react@19.2.18)(react@19.3.1))
-      '@orval/solid-start': 8.48.0(@faker-js/faker@10.6.0)
-      '@orval/swr': 8.48.0(@faker-js/faker@10.6.0)
-      '@orval/valibot': 8.48.0(@faker-js/faker@10.6.0)
-      '@orval/zod': 8.48.0(@faker-js/faker@10.6.0)(zod@4.6.7)
+      '@orval/angular': 8.49.0(@faker-js/faker@10.6.0)
+      '@orval/axios': 8.49.0(@faker-js/faker@10.6.0)
+      '@orval/core': 8.49.0(@faker-js/faker@10.6.0)
+      '@orval/effect': 8.49.0(@faker-js/faker@10.6.0)
+      '@orval/fetch': 8.49.0(@faker-js/faker@10.6.0)
+      '@orval/hono': 8.49.0(@faker-js/faker@10.6.0)(zod@4.6.7)
+      '@orval/mcp': 8.49.0(@faker-js/faker@10.6.0)(zod@4.6.7)
+      '@orval/mock': 8.49.0(@faker-js/faker@10.6.0)(msw@2.15.0(@types/node@25.9.9)(typescript@6.0.3))
+      '@orval/pinia-colada': 8.49.0(@faker-js/faker@10.6.0)
+      '@orval/query': 8.49.0(@faker-js/faker@10.6.0)(@tanstack/react-query@5.108.4(@types/react@19.2.18)(react@19.3.1))
+      '@orval/solid-start': 8.49.0(@faker-js/faker@10.6.0)
+      '@orval/swr': 8.49.0(@faker-js/faker@10.6.0)
+      '@orval/valibot': 8.49.0(@faker-js/faker@10.6.0)
+      '@orval/zod': 8.49.0(@faker-js/faker@10.6.0)(zod@4.6.7)
       '@scalar/json-magic': 0.16.1
       '@scalar/openapi-parser': 0.29.22
       '@scalar/openapi-types': 0.9.8
@@ -8299,6 +8513,7 @@ snapshots:
       - '@faker-js/faker'
       - '@modelcontextprotocol/server'
       - '@pinia/colada'
+      - '@tanstack/angular-query'
       - '@tanstack/angular-query-experimental'
       - '@tanstack/react-query'
       - '@tanstack/solid-query'
@@ -8342,6 +8557,30 @@ snapshots:
       '@oxc-parser/binding-win32-arm64-msvc': 0.156.0
       '@oxc-parser/binding-win32-ia32-msvc': 0.156.0
       '@oxc-parser/binding-win32-x64-msvc': 0.156.0
+
+  oxc-parser@0.159.0:
+    dependencies:
+      '@oxc-project/types': 0.159.0
+    optionalDependencies:
+      '@oxc-parser/binding-android-arm-eabi': 0.159.0
+      '@oxc-parser/binding-android-arm64': 0.159.0
+      '@oxc-parser/binding-darwin-arm64': 0.159.0
+      '@oxc-parser/binding-darwin-x64': 0.159.0
+      '@oxc-parser/binding-freebsd-x64': 0.159.0
+      '@oxc-parser/binding-linux-arm-gnueabihf': 0.159.0
+      '@oxc-parser/binding-linux-arm-musleabihf': 0.159.0
+      '@oxc-parser/binding-linux-arm64-gnu': 0.159.0
+      '@oxc-parser/binding-linux-arm64-musl': 0.159.0
+      '@oxc-parser/binding-linux-ppc64-gnu': 0.159.0
+      '@oxc-parser/binding-linux-riscv64-gnu': 0.159.0
+      '@oxc-parser/binding-linux-riscv64-musl': 0.159.0
+      '@oxc-parser/binding-linux-s390x-gnu': 0.159.0
+      '@oxc-parser/binding-linux-x64-gnu': 0.159.0
+      '@oxc-parser/binding-linux-x64-musl': 0.159.0
+      '@oxc-parser/binding-openharmony-arm64': 0.159.0
+      '@oxc-parser/binding-win32-arm64-msvc': 0.159.0
+      '@oxc-parser/binding-win32-ia32-msvc': 0.159.0
+      '@oxc-parser/binding-win32-x64-msvc': 0.159.0
 
   oxc-resolver@11.24.2:
     optionalDependencies:
@@ -8616,7 +8855,7 @@ snapshots:
       gopd: 1.2.0
       set-function-name: 2.0.2
 
-  remeda@2.61.0: {}
+  remeda@2.62.3: {}
 
   require-directory@2.1.1: {}
 
@@ -9201,7 +9440,7 @@ snapshots:
     dependencies:
       '@formatjs/fast-memoize': 3.1.7
       '@schummar/icu-type-parser': 1.21.5
-      icu-minify: 4.15.2
+      icu-minify: 4.15.3
       intl-messageformat: 12.1.5
       react: 19.3.1
     optionalDependencies:
