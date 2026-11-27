@@ -38,8 +38,15 @@ const mapReduce = (hendelser: HentHendelserBeta200Item[]): Hendelse[] => {
         R.filter((hendelse) => hendelse.type === "SakUnderBehandling")
     );
 
-    // Tar bort denne hendelsetypen. Erstattes med "DeltSøknad" dersom det er flere "SakUnderBehandling" på samme tid.
-    const withoutSaker: Hendelse[] = hendelser.filter((hendelse) => hendelse.type !== "SakUnderBehandling");
+    // Tar bort to hendelsetyper:
+    // - "SakUnderBehandling": erstattes med "DeltSøknad" dersom det er flere på samme tid.
+    // - "LevertEtterspurtDokumentasjon" uten dokumenter: backend sender den når Nav ikke lenger etterspør
+    //   dokumentasjon, og den skal ikke vises som en ekstra "Du sendte inn dokumentasjon".
+    const withoutSaker: Hendelse[] = hendelser.filter(
+        (hendelse) =>
+            hendelse.type !== "SakUnderBehandling" &&
+            !(hendelse.type === "LevertEtterspurtDokumentasjon" && hendelse.antallDokumenter === 0)
+    );
     if (sakerUnderBehandling.length > 1) {
         return withoutSaker.concat([{ type: "DeltSøknad", tidspunkt: sakerUnderBehandling[0].tidspunkt }]);
     }

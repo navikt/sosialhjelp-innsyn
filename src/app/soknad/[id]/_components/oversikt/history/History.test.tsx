@@ -61,4 +61,39 @@ describe("History", () => {
         expect(appeal).toBeVisible();
         await waitFor(() => expect(appeal).toHaveFocus());
     });
+
+    it("hides a submission event without documents and keeps the genuine submission", async () => {
+        server.use(
+            getHentHendelserBetaMockHandler([
+                { type: "LevertEtterspurtDokumentasjon", tidspunkt: "2025-11-10T10:00:00Z", antallDokumenter: 2 },
+                { type: "LevertEtterspurtDokumentasjon", tidspunkt: "2025-11-12T10:00:00Z", antallDokumenter: 0 },
+            ])
+        );
+
+        renderHistory();
+
+        const submission = await screen.findByText("Du sendte inn dokumentasjon");
+        expect(screen.getAllByText("Du sendte inn dokumentasjon")).toHaveLength(1);
+        expect(screen.getAllByRole("listitem")).toHaveLength(1);
+        expect(within(submission.closest("li")!).getByText(/10\. november 2025/)).toBeInTheDocument();
+    });
+
+    it("does not show the expand button when the hidden event is the only one beyond the limit", async () => {
+        server.use(
+            getHentHendelserBetaMockHandler([
+                { type: "LevertEtterspurtDokumentasjon", tidspunkt: "2025-11-10T10:00:00Z", antallDokumenter: 1 },
+                { type: "LevertEtterspurtDokumentasjon", tidspunkt: "2025-11-11T10:00:00Z", antallDokumenter: 0 },
+                ...Array.from({ length: 4 }, (_, index) => ({
+                    type: "SoknadFerdigBehandlet" as const,
+                    tidspunkt: `2025-11-${12 + index}T10:00:00Z`,
+                })),
+            ])
+        );
+
+        renderHistory();
+
+        expect(await screen.findByText("Du sendte inn dokumentasjon")).toBeInTheDocument();
+        expect(screen.getAllByRole("listitem")).toHaveLength(5);
+        expect(screen.queryByRole("button", { name: /Vis flere steg/ })).not.toBeInTheDocument();
+    });
 });
